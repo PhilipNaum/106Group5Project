@@ -5,30 +5,66 @@ namespace Clockwork
 {
     internal abstract class GameObject
     {
-        // position of the object in world space
-        private Vector2 position;
-        // bounds of the object in world space
-        private Vector2 size;
-        private Texture2D texture;
+        // === Fields and Properties ===
 
-        // updates game object
-        public virtual void Update()
+        /// <summary>
+        /// Position of the Game Object
+        /// </summary>
+        public Vector2 Position { get; set; }
+
+        /// <summary>
+        /// Size of the Game Object
+        /// </summary>
+        public Vector2 Size { get; private set; }
+
+
+        public Texture2D Texture { get; private set; }
+
+
+        // === Constructors ===
+
+        /// <summary>
+        /// Create a new Game Object
+        /// </summary>
+        /// <param name="position">Position Vector2D of the Game Object</param>
+        /// <param name="size">Size Vector2D of the Game Object</param>
+        /// <param name="texture"></param>
+        public GameObject(Vector2 position, Vector2 size, Texture2D texture)
         {
-
+            this.Position = position;
+            this.Size = size;
+            this.Texture = texture;
         }
 
-        // displays the game object on the screen
-        public virtual void Draw()
+
+        // === Methods ===
+
+        /// <summary>
+        /// Checks if this Game Object is colliding with another Game Object
+        /// </summary>
+        /// <param name="o">Game Object to check</param>
+        /// <returns></returns>
+        public bool IsColliding(GameObject o)
+        {
+            return new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y).Intersects
+                (new Rectangle((int)o.Position.X, (int)o.Position.Y, (int)o.Size.X, (int)o.Size.Y));
+        }
+
+        /// <summary>
+        /// Update the Game Object
+        /// </summary>
+        /// <param name="gt">Game time to do updates with</param>
+        public virtual void Update(GameTime gt)
         {
 
         }
 
         /// <summary>
-        /// Returns a boolean on whether this object is colliding with another
+        /// Draw the Game Object
         /// </summary>
-        public bool IsColliding(GameObject other)
+        public void Draw()
         {
-            return false;
+
         }
     }
 }
