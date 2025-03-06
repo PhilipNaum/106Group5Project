@@ -6,10 +6,10 @@ namespace Clockwork
     internal abstract class GameObject
     {
         // position of the object in world space
-        private Vector2 position;
+        internal Vector2 position;
         // bounds of the object in world space
-        private Vector2 size;
-        private Texture2D texture;
+        internal Vector2 size;
+        internal Texture2D texture;
 
         // updates game object
         public virtual void Update()
@@ -18,7 +18,7 @@ namespace Clockwork
         }
 
         // displays the game object on the screen
-        public virtual void Draw()
+        public virtual void Draw(SpriteBatch sb)
         {
 
         }

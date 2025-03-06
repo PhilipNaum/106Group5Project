@@ -9,6 +9,9 @@ namespace Clockwork
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private Player player;
+        private Texture2D playerTexture;
+
         private GameState gameState;
         private enum GameState
         {
@@ -29,6 +32,11 @@ namespace Clockwork
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            gameState = GameState.Gameplay;
+
+            playerTexture = new Texture2D(GraphicsDevice, 1, 1);
+            playerTexture.SetData(new Color[] { Color.Black });
+            player = new(playerTexture);
 
             base.Initialize();
         }
@@ -81,7 +89,7 @@ namespace Clockwork
 
         private void UpdateGame()
         {
-
+            player.Update();
         }
 
         private void UpdatePause()
@@ -137,7 +145,7 @@ namespace Clockwork
 
         private void DrawGame()
         {
-
+            player.Draw(_spriteBatch);
         }
 
         private void DrawPause()
