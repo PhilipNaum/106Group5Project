@@ -62,7 +62,7 @@ namespace Clockwork
                     UpdateLevelSelect();
                     break;
                 case GameState.Gameplay:
-                    UpdateGame();
+                    UpdateGame(gameTime);
                     break;
                 case GameState.Pause:
                     UpdatePause();
@@ -87,9 +87,10 @@ namespace Clockwork
 
         }
 
-        private void UpdateGame()
+        private void UpdateGame(GameTime gameTime)
         {
-            player.Update();
+            
+            player.UpdateP(gameTime);
         }
 
         private void UpdatePause()
