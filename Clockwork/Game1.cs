@@ -8,6 +8,8 @@ namespace Clockwork
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Texture2D enemySprite;
+        private Enemy _testenemy;
 
         private GameState gameState;
         private enum GameState
@@ -24,6 +26,7 @@ namespace Clockwork
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            
         }
 
         protected override void Initialize()
@@ -31,12 +34,15 @@ namespace Clockwork
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            KeyboardState kb = Keyboard.GetState();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            enemySprite = Content.Load<Texture2D>("enemy");
+            _testenemy = new Enemy(10, enemySprite, new Vector2(400,240));
             // TODO: use this.Content to load your game content here
         }
 
@@ -65,7 +71,7 @@ namespace Clockwork
                 default:
                     break;
             }
-
+            _testenemy.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -120,7 +126,7 @@ namespace Clockwork
                 default:
                     break;
             }
-
+            _testenemy.Draw(_spriteBatch);
             _spriteBatch.End();
 
             base.Draw(gameTime);

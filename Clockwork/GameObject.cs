@@ -12,13 +12,13 @@ namespace Clockwork
         private Texture2D texture;
 
         // updates game object
-        public virtual void Update()
+        public virtual void Update(GameTime gt)
         {
 
         }
 
         // displays the game object on the screen
-        public virtual void Draw()
+        public virtual void Draw(SpriteBatch sp)
         {
 
         }
