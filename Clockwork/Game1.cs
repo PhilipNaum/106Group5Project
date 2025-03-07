@@ -37,7 +37,8 @@ namespace Clockwork
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            // Load content for all animated sprites
+            AnimationLoader.LoadContent(Content);
         }
 
         protected override void Update(GameTime gameTime)
