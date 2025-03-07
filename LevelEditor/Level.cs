@@ -8,7 +8,7 @@
         private int width;
         private int height;
         private int[,] map;
-        private Dictionary<int, Point> collectibles;
+        private Dictionary<Point, int> collectibles;
 
         /// <summary>
         /// width of the level
@@ -23,12 +23,12 @@
         /// <summary>
         /// map for tiles (in index of Objects.TileTypes)
         /// </summary>
-        public int[,] Map { get => map; set { map = value; } }
+        public int[,] Map { get => map; }
 
         /// <summary>
-        /// list of collectibles (keyed by index of Objects.CollectibleTypes)
+        /// list of collectibles (value as index of Objects.CollectibleTypes)
         /// </summary>
-        public Dictionary<int, Point> Collectibles { get => collectibles; set { collectibles = value; } }
+        public Dictionary<Point, int> Collectibles { get => collectibles; }
 
         /// <summary>
         /// creates a blank level
@@ -45,7 +45,7 @@
             map = new int[height, width];
 
             // create list of collectibles
-            collectibles = new Dictionary<int, Point>();
+            collectibles = new Dictionary<Point, int>();
         }
     }
 }
