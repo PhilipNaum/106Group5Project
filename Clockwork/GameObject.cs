@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using AnimatedSprite;
 
 namespace Clockwork
 {
@@ -19,7 +18,6 @@ namespace Clockwork
         public Vector2 Size { get; private set; }
 
 
-        public Texture2D Texture { get; private set; }
 
 
         // === Constructors ===
@@ -30,11 +28,10 @@ namespace Clockwork
         /// <param name="position">Position Vector2D of the Game Object</param>
         /// <param name="size">Size Vector2D of the Game Object</param>
         /// <param name="texture"></param>
-        public GameObject(Vector2 position, Vector2 size, Texture2D texture)
+        public GameObject(Vector2 position, Vector2 size)
         {
             this.Position = position;
             this.Size = size;
-            this.Texture = texture;
         }
 
 
