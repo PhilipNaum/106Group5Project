@@ -18,17 +18,28 @@ namespace Clockwork
         private float minHeight = 475;
         private float jumpSpeed = 9;
         
-        private float moveSpeed = 4;
         private float maxHorizontalSpeed = 9;
         // it may be better to represent accelerations as time to max speed
         private float horizontalAcceleration = 45; 
-        private float horizontalDeceleration = 45; 
+        private float horizontalDeceleration = 45;
+
+        // probably want to dash farther horizontally than vertically
+        private float dashSpeedX = 14;
+        private float dashSpeedY = 6;
+
+        // enum so there can only be one ability active at a time
+        private Ability currentAbility;
+        private enum Ability
+        {
+            None,
+            Dash
+        }
 
 
         public Player(Texture2D tex) 
         { 
             position = new Vector2(0, 0);
-
+            currentAbility = Ability.Dash;
             size = new Vector2(50, 50);
             texture = tex;
         }
@@ -36,6 +47,7 @@ namespace Clockwork
         public void UpdateP(GameTime gameTime)
         {
             KeyboardState ks = Keyboard.GetState();
+            MouseState ms = Mouse.GetState();
             // time between frames
             float dTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -53,17 +65,57 @@ namespace Clockwork
             if (ks.IsKeyDown(Keys.D))
                 horDir++;
 
-            if (horDir != 0)
+            // this locks player to be under the max speed
+            // and decelerates if the player holds nothing
+            //if (horDir != 0)
+            //{
+            //    velocity.X = MathHelper.Clamp(velocity.X + horDir * horizontalAcceleration * dTime, 
+            //        -maxHorizontalSpeed, maxHorizontalSpeed);
+            //}
+            //else if (velocity.X != 0)
+            //{
+            //    float currentSign = MathF.Sign(velocity.X);
+            //    velocity.X -= horizontalDeceleration * currentSign * dTime;
+            //    if (currentSign != MathF.Sign(velocity.X))
+            //        velocity.X = 0;
+            //}
+            // only accelerate if under max speed
+            if (horDir != 0 && MathF.Abs(velocity.X) < maxHorizontalSpeed)
             {
-                velocity.X = MathHelper.Clamp(velocity.X + horDir * horizontalAcceleration * dTime, 
-                    -maxHorizontalSpeed, maxHorizontalSpeed);
+                velocity.X = velocity.X + horDir * horizontalAcceleration * dTime;
             }
-            else if (velocity.X != 0)
+            // 
+            else if (velocity.X != 0 && horDir == 0)
             {
                 float currentSign = MathF.Sign(velocity.X);
                 velocity.X -= horizontalDeceleration * currentSign * dTime;
                 if (currentSign != MathF.Sign(velocity.X))
                     velocity.X = 0;
+            }
+            // this enables the player to go above max speed temporarily, in cases like dashing
+            if (MathF.Abs(velocity.X) > maxHorizontalSpeed)
+            {
+                float currentSign = MathF.Sign(velocity.X);
+                velocity.X -= horizontalDeceleration * currentSign * dTime;
+                if (currentSign != MathF.Sign(velocity.X))
+                    velocity.X = 0;
+            }
+
+            // use ability
+            if (ks.IsKeyDown(Keys.Space) && prevKS.IsKeyUp(Keys.Space))
+            {
+                switch (currentAbility)
+                {
+                    case Ability.None:
+                        break;
+                    case Ability.Dash:
+                        // need to decide whether dash
+                        // overwrites or adds to velocity
+                        velocity = Dash(ms);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             position += velocity;
@@ -74,8 +126,23 @@ namespace Clockwork
                 velocity.Y = 0;
             }
 
-
             prevKS = ks;
+        }
+
+        /// <summary>
+        /// Returns new velocity after dash.
+        /// Just a possible implementation of a dash.
+        /// </summary>
+        /// <param name="mouseState"></param>
+        /// <returns></returns>
+        private Vector2 Dash(MouseState mouseState)
+        {
+            // need direction from player to mouse as a vector
+            Vector2 direction = Vector2.Normalize(mouseState.Position.ToVector2()
+                - (position + size / 2));
+
+            //return direction * dashSpeed;
+            return new Vector2(direction.X * dashSpeedX, direction.Y * dashSpeedY);
         }
 
 
