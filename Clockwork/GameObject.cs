@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using AnimationHelper;
 
 namespace Clockwork
 {
@@ -17,7 +18,10 @@ namespace Clockwork
         /// </summary>
         public Vector2 Size { get; private set; }
 
-
+        /// <summary>
+        /// Animated Sprite for the Game Object
+        /// </summary>
+        public AnimatedSprite Sprite { get; private set; }
 
 
         // === Constructors ===
