@@ -59,15 +59,15 @@ namespace Clockwork
         /// <param name="gt">Game time to do updates with</param>
         public virtual void Update(GameTime gt)
         {
-
+            Sprite.Update(gt);
         }
 
         /// <summary>
         /// Draw the Game Object
         /// </summary>
-        public void Draw()
+        public void Draw(SpriteBatch sb)
         {
-
+            Sprite.Draw(sb);
         }
     }
 }
