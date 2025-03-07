@@ -53,6 +53,12 @@ namespace Clockwork
                 (new Rectangle((int)o.Position.X, (int)o.Position.Y, (int)o.Size.X, (int)o.Size.Y));
         }
 
+
+        public void SetAnimation(string animationName)
+        {
+            Sprite.SetAnimation(animationName);
+        }
+
         /// <summary>
         /// Update the Game Object
         /// </summary>

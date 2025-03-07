@@ -103,6 +103,7 @@ namespace Clockwork
 
                 // This should never happen. It is to appease the compiler gods and rid us of the red squiggle.
                 // You should not need to expect a nullref from this
+                // If there is a nullref, make sure that the object you are trying to create is being set up here
                 default:
                     return null;
             }
