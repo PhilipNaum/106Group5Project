@@ -13,17 +13,17 @@ namespace AnimationHelper
         // === Fields and Methods ===
 
         /// <summary>
-        /// 
+        /// Texture containing the frame
         /// </summary>
         public Texture2D Texture { get; private set; }
 
         /// <summary>
-        /// 
+        /// Source Rectangle on the Texture where the frame is contained
         /// </summary>
         public Rectangle Source { get; private set; }
 
         /// <summary>
-        /// 
+        /// Origin of the drawn rectangle
         /// </summary>
         public Vector2 Origin { get; private set; }
 
