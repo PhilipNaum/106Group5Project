@@ -46,6 +46,15 @@ namespace AnimationHelper
         // === Methods ===
 
         /// <summary>
+        /// Get a new copy of this sprite
+        /// </summary>
+        /// <returns>A new AnimatedSprite that is a copy of this in its current state</returns>
+        public AnimatedSprite GetSprite()
+        {
+            return new AnimatedSprite(this.frames, this.animations, this.currentAnimation, this.Location);
+        }
+
+        /// <summary>
         /// Set the current animation to the one at the given index in the animations dict
         /// </summary>
         /// <param name="index">Index of the animation in the dictionary</param>

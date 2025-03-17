@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using AnimationHelper;
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
 
 namespace Clockwork
 {
-    public enum AnimatedSpriteNames
+    public enum Sprites
     {
         player,
         enemy,
@@ -16,97 +17,43 @@ namespace Clockwork
     internal class AnimationLoader
     {
         // === Animation Library ===
-
-        // Player
-        private static Texture2D playerTexture;
-        private static List<Frame> playerFrames = new List<Frame>();
-        private static Dictionary<string, Animation> playerAnimations = new Dictionary<string, Animation>();
-
-        // Enemy
-        private static Texture2D enemyTexture;
-        private static List<Frame> enemyFrames = new List<Frame>();
-        private static Dictionary<string, Animation> enemyAnimations = new Dictionary<string, Animation>();
-
-        // Collectible
-        private static Texture2D collectibleTexture;
-        private static List<Frame> collectibleFrames = new List<Frame>();
-        private static Dictionary<string, Animation> collectibleAnimations = new Dictionary<string, Animation>();
-
+        private static Dictionary<Sprites, AnimatedSprite> animationLibrary = new Dictionary<Sprites, AnimatedSprite>();
 
         // === Content Loading ===
 
         /// <summary>
-        /// Load all of the content in the animation library
+        /// Load all of the content and set up the animation library
         /// </summary>
         public static void LoadContent(ContentManager content)
         {
             // -- Player Setup --
-
-            // Load player textures
-            playerTexture = content.Load<Texture2D>("");
-
-            // Add player frames
+            Texture2D playerTexture = content.Load<Texture2D>("");
+            List<Frame> playerFrames = new List<Frame>();
             playerFrames.Add(new Frame(playerTexture, new Rectangle(0, 0, playerTexture.Width, playerTexture.Height), Vector2.Zero));
-
-            // Add player animations
+            Dictionary<string, Animation> playerAnimations = new Dictionary<string, Animation>();
             playerAnimations.Add("pAnim", new Animation(0, 0, 1));
-
+            animationLibrary[Sprites.player] = new AnimatedSprite(playerFrames, playerAnimations, playerAnimations["pAnim"], Point.Zero);
 
             // -- Enemy Setup --
-
-            // Load enemy textures
-            enemyTexture = content.Load<Texture2D>("");
-
-            // Add enemy frames
+            Texture2D enemyTexture = content.Load<Texture2D>("");
+            List<Frame> enemyFrames = new List<Frame>();
             enemyFrames.Add(new Frame(enemyTexture, new Rectangle(0, 0, enemyTexture.Width, enemyTexture.Height), Vector2.Zero));
-
-            // Add enemy animations
+            Dictionary<string, Animation> enemyAnimations = new Dictionary<string, Animation>();
             enemyAnimations.Add("eAnim", new Animation(0, 0, 1));
-
+            animationLibrary[Sprites.enemy] = new AnimatedSprite(enemyFrames, enemyAnimations, enemyAnimations["eAnim"], Point.Zero);
 
             // -- Collectible Setup --
-
-            // Load collectible textures
-            collectibleTexture = content.Load<Texture2D>("");
-
-            // Add collectible frames
+            Texture2D collectibleTexture = content.Load<Texture2D>("");
+            List<Frame> collectibleFrames = new List<Frame>();
             collectibleFrames.Add(new Frame(collectibleTexture, new Rectangle(0, 0, collectibleTexture.Width, collectibleTexture.Height), Vector2.Zero));
-
-            // Add collectible animations
+            Dictionary<string, Animation> collectibleAnimations = new Dictionary<string, Animation>();
             collectibleAnimations.Add("cAnim", new Animation(0, 0, 1));
-
+            animationLibrary[Sprites.collectible] = new AnimatedSprite(collectibleFrames, collectibleAnimations, collectibleAnimations["cAnim"], Point.Zero);
         }
 
-
-        // === Animated Sprite Loading ===
-
-        /// <summary>
-        /// Load the given Animated Sprite
-        /// </summary>
-        /// <param name="name">Sprite to load</param>
-        /// <returns>The selected sprite to load</returns>
-        public static AnimatedSprite LoadSprite(AnimatedSpriteNames name)
+        public static AnimatedSprite GetSprite(Sprites sprite)
         {
-            switch (name)
-            {
-                // Load player sprite
-                case AnimatedSpriteNames.player:
-                    return new AnimatedSprite(playerFrames, playerAnimations, playerAnimations["pAnim"], Point.Zero);
-
-                // Load enemy sprite
-                case AnimatedSpriteNames.enemy:
-                    return new AnimatedSprite(enemyFrames, enemyAnimations, enemyAnimations["eAnim"], Point.Zero);
-
-                // Load collectible sprite
-                case AnimatedSpriteNames.collectible:
-                    return new AnimatedSprite(collectibleFrames, collectibleAnimations, collectibleAnimations["cAnim"], Point.Zero);
-
-                // This should never happen. It is to appease the compiler gods and rid us of the red squiggle.
-                // You should not need to expect a nullref from this
-                // If there is a nullref, make sure that the object you are trying to create is being set up here
-                default:
-                    return null;
-            }
+            return animationLibrary[sprite].GetSprite();
         }
     }
 }

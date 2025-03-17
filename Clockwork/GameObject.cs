@@ -32,11 +32,11 @@ namespace Clockwork
         /// <param name="position">Position Vector2D of the Game Object</param>
         /// <param name="size">Size Vector2D of the Game Object</param>
         /// <param name="texture"></param>
-        public GameObject(Vector2 position, Vector2 size, AnimatedSpriteNames spriteName)
+        public GameObject(Vector2 position, Vector2 size, Sprites spriteName)
         {
             this.Position = position;
             this.Size = size;
-            this.Sprite = AnimationLoader.LoadSprite(spriteName);
+            this.Sprite = AnimationLoader.GetSprite(spriteName);
         }
 
 
