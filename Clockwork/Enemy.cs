@@ -11,12 +11,24 @@ namespace Clockwork
         private Vector2 home;
         private Vector2 velocity;
         private Vector2 acceleration;
+        private Rectangle collisionbox;
         
         public Vector2 Velocity
         {
             get { return velocity; }
             set { velocity = value; }
         }
+
+        public Vector2 Position
+        {
+            get { return position; }
+            set { position = value; }
+        }
+        public Rectangle CollisionBox
+        {
+            get { return collisionbox; }
+        }
+
 
         public Enemy(int health, Texture2D texture, Vector2 position)
         {
@@ -26,6 +38,11 @@ namespace Clockwork
             home = position;
             velocity = new Vector2(.75f, 0);
             acceleration = new Vector2(0, 4);
+            collisionbox = new Rectangle(
+                (int)position.X,
+                (int)position.Y,
+                texture.Width,
+                texture.Height);
         }
 
         public override void Draw(SpriteBatch sp)
@@ -51,6 +68,18 @@ namespace Clockwork
                 {
                     //if two enemies run into eachother, then they should turn around
                     Enemy otherEnemy = (Enemy)other;
+                    Rectangle intsRect = Rectangle.Intersect(collisionbox,otherEnemy.CollisionBox);
+                    if (intsRect.Height > intsRect.Width || intsRect.Height == intsRect.Width)
+                    {
+                        if (position.X < otherEnemy.Position.X)
+                        {
+                            position.X -= intsRect.Width;
+                        }
+                        if(position.X >= otherEnemy.Position.X)
+                        {
+                            position.X += intsRect.Width;
+                        }
+                    }
                     velocity.X *= -1;
                     otherEnemy.Velocity = new Vector2(otherEnemy.Velocity.X * -1, otherEnemy.Velocity.Y);
                 }
