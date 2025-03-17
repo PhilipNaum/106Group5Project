@@ -12,6 +12,7 @@ namespace Clockwork
         private Vector2 velocity;
         private Vector2 acceleration;
         private Rectangle collisionbox;
+        private int range;
         
         public Vector2 Velocity
         {
@@ -30,11 +31,12 @@ namespace Clockwork
         }
 
 
-        public Enemy(int health, Texture2D texture, Vector2 position)
+        public Enemy(int health, Texture2D texture, Vector2 position,int range)
         {
             this.health = health;
             this.texture = texture;
             this.position = position;
+            this.range = range;
             home = position;
             velocity = new Vector2(.75f, 0);
             acceleration = new Vector2(0, 4);
@@ -52,7 +54,6 @@ namespace Clockwork
 
         public override void Update(GameTime gt)
         {
-            int range = 100;
             if(position.X >= home.X + range / 2 || position.X <= home.X - range/2)
             {
                 velocity.X *= -1;
@@ -60,7 +61,7 @@ namespace Clockwork
             position.X += velocity.X;
         }
 
-        private void CollisionResponse(GameObject other)
+        public void CollisionResponse(GameObject other)
         {
             if (IsColliding(other))
             {
@@ -68,7 +69,7 @@ namespace Clockwork
                 {
                     //if two enemies run into eachother, then they should turn around
                     Enemy otherEnemy = (Enemy)other;
-                    Rectangle intsRect = Rectangle.Intersect(collisionbox,otherEnemy.CollisionBox);
+                    Rectangle intsRect = Rectangle.Intersect(this.collisionbox,otherEnemy.CollisionBox);
                     if (intsRect.Height > intsRect.Width || intsRect.Height == intsRect.Width)
                     {
                         if (position.X < otherEnemy.Position.X)
@@ -105,6 +106,8 @@ namespace Clockwork
                 if(other is Tile)
                 {
                     //dont let the enemy fall through the ground
+                    //Tile tile = (Tile)other;
+                    //Rectangle intsRect = Rectangle.Intersect(this.collisionbox,)
                 }
             }
 

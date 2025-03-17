@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Clockwork
 {
@@ -10,6 +11,8 @@ namespace Clockwork
         private SpriteBatch _spriteBatch;
         private Texture2D enemySprite;
         private Enemy _testenemy;
+        private Enemy _testenemy2;
+        private List<Enemy> enemies;
 
         private GameState gameState;
         private enum GameState
@@ -26,7 +29,7 @@ namespace Clockwork
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            
+            enemies = new List<Enemy>();
         }
 
         protected override void Initialize()
@@ -42,7 +45,10 @@ namespace Clockwork
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             enemySprite = Content.Load<Texture2D>("enemy");
-            _testenemy = new Enemy(10, enemySprite, new Vector2(400,240));
+            _testenemy = new Enemy(10, enemySprite, new Vector2(400, 240),100);
+            _testenemy2 = new Enemy(10, enemySprite, new Vector2(200, 240),300);
+            enemies.Add(_testenemy);
+            enemies.Add(_testenemy2);
             // TODO: use this.Content to load your game content here
         }
 
@@ -71,7 +77,10 @@ namespace Clockwork
                 default:
                     break;
             }
-            _testenemy.Update(gameTime);
+            for(int i = 0; i < enemies.Count; i++)
+            {
+                enemies[i].Update(gameTime);
+            }
             base.Update(gameTime);
         }
 
@@ -127,6 +136,7 @@ namespace Clockwork
                     break;
             }
             _testenemy.Draw(_spriteBatch);
+            _testenemy2.Draw(_spriteBatch);
             _spriteBatch.End();
 
             base.Draw(gameTime);
