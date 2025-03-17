@@ -60,6 +60,8 @@ namespace AnimationHelper
         /// <param name="index">Index of the animation in the dictionary</param>
         public void SetAnimation(string index)
         {
+            if (!animations.ContainsKey(index))
+                throw new KeyNotFoundException("Animation does not exist in the Animations List");
             currentAnimation = animations[index];
             currentAnimation.StartAnimation();
         }
