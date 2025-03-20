@@ -18,8 +18,6 @@ namespace Clockwork
         private int range;
         private Rectangle collisionArea;
 
-        private Color color;
-
         public Vector2 Velocity
         {
             get { return velocity; }
@@ -43,7 +41,7 @@ namespace Clockwork
         }
 
 
-        public Enemy(int health, Texture2D texture, Vector2 position, Vector2 velocity, int range)
+        public Enemy(Texture2D texture, Vector2 position, Vector2 velocity, int range, int health)
         {
             this.health = health;
             this.texture = texture;
@@ -52,13 +50,11 @@ namespace Clockwork
             home = position;
             this.velocity = velocity;
             acceleration = new Vector2(0, .5f);
-
-            color = Color.White;
         }
 
         public override void Draw(SpriteBatch sp)
         {
-            sp.Draw(texture, position, color);
+            sp.Draw(texture, position, Color.White);
         }
 
         public override void Update(GameTime gt)
@@ -68,6 +64,11 @@ namespace Clockwork
                 velocity.X *= -1;
             }
             position.X += velocity.X;
+            if (position.Y < 300)
+            {
+
+                ApplyGravity();
+            }
         }
 
         public void CollisionResponse(GameObject other)
@@ -78,14 +79,6 @@ namespace Clockwork
                 {
                     //if two enemies run into eachother, then they should turn around
                     Enemy otherEnemy = (Enemy)other;
-                    //if (position.X <= otherEnemy.Position.X + otherEnemy.Width)
-                    //{
-                    //    float displacement = (otherEnemy.Position.X + otherEnemy.Width) - (position.X - otherEnemy.Position.X);
-                    //}
-                    //else
-                    //{
-                    //    float displacement = (Width - otherEnemy.Position.X);
-                    //}
                     velocity.X *= -1;
                 }
                 if (other is Player)
@@ -93,7 +86,7 @@ namespace Clockwork
                     //decrease player health
                     //move player back
                     Player player = (Player)other;
-                    //something like player.health -= 10; \
+                    //something like player.health -= 10;
                     //some set amount of damage for all enemies? or maybe each enemy does its own damage
                 }
                 if (other is Collectible)
@@ -126,12 +119,10 @@ namespace Clockwork
 
                     if (position.X <= otherEnemy.Position.X + otherEnemy.Width)
                     {
-                        color = Color.Red;
                         return true;
                     }
                     else
                     {
-                        color = Color.White;
                         return false;
                     }
                 }
@@ -139,12 +130,10 @@ namespace Clockwork
                 {
                     if (position.X + Width >= otherEnemy.Position.X)
                     {
-                        color = Color.Red;
                         return true;
                     }
                     else
                     {
-                        color = Color.White;
                         return false;
                     }
                 }

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace Clockwork
 {
@@ -11,9 +12,10 @@ namespace Clockwork
         private SpriteBatch _spriteBatch;
         private SpriteBatch _spriteFont;
         private Texture2D enemySprite;
-        private Texture2D mario;
+        private Texture2D itemSprite;
         private Enemy _testenemy;
         private Enemy _testenemy2;
+        private Collectible _testitem;
         private List<Enemy> enemies;
 
         private GameState gameState;
@@ -46,10 +48,11 @@ namespace Clockwork
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             enemySprite = Content.Load<Texture2D>("Enemy");
-            mario = Content.Load<Texture2D>("Mario");
-            
-            _testenemy = new Enemy(10, enemySprite, new Vector2(400, 50), new Vector2(.75f, 0),200);
-            _testenemy2 = new Enemy(10, enemySprite, new Vector2(200, 50),new Vector2(.75f,0), 400);
+            itemSprite = Content.Load<Texture2D>("Item");
+
+            _testenemy = new Enemy(enemySprite, new Vector2(400, 50), new Vector2(.75f, 0), 200, 10);
+            _testenemy2 = new Enemy(enemySprite, new Vector2(200, 50), new Vector2(.75f, 0), 400, 10);
+            _testitem = new Collectible(itemSprite, new Vector2(400, 240), Type.Gear);
             enemies.Add(_testenemy);
             enemies.Add(_testenemy2);
             
@@ -58,8 +61,6 @@ namespace Clockwork
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
 
             switch (gameState)
             {
@@ -88,6 +89,7 @@ namespace Clockwork
             }
             _testenemy.CollisionResponse(_testenemy2);
             _testenemy2.CollisionResponse(_testenemy);
+            _testitem.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -144,6 +146,7 @@ namespace Clockwork
             }
             _testenemy.Draw(_spriteBatch);
             _testenemy2.Draw(_spriteBatch);
+            _testitem.Draw(_spriteBatch);
             _spriteBatch.End();
 
             base.Draw(gameTime);
