@@ -1,5 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System.ComponentModel.Design.Serialization;
+using System.Drawing.Printing;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Clockwork
 {
@@ -11,9 +15,11 @@ namespace Clockwork
         private Vector2 home;
         private Vector2 velocity;
         private Vector2 acceleration;
-        private Rectangle collisionbox;
         private int range;
-        
+        private Rectangle collisionArea;
+
+        private Color color;
+
         public Vector2 Velocity
         {
             get { return velocity; }
@@ -25,36 +31,39 @@ namespace Clockwork
             get { return position; }
             set { position = value; }
         }
-        public Rectangle CollisionBox
+
+        public int Width
         {
-            get { return collisionbox; }
+            get { return texture.Width; }
+        }
+
+        public int Height
+        {
+            get { return texture.Height; }
         }
 
 
-        public Enemy(int health, Texture2D texture, Vector2 position,int range)
+        public Enemy(int health, Texture2D texture, Vector2 position, Vector2 velocity, int range)
         {
             this.health = health;
             this.texture = texture;
             this.position = position;
             this.range = range;
             home = position;
-            velocity = new Vector2(.75f, 0);
-            acceleration = new Vector2(0, 4);
-            collisionbox = new Rectangle(
-                (int)position.X,
-                (int)position.Y,
-                texture.Width,
-                texture.Height);
+            this.velocity = velocity;
+            acceleration = new Vector2(0, .5f);
+
+            color = Color.White;
         }
 
         public override void Draw(SpriteBatch sp)
         {
-            sp.Draw(texture,position,new Rectangle((int)position.X,(int)position.Y,texture.Width,texture.Height),Color.White);
+            sp.Draw(texture, position, color);
         }
 
         public override void Update(GameTime gt)
         {
-            if(position.X >= home.X + range / 2 || position.X <= home.X - range/2)
+            if (position.X >= home.X + range / 2 || position.X <= home.X - range / 2)
             {
                 velocity.X *= -1;
             }
@@ -65,26 +74,21 @@ namespace Clockwork
         {
             if (IsColliding(other))
             {
-                if(other is Enemy)
+                if (other is Enemy)
                 {
                     //if two enemies run into eachother, then they should turn around
                     Enemy otherEnemy = (Enemy)other;
-                    Rectangle intsRect = Rectangle.Intersect(this.collisionbox,otherEnemy.CollisionBox);
-                    if (intsRect.Height > intsRect.Width || intsRect.Height == intsRect.Width)
-                    {
-                        if (position.X < otherEnemy.Position.X)
-                        {
-                            position.X -= intsRect.Width;
-                        }
-                        if(position.X >= otherEnemy.Position.X)
-                        {
-                            position.X += intsRect.Width;
-                        }
-                    }
+                    //if (position.X <= otherEnemy.Position.X + otherEnemy.Width)
+                    //{
+                    //    float displacement = (otherEnemy.Position.X + otherEnemy.Width) - (position.X - otherEnemy.Position.X);
+                    //}
+                    //else
+                    //{
+                    //    float displacement = (Width - otherEnemy.Position.X);
+                    //}
                     velocity.X *= -1;
-                    otherEnemy.Velocity = new Vector2(otherEnemy.Velocity.X * -1, otherEnemy.Velocity.Y);
                 }
-                if(other is Player)
+                if (other is Player)
                 {
                     //decrease player health
                     //move player back
@@ -92,7 +96,7 @@ namespace Clockwork
                     //something like player.health -= 10; \
                     //some set amount of damage for all enemies? or maybe each enemy does its own damage
                 }
-                if(other is Collectible)
+                if (other is Collectible)
                 {
                     //depending on the type of collectible, decrease health
                     Collectible item = (Collectible)other;
@@ -103,14 +107,60 @@ namespace Clockwork
                         health -= item.Damage;
                     }
                 }
-                if(other is Tile)
+                if (other is Tile)
                 {
                     //dont let the enemy fall through the ground
                     //Tile tile = (Tile)other;
                     //Rectangle intsRect = Rectangle.Intersect(this.collisionbox,)
                 }
             }
+        }
 
+        public override bool IsColliding(GameObject other)
+        {
+            if(other is Enemy)
+            {
+                Enemy otherEnemy = (Enemy)other;
+                if (position.X >= otherEnemy.Position.X)
+                {
+
+                    if (position.X <= otherEnemy.Position.X + otherEnemy.Width)
+                    {
+                        color = Color.Red;
+                        return true;
+                    }
+                    else
+                    {
+                        color = Color.White;
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (position.X + Width >= otherEnemy.Position.X)
+                    {
+                        color = Color.Red;
+                        return true;
+                    }
+                    else
+                    {
+                        color = Color.White;
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
+
+        public void ApplyGravity()
+        {
+            velocity += acceleration;
+            position += velocity;
         }
     }
 }
+
