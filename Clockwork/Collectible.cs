@@ -58,7 +58,7 @@ namespace Clockwork
             {
                 sp.Draw(texture, position, Color.White);
 
-                sp.Draw(texture, new Rectangle((int)home.X-(texture.Width/4), (int)home.Y + 175,75,10),Color.Black);
+                sp.Draw(texture, new Rectangle((int)home.X-(texture.Width/4), (int)home.Y + 175,75,10),Color.Gray);
             }
         }
 

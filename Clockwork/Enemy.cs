@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SharpDX.MediaFoundation;
 using System.ComponentModel.Design.Serialization;
 using System.Drawing.Printing;
 using System.Security.Cryptography.X509Certificates;
@@ -66,8 +67,8 @@ namespace Clockwork
             position.X += velocity.X;
             if (position.Y < 300)
             {
-
-                ApplyGravity();
+                velocity += acceleration;
+                position += velocity;
             }
         }
 
@@ -114,28 +115,13 @@ namespace Clockwork
             if(other is Enemy)
             {
                 Enemy otherEnemy = (Enemy)other;
-                if (position.X >= otherEnemy.Position.X)
+                if (GetRectangle().Intersects(otherEnemy.GetRectangle()))
                 {
-
-                    if (position.X <= otherEnemy.Position.X + otherEnemy.Width)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return true;
                 }
                 else
                 {
-                    if (position.X + Width >= otherEnemy.Position.X)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
             else
@@ -145,10 +131,9 @@ namespace Clockwork
             
         }
 
-        public void ApplyGravity()
+        public Rectangle GetRectangle()
         {
-            velocity += acceleration;
-            position += velocity;
+            return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
         }
     }
 }

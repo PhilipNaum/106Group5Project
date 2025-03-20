@@ -21,11 +21,6 @@ namespace Clockwork
             set { position = value; }
         }
 
-        public Vector2 Size 
-        {
-            get { return size; }
-            set { size = value; }
-        }
         // updates game object
         public virtual void Update(GameTime gt)
         {
