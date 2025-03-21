@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Numerics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace Clockwork
 {
@@ -31,5 +32,23 @@ namespace Clockwork
 
             collectibles = new List<Collectible>();
         }
+
+        /// <summary>
+        /// draws all objects in the level
+        /// </summary>
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            // draw all tiles
+            foreach (Tile tile in map) { tile.Draw(spriteBatch); }
+
+            // draw all collectibles
+            foreach (Collectible collectible in collectibles) { collectible.Draw(spriteBatch); }
+        }
+
+        /// <summary>
+        /// updates the collectibles
+        /// </summary>
+        public void Update(GameTime gameTime)
+        { foreach (Collectible collectible in collectibles) { collectible.Update(gameTime); } }
     }
 }
