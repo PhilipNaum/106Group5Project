@@ -30,7 +30,7 @@ namespace Clockwork
         /// <summary>
         /// updates the object states
         /// </summary>
-        public virtual void Update() { }
+        public virtual void Update(GameTime gameTime) { }
 
         /// <summary>
         /// draws the object
