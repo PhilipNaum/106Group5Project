@@ -30,6 +30,9 @@ namespace Clockwork
         //the total units that make up the space the enemy can move in
         private int range;
 
+        //represents if the enemy is dead
+        private bool isDead;
+
         public Vector2 Velocity
         {
             get { return velocity; }
@@ -54,7 +57,14 @@ namespace Clockwork
             get { return texture.Height; }
         }
 
-
+        /// <summary>
+        /// Creates an enemy
+        /// </summary>
+        /// <param name="texture">the enemies texture</param>
+        /// <param name="position">the enemies current position</param>
+        /// <param name="velocity">the enemies velocity</param>
+        /// <param name="range">the enemies total length of movement</param>
+        /// <param name="health">the enemy's total health</param>
         public Enemy(Texture2D texture, Vector2 position, Vector2 velocity, int range, int health)
         {
             this.health = health;
@@ -158,6 +168,15 @@ namespace Clockwork
                 return false;
             }
             
+        }
+
+        public void TakeDamage(int damage)
+        {
+            health -= damage;
+            if (health <= 0)
+            {
+                isDead = true;
+            }
         }
 
         /// <summary>
