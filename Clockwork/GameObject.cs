@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using Microsoft.Xna.Framework.Input;
+using System.ComponentModel.Design.Serialization;
+using System.Drawing.Printing;
+using System.Security.Cryptography.X509Certificates;
 namespace Clockwork
 {
     internal abstract class GameObject
@@ -11,8 +14,15 @@ namespace Clockwork
         internal Vector2 size;
         internal Texture2D texture;
 
+
+        public Vector2 Position
+        {
+            get { return position; }
+            set { position = value; }
+        }
+
         // updates game object
-        public virtual void Update()
+        public virtual void Update(GameTime gt)
         {
 
         }
@@ -26,7 +36,7 @@ namespace Clockwork
         /// <summary>
         /// Returns a boolean on whether this object is colliding with another
         /// </summary>
-        public bool IsColliding(GameObject other)
+        public virtual bool IsColliding(GameObject other)
         {
             return false;
         }

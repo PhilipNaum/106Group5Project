@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace Clockwork
 {
@@ -8,6 +10,13 @@ namespace Clockwork
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private SpriteBatch _spriteFont;
+        private Texture2D enemySprite;
+        private Texture2D itemSprite;
+        private Enemy _testenemy;
+        private Enemy _testenemy2;
+        private Collectible _testitem;
+        private List<Enemy> enemies;
 
         private Player player;
         private Texture2D playerTexture;
@@ -27,6 +36,7 @@ namespace Clockwork
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            enemies = new List<Enemy>();
         }
 
         protected override void Initialize()
@@ -39,19 +49,26 @@ namespace Clockwork
             player = new(playerTexture);
 
             base.Initialize();
+            KeyboardState kb = Keyboard.GetState();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            enemySprite = Content.Load<Texture2D>("Enemy");
+            itemSprite = Content.Load<Texture2D>("Item");
 
+            _testenemy = new Enemy(enemySprite, new Vector2(400, 50), new Vector2(.75f, 0), 200, 10);
+            _testenemy2 = new Enemy(enemySprite, new Vector2(200, 50), new Vector2(.75f, 0), 400, 10);
+            _testitem = new Collectible(itemSprite, new Vector2(400, 240), Type.Gear);
+            enemies.Add(_testenemy);
+            enemies.Add(_testenemy2);
+            
             // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
 
             switch (gameState)
             {
@@ -73,7 +90,6 @@ namespace Clockwork
                 default:
                     break;
             }
-
             base.Update(gameTime);
         }
 
@@ -129,9 +145,7 @@ namespace Clockwork
                 default:
                     break;
             }
-
             _spriteBatch.End();
-
             base.Draw(gameTime);
         }
         private void DrawMainMenu()
@@ -147,6 +161,10 @@ namespace Clockwork
         private void DrawGame()
         {
             player.Draw(_spriteBatch);
+
+            _testenemy.Draw(_spriteBatch);
+            _testenemy2.Draw(_spriteBatch);
+            _testitem.Draw(_spriteBatch);
         }
 
         private void DrawPause()
