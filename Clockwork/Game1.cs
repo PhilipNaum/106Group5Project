@@ -106,7 +106,7 @@ namespace Clockwork
         private void UpdateGame(GameTime gameTime)
         {
             
-            player.UpdateP(gameTime);
+            player.Update(gameTime);
         }
 
         private void UpdatePause()

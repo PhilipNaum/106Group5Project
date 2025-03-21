@@ -44,7 +44,28 @@ namespace Clockwork
             texture = tex;
         }
 
-        public void UpdateP(GameTime gameTime)
+        /// <summary>
+        /// Returns new velocity after dash.
+        /// Just a possible implementation of a dash.
+        /// </summary>
+        /// <param name="mouseState"></param>
+        /// <returns></returns>
+        private Vector2 Dash(MouseState mouseState)
+        {
+            // need direction from player to mouse as a vector
+            Vector2 direction = Vector2.Normalize(mouseState.Position.ToVector2()
+                - (position + size / 2));
+
+            //return direction * dashSpeed;
+            return new Vector2(direction.X * dashSpeedX, direction.Y * dashSpeedY);
+        }
+
+
+        /// <summary>
+        /// This should be what is UpdateP, but I don't want to change the GameObject
+        /// Update() right now.
+        /// </summary>
+        public override void Update(GameTime gameTime)
         {
             KeyboardState ks = Keyboard.GetState();
             MouseState ms = Mouse.GetState();
@@ -127,32 +148,8 @@ namespace Clockwork
             }
 
             prevKS = ks;
-        }
 
-        /// <summary>
-        /// Returns new velocity after dash.
-        /// Just a possible implementation of a dash.
-        /// </summary>
-        /// <param name="mouseState"></param>
-        /// <returns></returns>
-        private Vector2 Dash(MouseState mouseState)
-        {
-            // need direction from player to mouse as a vector
-            Vector2 direction = Vector2.Normalize(mouseState.Position.ToVector2()
-                - (position + size / 2));
-
-            //return direction * dashSpeed;
-            return new Vector2(direction.X * dashSpeedX, direction.Y * dashSpeedY);
-        }
-
-
-        /// <summary>
-        /// This should be what is UpdateP, but I don't want to change the GameObject
-        /// Update() right now.
-        /// </summary>
-        public override void Update()
-        {
-            base.Update();
+            base.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch sb)
