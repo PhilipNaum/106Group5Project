@@ -10,19 +10,19 @@ namespace Clockwork
     {
         private const float SizeScale = 2;
 
+        private TileType tileType;
         private bool active;
-        private bool collidable;
         private Vector2 gridPosition;
+
+        /// <summary>
+        /// the type of the tile
+        /// </summary>
+        public TileType TileType { get => tileType; }
 
         /// <summary>
         /// whether the tile is active (not destroyed)
         /// </summary>
         public bool Active { get => active; set { active = value; } }
-
-        /// <summary>
-        /// whether the tile is collidable
-        /// </summary>
-        public bool Collidable { get => collidable; }
 
         /// <summary>
         /// the position of the tile on the level grid
@@ -32,25 +32,24 @@ namespace Clockwork
         /// <summary>
         /// creates a tile
         /// </summary>
-        /// <param name="texture">the texture for the tile</param>
+        /// <param name="tileType">the tile type</param>
         /// <param name="gridPosition">the position of the tile on the level grid</param>
-        /// <param name="collidable">whether this tile is collidable</param>
-        public Tile(Texture2D texture, Vector2 gridPosition, bool collidable)
+        public Tile(TileType tileType, Vector2 gridPosition)
         {
+            // set texture
+            Texture = tileType.Texture;
+
             // set size to size of the texture
-            Size = new Vector2(texture.Width, texture.Height) * SizeScale;
+            Size = new Vector2(Texture.Width, Texture.Height) * SizeScale;
 
             // calculate and set position based on grid position
             Position = gridPosition * Size;
 
-            // set texture
-            Texture = texture;
+            // set tile type
+            this.tileType = tileType;
 
             // set active
             active = true;
-
-            // set collidable
-            this.collidable = collidable;
 
             // set grid position
             this.gridPosition = gridPosition;
@@ -71,7 +70,7 @@ namespace Clockwork
         /// <param name="other">the object to check</param>
         /// <returns>whether or not it is colliding</returns>
         public override bool IsColliding(GameObject other)
-            => active && collidable ?
+            => active && tileType.Collidable ?
             base.IsColliding(other) :
             false
             ;
