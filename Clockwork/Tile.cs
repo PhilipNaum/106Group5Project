@@ -8,6 +8,8 @@ namespace Clockwork
     /// </summary>
     internal class Tile : GameObject
     {
+        private const float SizeScale = 2;
+
         private bool active;
         private bool collidable;
         private Vector2 gridPosition;
@@ -36,7 +38,7 @@ namespace Clockwork
         public Tile(Texture2D texture, Vector2 gridPosition, bool collidable)
         {
             // set size to size of the texture
-            Size = new Vector2(texture.Width, texture.Height);
+            Size = new Vector2(texture.Width, texture.Height) * SizeScale;
 
             // calculate and set position based on grid position
             Position = gridPosition * Size;
