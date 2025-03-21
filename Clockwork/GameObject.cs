@@ -43,17 +43,9 @@ namespace Clockwork
         // === Methods ===
 
         /// <summary>
-        /// Checks if this Game Object is colliding with another Game Object
+        /// Set the animation to be played
         /// </summary>
-        /// <param name="o">Game Object to check</param>
-        /// <returns></returns>
-        public bool IsColliding(GameObject o)
-        {
-            return new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y).Intersects
-                (new Rectangle((int)o.Position.X, (int)o.Position.Y, (int)o.Size.X, (int)o.Size.Y));
-        }
-
-
+        /// <param name="animationName"></param>
         public void SetAnimation(string animationName)
         {
             Sprite.SetAnimation(animationName);
@@ -65,13 +57,14 @@ namespace Clockwork
         /// <param name="gt">Game time to do updates with</param>
         public virtual void Update(GameTime gt)
         {
+            Sprite.Location = new Point((int)Position.X, (int)Position.Y);
             Sprite.Update(gt);
         }
 
         /// <summary>
         /// Draw the Game Object
         /// </summary>
-        public void Draw(SpriteBatch sb)
+        public virtual void Draw(SpriteBatch sb)
         {
             Sprite.Draw(sb);
         }
@@ -82,12 +75,12 @@ namespace Clockwork
         /// </summary>
         /// <param name="other">the object to check</param>
         /// <returns>whether or not it is colliding</returns>
-        public virtual bool IsColliding(GameObject other) => createRectangle().Intersects(other.createRectangle());
+        public virtual bool IsColliding(GameObject other) => GetRectangle().Intersects(other.GetRectangle());
 
         /// <summary>
         /// creates a rectangle out of the object's position and size
         /// </summary>
         /// <returns>the rectangle</returns>
-        public Rectangle createRectangle() => new Rectangle(position.ToPoint(), size.ToPoint());
+        public Rectangle GetRectangle() => new Rectangle(this.Position.ToPoint(), this.Size.ToPoint());
     }
 }

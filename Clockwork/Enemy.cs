@@ -11,8 +11,6 @@ namespace Clockwork
     internal class Enemy : GameObject
     {
         private int health;
-        private Texture2D texture;
-        private Vector2 position;
         private Vector2 home;
         private Vector2 velocity;
         private Vector2 acceleration;
@@ -25,37 +23,29 @@ namespace Clockwork
             set { velocity = value; }
         }
 
-        public Vector2 Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
-
         public int Width
         {
-            get { return texture.Width; }
+            get { return (int)Size.X; }
         }
 
         public int Height
         {
-            get { return texture.Height; }
+            get { return (int)Size.Y; }
         }
 
 
-        public Enemy(Texture2D texture, Vector2 position, Vector2 velocity, int range, int health)
+        public Enemy(Vector2 position, Vector2 size, Vector2 velocity, int range, int health) : base(position, size, Sprites.enemy)
         {
             this.health = health;
-            this.texture = texture;
-            this.position = position;
             this.range = range;
-            home = position;
+            home = this.Position;
             this.velocity = velocity;
             acceleration = new Vector2(0, .5f);
         }
 
-        public override void Draw(SpriteBatch sp)
+        public override void Draw(SpriteBatch sb)
         {
-            sp.Draw(texture, position, Color.White);
+            base.Draw(sb);
         }
 
         /// <summary>
@@ -64,16 +54,17 @@ namespace Clockwork
         /// <param name="gt"></param>
         public override void Update(GameTime gt)
         {
-            if (position.X >= home.X + range / 2 || position.X <= home.X - range / 2)
+            if (this.Position.X >= home.X + range / 2 || this.Position.X <= home.X - range / 2)
             {
                 velocity.X *= -1;
             }
-            position.X += velocity.X;
-            if (position.Y < 300)
+            this.Position = new Vector2(Position.X + velocity.X, Position.Y);
+            if (this.Position.Y < 300)
             {
                 velocity += acceleration;
-                position += velocity;
+                this.Position += velocity;
             }
+            base.Update(gt);
         }
 
         public void CollisionResponse(GameObject other)
@@ -133,11 +124,6 @@ namespace Clockwork
                 return false;
             }
             
-        }
-
-        public Rectangle GetRectangle()
-        {
-            return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
         }
     }
 }

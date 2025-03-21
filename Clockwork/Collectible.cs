@@ -16,8 +16,6 @@ namespace Clockwork
     }
     internal class Collectible : GameObject
     {
-        private Texture2D texture;
-        private Vector2 position;
         private Vector2 home;
         private Vector2 velocity;
         private Type collectibleType;
@@ -40,36 +38,32 @@ namespace Clockwork
             get { return isActive; }
             set { isActive = value; }
         }
-
-        public Collectible(Texture2D texture, Vector2 position, Type collectibletype)
+        // this constructor will need to be changed when there are multiple collectible sprites
+        public Collectible(Vector2 position, Vector2 size, Type collectibletype) : base(position, size, Sprites.collectible)
         {
-            this.texture = texture;
-            this.position = position;
             this.collectibleType = collectibletype;
             damage = 0;
             isActive = true;
-            home = position;
+            home = this.Position;
             range = 7;
             velocity = new Vector2(0, .05f);
         }
-        public override void Draw(SpriteBatch sp)
+        public override void Draw(SpriteBatch sb)
         {
             if (IsActive)
             {
-                sp.Draw(texture, position, Color.White);
-
-                sp.Draw(texture, new Rectangle((int)home.X-(texture.Width/4), (int)home.Y + 175,75,10),Color.Gray);
+                base.Draw(sb);
             }
         }
 
         public override void Update(GameTime gt)
         {
-            if (position.Y >= home.Y + range / 2 || position.Y <= home.Y - range / 2)
+            if (this.Position.Y >= home.Y + range / 2 || this.Position.Y <= home.Y - range / 2)
             {
                 velocity.Y *= -1;
             }
-            position.Y += velocity.Y;
-            
+            this.Position = new Vector2(Position.X, Position.Y + velocity.Y);
+            base.Update(gt);
         }
 
         public override bool IsColliding(GameObject other)

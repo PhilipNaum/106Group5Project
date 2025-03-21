@@ -35,16 +35,10 @@ namespace Clockwork
         /// <param name="texture">the texture for the tile</param>
         /// <param name="gridPosition">the position of the tile on the level grid</param>
         /// <param name="collidable">whether this tile is collidable</param>
-        public Tile(Texture2D texture, Vector2 gridPosition, bool collidable)
+        public Tile(Vector2 gridPosition, Vector2 size, bool collidable) : base(gridPosition * size, size, Sprites.tile)
         {
-            // set size to size of the texture
-            Size = new Vector2(texture.Width, texture.Height) * SizeScale;
-
             // calculate and set position based on grid position
             Position = gridPosition * Size;
-
-            // set texture
-            Texture = texture;
 
             // set active
             active = true;
@@ -62,7 +56,7 @@ namespace Clockwork
         public override void Draw(SpriteBatch spriteBatch)
         {
             // draw the tile if active
-            if (active) { spriteBatch.Draw(Texture, createRectangle(), Color.White); }
+            if (active) { base.Draw(spriteBatch); }
         }
 
         /// <summary>
