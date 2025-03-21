@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 namespace Clockwork
 {
+    //types the collectible can be
     public enum Type
     {
         Gear,
@@ -17,12 +18,24 @@ namespace Clockwork
     internal class Collectible : GameObject
     {
         private Texture2D texture;
+
         private Vector2 position;
+
+        //used for movement. Currently, the home is set to always be the enemies starting position
         private Vector2 home;
+
         private Vector2 velocity;
+
         private Type collectibleType;
+
+        //the damage the collectible does. Only used for weapons(gear, hand, and chime)
         private int damage;
+        
+
+        //whether the item can be collected or not
         private bool isActive;
+
+        //the total units that make up the space the item floats in before being collected
         private int range;
 
         public Type CollectibleType
@@ -41,6 +54,12 @@ namespace Clockwork
             set { isActive = value; }
         }
 
+        /// <summary>
+        /// creates a new item to be collected
+        /// </summary>
+        /// <param name="texture">the item's texture</param>
+        /// <param name="position">the item's current position</param>
+        /// <param name="collectibletype">the type of collectible</param>
         public Collectible(Texture2D texture, Vector2 position, Type collectibletype)
         {
             this.texture = texture;
@@ -62,6 +81,10 @@ namespace Clockwork
             }
         }
 
+        /// <summary>
+        /// Makes the item float up and down before being collected
+        /// </summary>
+        /// <param name="gt"></param>
         public override void Update(GameTime gt)
         {
             if (position.Y >= home.Y + range / 2 || position.Y <= home.Y - range / 2)
@@ -71,7 +94,7 @@ namespace Clockwork
             position.Y += velocity.Y;
             
         }
-
+        //Basic IsColliding override
         public override bool IsColliding(GameObject other)
         {
             if(other is Player)
