@@ -35,7 +35,7 @@ namespace Clockwork
         /// <summary>
         /// draws the object
         /// </summary>
-        public virtual void Draw() { }
+        public virtual void Draw(SpriteBatch spriteBatch) { }
 
         /// <summary>
         /// checks if the object is colliding with another object
