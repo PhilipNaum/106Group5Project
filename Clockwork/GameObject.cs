@@ -3,32 +3,45 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Clockwork
 {
+    /// <summary>
+    /// temporary GameObject class
+    /// </summary>
     internal abstract class GameObject
     {
-        // position of the object in world space
         private Vector2 position;
-        // bounds of the object in world space
         private Vector2 size;
         private Texture2D texture;
 
-        // updates game object
-        public virtual void Update()
-        {
-
-        }
-
-        // displays the game object on the screen
-        public virtual void Draw()
-        {
-
-        }
+        /// <summary>
+        /// position of the object
+        /// </summary>
+        public Vector2 Position { get => position; set { position = value; } }
 
         /// <summary>
-        /// Returns a boolean on whether this object is colliding with another
+        /// size of the object
         /// </summary>
-        public bool IsColliding(GameObject other)
-        {
-            return false;
-        }
+        public Vector2 Size { get => size; }
+
+        /// <summary>
+        /// texture of the object
+        /// </summary>
+        public Texture2D Texture { get => texture; }
+
+        /// <summary>
+        /// updates the object states
+        /// </summary>
+        public virtual void Update() { }
+
+        /// <summary>
+        /// draws the object
+        /// </summary>
+        public virtual void Draw() { }
+
+        /// <summary>
+        /// checks if the object is colliding with another object
+        /// </summary>
+        /// <param name="other">the object to check</param>
+        /// <returns>whether or not it is colliding</returns>
+        public virtual bool IsColliding(GameObject other) => false;
     }
 }
