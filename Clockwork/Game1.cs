@@ -82,14 +82,6 @@ namespace Clockwork
                 default:
                     break;
             }
-            for(int i = 0; i < enemies.Count; i++)
-            {
-                enemies[i].Update(gameTime);
-                
-            }
-            _testenemy.CollisionResponse(_testenemy2);
-            _testenemy2.CollisionResponse(_testenemy);
-            _testitem.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -144,11 +136,7 @@ namespace Clockwork
                 default:
                     break;
             }
-            _testenemy.Draw(_spriteBatch);
-            _testenemy2.Draw(_spriteBatch);
-            _testitem.Draw(_spriteBatch);
             _spriteBatch.End();
-
             base.Draw(gameTime);
         }
         private void DrawMainMenu()
@@ -164,6 +152,10 @@ namespace Clockwork
         private void DrawGame()
         {
 
+            _testenemy.Draw(_spriteBatch);
+            _testenemy2.Draw(_spriteBatch);
+            _testitem.Draw(_spriteBatch);
+            
         }
 
         private void DrawPause()
