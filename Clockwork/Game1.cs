@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Data;
 using System.Windows.Forms;
 
 namespace Clockwork
@@ -10,13 +11,18 @@ namespace Clockwork
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private SpriteBatch _spriteFont;
+        private KeyboardState kb;
+        private SpriteFont _arial36;
+        private SpriteFont _arial24;
+
         private Texture2D enemySprite;
         private Texture2D itemSprite;
+
         private Enemy _testenemy;
         private Enemy _testenemy2;
-        private Collectible _testitem;
         private List<Enemy> enemies;
+
+        private Collectible _testitem;
 
         private Player player;
         private Texture2D playerTexture;
@@ -42,12 +48,11 @@ namespace Clockwork
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            gameState = GameState.Gameplay;
+            gameState = GameState.MainMenu;
 
             playerTexture = new Texture2D(GraphicsDevice, 1, 1);
             playerTexture.SetData(new Color[] { Color.Black });
             player = new(playerTexture);
-
             base.Initialize();
             KeyboardState kb = Keyboard.GetState();
         }
@@ -57,7 +62,8 @@ namespace Clockwork
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             enemySprite = Content.Load<Texture2D>("Enemy");
             itemSprite = Content.Load<Texture2D>("Item");
-
+            _arial36 = Content.Load<SpriteFont>("ARIAL36");
+            _arial24 = Content.Load<SpriteFont>("ARIAL24");
             _testenemy = new Enemy(enemySprite, new Vector2(400, 50), new Vector2(.75f, 0), 200, 10);
             _testenemy2 = new Enemy(enemySprite, new Vector2(200, 50), new Vector2(.75f, 0), 400, 10);
             _testitem = new Collectible(itemSprite, new Vector2(400, 240), Type.Gear);
@@ -95,7 +101,11 @@ namespace Clockwork
 
         private void UpdateMainMenu()
         {
-
+            kb = Keyboard.GetState();
+            if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Enter))
+            {
+                gameState = GameState.Gameplay;
+            }
         }
 
         private void UpdateLevelSelect()
@@ -105,7 +115,11 @@ namespace Clockwork
 
         private void UpdateGame(GameTime gameTime)
         {
-            
+            kb = Keyboard.GetState();
+            if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape))
+            {
+                gameState = GameState.MainMenu;
+            }
             player.Update(gameTime);
         }
 
@@ -150,7 +164,13 @@ namespace Clockwork
         }
         private void DrawMainMenu()
         {
-
+            GraphicsDevice.Clear(Color.Black);
+            _spriteBatch.DrawString(_arial36,"Clock Work",
+                new Vector2(_graphics.PreferredBackBufferWidth/2-120,
+                _graphics.PreferredBackBufferHeight/2-50),Color.White);
+            _spriteBatch.DrawString(_arial24, "Press Enter to begin Debug mode",
+                new Vector2(_graphics.PreferredBackBufferWidth / 2 - 220,
+                _graphics.PreferredBackBufferHeight / 2 +50), Color.White);
         }
 
         private void DrawLevelSelect()
@@ -160,6 +180,7 @@ namespace Clockwork
 
         private void DrawGame()
         {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
             player.Draw(_spriteBatch);
 
             _testenemy.Draw(_spriteBatch);

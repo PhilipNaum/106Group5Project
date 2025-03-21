@@ -58,6 +58,10 @@ namespace Clockwork
             sp.Draw(texture, position, Color.White);
         }
 
+        /// <summary>
+        /// Enemy moves starts in a set position, and then can move  
+        /// </summary>
+        /// <param name="gt"></param>
         public override void Update(GameTime gt)
         {
             if (position.X >= home.X + range / 2 || position.X <= home.X - range / 2)
