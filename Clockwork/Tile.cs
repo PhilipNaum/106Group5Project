@@ -20,7 +20,7 @@ namespace Clockwork
         /// <summary>
         /// whether the tile is collidable
         /// </summary>
-        public bool Collidable { get => collidable; set { collidable = value; } }
+        public bool Collidable { get => collidable; }
 
         /// <summary>
         /// the position of the tile on the level grid

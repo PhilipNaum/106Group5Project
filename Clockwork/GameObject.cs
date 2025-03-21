@@ -20,12 +20,12 @@ namespace Clockwork
         /// <summary>
         /// size of the object
         /// </summary>
-        public Vector2 Size { get => size; set { size = value; } }
+        public Vector2 Size { get => size; protected set { size = value; } }
 
         /// <summary>
         /// texture of the object
         /// </summary>
-        public Texture2D Texture { get => texture; set { texture = value; } }
+        public Texture2D Texture { get => texture; protected set { texture = value; } }
 
         /// <summary>
         /// updates the object states
