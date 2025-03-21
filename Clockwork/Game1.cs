@@ -60,6 +60,10 @@ namespace Clockwork
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // Load content for all animated sprites
+            AnimationLoader.LoadContent(Content);
+            
             enemySprite = Content.Load<Texture2D>("Enemy");
             itemSprite = Content.Load<Texture2D>("Item");
             _arial36 = Content.Load<SpriteFont>("ARIAL36");

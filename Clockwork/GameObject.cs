@@ -1,38 +1,81 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using AnimationHelper;
 
 namespace Clockwork
 {
     internal abstract class GameObject
     {
-        private Vector2 position;
-        private Vector2 size;
-        private Texture2D texture;
+        // === Fields and Properties ===
 
         /// <summary>
-        /// position of the object
+        /// Position of the Game Object
         /// </summary>
-        public Vector2 Position { get => position; set { position = value; } }
+        public Vector2 Position { get; set; }
 
         /// <summary>
-        /// size of the object
+        /// Size of the Game Object
         /// </summary>
-        public Vector2 Size { get => size; protected set { size = value; } }
+        public Vector2 Size { get; private set; }
 
         /// <summary>
-        /// texture of the object
+        /// Animated Sprite for the Game Object
         /// </summary>
-        public Texture2D Texture { get => texture; protected set { texture = value; } }
+        public AnimatedSprite Sprite { get; private set; }
+
+
+        // === Constructors ===
 
         /// <summary>
-        /// updates the object states
+        /// Create a new Game Object
         /// </summary>
-        public virtual void Update(GameTime gameTime) { }
+        /// <param name="position">Position Vector2D of the Game Object</param>
+        /// <param name="size">Size Vector2D of the Game Object</param>
+        /// <param name="texture"></param>
+        public GameObject(Vector2 position, Vector2 size, Sprites spriteName)
+        {
+            this.Position = position;
+            this.Size = size;
+            this.Sprite = AnimationLoader.GetSprite(spriteName);
+        }
+
+
+        // === Methods ===
 
         /// <summary>
-        /// draws the object
+        /// Checks if this Game Object is colliding with another Game Object
         /// </summary>
-        public virtual void Draw(SpriteBatch spriteBatch) { }
+        /// <param name="o">Game Object to check</param>
+        /// <returns></returns>
+        public bool IsColliding(GameObject o)
+        {
+            return new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y).Intersects
+                (new Rectangle((int)o.Position.X, (int)o.Position.Y, (int)o.Size.X, (int)o.Size.Y));
+        }
+
+
+        public void SetAnimation(string animationName)
+        {
+            Sprite.SetAnimation(animationName);
+        }
+
+        /// <summary>
+        /// Update the Game Object
+        /// </summary>
+        /// <param name="gt">Game time to do updates with</param>
+        public virtual void Update(GameTime gt)
+        {
+            Sprite.Update(gt);
+        }
+
+        /// <summary>
+        /// Draw the Game Object
+        /// </summary>
+        public void Draw(SpriteBatch sb)
+        {
+            Sprite.Draw(sb);
+        }
+
 
         /// <summary>
         /// checks if the object is colliding with another object
