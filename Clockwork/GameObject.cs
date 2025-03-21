@@ -75,5 +75,19 @@ namespace Clockwork
         {
             Sprite.Draw(sb);
         }
+
+
+        /// <summary>
+        /// checks if the object is colliding with another object
+        /// </summary>
+        /// <param name="other">the object to check</param>
+        /// <returns>whether or not it is colliding</returns>
+        public virtual bool IsColliding(GameObject other) => createRectangle().Intersects(other.createRectangle());
+
+        /// <summary>
+        /// creates a rectangle out of the object's position and size
+        /// </summary>
+        /// <returns>the rectangle</returns>
+        public Rectangle createRectangle() => new Rectangle(position.ToPoint(), size.ToPoint());
     }
 }
