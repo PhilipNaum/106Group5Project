@@ -28,6 +28,33 @@ namespace Clockwork
         public Vector2 GridPosition { get => gridPosition; }
 
         /// <summary>
+        /// creates a tile
+        /// </summary>
+        /// <param name="texture">the texture for the tile</param>
+        /// <param name="gridPosition">the position of the tile on the level grid</param>
+        /// <param name="collidable">whether this tile is collidable</param>
+        public Tile(Texture2D texture, Vector2 gridPosition, bool collidable)
+        {
+            // set size to size of the texture
+            Size = new Vector2(texture.Width, texture.Height);
+
+            // calculate and set position based on grid position
+            Position = gridPosition * Size;
+
+            // set texture
+            Texture = texture;
+
+            // set active
+            active = true;
+
+            // set collidable
+            this.collidable = collidable;
+
+            // set grid position
+            this.gridPosition = gridPosition;
+        }
+
+        /// <summary>
         /// draws the tile
         /// </summary>
         public override void Draw(SpriteBatch spriteBatch)
