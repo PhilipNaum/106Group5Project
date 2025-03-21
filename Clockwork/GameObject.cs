@@ -1,44 +1,50 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System.ComponentModel.Design.Serialization;
-using System.Drawing.Printing;
-using System.Security.Cryptography.X509Certificates;
+
 namespace Clockwork
 {
     internal abstract class GameObject
     {
-        // position of the object in world space
-        internal Vector2 position;
-        // bounds of the object in world space
-        internal Vector2 size;
-        internal Texture2D texture;
-
-
-        public Vector2 Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
-
-        // updates game object
-        public virtual void Update(GameTime gt)
-        {
-
-        }
-
-        // displays the game object on the screen
-        public virtual void Draw(SpriteBatch sb)
-        {
-
-        }
+        private Vector2 position;
+        private Vector2 size;
+        private Texture2D texture;
 
         /// <summary>
-        /// Returns a boolean on whether this object is colliding with another
+        /// position of the object
         /// </summary>
-        public virtual bool IsColliding(GameObject other)
-        {
-            return false;
-        }
+        public Vector2 Position { get => position; set { position = value; } }
+
+        /// <summary>
+        /// size of the object
+        /// </summary>
+        public Vector2 Size { get => size; protected set { size = value; } }
+
+        /// <summary>
+        /// texture of the object
+        /// </summary>
+        public Texture2D Texture { get => texture; protected set { texture = value; } }
+
+        /// <summary>
+        /// updates the object states
+        /// </summary>
+        public virtual void Update(GameTime gameTime) { }
+
+        /// <summary>
+        /// draws the object
+        /// </summary>
+        public virtual void Draw(SpriteBatch spriteBatch) { }
+
+        /// <summary>
+        /// checks if the object is colliding with another object
+        /// </summary>
+        /// <param name="other">the object to check</param>
+        /// <returns>whether or not it is colliding</returns>
+        public virtual bool IsColliding(GameObject other) => createRectangle().Intersects(other.createRectangle());
+
+        /// <summary>
+        /// creates a rectangle out of the object's position and size
+        /// </summary>
+        /// <returns>the rectangle</returns>
+        public Rectangle createRectangle() => new Rectangle(position.ToPoint(), size.ToPoint());
     }
 }
