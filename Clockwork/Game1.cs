@@ -16,13 +16,16 @@ namespace Clockwork
         private SpriteFont _arial24;
 
         private Texture2D enemySprite;
-        private Texture2D itemSprite;
+        private Texture2D gearSprite;
+        private Texture2D dashSprite;
 
         private Enemy _testenemy;
         private Enemy _testenemy2;
         private List<Enemy> enemies;
 
         private Collectible _testitem;
+        private Collectible _testitem2;
+        private List<Collectible> collectibles;
 
         private Player player;
         private Texture2D playerTexture;
@@ -42,7 +45,9 @@ namespace Clockwork
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
             enemies = new List<Enemy>();
+            collectibles = new List<Collectible>();
         }
 
         protected override void Initialize()
@@ -50,9 +55,12 @@ namespace Clockwork
             // TODO: Add your initialization logic here
             gameState = GameState.MainMenu;
 
+            gearSprite = Content.Load<Texture2D>("Item");
+            dashSprite = Content.Load<Texture2D>("Dash");
+
             playerTexture = new Texture2D(GraphicsDevice, 1, 1);
             playerTexture.SetData(new Color[] { Color.Black });
-            player = new(playerTexture);
+            player = new(playerTexture,gearSprite);
             base.Initialize();
             KeyboardState kb = Keyboard.GetState();
         }
@@ -60,15 +68,23 @@ namespace Clockwork
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
             enemySprite = Content.Load<Texture2D>("Enemy");
-            itemSprite = Content.Load<Texture2D>("Item");
+
             _arial36 = Content.Load<SpriteFont>("ARIAL36");
             _arial24 = Content.Load<SpriteFont>("ARIAL24");
+
             _testenemy = new Enemy(enemySprite, new Vector2(400, 50), new Vector2(.75f, 0), 200, 10);
             _testenemy2 = new Enemy(enemySprite, new Vector2(200, 50), new Vector2(.75f, 0), 400, 10);
-            _testitem = new Collectible(itemSprite, new Vector2(400, 240), Type.Gear);
+
             enemies.Add(_testenemy);
             enemies.Add(_testenemy2);
+
+            _testitem = new Collectible(gearSprite, new Vector2(400, 240), Type.Gear, 0);
+            _testitem2 = new Collectible(dashSprite, new Vector2(200, 240), Type.Face, 0);
+
+            collectibles.Add(_testitem);
+            collectibles.Add(_testitem2);
             
             // TODO: use this.Content to load your game content here
         }
@@ -121,6 +137,23 @@ namespace Clockwork
                 gameState = GameState.MainMenu;
             }
             player.Update(gameTime);
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                enemies[i].Update(gameTime);
+
+                for(int j = 0; j < enemies.Count; j++)
+                {
+                    if (j != i)
+                    {
+                        enemies[i].CollisionResponse(enemies[j]);
+                    }
+                }
+            }
+            for(int i=0; i< collectibles.Count; i++)
+            {
+                collectibles[i].Update(gameTime);
+                player.CollisionResponse(collectibles[i]);
+            }
         }
 
         private void UpdatePause()
@@ -181,11 +214,14 @@ namespace Clockwork
         private void DrawGame()
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
             player.Draw(_spriteBatch);
 
             _testenemy.Draw(_spriteBatch);
             _testenemy2.Draw(_spriteBatch);
+
             _testitem.Draw(_spriteBatch);
+            _testitem2.Draw(_spriteBatch);
         }
 
         private void DrawPause()

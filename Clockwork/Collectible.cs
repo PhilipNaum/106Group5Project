@@ -17,9 +17,6 @@ namespace Clockwork
     }
     internal class Collectible : GameObject
     {
-        private Texture2D texture;
-
-        private Vector2 position;
 
         //used for movement. Currently, the home is set to always be the enemies starting position
         private Vector2 home;
@@ -30,10 +27,12 @@ namespace Clockwork
 
         //the damage the collectible does. Only used for weapons(gear, hand, and chime)
         private int damage;
-        
 
-        //whether the item can be collected or not
-        private bool isActive;
+        //How to check whether the collectible should float in place, is being used, or neither
+        //0 is floating in place, waiting to be collected
+        //1 is activley being used
+        //2 is neither
+        int mode;
 
         //the total units that make up the space the item floats in before being collected
         private int range;
@@ -48,10 +47,10 @@ namespace Clockwork
             get { return damage; }
         }
 
-        public bool IsActive
+        public int Mode
         {
-            get { return isActive; }
-            set { isActive = value; }
+            get { return mode; }
+            set { mode = value; }
         }
 
         /// <summary>
@@ -60,24 +59,29 @@ namespace Clockwork
         /// <param name="texture">the item's texture</param>
         /// <param name="position">the item's current position</param>
         /// <param name="collectibletype">the type of collectible</param>
-        public Collectible(Texture2D texture, Vector2 position, Type collectibletype)
+        public Collectible(Texture2D texture, Vector2 position, Type collectibletype, int mode)
         {
             this.texture = texture;
             this.position = position;
             this.collectibleType = collectibletype;
+            this.mode = mode;
+            size = new Vector2(texture.Width, texture.Height);
             damage = 0;
-            isActive = true;
             home = position;
             range = 7;
             velocity = new Vector2(0, .05f);
         }
         public override void Draw(SpriteBatch sp)
         {
-            if (IsActive)
+            if (mode == 0)
             {
                 sp.Draw(texture, position, Color.White);
 
-                sp.Draw(texture, new Rectangle((int)home.X-(texture.Width/4), (int)home.Y + 175,75,10),Color.Gray);
+                sp.Draw(texture, new Rectangle((int)home.X - (texture.Width / 4), (int)home.Y + 175, 75, 10), Color.Gray);
+            }
+            else if (mode == 1)
+            {
+                sp.Draw(texture, position, Color.White);
             }
         }
 
@@ -87,21 +91,45 @@ namespace Clockwork
         /// <param name="gt"></param>
         public override void Update(GameTime gt)
         {
-            if (position.Y >= home.Y + range / 2 || position.Y <= home.Y - range / 2)
+            if (mode==0)
             {
-                velocity.Y *= -1;
+                if (position.Y >= home.Y + range / 2 || position.Y <= home.Y - range / 2)
+                {
+                    velocity.Y *= -1;
+                }
+                position.Y += velocity.Y;
             }
-            position.Y += velocity.Y;
-            
+            else if(mode==1)
+            {
+                switch (CollectibleType)
+                {
+                    case Type.Gear:
+                        range = 200;
+                        if(!(position.X >= home.X + range))
+                        {
+                            velocity = new Vector2(7, 0);
+                            position += velocity;
+                        }
+                        else
+                        {
+                            velocity.X = 0;
+                            position += velocity;
+                            mode = 2;
+                        }
+                        break;
+                }
+            }
         }
-        //Basic IsColliding override
-        public override bool IsColliding(GameObject other)
+
+        public void CollisionResponse(GameObject other)
         {
-            if(other is Player)
+            if (IsColliding(other))
             {
-                isActive = false;
+                if(other is Player)
+                {
+                    mode = 2;
+                }
             }
-            return base.IsColliding(other);
         }
 
     }

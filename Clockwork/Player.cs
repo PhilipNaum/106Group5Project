@@ -2,11 +2,16 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Drawing;
 
 namespace Clockwork
 {
     internal class Player : GameObject
     {
+
+        private Texture2D gearTexture;
+        private Collectible gearThrow;
+
         private Vector2 velocity;
 
         // Probably want to put gravity somewhere else, but here now for testing
@@ -32,16 +37,18 @@ namespace Clockwork
         private enum Ability
         {
             None,
-            Dash
+            Dash,
+            Throw
         }
 
 
-        public Player(Texture2D tex) 
+        public Player(Texture2D tex, Texture2D gearTexture) 
         { 
             position = new Vector2(0, 0);
-            currentAbility = Ability.Dash;
+            currentAbility = Ability.None;
             size = new Vector2(50, 50);
             texture = tex;
+            this.gearTexture = gearTexture;
         }
 
         /// <summary>
@@ -134,9 +141,17 @@ namespace Clockwork
                         // overwrites or adds to velocity
                         velocity = Dash(ms);
                         break;
+                    case Ability.Throw:
+                        gearThrow = new Collectible(gearTexture, this.position, Type.Gear, 1);
+                        break;
                     default:
                         break;
                 }
+            }
+
+            if(gearThrow != null)
+            {
+                gearThrow.Update(gameTime);
             }
 
             position += velocity;
@@ -154,7 +169,12 @@ namespace Clockwork
 
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(texture, GetRectangle(), Color.White);
+            sb.Draw(texture, GetRectangle(), Microsoft.Xna.Framework.Color.White);
+
+            if (gearThrow != null)
+            {
+                gearThrow.Draw(sb);
+            }
         }
 
         /// <summary>
@@ -162,9 +182,31 @@ namespace Clockwork
         /// This should probably be in GameObject.
         /// </summary>
         /// <returns></returns>
-        private Rectangle GetRectangle()
+        private Microsoft.Xna.Framework.Rectangle GetRectangle()
         {
-            return new Rectangle(position.ToPoint(), size.ToPoint());
+            return new Microsoft.Xna.Framework.Rectangle(position.ToPoint(), size.ToPoint());
+        }
+
+        public void CollisionResponse(GameObject other)
+        {
+            if (IsColliding(other))
+            {
+                if(other is Collectible)
+                {
+                    Collectible item = (Collectible)other;
+                    switch (item.CollectibleType)
+                    {
+                        case (Type.Gear):
+                            System.Diagnostics.Debug.WriteLine("ability = gear");
+                            currentAbility = Ability.Throw;
+                            break;
+                        case (Type.Face):
+                            System.Diagnostics.Debug.WriteLine("ability = dash");
+                            currentAbility = Ability.Dash;
+                            break;
+                    }
+                }
+            }
         }
     }
 }

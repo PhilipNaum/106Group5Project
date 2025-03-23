@@ -14,10 +14,6 @@ namespace Clockwork
         //the health of the enemy
         private int health;
 
-        //the texture
-        private Texture2D texture;
-
-        private Vector2 position;
 
         //used for movement. Currently, the home is set to always be the enemies starting position
         private Vector2 home;
@@ -39,23 +35,8 @@ namespace Clockwork
             set { velocity = value; }
         }
 
-        public Vector2 Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
 
-        //used for GetRectangle. Could have some other uses
-        public int Width
-        {
-            get { return texture.Width; }
-        }
-
-        //used for GetRectangle. Could have some other uses
-        public int Height
-        {
-            get { return texture.Height; }
-        }
+        
 
         /// <summary>
         /// Creates an enemy
@@ -70,6 +51,7 @@ namespace Clockwork
             this.health = health;
             this.texture = texture;
             this.position = position;
+            size = new Vector2(texture.Width,texture.Height);
             this.range = range;
             home = position;
             this.velocity = velocity;
@@ -92,7 +74,7 @@ namespace Clockwork
                 velocity.X *= -1;
             }
             position.X += velocity.X;
-            if (position.Y < 300)
+            if (position.Y < 370)
             {
                 velocity += acceleration;
                 position += velocity;
@@ -149,26 +131,6 @@ namespace Clockwork
         /// </summary>
         /// <param name="other">the game object to check collision with</param>
         /// <returns>a bool represnting if they collide or not</returns>
-        public override bool IsColliding(GameObject other)
-        {
-            if(other is Enemy)
-            {
-                Enemy otherEnemy = (Enemy)other;
-                if (GetRectangle().Intersects(otherEnemy.GetRectangle()))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-            
-        }
 
         public void TakeDamage(int damage)
         {
