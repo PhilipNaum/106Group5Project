@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Data;
-using System.Windows.Forms;
 
 namespace Clockwork
 {
@@ -47,7 +46,7 @@ namespace Clockwork
 
             gameState = GameState.MainMenu;
 
-            player = new Player(Vector2.Zero, new Vector2(50, 50));
+            player = new Player(Vector2.Zero, new Vector2(100, 100));
 
             _testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
             _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
@@ -101,7 +100,7 @@ namespace Clockwork
         private void UpdateMainMenu()
         {
             kb = Keyboard.GetState();
-            if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Enter))
+            if (kb.IsKeyDown(Keys.Enter))
             {
                 gameState = GameState.Gameplay;
             }
@@ -115,11 +114,14 @@ namespace Clockwork
         private void UpdateGame(GameTime gameTime)
         {
             kb = Keyboard.GetState();
-            if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape))
+            if (kb.IsKeyDown(Keys.Escape))
             {
                 gameState = GameState.MainMenu;
             }
             player.Update(gameTime);
+            _testenemy.Update(gameTime);
+            _testenemy2.Update(gameTime);
+            _testitem.Update(gameTime);
         }
 
         private void UpdatePause()
