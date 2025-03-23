@@ -140,7 +140,7 @@ namespace Clockwork
 
             if (this.Position.Y + this.Size.Y > minHeight)
             {
-                this.Position = new Vector2(0, minHeight - this.Size.Y);
+                this.Position = new Vector2(Position.X, minHeight - this.Size.Y);
                 velocity.Y = 0;
             }
 
