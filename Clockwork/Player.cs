@@ -36,12 +36,9 @@ namespace Clockwork
         }
 
 
-        public Player(Texture2D tex) 
-        { 
-            position = new Vector2(0, 0);
+        public Player(Vector2 position, Vector2 size) : base(position, size, Sprites.player)
+        {
             currentAbility = Ability.Dash;
-            size = new Vector2(50, 50);
-            texture = tex;
         }
 
         /// <summary>
@@ -54,7 +51,7 @@ namespace Clockwork
         {
             // need direction from player to mouse as a vector
             Vector2 direction = Vector2.Normalize(mouseState.Position.ToVector2()
-                - (position + size / 2));
+                - (this.Position + this.Size / 2));
 
             //return direction * dashSpeed;
             return new Vector2(direction.X * dashSpeedX, direction.Y * dashSpeedY);
@@ -139,11 +136,11 @@ namespace Clockwork
                 }
             }
 
-            position += velocity;
+            this.Position += velocity;
 
-            if (position.Y + size.Y > minHeight)
+            if (this.Position.Y + this.Size.Y > minHeight)
             {
-                position.Y = minHeight - size.Y;
+                this.Position = new Vector2(0, minHeight - this.Size.Y);
                 velocity.Y = 0;
             }
 
@@ -154,17 +151,7 @@ namespace Clockwork
 
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(texture, GetRectangle(), Color.White);
-        }
-
-        /// <summary>
-        /// Gets a rectangle for the object.
-        /// This should probably be in GameObject.
-        /// </summary>
-        /// <returns></returns>
-        private Rectangle GetRectangle()
-        {
-            return new Rectangle(position.ToPoint(), size.ToPoint());
+            base.Draw(sb);
         }
     }
 }

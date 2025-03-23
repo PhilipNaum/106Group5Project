@@ -13,12 +13,7 @@ namespace Clockwork
 
         //the health of the enemy
         private int health;
-
-        //the texture
-        private Texture2D texture;
-
-        private Vector2 position;
-
+        
         //used for movement. Currently, the home is set to always be the enemies starting position
         private Vector2 home;
 
@@ -39,46 +34,31 @@ namespace Clockwork
             set { velocity = value; }
         }
 
-        public Vector2 Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
 
         //used for GetRectangle. Could have some other uses
         public int Width
         {
-            get { return texture.Width; }
+            get { return (int)Size.X; }
         }
 
         //used for GetRectangle. Could have some other uses
         public int Height
         {
-            get { return texture.Height; }
+            get { return (int)Size.Y; }
         }
 
-        /// <summary>
-        /// Creates an enemy
-        /// </summary>
-        /// <param name="texture">the enemies texture</param>
-        /// <param name="position">the enemies current position</param>
-        /// <param name="velocity">the enemies velocity</param>
-        /// <param name="range">the enemies total length of movement</param>
-        /// <param name="health">the enemy's total health</param>
-        public Enemy(Texture2D texture, Vector2 position, Vector2 velocity, int range, int health)
+        public Enemy(Vector2 position, Vector2 size, Vector2 velocity, int range, int health) : base(position, size, Sprites.enemy)
         {
             this.health = health;
-            this.texture = texture;
-            this.position = position;
             this.range = range;
-            home = position;
+            home = this.Position;
             this.velocity = velocity;
             acceleration = new Vector2(0, .5f);
         }
 
-        public override void Draw(SpriteBatch sp)
+        public override void Draw(SpriteBatch sb)
         {
-            sp.Draw(texture, position, Color.White);
+            base.Draw(sb);
         }
 
         /// <summary>
@@ -87,16 +67,17 @@ namespace Clockwork
         /// <param name="gt">the game time paramter to be passed through</param>
         public override void Update(GameTime gt)
         {
-            if (position.X >= home.X + range / 2 || position.X <= home.X - range / 2)
+            if (this.Position.X >= home.X + range / 2 || this.Position.X <= home.X - range / 2)
             {
                 velocity.X *= -1;
             }
-            position.X += velocity.X;
-            if (position.Y < 300)
+            this.Position = new Vector2(Position.X + velocity.X, Position.Y);
+            if (this.Position.Y < 300)
             {
                 velocity += acceleration;
-                position += velocity;
+                this.Position += velocity;
             }
+            base.Update(gt);
         }
 
         /// <summary>
@@ -177,15 +158,6 @@ namespace Clockwork
             {
                 isDead = true;
             }
-        }
-
-        /// <summary>
-        /// Creates and returns a rectangle reprenting the enemy. Currently used only for collision
-        /// </summary>
-        /// <returns>A rectangle with the same position and texture width and height as the enemy</returns>
-        public Rectangle GetRectangle()
-        {
-            return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
         }
     }
 }

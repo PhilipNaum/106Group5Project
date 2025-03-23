@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Data;
-using System.Windows.Forms;
 
 namespace Clockwork
 {
@@ -15,9 +14,6 @@ namespace Clockwork
         private SpriteFont _arial36;
         private SpriteFont _arial24;
 
-        private Texture2D enemySprite;
-        private Texture2D itemSprite;
-
         private Enemy _testenemy;
         private Enemy _testenemy2;
         private List<Enemy> enemies;
@@ -25,7 +21,6 @@ namespace Clockwork
         private Collectible _testitem;
 
         private Player player;
-        private Texture2D playerTexture;
 
         private GameState gameState;
         private enum GameState
@@ -47,29 +42,32 @@ namespace Clockwork
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            base.Initialize();
+
             gameState = GameState.MainMenu;
 
-            playerTexture = new Texture2D(GraphicsDevice, 1, 1);
-            playerTexture.SetData(new Color[] { Color.Black });
-            player = new(playerTexture);
-            base.Initialize();
+            player = new Player(Vector2.Zero, new Vector2(100, 100));
+
+            _testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
+            _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
+            enemies.Add(_testenemy);
+            enemies.Add(_testenemy2);
+
+            _testitem = new Collectible(new Vector2(400, 240), new Vector2(50, 50), Type.Gear);
+
             KeyboardState kb = Keyboard.GetState();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            enemySprite = Content.Load<Texture2D>("Enemy");
-            itemSprite = Content.Load<Texture2D>("Item");
+
+            // Load content for all animated sprites
+            AnimationLoader.LoadContent(Content);
+
             _arial36 = Content.Load<SpriteFont>("ARIAL36");
             _arial24 = Content.Load<SpriteFont>("ARIAL24");
-            _testenemy = new Enemy(enemySprite, new Vector2(400, 50), new Vector2(.75f, 0), 200, 10);
-            _testenemy2 = new Enemy(enemySprite, new Vector2(200, 50), new Vector2(.75f, 0), 400, 10);
-            _testitem = new Collectible(itemSprite, new Vector2(400, 240), Type.Gear);
-            enemies.Add(_testenemy);
-            enemies.Add(_testenemy2);
-            
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -102,7 +100,7 @@ namespace Clockwork
         private void UpdateMainMenu()
         {
             kb = Keyboard.GetState();
-            if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Enter))
+            if (kb.IsKeyDown(Keys.Enter))
             {
                 gameState = GameState.Gameplay;
             }
@@ -116,11 +114,14 @@ namespace Clockwork
         private void UpdateGame(GameTime gameTime)
         {
             kb = Keyboard.GetState();
-            if (kb.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape))
+            if (kb.IsKeyDown(Keys.Escape))
             {
                 gameState = GameState.MainMenu;
             }
             player.Update(gameTime);
+            _testenemy.Update(gameTime);
+            _testenemy2.Update(gameTime);
+            _testitem.Update(gameTime);
         }
 
         private void UpdatePause()
@@ -165,12 +166,12 @@ namespace Clockwork
         private void DrawMainMenu()
         {
             GraphicsDevice.Clear(Color.Black);
-            _spriteBatch.DrawString(_arial36,"Clock Work",
-                new Vector2(_graphics.PreferredBackBufferWidth/2-120,
-                _graphics.PreferredBackBufferHeight/2-50),Color.White);
+            _spriteBatch.DrawString(_arial36, "Clock Work",
+                new Vector2(_graphics.PreferredBackBufferWidth / 2 - 120,
+                _graphics.PreferredBackBufferHeight / 2 - 50), Color.White);
             _spriteBatch.DrawString(_arial24, "Press Enter to begin Debug mode",
                 new Vector2(_graphics.PreferredBackBufferWidth / 2 - 220,
-                _graphics.PreferredBackBufferHeight / 2 +50), Color.White);
+                _graphics.PreferredBackBufferHeight / 2 + 50), Color.White);
         }
 
         private void DrawLevelSelect()
