@@ -10,19 +10,19 @@ namespace Clockwork
     {
         private const float SizeScale = 2;
 
+        private TileType tileType;
         private bool active;
-        private bool collidable;
         private Vector2 gridPosition;
+
+        /// <summary>
+        /// the type of the tile
+        /// </summary>
+        public TileType TileType { get => tileType; }
 
         /// <summary>
         /// whether the tile is active (not destroyed)
         /// </summary>
         public bool Active { get => active; set { active = value; } }
-
-        /// <summary>
-        /// whether the tile is collidable
-        /// </summary>
-        public bool Collidable { get => collidable; }
 
         /// <summary>
         /// the position of the tile on the level grid
@@ -32,19 +32,16 @@ namespace Clockwork
         /// <summary>
         /// creates a tile
         /// </summary>
-        /// <param name="texture">the texture for the tile</param>
+        /// <param name="tileType">the tile type</param>
         /// <param name="gridPosition">the position of the tile on the level grid</param>
         /// <param name="collidable">whether this tile is collidable</param>
         public Tile(Vector2 gridPosition, Vector2 size, bool collidable) : base(gridPosition * size, size, Sprites.tile)
         {
             // calculate and set position based on grid position
             Position = gridPosition * Size;
-
+            
             // set active
             active = true;
-
-            // set collidable
-            this.collidable = collidable;
 
             // set grid position
             this.gridPosition = gridPosition;
@@ -65,7 +62,7 @@ namespace Clockwork
         /// <param name="other">the object to check</param>
         /// <returns>whether or not it is colliding</returns>
         public override bool IsColliding(GameObject other)
-            => active && collidable ?
+            => active && tileType.Collidable ?
             base.IsColliding(other) :
             false
             ;

@@ -6,7 +6,6 @@ namespace Clockwork
 {
     internal abstract class GameObject
     {
-        // === Fields and Properties ===
 
         /// <summary>
         /// Position of the Game Object

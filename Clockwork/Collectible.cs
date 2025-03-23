@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 namespace Clockwork
 {
+    //types the collectible can be
     public enum Type
     {
         Gear,
@@ -16,11 +17,21 @@ namespace Clockwork
     }
     internal class Collectible : GameObject
     {
+        //used for movement. Currently, the home is set to always be the enemies starting position
         private Vector2 home;
+
         private Vector2 velocity;
+
         private Type collectibleType;
+
+        //the damage the collectible does. Only used for weapons(gear, hand, and chime)
         private int damage;
+        
+
+        //whether the item can be collected or not
         private bool isActive;
+
+        //the total units that make up the space the item floats in before being collected
         private int range;
 
         public Type CollectibleType
@@ -56,6 +67,10 @@ namespace Clockwork
             }
         }
 
+        /// <summary>
+        /// Makes the item float up and down before being collected
+        /// </summary>
+        /// <param name="gt"></param>
         public override void Update(GameTime gt)
         {
             if (this.Position.Y >= home.Y + range / 2 || this.Position.Y <= home.Y - range / 2)
@@ -65,7 +80,7 @@ namespace Clockwork
             this.Position = new Vector2(Position.X, Position.Y + velocity.Y);
             base.Update(gt);
         }
-
+        //Basic IsColliding override
         public override bool IsColliding(GameObject other)
         {
             if(other is Player)

@@ -10,12 +10,23 @@ namespace Clockwork
 {
     internal class Enemy : GameObject
     {
+
+        //the health of the enemy
         private int health;
+        
+        //used for movement. Currently, the home is set to always be the enemies starting position
         private Vector2 home;
+
         private Vector2 velocity;
+
+        //used for gravity, but name might change if other enemies need/use other types of acceleration
         private Vector2 acceleration;
+
+        //the total units that make up the space the enemy can move in
         private int range;
-        private Rectangle collisionArea;
+
+        //represents if the enemy is dead
+        private bool isDead;
 
         public Vector2 Velocity
         {
@@ -23,16 +34,18 @@ namespace Clockwork
             set { velocity = value; }
         }
 
+
+        //used for GetRectangle. Could have some other uses
         public int Width
         {
             get { return (int)Size.X; }
         }
 
+        //used for GetRectangle. Could have some other uses
         public int Height
         {
             get { return (int)Size.Y; }
         }
-
 
         public Enemy(Vector2 position, Vector2 size, Vector2 velocity, int range, int health) : base(position, size, Sprites.enemy)
         {
@@ -49,9 +62,9 @@ namespace Clockwork
         }
 
         /// <summary>
-        /// Enemy moves starts in a set position, and then can move  
+        /// Enemies move in their set range with their home as the center
         /// </summary>
-        /// <param name="gt"></param>
+        /// <param name="gt">the game time paramter to be passed through</param>
         public override void Update(GameTime gt)
         {
             if (this.Position.X >= home.X + range / 2 || this.Position.X <= home.X - range / 2)
@@ -67,6 +80,10 @@ namespace Clockwork
             base.Update(gt);
         }
 
+        /// <summary>
+        /// Responds to collision based on the type of GameObject it is colliding with
+        /// </summary>
+        /// <param name="other">the other game object that this enemy is colliding with</param>
         public void CollisionResponse(GameObject other)
         {
             if (IsColliding(other))
@@ -105,6 +122,14 @@ namespace Clockwork
             }
         }
 
+        //test IsColliding method for milestone 1.5, can be changed.
+        //Checks if the other is an enemy since I didn't want to mess with gameObject
+
+        /// <summary>
+        /// Checks if this object is colliding with another
+        /// </summary>
+        /// <param name="other">the game object to check collision with</param>
+        /// <returns>a bool represnting if they collide or not</returns>
         public override bool IsColliding(GameObject other)
         {
             if(other is Enemy)
@@ -124,6 +149,15 @@ namespace Clockwork
                 return false;
             }
             
+        }
+
+        public void TakeDamage(int damage)
+        {
+            health -= damage;
+            if (health <= 0)
+            {
+                isDead = true;
+            }
         }
     }
 }
