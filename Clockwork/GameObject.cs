@@ -5,9 +5,9 @@ namespace Clockwork
 {
     internal abstract class GameObject
     {
-        private Vector2 position;
-        private Vector2 size;
-        private Texture2D texture;
+        internal Vector2 position;
+        internal Vector2 size;
+        internal Texture2D texture;
 
         /// <summary>
         /// position of the object
