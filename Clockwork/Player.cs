@@ -197,11 +197,9 @@ namespace Clockwork
                     switch (item.CollectibleType)
                     {
                         case (Type.Gear):
-                            System.Diagnostics.Debug.WriteLine("ability = gear");
                             currentAbility = Ability.Throw;
                             break;
                         case (Type.Face):
-                            System.Diagnostics.Debug.WriteLine("ability = dash");
                             currentAbility = Ability.Dash;
                             break;
                     }

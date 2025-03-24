@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.Direct3D9;
+using SharpDX.DirectWrite;
 using System;
 using System.Windows.Forms;
 
@@ -31,7 +32,7 @@ namespace Clockwork
         //How to check whether the collectible should float in place, is being used, or neither
         //0 is floating in place, waiting to be collected
         //1 is activley being used
-        //2 is neither
+        //2 is can not be collected, is not being used
         int mode;
 
         //the total units that make up the space the item floats in before being collected
@@ -47,12 +48,17 @@ namespace Clockwork
             get { return damage; }
         }
 
+        public Vector2 Velocity
+        {
+            get { return velocity; }
+            set { velocity = value; }
+        }
+
         public int Mode
         {
             get { return mode; }
             set { mode = value; }
         }
-
         /// <summary>
         /// creates a new item to be collected
         /// </summary>
@@ -71,6 +77,7 @@ namespace Clockwork
             range = 7;
             velocity = new Vector2(0, .05f);
         }
+
         public override void Draw(SpriteBatch sp)
         {
             if (mode == 0)
@@ -105,7 +112,7 @@ namespace Clockwork
                 {
                     case Type.Gear:
                         range = 200;
-                        if(!(position.X >= home.X + range))
+                        if(position.X < home.X + range)
                         {
                             velocity = new Vector2(7, 0);
                             position += velocity;
@@ -120,7 +127,7 @@ namespace Clockwork
                 }
             }
         }
-
+        
         public void CollisionResponse(GameObject other)
         {
             if (IsColliding(other))
@@ -130,6 +137,15 @@ namespace Clockwork
                     mode = 2;
                 }
             }
+        }
+
+        public override Rectangle createRectangle()
+        {
+            if(mode == 2)
+            {
+                return new Rectangle(0, 0, 0, 0);
+            }
+            return base.createRectangle();
         }
 
     }

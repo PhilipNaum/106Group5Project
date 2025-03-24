@@ -14,21 +14,23 @@ namespace Clockwork
         private KeyboardState kb;
         private SpriteFont _arial36;
         private SpriteFont _arial24;
-
-        private Texture2D enemySprite;
-        private Texture2D gearSprite;
-        private Texture2D dashSprite;
-
+        
         private Enemy _testenemy;
         private Enemy _testenemy2;
         private List<Enemy> enemies;
+        private Texture2D enemySprite;
 
         private Collectible _testitem;
         private Collectible _testitem2;
         private List<Collectible> collectibles;
+        private Texture2D gearSprite;
+        private Texture2D dashSprite;
 
         private Player player;
         private Texture2D playerTexture;
+
+        private Tile platform;
+        private Texture2D platformTexture;
 
         private GameState gameState;
         private enum GameState
@@ -60,7 +62,11 @@ namespace Clockwork
 
             playerTexture = new Texture2D(GraphicsDevice, 1, 1);
             playerTexture.SetData(new Color[] { Color.Black });
-            player = new(playerTexture,gearSprite);
+            player = new(playerTexture, gearSprite);
+
+            platformTexture = new Texture2D(GraphicsDevice, 1,1);
+            platformTexture.SetData(new Color[] { Color.White });
+            platform = new Tile(new TileType(false, true, platformTexture), new Vector2(0, 475));
             base.Initialize();
             KeyboardState kb = Keyboard.GetState();
         }
@@ -136,7 +142,9 @@ namespace Clockwork
             {
                 gameState = GameState.MainMenu;
             }
+
             player.Update(gameTime);
+
             for (int i = 0; i < enemies.Count; i++)
             {
                 enemies[i].Update(gameTime);
@@ -149,6 +157,7 @@ namespace Clockwork
                     }
                 }
             }
+
             for(int i=0; i< collectibles.Count; i++)
             {
                 collectibles[i].Update(gameTime);
@@ -217,11 +226,13 @@ namespace Clockwork
 
             player.Draw(_spriteBatch);
 
-            _testenemy.Draw(_spriteBatch);
-            _testenemy2.Draw(_spriteBatch);
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                enemies[i].Draw(_spriteBatch);
+                collectibles[i].Draw(_spriteBatch);
+            }
 
-            _testitem.Draw(_spriteBatch);
-            _testitem2.Draw(_spriteBatch);
+            platform.Draw(_spriteBatch);
         }
 
         private void DrawPause()
