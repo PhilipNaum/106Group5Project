@@ -8,6 +8,7 @@ namespace Clockwork
     internal class Player : GameObject
     {
         private Vector2 velocity;
+        public Vector2 Velocity { get; set; }
 
         // Probably want to put gravity somewhere else, but here now for testing
         private readonly Vector2 gravity = new Vector2(0, 20f);

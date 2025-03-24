@@ -23,6 +23,10 @@ namespace Clockwork
         /// </summary>
         public AnimatedSprite Sprite { get; private set; }
 
+        public float Left => Position.X;
+        public float Right => Position.X + Size.X;
+        public float Top => Position.Y;
+        public float Bottom => Position.Y + Size.Y;
 
         // === Constructors ===
 
@@ -84,19 +88,44 @@ namespace Clockwork
         /// <returns>whether or not it is colliding</returns>
         public virtual bool IsCollidingPrecise(GameObject other)
         {
-            float rightestLeft = MathF.Max(Position.X, other.Position.X);
-            float leftestRight = MathF.Min(Position.X + Size.X, other.Position.X + other.Size.X);
-            float lowestTop = MathF.Max(Position.Y, other.Position.Y);
-            float highestBot = MathF.Min(Position.Y + Size.Y, other.Position.Y + other.Size.Y);
+            float rightestLeft = MathF.Max(Left, other.Left);
+            float leftestRight = MathF.Min(Right, other.Right);
+            float lowestTop = MathF.Max(Top, other.Top);
+            float highestBot = MathF.Min(Bottom, Bottom);
 
             if (leftestRight >= rightestLeft && highestBot >= lowestTop)
             {
                 return true;
                 // rectangle
-                //return new Rectangle(rightestLeft, lowestTop, leftestRight - rightestLeft, highestBot - lowestTop);
+                //return new Vector4(rightestLeft, lowestTop, leftestRight - rightestLeft, highestBot - lowestTop);
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Returns the rectangle of collision represented as a vector4 (x: x, y: y, z: width, w: height).
+        /// Zero vector if no collision.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public virtual Vector4 GetCollision(GameObject other)
+        {
+            //float rightestLeft = MathF.Max(Position.X, other.Position.X);
+            //float leftestRight = MathF.Min(Position.X + Size.X, other.Position.X + other.Size.X);
+            //float lowestTop = MathF.Max(Position.Y, other.Position.Y);
+            //float highestBot = MathF.Min(Position.Y + Size.Y, other.Position.Y + other.Size.Y);
+            float rightestLeft = MathF.Max(Left, other.Left);
+            float leftestRight = MathF.Min(Right, other.Right);
+            float lowestTop = MathF.Max(Top, other.Top);
+            float highestBot = MathF.Min(Bottom, Bottom);
+
+            if (leftestRight >= rightestLeft && highestBot >= lowestTop)
+            {
+                return new Vector4(rightestLeft, lowestTop, leftestRight - rightestLeft, highestBot - lowestTop);
+            }
+
+            return Vector4.Zero;
         }
 
         /// <summary>

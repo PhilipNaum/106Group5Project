@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 
 namespace Clockwork
 {
@@ -61,7 +62,7 @@ namespace Clockwork
             // Player tile collision testing stuff
             for (int i = 0; i < 16; i++)
             {
-                tiles.Add(new Tile(new Vector2(i, 8), new Vector2(50, 50), true));
+                tiles.Add(new Tile(new Vector2(i, 6), new Vector2(50, 50), true));
             }
             //tiles.Add(new Tile(new Vector2(2, 6), new Vector2(50, 50), true));
             //tiles.Add(new Tile(new Vector2(3, 6), new Vector2(50, 50), true));
@@ -133,6 +134,15 @@ namespace Clockwork
             
             player.Update(gameTime);
 
+            // tiles will not be drawn if not updated
+            foreach (Tile t in tiles)
+            {
+                t.Update(gameTime);
+            }
+
+            // 2 lines since it's a bit easier to read than one.
+            List<Tile> collisions = GetPlayerCollisions();
+            HandlePlayerCollisions(collisions);
             
             //_testenemy.Update(gameTime);
             //_testenemy2.Update(gameTime);
@@ -148,6 +158,72 @@ namespace Clockwork
         {
 
         }
+
+        private List<Tile> GetPlayerCollisions()
+        {
+            List<Tile> collisions = new List<Tile>();
+            foreach (Tile t in tiles)
+            {
+                if (player.IsCollidingPrecise(t))
+                {
+                    collisions.Add(t);
+                }
+            }
+
+            return collisions;
+        }
+
+        private void HandlePlayerCollisions(List<Tile> collisions)
+        {
+            Vector2 playerPos = player.Position;
+
+            // horizontal collisions
+            foreach (Tile collider in collisions)
+            {
+                // collision rectangle
+                Vector4 col = player.GetCollision(collider);
+
+                // (x: x, y: y, z: width, w: height)
+                //if (col.Height >= col.Width)
+                //{
+                //    playerRect.X += col.Width * -Math.Sign(obs.X - playerRect.X);
+                //}
+                if (col.W >= col.Z)
+                {
+                    //if ()
+                }
+            }
+
+            // vertical collisions
+            foreach (Tile collider in collisions)
+            {
+                // collision rectangle
+                Vector4 col = player.GetCollision(collider);
+
+                // (x: x, y: y, z: width, w: height)
+                //if (col.Height >= col.Width)
+                //{
+                //    playerRect.X += col.Width * -Math.Sign(obs.X - playerRect.X);
+                //}
+                if (col.Z >= col.W)
+                {
+                    // moving downwards
+                    if (player.Velocity.Y > 0)
+                    {
+                        playerPos.Y -= col.W * Math.Sign(col.Y - playerPos.Y);
+
+                        player.Velocity = Vector2.Zero;
+                    }
+                    // moving upwards
+                    else
+                    {
+
+                        player.Velocity = Vector2.Zero;
+                    }
+                }
+            }
+        }
+
 
         protected override void Draw(GameTime gameTime)
         {
