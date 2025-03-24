@@ -65,6 +65,14 @@ namespace Clockwork
             {
                 tiles.Add(new Tile(new Vector2(i, 6), new Vector2(50, 50), true));
             }
+            for (int i = 0; i < 4; i++)
+            {
+                tiles.Add(new Tile(new Vector2(2, 5 - i), new Vector2(50, 50), true));
+            }
+            for (int i = 0; i < 9; i++)
+            {
+                tiles.Add(new Tile(new Vector2(15, 5 - i), new Vector2(50, 50), true));
+            }
             //tiles.Add(new Tile(new Vector2(2, 6), new Vector2(50, 50), true));
             //tiles.Add(new Tile(new Vector2(3, 6), new Vector2(50, 50), true));
             //tiles.Add(new Tile(new Vector2(5, 6), new Vector2(50, 50), true));
@@ -171,14 +179,13 @@ namespace Clockwork
                 }
             }
 
-            Debug.WriteLine(collisions.Count);
             return collisions;
         }
 
         private void HandlePlayerCollisions(List<Tile> collisions)
         {
             Vector2 playerPos = player.Position;
-            //Debug.WriteLine(collisions.Count);
+            Vector2 playerVel = player.Velocity;
 
             // horizontal collisions
             foreach (Tile collider in collisions)
@@ -187,13 +194,20 @@ namespace Clockwork
                 Vector4 col = player.GetCollision(collider);
 
                 // (x: x, y: y, z: width, w: height)
-                //if (col.Height >= col.Width)
-                //{
-                //    playerRect.X += col.Width * -Math.Sign(obs.X - playerRect.X);
-                //}
                 if (col.W >= col.Z)
                 {
-                    //if ()
+                    // moving right
+                    if (playerVel.X > 0 && player.Right >= collider.Left)
+                    {
+                        playerPos.X -= col.Z * Math.Sign(col.X - playerPos.X);
+                        playerVel.X = 0;
+                    }
+                    // moving left
+                    else if (playerVel.X < 0 && player.Left <= collider.Right)
+                    {
+                        playerPos.X -= col.Z * Math.Sign(col.X - playerPos.X);
+                        playerVel.X = 0;
+                    }
                 }
             }
 
@@ -204,27 +218,25 @@ namespace Clockwork
                 Vector4 col = player.GetCollision(collider);
 
                 // (x: x, y: y, z: width, w: height)
-                //if (col.Height >= col.Width)
-                //{
-                //    playerRect.X += col.Width * -Math.Sign(obs.X - playerRect.X);
-                //}
                 if (col.Z >= col.W)
                 {
-                    // moving downwards
-                    if (player.Velocity.Y > 0)
+                    // moving downwards (collision with feet)
+                    if (playerVel.Y > 0 && player.Bottom >= collider.Top)
                     {
                         playerPos.Y -= col.W * Math.Sign(col.Y - playerPos.Y);
-
-                        player.Velocity = Vector2.Zero;
+                        playerVel.Y = 0;
                     }
-                    // moving upwards
-                    else
+                    // moving upwards (collision with head)
+                    else if (playerVel.Y < 0 && player.Top <= collider.Bottom)
                     {
-
-                        player.Velocity = Vector2.Zero;
+                        playerPos.Y -= col.W * Math.Sign(col.Y - playerPos.Y);
+                        playerVel.Y = 0;
                     }
                 }
             }
+
+            player.Position = playerPos;
+            player.Velocity = playerVel;
         }
 
 
