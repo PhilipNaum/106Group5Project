@@ -8,7 +8,10 @@ namespace Clockwork
     /// </summary>
     internal class Tile : GameObject
     {
-        private const float SizeScale = 2;
+        /// <summary>
+        /// the length of a tile
+        /// </summary>
+        private const int TileLength = 32;
 
         private TileType tileType;
         private bool active;
@@ -34,14 +37,17 @@ namespace Clockwork
         /// </summary>
         /// <param name="tileType">the tile type</param>
         /// <param name="gridPosition">the position of the tile on the level grid</param>
-        /// <param name="collidable">whether this tile is collidable</param>
-        public Tile(Vector2 gridPosition, Vector2 size, bool collidable) : base(gridPosition * size, size, Sprites.tile)
+        public Tile(TileType tileType, Vector2 gridPosition)
+            : base(gridPosition * new Vector2(TileLength), new Vector2(TileLength), tileType.TileSprite)
         {
             // calculate and set position based on grid position
-            Position = gridPosition * Size;
+            Position = gridPosition * TileLength;
             
             // set active
             active = true;
+
+            // set tile type
+            this.tileType = tileType;
 
             // set grid position
             this.gridPosition = gridPosition;

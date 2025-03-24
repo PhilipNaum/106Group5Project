@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Reflection.Metadata;
 
 namespace Clockwork
 {
@@ -9,34 +11,34 @@ namespace Clockwork
     {
         private bool breakable;
         private bool collidable;
-        private Texture2D texture;
+        private Sprites tileSprite;
 
         /// <summary>
         /// whether the tile can be broken
         /// </summary>
-        public bool Breakable { get => breakable; set => breakable = value; }
+        public bool Breakable { get => breakable; }
 
         /// <summary>
         /// whether the tile can be collided with
         /// </summary>
-        public bool Collidable { get => collidable; set => collidable = value; }
+        public bool Collidable { get => collidable; }
 
         /// <summary>
-        /// the texture of the tile
+        /// the sprite for the tile
         /// </summary>
-        public Texture2D Texture { get => texture; set => texture = value; }
+        public Sprites TileSprite { get => tileSprite; }
 
         /// <summary>
         /// creates a tile
         /// </summary>
         /// <param name="breakable">whether the tile is breakable</param>
         /// <param name="collidable">whether the tile is collidable</param>
-        /// <param name="texture">the texure of the tile</param>
-        public TileType(bool breakable, bool collidable, Texture2D texture)
+        /// <param name="tileSprite">the sprite enum for the tile</param>
+        public TileType(bool breakable, bool collidable, Sprites tileSprite)
         {
             this.breakable = breakable;
             this.collidable = collidable;
-            this.texture = texture;
+            this.tileSprite = tileSprite;
         }
     }
 }
