@@ -15,7 +15,7 @@ namespace Clockwork
 
         private TileType tileType;
         private bool active;
-        private Vector2 gridPosition;
+        private Point gridPosition;
 
         /// <summary>
         /// the type of the tile
@@ -30,18 +30,18 @@ namespace Clockwork
         /// <summary>
         /// the position of the tile on the level grid
         /// </summary>
-        public Vector2 GridPosition { get => gridPosition; }
+        public Point GridPosition { get => gridPosition; }
 
         /// <summary>
         /// creates a tile
         /// </summary>
         /// <param name="tileType">the tile type</param>
         /// <param name="gridPosition">the position of the tile on the level grid</param>
-        public Tile(TileType tileType, Vector2 gridPosition)
-            : base(gridPosition * new Vector2(TileLength), new Vector2(TileLength), tileType.TileSprite)
+        public Tile(TileType tileType, Point gridPosition)
+            : base(gridPosition.ToVector2() * new Vector2(TileLength), new Vector2(TileLength), tileType.TileSprite)
         {
             // calculate and set position based on grid position
-            Position = gridPosition * TileLength;
+            Position = gridPosition.ToVector2() * TileLength;
             
             // set active
             active = true;
