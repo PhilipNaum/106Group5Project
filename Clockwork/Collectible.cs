@@ -49,8 +49,8 @@ namespace Clockwork
             get { return isActive; }
             set { isActive = value; }
         }
-        // this constructor will need to be changed when there are multiple collectible sprites
-        public Collectible(Vector2 position, Vector2 size, Type collectibletype) : base(position, size, Sprites.collectible)
+        
+        public Collectible(Vector2 position, Vector2 size, Type collectibletype) : base(position, size, Sprites.Gear)
         {
             this.collectibleType = collectibletype;
             damage = 0;

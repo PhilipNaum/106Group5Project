@@ -35,7 +35,7 @@ namespace Clockwork
         /// <param name="tileType">the tile type</param>
         /// <param name="gridPosition">the position of the tile on the level grid</param>
         /// <param name="collidable">whether this tile is collidable</param>
-        public Tile(Vector2 gridPosition, Vector2 size, bool collidable) : base(gridPosition * size, size, Sprites.tile)
+        public Tile(Vector2 gridPosition, Vector2 size, bool collidable) : base(gridPosition * size, size, Sprites.Tile)
         {
             // calculate and set position based on grid position
             Position = gridPosition * Size;
