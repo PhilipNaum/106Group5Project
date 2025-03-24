@@ -28,7 +28,7 @@ namespace Clockwork
         public static void LoadContent(ContentManager content)
         {
             // -- Player Setup --
-            Texture2D playerTexture = content.Load<Texture2D>("Enemy");
+            Texture2D playerTexture = content.Load<Texture2D>("Player");
             List<Frame> playerFrames = new List<Frame>();
             playerFrames.Add(new Frame(playerTexture, new Rectangle(0, 0, playerTexture.Width, playerTexture.Height), Vector2.Zero));
             Dictionary<string, Animation> playerAnimations = new Dictionary<string, Animation>();
@@ -52,7 +52,7 @@ namespace Clockwork
             animationLibrary.Add(Sprites.collectible, new AnimatedSprite(collectibleFrames, collectibleAnimations, collectibleAnimations["cAnim"], Point.Zero));
 
             // -- Tile Setup --
-            Texture2D tileTexture = content.Load<Texture2D>("Item");
+            Texture2D tileTexture = content.Load<Texture2D>("Tile");
             List<Frame> tileFrames = new List<Frame>();
             tileFrames.Add(new Frame(tileTexture, new Rectangle(0, 0, tileTexture.Width, tileTexture.Height), Vector2.Zero));
             Dictionary<string, Animation> tileAnimations = new Dictionary<string, Animation>();
