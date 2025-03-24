@@ -2,15 +2,21 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace Clockwork
 {
     internal class Player : GameObject
     {
-
+        //the texture for the thrown version of the gear
         private Texture2D gearTexture;
+
+        //the collectible that represents the thrown gear
         private Collectible gearThrow;
+
+        //enemies that weapons must check collisions for
+        private List<Enemy> enemies;
 
         private Vector2 velocity;
 
@@ -42,13 +48,14 @@ namespace Clockwork
         }
 
 
-        public Player(Texture2D tex, Texture2D gearTexture) 
+        public Player(Texture2D tex, Texture2D gearTexture, List<Enemy> enemies) 
         { 
             position = new Vector2(0, 0);
             currentAbility = Ability.None;
             size = new Vector2(50, 50);
             texture = tex;
             this.gearTexture = gearTexture;
+            this.enemies = enemies;
         }
 
         /// <summary>
@@ -142,16 +149,30 @@ namespace Clockwork
                         velocity = Dash(ms);
                         break;
                     case Ability.Throw:
-                        gearThrow = new Collectible(gearTexture, this.position, Type.Gear, 1);
+                        //these statements make sure that a gear can only be thrown once the one before is gone
+                        if (gearThrow == null)
+                        {
+                            gearThrow = new Collectible(gearTexture, this.position, Type.Gear, 1, 2);
+                        }
+                        else if (gearThrow.Mode == 2)
+                        {
+                            gearThrow = new Collectible(gearTexture, this.position, Type.Gear, 1, 2);
+                        }
                         break;
                     default:
                         break;
                 }
             }
 
-            if(gearThrow != null)
+            //putting this here makes sure it updates every frame
+            //same reason why the object itself is a field
+            if (gearThrow != null)
             {
                 gearThrow.Update(gameTime);
+                for(int i = 0; i < enemies.Count; i++)
+                {
+                    gearThrow.CollisionResponse(enemies[i]);
+                }
             }
 
             position += velocity;
@@ -194,6 +215,7 @@ namespace Clockwork
                 if(other is Collectible)
                 {
                     Collectible item = (Collectible)other;
+                    //changes the player's ability based on the item's type
                     switch (item.CollectibleType)
                     {
                         case (Type.Gear):

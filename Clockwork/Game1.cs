@@ -57,16 +57,13 @@ namespace Clockwork
             // TODO: Add your initialization logic here
             gameState = GameState.MainMenu;
 
-            gearSprite = Content.Load<Texture2D>("Item");
-            dashSprite = Content.Load<Texture2D>("Dash");
+            
 
-            playerTexture = new Texture2D(GraphicsDevice, 1, 1);
-            playerTexture.SetData(new Color[] { Color.Black });
-            player = new(playerTexture, gearSprite);
+            
 
-            platformTexture = new Texture2D(GraphicsDevice, 1,1);
-            platformTexture.SetData(new Color[] { Color.White });
-            platform = new Tile(new TileType(false, true, platformTexture), new Vector2(0, 475));
+            platformTexture = Content.Load<Texture2D>("Platform");
+            platform = new Tile(new TileType(false, true, platformTexture), new Vector2(0, 0));
+
             base.Initialize();
             KeyboardState kb = Keyboard.GetState();
         }
@@ -76,9 +73,13 @@ namespace Clockwork
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             enemySprite = Content.Load<Texture2D>("Enemy");
+            gearSprite = Content.Load<Texture2D>("Item");
+            dashSprite = Content.Load<Texture2D>("Dash");
 
             _arial36 = Content.Load<SpriteFont>("ARIAL36");
             _arial24 = Content.Load<SpriteFont>("ARIAL24");
+
+            
 
             _testenemy = new Enemy(enemySprite, new Vector2(400, 50), new Vector2(.75f, 0), 200, 10);
             _testenemy2 = new Enemy(enemySprite, new Vector2(200, 50), new Vector2(.75f, 0), 400, 10);
@@ -91,7 +92,11 @@ namespace Clockwork
 
             collectibles.Add(_testitem);
             collectibles.Add(_testitem2);
-            
+
+            playerTexture = new Texture2D(GraphicsDevice, 1, 1);
+            playerTexture.SetData(new Color[] { Color.Black });
+            player = new(playerTexture, gearSprite, enemies);
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -156,13 +161,19 @@ namespace Clockwork
                         enemies[i].CollisionResponse(enemies[j]);
                     }
                 }
+                for(int j = 0; j < collectibles.Count; j++)
+                {
+                    enemies[i].CollisionResponse(collectibles[j]);
+                }
             }
 
             for(int i=0; i< collectibles.Count; i++)
             {
                 collectibles[i].Update(gameTime);
                 player.CollisionResponse(collectibles[i]);
+                //collectibles[i].CollisionResponse(player);
             }
+
         }
 
         private void UpdatePause()
@@ -232,7 +243,6 @@ namespace Clockwork
                 collectibles[i].Draw(_spriteBatch);
             }
 
-            platform.Draw(_spriteBatch);
         }
 
         private void DrawPause()

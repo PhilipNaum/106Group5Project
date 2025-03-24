@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using SharpDX.MediaFoundation;
 using System.ComponentModel.Design.Serialization;
 using System.Drawing.Printing;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Clockwork
@@ -29,10 +30,18 @@ namespace Clockwork
         //represents if the enemy is dead
         private bool isDead;
 
+        private Color color;
+
         public Vector2 Velocity
         {
             get { return velocity; }
             set { velocity = value; }
+        }
+
+        public int Health
+        {
+            get { return health; }
+            set { health = value; }
         }
 
 
@@ -56,11 +65,16 @@ namespace Clockwork
             home = position;
             this.velocity = velocity;
             acceleration = new Vector2(0, .5f);
+            isDead = false;
+            color = Color.White;
         }
 
         public override void Draw(SpriteBatch sp)
         {
-            sp.Draw(texture, position, Color.White);
+            if (!isDead)
+            {
+                sp.Draw(texture, position, color);
+            }
         }
 
         /// <summary>
@@ -93,6 +107,18 @@ namespace Clockwork
                 {
                     //if two enemies run into eachother, then they should turn around
                     Enemy otherEnemy = (Enemy)other;
+                    Rectangle displacement = Rectangle.Intersect(createRectangle(), otherEnemy.createRectangle());
+                    if(displacement.Height> displacement.Width)
+                    {
+                        if (position.X < otherEnemy.Position.X)
+                        {
+                            position.X -= displacement.Width;
+                        }
+                        else if(position.X > otherEnemy.Position.X)
+                        {
+                            position.X += displacement.Width;
+                        }
+                    }
                     velocity.X *= -1;
                 }
                 if (other is Player)
@@ -105,14 +131,17 @@ namespace Clockwork
                 }
                 if (other is Collectible)
                 {
-                    //depending on the type of collectible, decrease health
-                    Collectible item = (Collectible)other;
-                    if (item.CollectibleType == Type.Hand
-                        || item.CollectibleType == Type.Gear
-                        || item.CollectibleType == Type.Chime)
-                    {
-                        health -= item.Damage;
-                    }
+                    ////depending on the type of collectible, decrease health
+                    //Collectible item = (Collectible)other;
+                    //if ((item.CollectibleType == Type.Hand
+                    //    || item.CollectibleType == Type.Gear
+                    //    || item.CollectibleType == Type.Chime)
+                    //    && item.Mode == 1)
+                    //{
+                    //    color = Color.Red;
+                    //}
+
+                    //Right now, collectible handles everything, but I might change that later
                 }
                 if (other is Tile)
                 {
@@ -142,12 +171,17 @@ namespace Clockwork
         }
 
         /// <summary>
-        /// Creates and returns a rectangle reprenting the enemy. Currently used only for collision
+        /// Creates and returns a rectangle reprenting the enemy.
+        /// If the enemy is dead, then 
         /// </summary>
         /// <returns>A rectangle with the same position and texture width and height as the enemy</returns>
-        public Rectangle GetRectangle()
+        public override Rectangle createRectangle()
         {
-            return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+            if (isDead)
+            {
+                return new Rectangle(0, 0, 0, 0);
+            }
+            return base.createRectangle();
         }
     }
 }

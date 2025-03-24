@@ -24,6 +24,7 @@ namespace Clockwork
 
         private Vector2 velocity;
 
+        //the type of collectible this collectible is
         private Type collectibleType;
 
         //the damage the collectible does. Only used for weapons(gear, hand, and chime)
@@ -37,6 +38,7 @@ namespace Clockwork
 
         //the total units that make up the space the item floats in before being collected
         private int range;
+
 
         public Type CollectibleType
         {
@@ -72,23 +74,24 @@ namespace Clockwork
             this.collectibleType = collectibletype;
             this.mode = mode;
             size = new Vector2(texture.Width, texture.Height);
-            damage = 0;
             home = position;
             range = 7;
             velocity = new Vector2(0, .05f);
         }
 
+        public Collectible(Texture2D texture, Vector2 position, Type collectibletype, int mode, int damage)
+            : this(texture,position, collectibletype,mode)
+        {
+            this.damage = damage;
+        }
+
         public override void Draw(SpriteBatch sp)
         {
-            if (mode == 0)
+            
+            if (mode != 2)
             {
                 sp.Draw(texture, position, Color.White);
 
-                sp.Draw(texture, new Rectangle((int)home.X - (texture.Width / 4), (int)home.Y + 175, 75, 10), Color.Gray);
-            }
-            else if (mode == 1)
-            {
-                sp.Draw(texture, position, Color.White);
             }
         }
 
@@ -111,10 +114,10 @@ namespace Clockwork
                 switch (CollectibleType)
                 {
                     case Type.Gear:
-                        range = 200;
+                        range = 400;
                         if(position.X < home.X + range)
                         {
-                            velocity = new Vector2(7, 0);
+                            velocity = new Vector2(14, 0);
                             position += velocity;
                         }
                         else
@@ -128,24 +131,59 @@ namespace Clockwork
             }
         }
         
+        /// <summary>
+        /// Performs collision test and responds approriatley
+        /// </summary>
+        /// <param name="other">the other game object to be checkd</param>
         public void CollisionResponse(GameObject other)
         {
             if (IsColliding(other))
             {
-                if(other is Player)
+                //sets mode to 2 if the player touches it
+                //(makes it completely inactive)
+                //Only do this if the item can be collected
+                //(mode 0)
+                if(other is Player && mode==0)
                 {
                     mode = 2;
+                }
+
+                //if it hits an enemy, then do appropriate damage
+                if(other is Enemy)
+                {
+                    Enemy otherEnemy = (Enemy)other;
+
+                    switch (collectibleType)
+                    {
+                        case Type.Gear:
+                            otherEnemy.TakeDamage(damage);
+                            if(mode == 1)
+                            {
+                                mode = 2;
+                            }
+                            break;
+                    }
                 }
             }
         }
 
+        /// <summary>
+        /// Only returns a valid rectangle if mode is 2
+        /// Might be changed later once level manager is done
+        /// </summary>
+        /// <returns></returns>
         public override Rectangle createRectangle()
         {
-            if(mode == 2)
+            if (mode == 2)
             {
                 return new Rectangle(0, 0, 0, 0);
             }
             return base.createRectangle();
+        }
+
+        public override bool IsColliding(GameObject other)
+        {
+            return base.IsColliding(other);
         }
 
     }
