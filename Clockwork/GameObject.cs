@@ -91,7 +91,7 @@ namespace Clockwork
             float rightestLeft = MathF.Max(Left, other.Left);
             float leftestRight = MathF.Min(Right, other.Right);
             float lowestTop = MathF.Max(Top, other.Top);
-            float highestBot = MathF.Min(Bottom, Bottom);
+            float highestBot = MathF.Min(Bottom, other.Bottom);
 
             if (leftestRight >= rightestLeft && highestBot >= lowestTop)
             {
@@ -118,7 +118,7 @@ namespace Clockwork
             float rightestLeft = MathF.Max(Left, other.Left);
             float leftestRight = MathF.Min(Right, other.Right);
             float lowestTop = MathF.Max(Top, other.Top);
-            float highestBot = MathF.Min(Bottom, Bottom);
+            float highestBot = MathF.Min(Bottom, other.Bottom);
 
             if (leftestRight >= rightestLeft && highestBot >= lowestTop)
             {
