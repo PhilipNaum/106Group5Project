@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using AnimationHelper;
+using System;
 
 namespace Clockwork
 {
@@ -75,6 +76,28 @@ namespace Clockwork
         /// <param name="other">the object to check</param>
         /// <returns>whether or not it is colliding</returns>
         public virtual bool IsColliding(GameObject other) => GetRectangle().Intersects(other.GetRectangle());
+
+        /// <summary>
+        /// checks if the object is colliding with another object using position and size vectors
+        /// </summary>
+        /// <param name="other">the object to check</param>
+        /// <returns>whether or not it is colliding</returns>
+        public virtual bool IsCollidingPrecise(GameObject other)
+        {
+            float rightestLeft = MathF.Max(Position.X, other.Position.X);
+            float leftestRight = MathF.Min(Position.X + Size.X, other.Position.X + other.Size.X);
+            float lowestTop = MathF.Max(Position.Y, other.Position.Y);
+            float highestBot = MathF.Min(Position.Y + Size.Y, other.Position.Y + other.Size.Y);
+
+            if (leftestRight >= rightestLeft && highestBot >= lowestTop)
+            {
+                return true;
+                // rectangle
+                //return new Rectangle(rightestLeft, lowestTop, leftestRight - rightestLeft, highestBot - lowestTop);
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// creates a rectangle out of the object's position and size

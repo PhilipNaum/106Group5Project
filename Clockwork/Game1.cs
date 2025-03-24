@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -21,6 +22,7 @@ namespace Clockwork
         private Collectible _testitem;
 
         private Player player;
+        private List<Tile> tiles;
 
         private GameState gameState;
         private enum GameState
@@ -38,22 +40,32 @@ namespace Clockwork
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             enemies = new List<Enemy>();
+            tiles = new List<Tile>();
         }
 
         protected override void Initialize()
         {
             base.Initialize();
 
-            gameState = GameState.MainMenu;
+            gameState = GameState.Gameplay;
 
             player = new Player(Vector2.Zero, new Vector2(100, 100));
 
-            _testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
-            _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
-            enemies.Add(_testenemy);
-            enemies.Add(_testenemy2);
+            //_testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
+            //_testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
+            //enemies.Add(_testenemy);
+            //enemies.Add(_testenemy2);
 
-            _testitem = new Collectible(new Vector2(400, 240), new Vector2(50, 50), Type.Gear);
+            //_testitem = new Collectible(new Vector2(400, 240), new Vector2(50, 50), Type.Gear);
+
+            // Player tile collision testing stuff
+            for (int i = 0; i < 16; i++)
+            {
+                tiles.Add(new Tile(new Vector2(i, 8), new Vector2(50, 50), true));
+            }
+            //tiles.Add(new Tile(new Vector2(2, 6), new Vector2(50, 50), true));
+            //tiles.Add(new Tile(new Vector2(3, 6), new Vector2(50, 50), true));
+            //tiles.Add(new Tile(new Vector2(5, 6), new Vector2(50, 50), true));
 
             KeyboardState kb = Keyboard.GetState();
         }
@@ -118,10 +130,13 @@ namespace Clockwork
             {
                 gameState = GameState.MainMenu;
             }
+            
             player.Update(gameTime);
-            _testenemy.Update(gameTime);
-            _testenemy2.Update(gameTime);
-            _testitem.Update(gameTime);
+
+            
+            //_testenemy.Update(gameTime);
+            //_testenemy2.Update(gameTime);
+            //_testitem.Update(gameTime);
         }
 
         private void UpdatePause()
@@ -184,9 +199,14 @@ namespace Clockwork
             GraphicsDevice.Clear(Color.CornflowerBlue);
             player.Draw(_spriteBatch);
 
-            _testenemy.Draw(_spriteBatch);
-            _testenemy2.Draw(_spriteBatch);
-            _testitem.Draw(_spriteBatch);
+            //_testenemy.Draw(_spriteBatch);
+            //_testenemy2.Draw(_spriteBatch);
+            //_testitem.Draw(_spriteBatch);
+
+            foreach (Tile t in tiles)
+            {
+                t.Draw(_spriteBatch);
+            }
         }
 
         private void DrawPause()
