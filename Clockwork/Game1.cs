@@ -199,13 +199,13 @@ namespace Clockwork
                     // moving right
                     if (playerVel.X > 0 && player.Right >= collider.Left)
                     {
-                        playerPos.X -= col.Z * Math.Sign(col.X - playerPos.X);
+                        playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
                         playerVel.X = 0;
                     }
                     // moving left
                     else if (playerVel.X < 0 && player.Left <= collider.Right)
                     {
-                        playerPos.X -= col.Z * Math.Sign(col.X - playerPos.X);
+                        playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
                         playerVel.X = 0;
                     }
                 }
@@ -223,13 +223,13 @@ namespace Clockwork
                     // moving downwards (collision with feet)
                     if (playerVel.Y > 0 && player.Bottom >= collider.Top)
                     {
-                        playerPos.Y -= col.W * Math.Sign(col.Y - playerPos.Y);
+                        playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
                         playerVel.Y = 0;
                     }
                     // moving upwards (collision with head)
                     else if (playerVel.Y < 0 && player.Top <= collider.Bottom)
                     {
-                        playerPos.Y -= col.W * Math.Sign(col.Y - playerPos.Y);
+                        playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
                         playerVel.Y = 0;
                     }
                 }
