@@ -39,6 +39,33 @@ namespace Clockwork
         }
 
 
+        public GameObject(Vector2 position, Vector2 size, Type collectibleType)
+        {
+            Sprites spriteName = default;
+            switch (collectibleType)
+            {
+                case Type.Gear:
+                    spriteName = Sprites.Gear;
+                    break;
+                case Type.Hand:
+                    spriteName = Sprites.Hand;
+                    break;
+                case Type.Face:
+                    spriteName = Sprites.Face;
+                    break;
+                case Type.Key:
+                    spriteName = Sprites.Key;
+                    break;
+                case Type.Chime:
+                    spriteName = Sprites.Chime;
+                    break;
+            }
+            this.Position = position;
+            this.Size = size;
+            this.Sprite = AnimationLoader.GetSprite(spriteName);
+        }
+
+
         // === Methods ===
 
         /// <summary>

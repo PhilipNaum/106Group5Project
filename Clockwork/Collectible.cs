@@ -50,7 +50,7 @@ namespace Clockwork
             set { isActive = value; }
         }
         
-        public Collectible(Vector2 position, Vector2 size, Type collectibletype) : base(position, size, Sprites.Gear)
+        public Collectible(Vector2 position, Vector2 size, Type collectibletype) : base(position, size, collectibletype)
         {
             this.collectibleType = collectibletype;
             damage = 0;
