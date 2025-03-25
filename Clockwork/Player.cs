@@ -49,7 +49,7 @@ namespace Clockwork
 
         public Player(Vector2 position, Vector2 size, List<Enemy> enemies) : base(position, size, Sprites.player)
         {
-            currentAbility = Ability.Dash;
+            currentAbility = Ability.None;
             this.enemies = enemies;
         }
 
@@ -147,11 +147,11 @@ namespace Clockwork
                         //these statements make sure that a gear can only be thrown once the one before is gone
                         if (gearThrow == null)
                         {
-                            gearThrow = new Collectible(gearTexture, this.position, Type.Gear, 1, 2);
+                            gearThrow = new Collectible(this.Position,new Vector2(50,50) ,Type.Gear, 1, 2);
                         }
                         else if (gearThrow.Mode == 2)
                         {
-                            gearThrow = new Collectible(gearTexture, this.position, Type.Gear, 1, 2);
+                            gearThrow = new Collectible(this.Position, new Vector2(50, 50), Type.Gear, 1, 2);
                         }
                         break;
                     default:
@@ -184,7 +184,12 @@ namespace Clockwork
 
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(texture, GetRectangle(), Color.White);
+            base.Draw(sb);
+
+            if (gearThrow != null)
+            {
+                gearThrow.Draw(sb);
+            }
         }
 
         

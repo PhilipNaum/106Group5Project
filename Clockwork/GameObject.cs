@@ -6,9 +6,6 @@ namespace Clockwork
 {
     internal abstract class GameObject
     {
-        protected Vector2 position;
-        protected Vector2 size;
-        protected Texture2D texture;
 
         /// <summary>
         /// Position of the Game Object
@@ -83,7 +80,7 @@ namespace Clockwork
         /// creates a rectangle out of the object's position and size
         /// </summary>
         /// <returns>the rectangle</returns>
-        public virtual Rectangle createRectangle() => new Rectangle(position.ToPoint(), size.ToPoint());
+        public virtual Rectangle GetRectangle() => new Rectangle(this.Position.ToPoint(), this.Size.ToPoint());
 
         
     }

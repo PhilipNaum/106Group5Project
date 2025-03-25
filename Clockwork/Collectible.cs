@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct2D1;
 using SharpDX.Direct3D9;
 using SharpDX.DirectWrite;
 using System;
 using System.Windows.Forms;
+
 
 namespace Clockwork
 {
@@ -18,10 +20,6 @@ namespace Clockwork
     }
     internal class Collectible : GameObject
     {
-
-
-        private Vector2 position;
-
         //used for movement. Currently, the home is set to always be the enemies starting position
         private Vector2 home;
 
@@ -37,7 +35,7 @@ namespace Clockwork
         //0 is floating in place, waiting to be collected
         //1 is activley being used
         //2 is can not be collected, is not being used
-        int mode;
+        private int mode;
 
         //the total units that make up the space the item floats in before being collected
         private int range;
@@ -55,68 +53,77 @@ namespace Clockwork
 
         public Vector2 Velocity
         {
-        // this constructor will need to be changed when there are multiple collectible sprites
-        public Collectible(Vector2 position, Vector2 size, Type collectibletype) : base(position, size, Sprites.collectible)
-        /// <param name="position">the item's current position</param>
-        /// <param name="collectibletype">the type of collectible</param>
-            this.mode = mode;
-            size = new Vector2(texture.Width, texture.Height);
-            home = position;
-            damage = 0;
-            isActive = true;
-            home = position;
+            get { return velocity; }
+            set { velocity = value; }
+        }
 
-        public Collectible(Texture2D texture, Vector2 position, Type collectibletype, int mode, int damage)
-            : this(texture,position, collectibletype,mode)
+        public int Mode
+        {
+            get { return mode; }
+            set { mode = value; }
+        }
+        // this constructor will need to be changed when there are multiple collectible sprites
+        public Collectible(Vector2 position, Vector2 size, Type collectibletype, int mode) : base(position, size, Sprites.collectible)
+        {
+            this.collectibleType = collectibletype;
+            this.mode = mode;
+            home = this.Position;
+            range = 7;
+            velocity = new Vector2(0, .05f);
+        }
+        
+        public Collectible(Vector2 position, Vector2 size,Type collectibletype, int mode, int damage)
+            : this(position, size, collectibletype, mode)
         {
             this.damage = damage;
         }
 
-        public override void Draw(SpriteBatch sp)
-            velocity = new Vector2(0, .05f);
-        }
-        public override void Draw(SpriteBatch sp)
+        public override void Draw(SpriteBatch sb)
         {
+            if (mode != 2)
+            {
                 base.Draw(sb);
-                sp.Draw(texture, position, Color.White);
-
-                sp.Draw(texture, new Rectangle((int)home.X-(texture.Width/4), (int)home.Y + 175,75,10),Color.Gray);
             }
         }
+            
+        
 
         /// <summary>
         /// Makes the item float up and down before being collected
         /// </summary>
+        public override void Update(GameTime gt)
+        { 
             if (mode==0)
             {
-                if (position.Y >= home.Y + range / 2 || position.Y <= home.Y - range / 2)
+                if (this.Position.Y >= home.Y + range / 2 || this.Position.Y <= home.Y - range / 2)
                 {
                     velocity.Y *= -1;
                 }
-                position.Y += velocity.Y;
+                this.Position = new Vector2(Position.X, Position.Y + velocity.Y);
+                base.Update(gt);
             }
-            else if(mode==1)
+            else if (mode == 1)
             {
                 switch (CollectibleType)
                 {
                     case Type.Gear:
                         range = 400;
-                        if(position.X < home.X + range)
+                        if (this.Position.X < home.X + range)
                         {
                             velocity = new Vector2(14, 0);
-                            position += velocity;
+                            this.Position += velocity;
                         }
                         else
                         {
                             velocity.X = 0;
-                            position += velocity;
+                            this.Position += velocity;
                             mode = 2;
                         }
                         break;
                 }
-            }
+            }   
         }
-        
+
         /// <summary>
         /// Performs collision test and responds approriatley
         /// </summary>
@@ -129,13 +136,13 @@ namespace Clockwork
                 //(makes it completely inactive)
                 //Only do this if the item can be collected
                 //(mode 0)
-                if(other is Player && mode==0)
+                if (other is Player && mode == 0)
                 {
                     mode = 2;
                 }
 
                 //if it hits an enemy, then do appropriate damage
-                if(other is Enemy)
+                if (other is Enemy)
                 {
                     Enemy otherEnemy = (Enemy)other;
 
@@ -143,7 +150,7 @@ namespace Clockwork
                     {
                         case Type.Gear:
                             otherEnemy.TakeDamage(damage);
-                            if(mode == 1)
+                            if (mode == 1)
                             {
                                 mode = 2;
                             }
@@ -151,9 +158,6 @@ namespace Clockwork
                     }
                 }
             }
-            }
-            position.Y += velocity.Y;
-            
         }
 
         /// <summary>
@@ -161,18 +165,13 @@ namespace Clockwork
         /// Might be changed later once level manager is done
         /// </summary>
         /// <returns></returns>
-        public override Rectangle createRectangle()
+        public override Rectangle GetRectangle()
         {
             if (mode == 2)
             {
                 return new Rectangle(0, 0, 0, 0);
             }
-            return base.createRectangle();
-        }
-
-        public override bool IsColliding(GameObject other)
-        {
-            return base.IsColliding(other);
+            return base.GetRectangle();
         }
 
     }

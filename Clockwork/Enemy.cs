@@ -29,8 +29,6 @@ namespace Clockwork
         //represents if the enemy is dead
         private bool isDead;
 
-        private Color color;
-
         public Vector2 Velocity
         {
             get { return velocity; }
@@ -50,7 +48,6 @@ namespace Clockwork
         
         {
             this.health = health;
-            
             this.range = range;
             home = this.Position;
             this.velocity = velocity;
@@ -77,7 +74,7 @@ namespace Clockwork
                 velocity.X *= -1;
             }
             this.Position = new Vector2(Position.X + velocity.X, Position.Y);
-            if (this.Position.Y < 300)
+            if (this.Position.Y < 370)
             {
                 velocity += acceleration;
                 this.Position += velocity;
@@ -97,16 +94,16 @@ namespace Clockwork
                 {
                     //if two enemies run into eachother, then they should turn around
                     Enemy otherEnemy = (Enemy)other;
-                    Rectangle displacement = Rectangle.Intersect(createRectangle(), otherEnemy.createRectangle());
+                    Rectangle displacement = Rectangle.Intersect(GetRectangle(), otherEnemy.GetRectangle());
                     if(displacement.Height> displacement.Width)
                     {
-                        if (position.X < otherEnemy.Position.X)
+                        if (this.Position.X < otherEnemy.Position.X)
                         {
-                            position.X -= displacement.Width;
+                            this.Position = new Vector2(Position.X - displacement.Width, Position.Y);
                         }
-                        else if(position.X > otherEnemy.Position.X)
+                        else if(this.Position.X > otherEnemy.Position.X)
                         {
-                            position.X += displacement.Width;
+                            this.Position = new Vector2(Position.X + displacement.Width, Position.Y);
                         }
                     }
                     velocity.X *= -1;
@@ -171,7 +168,7 @@ namespace Clockwork
             {
                 return new Rectangle(0, 0, 0, 0);
             }
-            return base.createRectangle();
+            return base.GetRectangle();
         
         }
     }
