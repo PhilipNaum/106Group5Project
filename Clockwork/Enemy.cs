@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using SharpDX.MediaFoundation;
 using System.ComponentModel.Design.Serialization;
 using System.Drawing.Printing;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Clockwork
@@ -28,42 +29,46 @@ namespace Clockwork
         //represents if the enemy is dead
         private bool isDead;
 
+        private Color color;
+
         public Vector2 Velocity
         {
             get { return velocity; }
             set { velocity = value; }
         }
 
-
-        //used for GetRectangle. Could have some other uses
-        public int Width
+        public int Health
         {
-            get { return (int)Size.X; }
+            get { return health; }
+            set { health = value; }
         }
 
-        //used for GetRectangle. Could have some other uses
-        public int Height
-        {
-            get { return (int)Size.Y; }
-        }
+       
 
+        
         public Enemy(Vector2 position, Vector2 size, Vector2 velocity, int range, int health) : base(position, size, Sprites.enemy)
+        
         {
             this.health = health;
+            
             this.range = range;
             home = this.Position;
             this.velocity = velocity;
             acceleration = new Vector2(0, .5f);
+            isDead = false;
+            
         }
-
         public override void Draw(SpriteBatch sb)
         {
-            base.Draw(sb);
+            if (!isDead)
+            {
+                base.Draw(sb);
+            }
+            
         }
 
         /// <summary>
         /// Enemies move in their set range with their home as the center
-        /// </summary>
         /// <param name="gt">the game time paramter to be passed through</param>
         public override void Update(GameTime gt)
         {
@@ -92,6 +97,18 @@ namespace Clockwork
                 {
                     //if two enemies run into eachother, then they should turn around
                     Enemy otherEnemy = (Enemy)other;
+                    Rectangle displacement = Rectangle.Intersect(createRectangle(), otherEnemy.createRectangle());
+                    if(displacement.Height> displacement.Width)
+                    {
+                        if (position.X < otherEnemy.Position.X)
+                        {
+                            position.X -= displacement.Width;
+                        }
+                        else if(position.X > otherEnemy.Position.X)
+                        {
+                            position.X += displacement.Width;
+                        }
+                    }
                     velocity.X *= -1;
                 }
                 if (other is Player)
@@ -104,14 +121,17 @@ namespace Clockwork
                 }
                 if (other is Collectible)
                 {
-                    //depending on the type of collectible, decrease health
-                    Collectible item = (Collectible)other;
-                    if (item.CollectibleType == Type.Hand
-                        || item.CollectibleType == Type.Gear
-                        || item.CollectibleType == Type.Chime)
-                    {
-                        health -= item.Damage;
-                    }
+                    ////depending on the type of collectible, decrease health
+                    //Collectible item = (Collectible)other;
+                    //if ((item.CollectibleType == Type.Hand
+                    //    || item.CollectibleType == Type.Gear
+                    //    || item.CollectibleType == Type.Chime)
+                    //    && item.Mode == 1)
+                    //{
+                    //    color = Color.Red;
+                    //}
+
+                    //Right now, collectible handles everything, but I might change that later
                 }
                 if (other is Tile)
                 {
@@ -130,26 +150,6 @@ namespace Clockwork
         /// </summary>
         /// <param name="other">the game object to check collision with</param>
         /// <returns>a bool represnting if they collide or not</returns>
-        public override bool IsColliding(GameObject other)
-        {
-            if(other is Enemy)
-            {
-                Enemy otherEnemy = (Enemy)other;
-                if (GetRectangle().Intersects(otherEnemy.GetRectangle()))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-            
-        }
 
         public void TakeDamage(int damage)
         {
@@ -158,6 +158,21 @@ namespace Clockwork
             {
                 isDead = true;
             }
+        }
+
+        /// <summary>
+        /// Creates and returns a rectangle reprenting the enemy.
+        /// If the enemy is dead, then 
+        /// </summary>
+        /// <returns>A rectangle with the same position and texture width and height as the enemy</returns>
+        public override Rectangle GetRectangle()
+        {
+            if (isDead)
+            {
+                return new Rectangle(0, 0, 0, 0);
+            }
+            return base.createRectangle();
+        
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.Direct3D9;
+using SharpDX.DirectWrite;
 using System;
 using System.Windows.Forms;
 
@@ -17,22 +18,30 @@ namespace Clockwork
     }
     internal class Collectible : GameObject
     {
+
+
+        private Vector2 position;
+
         //used for movement. Currently, the home is set to always be the enemies starting position
         private Vector2 home;
 
         private Vector2 velocity;
 
+        //the type of collectible this collectible is
         private Type collectibleType;
 
         //the damage the collectible does. Only used for weapons(gear, hand, and chime)
         private int damage;
-        
 
-        //whether the item can be collected or not
-        private bool isActive;
+        //How to check whether the collectible should float in place, is being used, or neither
+        //0 is floating in place, waiting to be collected
+        //1 is activley being used
+        //2 is can not be collected, is not being used
+        int mode;
 
         //the total units that make up the space the item floats in before being collected
         private int range;
+
 
         public Type CollectibleType
         {
@@ -44,49 +53,125 @@ namespace Clockwork
             get { return damage; }
         }
 
-        public bool IsActive
+        public Vector2 Velocity
         {
-            get { return isActive; }
-            set { isActive = value; }
-        }
         // this constructor will need to be changed when there are multiple collectible sprites
         public Collectible(Vector2 position, Vector2 size, Type collectibletype) : base(position, size, Sprites.collectible)
-        {
-            this.collectibleType = collectibletype;
+        /// <param name="position">the item's current position</param>
+        /// <param name="collectibletype">the type of collectible</param>
+            this.mode = mode;
+            size = new Vector2(texture.Width, texture.Height);
+            home = position;
             damage = 0;
             isActive = true;
-            home = this.Position;
-            range = 7;
+            home = position;
+
+        public Collectible(Texture2D texture, Vector2 position, Type collectibletype, int mode, int damage)
+            : this(texture,position, collectibletype,mode)
+        {
+            this.damage = damage;
+        }
+
+        public override void Draw(SpriteBatch sp)
             velocity = new Vector2(0, .05f);
         }
-        public override void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sp)
         {
-            if (IsActive)
-            {
                 base.Draw(sb);
+                sp.Draw(texture, position, Color.White);
+
+                sp.Draw(texture, new Rectangle((int)home.X-(texture.Width/4), (int)home.Y + 175,75,10),Color.Gray);
             }
         }
 
         /// <summary>
         /// Makes the item float up and down before being collected
         /// </summary>
-        /// <param name="gt"></param>
-        public override void Update(GameTime gt)
-        {
-            if (this.Position.Y >= home.Y + range / 2 || this.Position.Y <= home.Y - range / 2)
+            if (mode==0)
             {
-                velocity.Y *= -1;
+                if (position.Y >= home.Y + range / 2 || position.Y <= home.Y - range / 2)
+                {
+                    velocity.Y *= -1;
+                }
+                position.Y += velocity.Y;
             }
-            this.Position = new Vector2(Position.X, Position.Y + velocity.Y);
-            base.Update(gt);
+            else if(mode==1)
+            {
+                switch (CollectibleType)
+                {
+                    case Type.Gear:
+                        range = 400;
+                        if(position.X < home.X + range)
+                        {
+                            velocity = new Vector2(14, 0);
+                            position += velocity;
+                        }
+                        else
+                        {
+                            velocity.X = 0;
+                            position += velocity;
+                            mode = 2;
+                        }
+                        break;
+                }
+            }
         }
-        //Basic IsColliding override
+        
+        /// <summary>
+        /// Performs collision test and responds approriatley
+        /// </summary>
+        /// <param name="other">the other game object to be checkd</param>
+        public void CollisionResponse(GameObject other)
+        {
+            if (IsColliding(other))
+            {
+                //sets mode to 2 if the player touches it
+                //(makes it completely inactive)
+                //Only do this if the item can be collected
+                //(mode 0)
+                if(other is Player && mode==0)
+                {
+                    mode = 2;
+                }
+
+                //if it hits an enemy, then do appropriate damage
+                if(other is Enemy)
+                {
+                    Enemy otherEnemy = (Enemy)other;
+
+                    switch (collectibleType)
+                    {
+                        case Type.Gear:
+                            otherEnemy.TakeDamage(damage);
+                            if(mode == 1)
+                            {
+                                mode = 2;
+                            }
+                            break;
+                    }
+                }
+            }
+            }
+            position.Y += velocity.Y;
+            
+        }
+
+        /// <summary>
+        /// Only returns a valid rectangle if mode is 2
+        /// Might be changed later once level manager is done
+        /// </summary>
+        /// <returns></returns>
+        public override Rectangle createRectangle()
+        {
+            if (mode == 2)
+            {
+                return new Rectangle(0, 0, 0, 0);
+            }
+            return base.createRectangle();
+        }
+
         public override bool IsColliding(GameObject other)
         {
-            if(other is Player)
-            {
-                isActive = false;
-            }
             return base.IsColliding(other);
         }
 
