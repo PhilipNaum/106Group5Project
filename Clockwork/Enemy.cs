@@ -43,9 +43,7 @@ namespace Clockwork
 
        
 
-        
-        public Enemy(Vector2 position, Vector2 size, Vector2 velocity, int range, int health) : base(position, size, Sprites.enemy)
-        
+public Enemy(Vector2 position, Vector2 size, Vector2 velocity, int range, int health) : base(position, size, Sprites.Enemy)
         {
             this.health = health;
             this.range = range;

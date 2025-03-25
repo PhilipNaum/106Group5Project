@@ -47,7 +47,7 @@ namespace Clockwork
         }
 
 
-        public Player(Vector2 position, Vector2 size, List<Enemy> enemies) : base(position, size, Sprites.player)
+        public Player(Vector2 position, Vector2 size) : base(position, size, Sprites.Player)
         {
             currentAbility = Ability.None;
             this.enemies = enemies;

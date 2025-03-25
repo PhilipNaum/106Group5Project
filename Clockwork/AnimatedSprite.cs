@@ -72,11 +72,11 @@ namespace AnimationHelper
         /// <param name="gt"></param>
         public void Update(GameTime gt)
         {
-            time += (float)gt.ElapsedGameTime.TotalSeconds;
-            if (time >= 1000 / currentAnimation.FPS)
+            time += (float)gt.ElapsedGameTime.TotalMilliseconds;
+            if (time >= 10f / currentAnimation.FPS * 60)
             {
                 currentAnimation.NextFrame();
-                time -= 1000 / currentAnimation.FPS;
+                time -= 10f / currentAnimation.FPS * 60;
             }
         }
 

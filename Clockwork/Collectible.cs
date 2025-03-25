@@ -61,8 +61,8 @@ namespace Clockwork
             get { return mode; }
             set { mode = value; }
         }
-        // this constructor will need to be changed when there are multiple collectible sprites
-        public Collectible(Vector2 position, Vector2 size, Type collectibletype, int mode) : base(position, size, Sprites.collectible)
+
+        public Collectible(Vector2 position, Vector2 size, Type collectibletype, int mode) : base(position, size, collectibleType)
         {
             this.collectibleType = collectibletype;
             this.mode = mode;
