@@ -62,7 +62,7 @@ namespace Clockwork
             set { mode = value; }
         }
 
-        public Collectible(Vector2 position, Vector2 size, Type collectibletype, int mode) : base(position, size, collectibleType)
+        public Collectible(Vector2 position, Vector2 size, Type collectibletype, int mode) : base(position, size, collectibletype)
         {
             this.collectibleType = collectibletype;
             this.mode = mode;
