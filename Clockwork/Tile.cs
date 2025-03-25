@@ -8,11 +8,14 @@ namespace Clockwork
     /// </summary>
     internal class Tile : GameObject
     {
-        private const float SizeScale = 2;
+        /// <summary>
+        /// the length of a tile
+        /// </summary>
+        private const int TileLength = 32;
 
         private TileType tileType;
         private bool active;
-        private Vector2 gridPosition;
+        private Point gridPosition;
 
         /// <summary>
         /// the type of the tile
@@ -27,21 +30,24 @@ namespace Clockwork
         /// <summary>
         /// the position of the tile on the level grid
         /// </summary>
-        public Vector2 GridPosition { get => gridPosition; }
+        public Point GridPosition { get => gridPosition; }
 
         /// <summary>
         /// creates a tile
         /// </summary>
         /// <param name="tileType">the tile type</param>
         /// <param name="gridPosition">the position of the tile on the level grid</param>
-        /// <param name="collidable">whether this tile is collidable</param>
-        public Tile(Vector2 gridPosition, Vector2 size, bool collidable) : base(gridPosition * size, size, Sprites.Tile)
+        public Tile(TileType tileType, Point gridPosition)
+            : base(gridPosition.ToVector2() * new Vector2(TileLength), new Vector2(TileLength), tileType.TileSprite)
         {
             // calculate and set position based on grid position
-            Position = gridPosition * Size;
+            Position = gridPosition.ToVector2() * TileLength;
             
             // set active
             active = true;
+
+            // set tile type
+            this.tileType = tileType;
 
             // set grid position
             this.gridPosition = gridPosition;

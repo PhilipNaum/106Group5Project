@@ -2,11 +2,21 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace Clockwork
 {
     internal class Player : GameObject
     {
+
+
+        //the collectible that represents the thrown gear
+        private Collectible gearThrow;
+
+        //enemies that weapons must check collisions for
+        private List<Enemy> enemies;
+
         private Vector2 velocity;
 
         // Probably want to put gravity somewhere else, but here now for testing
@@ -32,13 +42,15 @@ namespace Clockwork
         private enum Ability
         {
             None,
-            Dash
+            Dash,
+            Throw
         }
 
 
         public Player(Vector2 position, Vector2 size) : base(position, size, Sprites.Player)
         {
-            currentAbility = Ability.Dash;
+            currentAbility = Ability.None;
+            this.enemies = enemies;
         }
 
         /// <summary>
@@ -131,11 +143,32 @@ namespace Clockwork
                         // overwrites or adds to velocity
                         velocity = Dash(ms);
                         break;
+                    case Ability.Throw:
+                        //these statements make sure that a gear can only be thrown once the one before is gone
+                        if (gearThrow == null)
+                        {
+                            gearThrow = new Collectible(this.Position,new Vector2(50,50) ,Type.Gear, 1, 2);
+                        }
+                        else if (gearThrow.Mode == 2)
+                        {
+                            gearThrow = new Collectible(this.Position, new Vector2(50, 50), Type.Gear, 1, 2);
+                        }
+                        break;
                     default:
                         break;
                 }
             }
 
+            //putting this here makes sure it updates every frame
+            //same reason why the object itself is a field
+            if (gearThrow != null)
+            {
+                gearThrow.Update(gameTime);
+                for (int i = 0; i < enemies.Count; i++)
+                {
+                    gearThrow.CollisionResponse(enemies[i]);
+                }
+            }
             this.Position += velocity;
 
             if (this.Position.Y + this.Size.Y > minHeight)
@@ -152,6 +185,33 @@ namespace Clockwork
         public override void Draw(SpriteBatch sb)
         {
             base.Draw(sb);
+
+            if (gearThrow != null)
+            {
+                gearThrow.Draw(sb);
+            }
+        }
+
+        
+        public void CollisionResponse(GameObject other)
+        {
+            if (IsColliding(other))
+            {
+                if (other is Collectible)
+                {
+                    Collectible item = (Collectible)other;
+                    //changes the player's ability based on the item's type
+                    switch (item.CollectibleType)
+                    {
+                        case (Type.Gear):
+                            currentAbility = Ability.Throw;
+                            break;
+                        case (Type.Face):
+                            currentAbility = Ability.Dash;
+                            break;
+                    }
+                }
+            }
         }
     }
 }

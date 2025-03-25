@@ -19,6 +19,8 @@ namespace Clockwork
         private List<Enemy> enemies;
 
         private Collectible _testitem;
+        private Collectible _testitem2;
+        private List<Collectible> collectibles;
 
         private Player player;
 
@@ -38,6 +40,7 @@ namespace Clockwork
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             enemies = new List<Enemy>();
+            collectibles = new List<Collectible>();
         }
 
         protected override void Initialize()
@@ -46,14 +49,17 @@ namespace Clockwork
 
             gameState = GameState.MainMenu;
 
-            player = new Player(Vector2.Zero, new Vector2(100, 100));
+            player = new Player(Vector2.Zero, new Vector2(100, 100),enemies);
 
             _testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
             _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
             enemies.Add(_testenemy);
             enemies.Add(_testenemy2);
 
-            _testitem = new Collectible(new Vector2(400, 240), new Vector2(50, 50), Type.Gear);
+            _testitem = new Collectible(new Vector2(400, 240), new Vector2(50, 50), Type.Gear,0);
+            _testitem2 = new Collectible(new Vector2(200, 240), new Vector2(50, 50), Type.Face, 0);
+            collectibles.Add(_testitem);
+            collectibles.Add(_testitem2);
 
             KeyboardState kb = Keyboard.GetState();
         }
@@ -118,10 +124,29 @@ namespace Clockwork
             {
                 gameState = GameState.MainMenu;
             }
+
             player.Update(gameTime);
-            _testenemy.Update(gameTime);
-            _testenemy2.Update(gameTime);
-            _testitem.Update(gameTime);
+
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                enemies[i].Update(gameTime);
+
+                for(int j = 0; j < enemies.Count; j++)
+                {
+                    if (j != i)
+                    {
+                        enemies[i].CollisionResponse(enemies[j]);
+                    }
+                }
+            }
+
+            for(int i=0; i< collectibles.Count; i++)
+            {
+                collectibles[i].Update(gameTime);
+                player.CollisionResponse(collectibles[i]);
+                //collectibles[i].CollisionResponse(player);
+            }
+
         }
 
         private void UpdatePause()
@@ -182,11 +207,15 @@ namespace Clockwork
         private void DrawGame()
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
             player.Draw(_spriteBatch);
 
-            _testenemy.Draw(_spriteBatch);
-            _testenemy2.Draw(_spriteBatch);
-            _testitem.Draw(_spriteBatch);
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                enemies[i].Draw(_spriteBatch);
+                collectibles[i].Draw(_spriteBatch);
+            }
+
         }
 
         private void DrawPause()

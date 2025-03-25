@@ -107,6 +107,8 @@ namespace Clockwork
         /// creates a rectangle out of the object's position and size
         /// </summary>
         /// <returns>the rectangle</returns>
-        public Rectangle GetRectangle() => new Rectangle(this.Position.ToPoint(), this.Size.ToPoint());
+        public virtual Rectangle GetRectangle() => new Rectangle(this.Position.ToPoint(), this.Size.ToPoint());
+
+        
     }
 }
