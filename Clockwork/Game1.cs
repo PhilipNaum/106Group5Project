@@ -50,32 +50,45 @@ namespace Clockwork
 
             gameState = GameState.Gameplay;
 
-            //player = new Player(Vector2.Zero, new Vector2(100, 100));
             player = new Player(new Vector2(200, 0), new Vector2(100, 100));
 
-            //_testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
-            //_testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
-            //enemies.Add(_testenemy);
-            //enemies.Add(_testenemy2);
+            _testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
+            _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
+            enemies.Add(_testenemy);
+            enemies.Add(_testenemy2);
 
-            //_testitem = new Collectible(new Vector2(400, 240), new Vector2(50, 50), Type.Gear);
+            _testitem = new Collectible(new Vector2(400, 240), new Vector2(50, 50), Type.Gear);
 
-            // Player tile collision testing stuff
+            // Temporary level
             for (int i = 0; i < 16; i++)
             {
-                tiles.Add(new Tile(new Vector2(i, 6), new Vector2(50, 50), true));
+                tiles.Add(new Tile(new Vector2(i, 9), new Vector2(50, 50), true));
             }
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
             {
-                tiles.Add(new Tile(new Vector2(2, 5 - i), new Vector2(50, 50), true));
+                tiles.Add(new Tile(new Vector2(10 + i, 6), new Vector2(50, 50), true));
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                tiles.Add(new Tile(new Vector2(12 + i, 5), new Vector2(50, 50), true));
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                tiles.Add(new Tile(new Vector2(1, 5), new Vector2(50, 50), true));
+            }
+            tiles.Add(new Tile(new Vector2(14, 4), new Vector2(50, 50), true));
+            for (int i = 0; i < 2; i++)
+            {
+                tiles.Add(new Tile(new Vector2(5, 8 - i), new Vector2(50, 50), true));
             }
             for (int i = 0; i < 9; i++)
             {
-                tiles.Add(new Tile(new Vector2(15, 5 - i), new Vector2(50, 50), true));
+                tiles.Add(new Tile(new Vector2(15, 8 - i), new Vector2(50, 50), true));
             }
-            //tiles.Add(new Tile(new Vector2(2, 6), new Vector2(50, 50), true));
-            //tiles.Add(new Tile(new Vector2(3, 6), new Vector2(50, 50), true));
-            //tiles.Add(new Tile(new Vector2(5, 6), new Vector2(50, 50), true));
+            for (int i = 0; i < 9; i++)
+            {
+                tiles.Add(new Tile(new Vector2(0, 8 - i), new Vector2(50, 50), true));
+            }
 
             KeyboardState kb = Keyboard.GetState();
         }
@@ -184,6 +197,10 @@ namespace Clockwork
 
         private void HandlePlayerCollisions(List<Tile> collisions)
         {
+            // reset grounded to false incase the player left the ground
+            // if there is a vertical collision with the player moving down,
+            // grounded will become true
+            player.Grounded = false;
             Vector2 playerPos = player.Position;
             Vector2 playerVel = player.Velocity;
 
@@ -225,6 +242,7 @@ namespace Clockwork
                     {
                         playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
                         playerVel.Y = 0;
+                        player.Grounded = true;
                     }
                     // moving upwards (collision with head)
                     else if (playerVel.Y < 0 && player.Top <= collider.Bottom)

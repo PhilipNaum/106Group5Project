@@ -31,6 +31,14 @@ namespace Clockwork
         private float dashSpeedX = 14;
         private float dashSpeedY = 6;
 
+        // if the player is on the ground
+        // used for checking if the player should be able to jump
+        private bool grounded;
+        public bool Grounded { 
+            get { return grounded; } 
+            set { grounded = value; } 
+        }
+
         // enum so there can only be one ability active at a time
         private Ability currentAbility;
         private enum Ability
@@ -43,6 +51,7 @@ namespace Clockwork
         public Player(Vector2 position, Vector2 size) : base(position, size, Sprites.player)
         {
             currentAbility = Ability.Dash;
+            grounded = false;
         }
 
         /// <summary>
@@ -76,7 +85,7 @@ namespace Clockwork
             velocity.Y += gravity.Y * dTime;
 
             // jump
-            if (ks.IsKeyDown(Keys.W) && prevKS.IsKeyUp(Keys.W))
+            if (grounded && ks.IsKeyDown(Keys.W) && prevKS.IsKeyUp(Keys.W))
             {
                 velocity.Y -= jumpSpeed;
             }
@@ -87,20 +96,6 @@ namespace Clockwork
             if (ks.IsKeyDown(Keys.D))
                 horDir++;
 
-            // this locks player to be under the max speed
-            // and decelerates if the player holds nothing
-            //if (horDir != 0)
-            //{
-            //    velocity.X = MathHelper.Clamp(velocity.X + horDir * horizontalAcceleration * dTime, 
-            //        -maxHorizontalSpeed, maxHorizontalSpeed);
-            //}
-            //else if (velocity.X != 0)
-            //{
-            //    float currentSign = MathF.Sign(velocity.X);
-            //    velocity.X -= horizontalDeceleration * currentSign * dTime;
-            //    if (currentSign != MathF.Sign(velocity.X))
-            //        velocity.X = 0;
-            //}
             // only accelerate if under max speed
             if (horDir != 0 && MathF.Abs(velocity.X) < maxHorizontalSpeed)
             {
