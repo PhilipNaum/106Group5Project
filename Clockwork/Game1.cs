@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 
 namespace Clockwork
 {
@@ -23,6 +25,9 @@ namespace Clockwork
         private List<Collectible> collectibles;
 
         private Player player;
+        private List<Tile> tiles;
+
+        private TileType baseTileType;
 
         private GameState gameState;
         private enum GameState
@@ -41,15 +46,17 @@ namespace Clockwork
             IsMouseVisible = true;
             enemies = new List<Enemy>();
             collectibles = new List<Collectible>();
+            tiles = new List<Tile>();
         }
 
         protected override void Initialize()
         {
             base.Initialize();
 
-            gameState = GameState.MainMenu;
+            gameState = GameState.Gameplay;
 
-            player = new Player(Vector2.Zero, new Vector2(100, 100),enemies);
+            player = new Player(Vector2.Zero, new Vector2(100, 100), enemies);
+            player = new Player(new Vector2(200, 0), new Vector2(100, 100), enemies);
 
             _testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
             _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
@@ -60,6 +67,36 @@ namespace Clockwork
             _testitem2 = new Collectible(new Vector2(200, 240), new Vector2(50, 50), Type.Face, 0);
             collectibles.Add(_testitem);
             collectibles.Add(_testitem2);
+
+            baseTileType = new TileType(false, true, Sprites.Tile);
+
+            // Temporary level
+            for (int i = 0; i < 16; i++)
+            {
+                tiles.Add(new Tile(baseTileType, new Point(i, 9)));
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                tiles.Add(new Tile(baseTileType, new Point(10 + i, 6)));
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                tiles.Add(new Tile(baseTileType, new Point(12 + i, 5)));
+            }
+            tiles.Add(new Tile(baseTileType, new Point(1, 5)));
+            tiles.Add(new Tile(baseTileType, new Point(14, 4)));
+            for (int i = 0; i < 2; i++)
+            {
+                tiles.Add(new Tile(baseTileType, new Point(5, 8 - i)));
+            }
+            for (int i = 0; i < 9; i++)
+            {
+                tiles.Add(new Tile(baseTileType, new Point(15, 8 - i)));
+            }
+            for (int i = 0; i < 9; i++)
+            {
+                tiles.Add(new Tile(baseTileType, new Point(0, 8 - i)));
+            }
 
             KeyboardState kb = Keyboard.GetState();
         }
@@ -127,6 +164,16 @@ namespace Clockwork
 
             player.Update(gameTime);
 
+            // tiles will not be drawn if not updated
+            foreach (Tile t in tiles)
+            {
+                t.Update(gameTime);
+            }
+
+            // 2 lines since it's a bit easier to read than one.
+            List<Tile> collisions = GetPlayerCollisions();
+            HandlePlayerCollisions(collisions);
+
             for (int i = 0; i < enemies.Count; i++)
             {
                 enemies[i].Update(gameTime);
@@ -146,7 +193,6 @@ namespace Clockwork
                 player.CollisionResponse(collectibles[i]);
                 //collectibles[i].CollisionResponse(player);
             }
-
         }
 
         private void UpdatePause()
@@ -158,6 +204,83 @@ namespace Clockwork
         {
 
         }
+
+        private List<Tile> GetPlayerCollisions()
+        {
+            List<Tile> collisions = new List<Tile>();
+            foreach (Tile t in tiles)
+            {
+                if (player.IsCollidingPrecise(t))
+                {
+                    collisions.Add(t);
+                }
+            }
+
+            return collisions;
+        }
+
+        private void HandlePlayerCollisions(List<Tile> collisions)
+        {
+            // reset grounded to false incase the player left the ground
+            // if there is a vertical collision with the player moving down,
+            // grounded will become true
+            player.Grounded = false;
+            Vector2 playerPos = player.Position;
+            Vector2 playerVel = player.Velocity;
+
+            // horizontal collisions
+            foreach (Tile collider in collisions)
+            {
+                // collision rectangle
+                Vector4 col = player.GetCollision(collider);
+
+                // (x: x, y: y, z: width, w: height)
+                if (col.W >= col.Z)
+                {
+                    // moving right
+                    if (playerVel.X > 0 && player.Right >= collider.Left)
+                    {
+                        playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
+                        playerVel.X = 0;
+                    }
+                    // moving left
+                    else if (playerVel.X < 0 && player.Left <= collider.Right)
+                    {
+                        playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
+                        playerVel.X = 0;
+                    }
+                }
+            }
+
+            // vertical collisions
+            foreach (Tile collider in collisions)
+            {
+                // collision rectangle
+                Vector4 col = player.GetCollision(collider);
+
+                // (x: x, y: y, z: width, w: height)
+                if (col.Z >= col.W)
+                {
+                    // moving downwards (collision with feet)
+                    if (playerVel.Y > 0 && player.Bottom >= collider.Top)
+                    {
+                        playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
+                        playerVel.Y = 0;
+                        player.Grounded = true;
+                    }
+                    // moving upwards (collision with head)
+                    else if (playerVel.Y < 0 && player.Top <= collider.Bottom)
+                    {
+                        playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
+                        playerVel.Y = 0;
+                    }
+                }
+            }
+
+            player.Position = playerPos;
+            player.Velocity = playerVel;
+        }
+
 
         protected override void Draw(GameTime gameTime)
         {
@@ -216,6 +339,10 @@ namespace Clockwork
                 collectibles[i].Draw(_spriteBatch);
             }
 
+            foreach (Tile t in tiles)
+            {
+                t.Draw(_spriteBatch);
+            }
         }
 
         private void DrawPause()
