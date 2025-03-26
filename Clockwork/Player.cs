@@ -146,13 +146,18 @@ namespace Clockwork
                         break;
                     case Ability.Throw:
                         //these statements make sure that a gear can only be thrown once the one before is gone
+                        
                         if (gearThrow == null)
                         {
                             gearThrow = new Collectible(this.Position,new Vector2(50,50) ,Type.Gear, 1, 2);
+                            gearThrow.Velocity = Vector2.Normalize(ms.Position.ToVector2()
+                            - (this.Position + this.Size / 2));
                         }
                         else if (gearThrow.Mode == 2)
                         {
                             gearThrow = new Collectible(this.Position, new Vector2(50, 50), Type.Gear, 1, 2);
+                            gearThrow.Velocity = Vector2.Normalize(ms.Position.ToVector2()
+                            - (this.Position + this.Size / 2));
                         }
                         break;
                     default:
