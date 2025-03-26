@@ -46,6 +46,7 @@ namespace Clockwork
             this.Position = position;
             this.Size = size;
             this.Sprite = AnimationLoader.GetSprite(spriteName);
+            Sprite.Location = position.ToPoint();
         }
 
         /// <summary>
@@ -173,6 +174,6 @@ namespace Clockwork
         /// <returns>the rectangle</returns>
         public virtual Rectangle GetRectangle() => new Rectangle(this.Position.ToPoint(), this.Size.ToPoint());
 
-        
+
     }
 }
