@@ -144,8 +144,6 @@ namespace Clockwork
             if (leftestRight >= rightestLeft && highestBot >= lowestTop)
             {
                 return true;
-                // rectangle
-                //return new Vector4(rightestLeft, lowestTop, leftestRight - rightestLeft, highestBot - lowestTop);
             }
 
             return false;

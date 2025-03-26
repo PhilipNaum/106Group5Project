@@ -243,6 +243,9 @@ namespace Clockwork
             Vector2 playerPos = player.Position;
             Vector2 playerVel = player.Velocity;
 
+            // potentially handling collisions by how large the required offset is 
+            // instead of horizontal -> vertical could fix some bugs
+
             // horizontal collisions
             foreach (Tile collider in collisions)
             {
@@ -252,6 +255,7 @@ namespace Clockwork
                 // (x: x, y: y, z: width, w: height)
                 if (col.W >= col.Z) 
                 {
+                    Debug.WriteLine(col.W + " - " + col.Z);
                     // moving right
                     if (playerVel.X > 0 && player.Right >= collider.Left
                         && player.Right < collider.Right)
@@ -355,11 +359,11 @@ namespace Clockwork
 
             player.Draw(_spriteBatch);
 
-            for (int i = 0; i < enemies.Count; i++)
-            {
-                enemies[i].Draw(_spriteBatch);
-                collectibles[i].Draw(_spriteBatch);
-            }
+            //for (int i = 0; i < enemies.Count; i++)
+            //{
+            //    enemies[i].Draw(_spriteBatch);
+            //    collectibles[i].Draw(_spriteBatch);
+            //}
 
             foreach (Tile t in tiles)
             {
