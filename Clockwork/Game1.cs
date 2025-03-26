@@ -113,7 +113,7 @@ namespace Clockwork
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load content for all animated sprites
-            AnimationLoader.LoadContent(Content);
+            UILoader.LoadContent(Content);
 
             _arial36 = Content.Load<SpriteFont>("ARIAL36");
             _arial24 = Content.Load<SpriteFont>("ARIAL24");
