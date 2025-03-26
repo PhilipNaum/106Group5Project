@@ -31,8 +31,6 @@ namespace Clockwork
         // probably also move this to somewhere else later
         private KeyboardState prevKS;
 
-        // player can't move below this height for now
-        private float minHeight = 475;
         private float jumpSpeed = 9;
         
         private float maxHorizontalSpeed = 9;
@@ -171,12 +169,6 @@ namespace Clockwork
                 }
             }
             this.Position += velocity;
-
-            if (this.Position.Y + this.Size.Y > minHeight)
-            {
-                this.Position = new Vector2(Position.X, minHeight - this.Size.Y);
-                velocity.Y = 0;
-            }
 
             prevKS = ks;
 

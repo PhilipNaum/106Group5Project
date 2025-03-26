@@ -62,7 +62,6 @@ namespace Clockwork
 
             gameState = GameState.Gameplay;
 
-            player = new Player(Vector2.Zero, new Vector2(100, 100), enemies);
             player = new Player(new Vector2(200, 0), new Vector2(100, 100), enemies);
 
             _testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
@@ -180,6 +179,8 @@ namespace Clockwork
             // 2 lines since it's a bit easier to read than one.
             List<Tile> collisions = GetPlayerCollisions();
             HandlePlayerCollisions(collisions);
+            // update sprite because player may have moved from collisions.
+            player.SpriteUpdate(gameTime);
 
             for (int i = 0; i < enemies.Count; i++)
             {
@@ -249,7 +250,7 @@ namespace Clockwork
                 Vector4 col = player.GetCollision(collider);
 
                 // (x: x, y: y, z: width, w: height)
-                if (col.W >= col.Z)
+                if (col.W >= col.Z) 
                 {
                     // moving right
                     if (playerVel.X > 0 && player.Right >= collider.Left)
