@@ -139,10 +139,10 @@
         { Collectibles[new Point(x, y)] = Array.IndexOf(Objects.CollectibleTypes, collectible); }
 
         /// <summary>
-        /// 
+        /// saves the level
         /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
+        /// <param name="filename">filename to save as</param>
+        /// <returns>success</returns>
         public bool Save(string filename)
         {
             // try to open file stream, return false if failed
