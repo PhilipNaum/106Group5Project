@@ -253,13 +253,15 @@ namespace Clockwork
                 if (col.W >= col.Z) 
                 {
                     // moving right
-                    if (playerVel.X > 0 && player.Right >= collider.Left)
+                    if (playerVel.X > 0 && player.Right >= collider.Left
+                        && player.Right < collider.Right)
                     {
                         playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
                         playerVel.X = 0;
                     }
                     // moving left
-                    else if (playerVel.X < 0 && player.Left <= collider.Right)
+                    else if (playerVel.X < 0 && player.Left <= collider.Right
+                        && player.Left > collider.Left)
                     {
                         playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
                         playerVel.X = 0;
