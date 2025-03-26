@@ -1,8 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Reflection.Metadata;
-
-namespace Clockwork
+﻿namespace Clockwork
 {
     /// <summary>
     /// a type of tile

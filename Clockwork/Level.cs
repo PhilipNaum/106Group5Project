@@ -26,9 +26,9 @@ namespace Clockwork
         /// creates an empty level
         /// </summary>
         /// <param name="mapDimensions">the dimensions of the map</param>
-        public Level(Vector2 mapDimensions)
+        public Level(Point mapDimensions)
         {
-            map = new Tile[(int)mapDimensions.Y, (int)mapDimensions.X];
+            map = new Tile[mapDimensions.Y, mapDimensions.X];
 
             collectibles = new List<Collectible>();
         }
