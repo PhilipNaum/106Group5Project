@@ -40,7 +40,7 @@ namespace Clockwork
         /// </summary>
         /// <param name="position">Position Vector2D of the Game Object</param>
         /// <param name="size">Size Vector2D of the Game Object</param>
-        /// <param name="texture"></param>
+        /// <param name="spriteName">Name of the sprite this object uses</param>
         public GameObject(Vector2 position, Vector2 size, Sprites spriteName)
         {
             this.Position = position;
@@ -48,7 +48,12 @@ namespace Clockwork
             this.Sprite = AnimationLoader.GetSprite(spriteName);
         }
 
-
+        /// <summary>
+        /// Create a new Game Object using the Collectible Type enum
+        /// </summary>
+        /// <param name="position">Position Vector2D of the Game Object</param>
+        /// <param name="size">Size Vector2D of the Game Object</param>
+        /// <param name="collectibleType">Name of the sprite this object uses</param>
         public GameObject(Vector2 position, Vector2 size, Type collectibleType)
         {
             Sprites spriteName = default;
@@ -69,6 +74,8 @@ namespace Clockwork
                 case Type.Chime:
                     spriteName = Sprites.Chime;
                     break;
+                default:
+                    throw new ArgumentException("Invalid collectibleType passed to GameObject constructor");
             }
             this.Position = position;
             this.Size = size;
