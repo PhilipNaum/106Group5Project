@@ -1,4 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿/*
+ * Who has worked on this file:
+ * Nathan
+ */
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Clockwork

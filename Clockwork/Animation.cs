@@ -1,4 +1,8 @@
-﻿namespace AnimationHelper
+﻿/*
+ * Who has worked on this file:
+ * Emma
+ */
+namespace AnimationHelper
 {
     // Emma Rausch
     // 27/2/25

@@ -1,4 +1,8 @@
-﻿namespace Clockwork
+﻿/*
+ * Who has worked on this file:
+ * Nathan
+ */
+namespace Clockwork
 {
     /// <summary>
     /// a type of tile

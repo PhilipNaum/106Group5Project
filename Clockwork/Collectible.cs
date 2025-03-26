@@ -1,4 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿/*
+ * Who has worked on this file:
+ * Philip
+ */
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.Direct3D9;
 using SharpDX.DirectWrite;
