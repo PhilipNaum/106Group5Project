@@ -103,7 +103,6 @@ namespace Clockwork
                     velocity.Y *= -1;
                 }
                 this.Position = new Vector2(Position.X, Position.Y + velocity.Y);
-                base.Update(gt);
             }
             else if (mode == 1)
             {
@@ -124,7 +123,8 @@ namespace Clockwork
                         }
                         break;
                 }
-            }   
+            }
+            base.Update(gt);
         }
 
         /// <summary>
