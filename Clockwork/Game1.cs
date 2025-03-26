@@ -205,6 +205,9 @@ namespace Clockwork
 
         }
 
+        /// <summary>
+        /// Returns a list of all tiles currently colliding with the player.
+        /// </summary>
         private List<Tile> GetPlayerCollisions()
         {
             List<Tile> collisions = new List<Tile>();
@@ -219,6 +222,10 @@ namespace Clockwork
             return collisions;
         }
 
+        /// <summary>
+        /// This resolves all player collisions and updates the player's grounded state.
+        /// </summary>
+        /// <param name="collisions"></param>
         private void HandlePlayerCollisions(List<Tile> collisions)
         {
             // reset grounded to false incase the player left the ground

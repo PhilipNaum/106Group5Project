@@ -9,8 +9,6 @@ namespace Clockwork
 {
     internal class Player : GameObject
     {
-
-
         //the collectible that represents the thrown gear
         private Collectible gearThrow;
 
@@ -84,8 +82,7 @@ namespace Clockwork
 
 
         /// <summary>
-        /// This should be what is UpdateP, but I don't want to change the GameObject
-        /// Update() right now.
+        /// Runs every frame. Does player movement and abilities.
         /// </summary>
         public override void Update(GameTime gameTime)
         {
@@ -191,7 +188,6 @@ namespace Clockwork
             }
         }
 
-        
         public void CollisionResponse(GameObject other)
         {
             if (IsColliding(other))
