@@ -137,5 +137,43 @@
         /// <param name="collectible">collectible object to set</param>
         public void SetCollectibleAt(int x, int y, ObjectType collectible)
         { Collectibles[new Point(x, y)] = Array.IndexOf(Objects.CollectibleTypes, collectible); }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public bool Save(string filename)
+        {
+            // try to open file stream, return false if failed
+            FileStream stream;
+            try { stream = File.OpenWrite(filename); }
+            catch (Exception) { return false; }
+
+            BinaryWriter output = new BinaryWriter(stream);
+
+            // write dimensions
+            output.Write(Width);
+            output.Write(Height);
+
+            // write all tiles
+            foreach (int tile in map)
+            { output.Write((byte)tile); }
+
+            // loop for each pair in collectibles
+            foreach (KeyValuePair<Point, int> collectiblePair in collectibles)
+            {
+                // write collectible
+                output.Write((byte)collectiblePair.Value);
+
+                // write collection position
+                output.Write(collectiblePair.Key.X);
+                output.Write(collectiblePair.Key.Y);
+            }
+
+            output.Close();
+
+            return true;
+        }
     }
 }
