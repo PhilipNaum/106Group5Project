@@ -5,20 +5,24 @@
     /// </summary>
     internal class Level
     {
-        private int width;
-        private int height;
+        private Size dimensions;
         private int[,] map;
         private Dictionary<Point, int> collectibles;
 
         /// <summary>
+        /// the dimensions of the level
+        /// </summary>
+        private Size Dimensions { get => dimensions; }
+
+        /// <summary>
         /// width of the level
         /// </summary>
-        public int Width { get => width; }
+        public int Width { get => dimensions.Width; }
 
         /// <summary>
         /// height of the level
         /// </summary>
-        public int Height { get => height; }
+        public int Height { get => dimensions.Height; }
 
         /// <summary>
         /// map for tiles (in index of Objects.TileTypes)
@@ -33,20 +37,22 @@
         /// <summary>
         /// creates a blank level
         /// </summary>
-        /// <param name="width">width of the level</param>
-        /// <param name="height">height of the level</param>
-        public Level(int width, int height)
+        /// <param name="dimensions">dimensions of the level</param>
+        public Level(Size dimensions)
         {
-            // set dimensions
-            this.width = width;
-            this.height = height;
+            this.dimensions = dimensions;
 
-            // create empty map
-            map = new int[height, width];
+            map = new int[dimensions.Height, dimensions.Width];
 
-            // create list of collectibles
             collectibles = new Dictionary<Point, int>();
         }
+
+        /// <summary>
+        /// creates a blank level
+        /// </summary>
+        /// <param name="width">width of the level</param>
+        /// <param name="height">height of the level</param>
+        public Level(int width, int height) : this(new Size(width, height)) { }
 
         /// <summary>
         /// gets the tile at position
@@ -98,16 +104,18 @@
             BinaryReader input = new BinaryReader(stream);
 
             // read the level dimensions
-            int width = input.ReadInt32();
-            int height = input.ReadInt32();
+            Size dimensions = new Size(
+                input.ReadInt32(),
+                input.ReadInt32()
+                );
 
             // create an empty level with dimensions
-            Level level = new Level(width, height);
+            Level level = new Level(dimensions);
 
             // loop for and read each tile on the map
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < dimensions.Height; y++)
             {
-                for (int x = 0; x < width; x++)
+                for (int x = 0; x < dimensions.Width; x++)
                 { level.Map[y, x] = input.ReadByte(); }
             }
 
