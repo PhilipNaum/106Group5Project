@@ -55,7 +55,7 @@ namespace Clockwork
         /// </summary>
         /// <param name="filename">the filename of the map file</param>
         /// <returns>the level</returns>
-        public static Level LoadLevel(string filename)
+        private static Level LoadLevel(string filename)
         {
             // try to open file stream, return null if failed
             FileStream stream;
@@ -94,10 +94,24 @@ namespace Clockwork
         }
 
         /// <summary>
-        /// (untested) loads a level from level index, returns null if failed
+        /// set the current level based on level index
         /// </summary>
-        /// <param name="index">the index of the level (from 0)</param>
-        /// <returns>the level</returns>
-        public static Level LoadLevel(int index) => LoadLevel(levelFilenames[index]);
+        /// <param name="index">level index</param>
+        public void SetCurrentLevel(int index)
+        {
+            currentLevel = LoadLevel(levelFilenames[index]);
+            currentLevelIndex = index;
+        }
+
+        /// <summary>
+        /// overload for setting a custom level with filename of a map file, for testing purposes
+        /// </summary>
+        /// <param name="filename">map file filename</param>
+        /// <param name="index">level index</param>
+        public void SetCurrentLevel(string filename, int index)
+        {
+            currentLevel = LoadLevel(filename);
+            currentLevelIndex = index;
+        }
     }
 }
