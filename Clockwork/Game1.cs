@@ -277,14 +277,19 @@ namespace Clockwork
                 if (col.Z >= col.W)
                 {
                     // moving downwards (collision with feet)
-                    if (playerVel.Y > 0 && player.Bottom >= collider.Top)
+                    if (playerVel.Y > 0 && player.Bottom >= collider.Top
+                        && player.Top < collider.Top)
                     {
                         playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
                         playerVel.Y = 0;
                         player.Grounded = true;
                     }
                     // moving upwards (collision with head)
-                    else if (playerVel.Y < 0 && player.Top <= collider.Bottom)
+                    // player.Bottom > collider.Bottom stops velocity from being
+                    // set to 0 when the player clips the top of a platform while
+                    // moving upwards
+                    else if (playerVel.Y < 0 && player.Top <= collider.Bottom 
+                        && player.Bottom > collider.Bottom)
                     {
                         playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
                         playerVel.Y = 0;
