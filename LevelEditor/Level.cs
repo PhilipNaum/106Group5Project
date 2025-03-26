@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="filename">the filename of the map file</param>
         /// <returns>the level</returns>
-        public static Level? LoadLevel(string filename)
+        public static Level? Load(string filename)
         {
             // try to open file stream, return null if failed
             FileStream stream;
