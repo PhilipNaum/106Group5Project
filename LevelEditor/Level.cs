@@ -5,6 +5,55 @@
     /// </summary>
     internal class Level
     {
+        /// <summary>
+        /// loads a level, returns null if failed
+        /// </summary>
+        /// <param name="filename">the filename of the map file</param>
+        /// <returns>the level</returns>
+        public static Level? LoadLevel(string filename)
+        {
+            // try to open file stream, return null if failed
+            FileStream stream;
+            try { stream = File.OpenRead(filename); }
+            catch (Exception) { return null; }
+
+            BinaryReader input = new BinaryReader(stream);
+
+            // read the level dimensions
+            Size dimensions = new Size(
+                input.ReadInt32(),
+                input.ReadInt32()
+                );
+
+            // create an empty level with dimensions
+            Level level = new Level(dimensions);
+
+            // loop for and read each tile on the map
+            for (int y = 0; y < dimensions.Height; y++)
+            {
+                for (int x = 0; x < dimensions.Width; x++)
+                { level.Map[y, x] = input.ReadByte(); }
+            }
+
+            // read the number of collectibles and loop for that
+            for (int i = 0; i < input.ReadInt32(); i++)
+            {
+                // read collectible information
+                int collectible = input.ReadByte();
+                Point collectiblePosition = new Point(
+                    input.ReadInt32(),
+                    input.ReadInt32()
+                    );
+
+                // add collectible to list
+                level.collectibles.Add(collectiblePosition, collectible);
+            }
+
+            input.Close();
+
+            return level;
+        }
+
         private Size dimensions;
         private int[,] map;
         private Dictionary<Point, int> collectibles;
@@ -88,54 +137,5 @@
         /// <param name="collectible">collectible object to set</param>
         public void SetCollectibleAt(int x, int y, ObjectType collectible)
         { Collectibles[new Point(x, y)] = Array.IndexOf(Objects.CollectibleTypes, collectible); }
-
-        /// <summary>
-        /// loads a level, returns null if failed
-        /// </summary>
-        /// <param name="filename">the filename of the map file</param>
-        /// <returns>the level</returns>
-        public static Level? LoadLevel(string filename)
-        {
-            // try to open file stream, return null if failed
-            FileStream stream;
-            try { stream = File.OpenRead(filename); }
-            catch (Exception) { return null; }
-
-            BinaryReader input = new BinaryReader(stream);
-
-            // read the level dimensions
-            Size dimensions = new Size(
-                input.ReadInt32(),
-                input.ReadInt32()
-                );
-
-            // create an empty level with dimensions
-            Level level = new Level(dimensions);
-
-            // loop for and read each tile on the map
-            for (int y = 0; y < dimensions.Height; y++)
-            {
-                for (int x = 0; x < dimensions.Width; x++)
-                { level.Map[y, x] = input.ReadByte(); }
-            }
-
-            // read the number of collectibles and loop for that
-            for (int i = 0; i < input.ReadInt32(); i++)
-            {
-                // read collectible information
-                int collectible = input.ReadByte();
-                Point collectiblePosition = new Point(
-                    input.ReadInt32(),
-                    input.ReadInt32()
-                    );
-
-                // add collectible to list
-                level.collectibles.Add(collectiblePosition, collectible);
-            }
-
-            input.Close();
-
-            return level;
-        }
     }
 }
