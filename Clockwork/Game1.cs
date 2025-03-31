@@ -20,8 +20,6 @@ namespace Clockwork
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private KeyboardState kb;
-        private SpriteFont _arial36;
-        private SpriteFont _arial24;
 
         private Enemy _testenemy;
         private Enemy _testenemy2;
@@ -35,6 +33,8 @@ namespace Clockwork
         private List<Tile> tiles;
 
         private TileType baseTileType;
+
+        private Menu mainMenu;
 
         private GameState gameState;
         private enum GameState
@@ -75,6 +75,8 @@ namespace Clockwork
             collectibles.Add(_testitem);
             collectibles.Add(_testitem2);
 
+            mainMenu = UILoader.GetMenu(Menus.Main);
+
             baseTileType = new TileType(false, true, Sprites.Tile);
 
             // Temporary level
@@ -112,13 +114,8 @@ namespace Clockwork
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // Load content for all animated sprites
-            UILoader.LoadContent(Content);
-
-            _arial36 = Content.Load<SpriteFont>("ARIAL36");
-            _arial24 = Content.Load<SpriteFont>("ARIAL24");
-
-            // TODO: use this.Content to load your game content here
+            // Load content
+            UILoader.LoadContent(Content, _graphics);
         }
 
         protected override void Update(GameTime gameTime)
@@ -149,6 +146,7 @@ namespace Clockwork
 
         private void UpdateMainMenu()
         {
+            mainMenu.Update();
             kb = Keyboard.GetState();
             if (kb.IsKeyDown(Keys.Enter))
             {
@@ -328,12 +326,7 @@ namespace Clockwork
         private void DrawMainMenu()
         {
             GraphicsDevice.Clear(Color.Black);
-            _spriteBatch.DrawString(_arial36, "Clock Work",
-                new Vector2(_graphics.PreferredBackBufferWidth / 2 - 120,
-                _graphics.PreferredBackBufferHeight / 2 - 50), Color.White);
-            _spriteBatch.DrawString(_arial24, "Press Enter to begin Debug mode",
-                new Vector2(_graphics.PreferredBackBufferWidth / 2 - 220,
-                _graphics.PreferredBackBufferHeight / 2 + 50), Color.White);
+            mainMenu.Draw(_spriteBatch);
         }
 
         private void DrawLevelSelect()
