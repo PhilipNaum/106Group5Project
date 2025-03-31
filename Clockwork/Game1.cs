@@ -246,6 +246,10 @@ namespace Clockwork
             // potentially handling collisions by how large the required offset is 
             // instead of horizontal -> vertical could fix some bugs
 
+            // maybe better to keep track of whether left and right collisions have happened
+            // and then check if the vertical collision is on the right/left side and is 
+            // large enough, otherwise ignore it
+
             // horizontal collisions
             foreach (Tile collider in collisions)
             {
