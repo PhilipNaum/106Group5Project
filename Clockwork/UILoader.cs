@@ -144,12 +144,33 @@ namespace Clockwork
 
             // -- Main Menu --
             {
-                List<UIElement> mainMenuElements = new List<UIElement>();
-                mainMenuElements.Add(new TextElement("Clock Work", _arial36, new Rectangle(graphics.PreferredBackBufferWidth / 2 - 120,
+                Dictionary<string, UIElement> mainMenuElements = new Dictionary<string, UIElement>();
+                mainMenuElements.Add("lbTitle", new TextElement("Clock Work", _arial36, new Rectangle(graphics.PreferredBackBufferWidth / 2 - 120,
                 graphics.PreferredBackBufferHeight / 2 - 50, 1, 1)));
-                mainMenuElements.Add(new TextElement("Press Enter to begin Debug mode", _arial24, new Rectangle(graphics.PreferredBackBufferWidth / 2 - 220,
+                mainMenuElements.Add("lbInfo", new TextElement("Press Enter to begin Debug mode", _arial24, new Rectangle(graphics.PreferredBackBufferWidth / 2 - 220,
                 graphics.PreferredBackBufferHeight / 2 + 50, 1, 1)));
                 menuLibrary.Add(Menus.Main, new Menu(mainMenuElements));
+            }
+
+            // Level Select Menu
+            {
+                Dictionary<string, UIElement> levelSelectElements = new Dictionary<string, UIElement>();
+
+                menuLibrary.Add(Menus.Select, new Menu(levelSelectElements));
+            }
+
+            // Pause Menu
+            {
+                Dictionary<string, UIElement> pauseMenuElements = new Dictionary<string, UIElement>();
+
+                menuLibrary.Add(Menus.Pause, new Menu(pauseMenuElements));
+            }
+
+            // Level Complete Menu
+            {
+                Dictionary<string, UIElement> levelCompleteElements = new Dictionary<string, UIElement>();
+
+                menuLibrary.Add(Menus.Complete, new Menu(levelCompleteElements));
             }
         }
 
@@ -170,6 +191,11 @@ namespace Clockwork
             return animationLibrary[sprite].GetSprite();
         }
 
+        /// <summary>
+        /// Get a Menu from the Menu Library
+        /// </summary>
+        /// <param name="menu">Menu to get</param>
+        /// <returns>Selected Menu from the Menu Library</returns>
         public static Menu GetMenu(Menus menu)
         {
             return menuLibrary[menu];

@@ -35,6 +35,9 @@ namespace Clockwork
         private TileType baseTileType;
 
         private Menu mainMenu;
+        private Menu levelSelect;
+        private Menu pauseMenu;
+        private Menu levelComplete;
 
         private GameState gameState;
         private enum GameState
@@ -76,6 +79,9 @@ namespace Clockwork
             collectibles.Add(_testitem2);
 
             mainMenu = UILoader.GetMenu(Menus.Main);
+            levelSelect = UILoader.GetMenu(Menus.Select);
+            pauseMenu = UILoader.GetMenu(Menus.Pause);
+            levelComplete = UILoader.GetMenu(Menus.Complete);
 
             baseTileType = new TileType(false, true, Sprites.Tile);
 
@@ -331,7 +337,8 @@ namespace Clockwork
 
         private void DrawLevelSelect()
         {
-
+            GraphicsDevice.Clear(Color.Black);
+            levelSelect.Draw(_spriteBatch);
         }
 
         private void DrawGame()
@@ -354,12 +361,14 @@ namespace Clockwork
 
         private void DrawPause()
         {
-
+            GraphicsDevice.Clear(Color.Black);
+            pauseMenu.Draw(_spriteBatch);
         }
 
         private void DrawLevelComplete()
         {
-
+            GraphicsDevice.Clear(Color.Black);
+            levelComplete.Draw(_spriteBatch);
         }
 
     }

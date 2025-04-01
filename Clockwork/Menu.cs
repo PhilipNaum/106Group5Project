@@ -9,13 +9,13 @@ namespace Clockwork
         /// <summary>
         /// List of all UIElements in the Menu
         /// </summary>
-        public List<UIElement> UIElements { get; private set; }
+        public Dictionary<string, UIElement> UIElements { get; private set; }
 
         /// <summary>
         /// Create a new Menu
         /// </summary>
         /// <param name="uiElements">List of UIElements in the new Menu</param>
-        public Menu(List<UIElement> uiElements)
+        public Menu(Dictionary<string, UIElement> uiElements)
         {
             UIElements = uiElements;
         }
@@ -25,7 +25,7 @@ namespace Clockwork
         /// </summary>
         public void Update()
         {
-            foreach (UIElement e in UIElements)
+            foreach (UIElement e in UIElements.Values)
                 e.Update();
         }
 
@@ -35,7 +35,7 @@ namespace Clockwork
         /// <param name="sb"></param>
         public void Draw(SpriteBatch sb)
         {
-            foreach (UIElement e in UIElements)
+            foreach (UIElement e in UIElements.Values)
                 e.Draw(sb);
         }
     }
