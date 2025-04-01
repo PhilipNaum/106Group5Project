@@ -87,6 +87,7 @@ namespace Clockwork
         /// </summary>
         public virtual void Update()
         {
+            Sprite.Location = Rectangle.Location;
             // Check if mouse is hovering the UIElement
             Hovered = Rectangle.Contains(Mouse.GetState().Position);
             // Check if the mouse clicked on the UIELement

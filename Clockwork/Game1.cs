@@ -361,7 +361,7 @@ namespace Clockwork
 
         private void DrawPause()
         {
-            GraphicsDevice.Clear(Color.Black);
+            DrawGame();
             pauseMenu.Draw(_spriteBatch);
         }
 
