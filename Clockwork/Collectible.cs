@@ -60,6 +60,7 @@ namespace Clockwork
             set { velocity = value; }
         }
 
+
         public int Mode
         {
             get { return mode; }
@@ -92,7 +93,7 @@ namespace Clockwork
         
 
         /// <summary>
-        /// Makes the item float up and down before being collected
+        /// Makes the item float up and down before being collected if mode is 0;
         /// </summary>
         public override void Update(GameTime gt)
         { 
@@ -116,9 +117,17 @@ namespace Clockwork
                         }
                         else
                         {
-                            
                             mode = 2;
                         }
+                        break;
+                    case Type.Hand:
+                        Vector2 test = this.Position;
+                        for(int i = 0; i < 45; i++)
+                        {
+                            test.X += 1;
+                            test.Y += 2;
+                        }
+                        this.Position = test;
                         break;
                 }
             }

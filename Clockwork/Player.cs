@@ -8,7 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.DirectoryServices;
 using System.Drawing;
+using System.Globalization;
 
 namespace Clockwork
 {
@@ -16,6 +18,7 @@ namespace Clockwork
     {
         //the collectible that represents the thrown gear
         private Collectible gearThrow;
+        private Collectible sword;
 
         //enemies that weapons must check collisions for
         private List<Enemy> enemies;
@@ -58,7 +61,8 @@ namespace Clockwork
         {
             None,
             Dash,
-            Throw
+            Throw,
+            Sword
         }
 
 
@@ -160,6 +164,9 @@ namespace Clockwork
                             - (this.Position + this.Size / 2));
                         }
                         break;
+                    case Ability.Sword:
+                        sword.Update(gameTime);
+                        break;
                     default:
                         break;
                 }
@@ -175,6 +182,7 @@ namespace Clockwork
                     gearThrow.CollisionResponse(enemies[i]);
                 }
             }
+
             this.Position += velocity;
 
             if (this.Position.Y + this.Size.Y > minHeight)
@@ -183,6 +191,15 @@ namespace Clockwork
                 velocity.Y = 0;
             }
 
+            if (sword != null)
+            {
+                sword.Position = new Vector2(this.Position.X + Size.X, this.Position.Y + (Size.Y / 2));
+                sword.Update(gameTime);
+                for (int i = 0; i < enemies.Count; i++)
+                {
+                    sword.CollisionResponse(enemies[i]);
+                }
+            }
             prevKS = ks;
 
             base.Update(gameTime);
@@ -195,6 +212,11 @@ namespace Clockwork
             if (gearThrow != null)
             {
                 gearThrow.Draw(sb);
+            }
+
+            if (sword != null)
+            {
+                sword.Draw(sb);
             }
         }
 
@@ -210,9 +232,15 @@ namespace Clockwork
                     {
                         case (Type.Gear):
                             currentAbility = Ability.Throw;
+                            sword = null;
                             break;
                         case (Type.Face):
                             currentAbility = Ability.Dash;
+                            sword = null;
+                            break;
+                        case (Type.Hand):
+                            currentAbility = Ability.Sword;
+                            sword = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + (Size.Y / 2)), new Vector2(50, 50), Type.Hand, 1, 2);
                             break;
                     }
                 }

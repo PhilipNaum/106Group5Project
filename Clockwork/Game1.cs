@@ -30,6 +30,7 @@ namespace Clockwork
 
         private Collectible _testitem;
         private Collectible _testitem2;
+        private Collectible _testitem3;
         private List<Collectible> collectibles;
 
         private Player player;
@@ -73,8 +74,10 @@ namespace Clockwork
 
             _testitem = new Collectible(new Vector2(400, 240), new Vector2(50, 50), Type.Gear,0);
             _testitem2 = new Collectible(new Vector2(200, 240), new Vector2(50, 50), Type.Face, 0);
-            collectibles.Add(_testitem);
-            collectibles.Add(_testitem2);
+            _testitem3 = new Collectible(new Vector2(300, 240), new Vector2(50, 50), Type.Hand, 0);
+            //collectibles.Add(_testitem);
+            //collectibles.Add(_testitem2);
+            collectibles.Add(_testitem3);
 
             baseTileType = new TileType(false, true, Sprites.Tile);
 
@@ -351,6 +354,10 @@ namespace Clockwork
             for (int i = 0; i < enemies.Count; i++)
             {
                 enemies[i].Draw(_spriteBatch);
+            }
+
+            for(int i=0;i<collectibles.Count; i++)
+            {
                 collectibles[i].Draw(_spriteBatch);
             }
 
