@@ -248,16 +248,11 @@ namespace Clockwork
             Vector2 playerPos = player.Position;
             Vector2 playerVel = player.Velocity;
 
-            // potentially handling collisions by how large the required offset is 
-            // instead of horizontal -> vertical could fix some bugs
-
-            // maybe better to keep track of whether left and right collisions have happened
-            // and then check if the vertical collision is on the right/left side and is 
-            // large enough, otherwise ignore it
             bool horizontalCollision = false;
 
             // player vibrates when standing on tiles at height
             // y = 3, 4
+            // less consistent at hundred thousandths place (alternates between two numbers)
 
             // horizontal collisions
             foreach (Tile collider in collisions)
