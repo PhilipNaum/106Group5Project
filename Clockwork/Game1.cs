@@ -104,6 +104,11 @@ namespace Clockwork
                 tiles.Add(new Tile(baseTileType, new Point(0, 8 - i)));
             }
 
+            for (int i = 0; i < 8; i++)
+            {
+                tiles.Add(new Tile(baseTileType, new Point(2 + i, i)));
+            }
+
             KeyboardState kb = Keyboard.GetState();
         }
 
@@ -251,6 +256,9 @@ namespace Clockwork
             // large enough, otherwise ignore it
             bool horizontalCollision = false;
 
+            // player vibrates when standing on tiles at height
+            // y = 3, 4
+
             // horizontal collisions
             foreach (Tile collider in collisions)
             {
@@ -297,6 +305,8 @@ namespace Clockwork
                 // (x: x, y: y, z: width, w: height)
                 if (col.Z >= col.W)
                 {
+                    Debug.WriteLine("H: " + col.W + " - W: " + col.Z);
+
                     if ((col.Z > 8 && horizontalCollision) || !horizontalCollision)
                     {
                         // moving downwards (collision with feet)
