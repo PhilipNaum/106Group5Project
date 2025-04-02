@@ -19,6 +19,7 @@ namespace Clockwork
         //the collectible that represents the thrown gear
         private Collectible gearThrow;
         private Collectible sword;
+        private Collectible aoeAttack;
 
         //enemies that weapons must check collisions for
         private List<Enemy> enemies;
@@ -62,7 +63,8 @@ namespace Clockwork
             None,
             Dash,
             Throw,
-            Sword
+            Sword,
+            AOE
         }
 
 
@@ -165,13 +167,25 @@ namespace Clockwork
                         }
                         break;
                     case Ability.Sword:
-                        sword.Update(gameTime);
+                        break;
+                    case Ability.AOE:
+                        if(aoeAttack == null)
+                        {
+                            aoeAttack = new Collectible(
+                            new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4),
+                            new Vector2(150, 150), Type.Chime, 1, 2);
+                        }
+                        else if (aoeAttack.Mode == 2)
+                        {
+                            aoeAttack = new Collectible(
+                            new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4),
+                            new Vector2(150, 150), Type.Chime, 1, 2);
+                        }
                         break;
                     default:
                         break;
                 }
             }
-
             //putting this here makes sure it updates every frame
             //same reason why the object itself is a field
             if (gearThrow != null)
@@ -183,6 +197,16 @@ namespace Clockwork
                 }
             }
 
+            if(aoeAttack != null)
+            {
+                aoeAttack.Position = new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4);
+                aoeAttack.Update(gameTime);
+                for (int i = 0; i < enemies.Count; i++)
+                {
+                    aoeAttack.CollisionResponse(enemies[i]);
+                }
+            }
+
             this.Position += velocity;
 
             if (this.Position.Y + this.Size.Y > minHeight)
@@ -191,15 +215,15 @@ namespace Clockwork
                 velocity.Y = 0;
             }
 
-            if (sword != null)
-            {
-                sword.Position = new Vector2(this.Position.X + Size.X, this.Position.Y + (Size.Y / 2));
-                sword.Update(gameTime);
-                for (int i = 0; i < enemies.Count; i++)
-                {
-                    sword.CollisionResponse(enemies[i]);
-                }
-            }
+            //if (sword != null)
+            //{
+            //    sword.Position = new Vector2(this.Position.X + Size.X, this.Position.Y + (Size.Y / 2));
+            //    sword.Update(gameTime);
+            //    for (int i = 0; i < enemies.Count; i++)
+            //    {
+            //        sword.CollisionResponse(enemies[i]);
+            //    }
+            //}
             prevKS = ks;
 
             base.Update(gameTime);
@@ -218,6 +242,11 @@ namespace Clockwork
             {
                 sword.Draw(sb);
             }
+
+            if(aoeAttack != null)
+            {
+                aoeAttack.Draw(sb);
+            }
         }
 
         public void CollisionResponse(GameObject other)
@@ -232,15 +261,15 @@ namespace Clockwork
                     {
                         case (Type.Gear):
                             currentAbility = Ability.Throw;
-                            sword = null;
                             break;
                         case (Type.Face):
                             currentAbility = Ability.Dash;
-                            sword = null;
                             break;
                         case (Type.Hand):
                             currentAbility = Ability.Sword;
-                            sword = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + (Size.Y / 2)), new Vector2(50, 50), Type.Hand, 1, 2);
+                            break;
+                        case (Type.Chime):
+                            currentAbility = Ability.AOE;
                             break;
                     }
                 }
