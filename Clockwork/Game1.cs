@@ -249,8 +249,7 @@ namespace Clockwork
             // maybe better to keep track of whether left and right collisions have happened
             // and then check if the vertical collision is on the right/left side and is 
             // large enough, otherwise ignore it
-            bool leftCollision = false;
-            bool rightCollision = false;
+            bool horizontalCollision = false;
 
             // horizontal collisions
             foreach (Tile collider in collisions)
@@ -258,27 +257,33 @@ namespace Clockwork
                 // collision rectangle
                 Vector4 col = player.GetCollision(collider);
 
+                // ignore a collision if the width or height is 0
+                if (col.W == 0 || col.Z == 0)
+                    continue;
+
                 // (x: x, y: y, z: width, w: height)
                 if (col.W >= col.Z) 
                 {
-                    //Debug.WriteLine(col.W + " - " + col.Z);
-                    // moving right
-                    if (playerVel.X > 0 && player.Right >= collider.Left
-                        && player.Right < collider.Right)
+                    if (col.Z > 0.3f)
                     {
-                        rightCollision = true;
+                        // moving right
+                        if (playerVel.X > 0 && player.Right >= collider.Left
+                            && player.Right < collider.Right)
+                        {
+                            horizontalCollision = true;
 
-                        playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
-                        playerVel.X = 0;
-                    }
-                    // moving left
-                    else if (playerVel.X < 0 && player.Left <= collider.Right
-                        && player.Left > collider.Left)
-                    {
-                        leftCollision = true;
+                            playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
+                            playerVel.X = 0;
+                        }
+                        // moving left
+                        else if (playerVel.X < 0 && player.Left <= collider.Right
+                            && player.Left > collider.Left)
+                        {
+                            horizontalCollision = true;
 
-                        playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
-                        playerVel.X = 0;
+                            playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
+                            playerVel.X = 0;
+                        }
                     }
                 }
             }
@@ -292,9 +297,7 @@ namespace Clockwork
                 // (x: x, y: y, z: width, w: height)
                 if (col.Z >= col.W)
                 {
-                    //Debug.WriteLine("H: " + col.W + " - W: " + col.Z);
-
-                    if ((col.Z > 8 && (leftCollision || rightCollision)) || !(leftCollision || rightCollision))
+                    if ((col.Z > 8 && horizontalCollision) || !horizontalCollision)
                     {
                         // moving downwards (collision with feet)
                         if (playerVel.Y > 0 && player.Bottom >= collider.Top
