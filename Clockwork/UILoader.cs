@@ -31,7 +31,8 @@ namespace Clockwork
         Main,
         Select,
         Pause,
-        Complete
+        Complete,
+        Credits
     }
 
     internal class UILoader
@@ -147,8 +148,7 @@ namespace Clockwork
                 Dictionary<string, UIElement> mainMenuElements = new Dictionary<string, UIElement>();
                 mainMenuElements.Add("lbTitle", new TextElement("Clock Work", _arial36, new Rectangle(graphics.PreferredBackBufferWidth / 2 - 120,
                 graphics.PreferredBackBufferHeight / 2 - 50, 1, 1)));
-                mainMenuElements.Add("lbInfo", new TextElement("Press Enter to begin Debug mode", _arial24, new Rectangle(graphics.PreferredBackBufferWidth / 2 - 220,
-                graphics.PreferredBackBufferHeight / 2 + 50, 1, 1)));
+                mainMenuElements.Add("btStart", new Button(Sprites.Empty, new Rectangle(0, 0, 0, 0)));
                 menuLibrary.Add(Menus.Main, new Menu(mainMenuElements));
             }
 
@@ -162,7 +162,8 @@ namespace Clockwork
             // Pause Menu
             {
                 Dictionary<string, UIElement> pauseMenuElements = new Dictionary<string, UIElement>();
-
+                pauseMenuElements.Add("btResume", new Button(Sprites.Empty, new Rectangle(0, 0, 0, 0)));
+                pauseMenuElements.Add("btQuit", new Button(Sprites.Empty, new Rectangle(0, 0, 0, 0)));
                 menuLibrary.Add(Menus.Pause, new Menu(pauseMenuElements));
             }
 
@@ -171,6 +172,14 @@ namespace Clockwork
                 Dictionary<string, UIElement> levelCompleteElements = new Dictionary<string, UIElement>();
 
                 menuLibrary.Add(Menus.Complete, new Menu(levelCompleteElements));
+            }
+
+            // Credits Menu
+            {
+                Dictionary<string, UIElement> creditsElements = new Dictionary<string, UIElement>();
+                creditsElements.Add("lbCreditsTitle", new TextElement("Credits", _arial36, new Rectangle()));
+                creditsElements.Add("lbCredits", new TextElement("", _arial24, new Rectangle()));
+                menuLibrary.Add(Menus.Complete, new Menu(creditsElements));
             }
         }
 
