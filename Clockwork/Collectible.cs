@@ -43,7 +43,7 @@ namespace Clockwork
         //the total units that make up the space the item floats in before being collected
         private int range;
 
-        private double timer = .16;
+        private double timer;
 
 
         public Type CollectibleType
@@ -76,6 +76,15 @@ namespace Clockwork
             home = this.Position;
             range = 7;
             velocity = new Vector2(0, .05f);
+            switch (collectibleType)
+            {
+                case (Type.Chime):
+                    timer = .16;
+                    break;
+                case (Type.Hand):
+                    timer = .75;
+                    break;
+            }
         }
         
         public Collectible(Vector2 position, Vector2 size,Type collectibletype, int mode, int damage)
@@ -123,14 +132,13 @@ namespace Clockwork
                         }
                         break;
                     case Type.Hand:
-                        Position += velocity;
-                        //Vector2 test = this.Position;
-                        //for(int i = 0; i < 45; i++)
-                        //{
-                        //    test.X += 1;
-                        //    test.Y += 2;
-                        //}
-                        //this.Position = test;
+                        timer -= gt.ElapsedGameTime.TotalSeconds;
+                        Velocity = new Vector2(0, 0);
+                        double angle = Math.Acos(Vector2.Dot(this.Position, new Vector2(800, 0)) / (this.Position.Length() * 800));
+                        if (timer <= 0)
+                        {
+                            mode = 2;
+                        }
                         break;
                     case Type.Chime:
                         timer -= gt.ElapsedGameTime.TotalSeconds;

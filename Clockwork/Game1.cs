@@ -31,6 +31,7 @@ namespace Clockwork
         private Collectible _testitem;
         private Collectible _testitem2;
         private Collectible _testitem3;
+        private Collectible _testitem4;
         private List<Collectible> collectibles;
 
         private Player player;
@@ -74,10 +75,12 @@ namespace Clockwork
 
             _testitem = new Collectible(new Vector2(400, 240), new Vector2(50, 50), Type.Gear,0);
             _testitem2 = new Collectible(new Vector2(200, 240), new Vector2(50, 50), Type.Face, 0);
-            _testitem3 = new Collectible(new Vector2(300, 240), new Vector2(50, 50), Type.Chime, 0);
+            _testitem3 = new Collectible(new Vector2(400, 240), new Vector2(50, 50), Type.Chime, 0);
+            _testitem4 = new Collectible(new Vector2(200, 240), new Vector2(50, 50), Type.Hand, 0);
             //collectibles.Add(_testitem);
             //collectibles.Add(_testitem2);
-            collectibles.Add(_testitem3);
+            //collectibles.Add(_testitem3);
+            collectibles.Add(_testitem4);
 
             baseTileType = new TileType(false, true, Sprites.Tile);
 
@@ -195,6 +198,10 @@ namespace Clockwork
                     {
                         enemies[i].CollisionResponse(enemies[j]);
                     }
+                }
+                for (int j = 0; j < tiles.Count; j++)
+                {
+                    enemies[i].CollisionResponse(tiles[j]);
                 }
             }
 
@@ -365,6 +372,14 @@ namespace Clockwork
             {
                 t.Draw(_spriteBatch);
             }
+
+            _spriteBatch.DrawString(_arial36, $"{player.Position}",
+                new Vector2(0,0), Color.White);
+
+            _spriteBatch.DrawString(_arial36, $"{Math.Acos(Vector2.Dot(player.Position, new Vector2(800, 0)) / (player.Position.Length() * 800))}",
+                new Vector2(0,100), Color.White);
+
+            
         }
 
         private void DrawPause()

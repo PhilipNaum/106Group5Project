@@ -136,7 +136,18 @@ public Enemy(Vector2 position, Vector2 size, Vector2 velocity, int range, int he
                 {
                     //dont let the enemy fall through the ground
                     //Tile tile = (Tile)other;
-                    //Rectangle intsRect = Rectangle.Intersect(this.collisionbox,)
+                    //Rectangle displacement = Rectangle.Intersect(GetRectangle(), tile.GetRectangle());
+                    //if (displacement.Height > displacement.Width)
+                    //{
+                    //    if (this.Position.X < tile.Position.X)
+                    //    {
+                    //        this.Position = new Vector2(Position.X - displacement.Width, Position.Y);
+                    //    }
+                    //    else if (this.Position.X > tile.Position.X)
+                    //    {
+                    //        this.Position = new Vector2(Position.X + displacement.Width, Position.Y);
+                    //    }
+                    //}
                 }
             }
         }
