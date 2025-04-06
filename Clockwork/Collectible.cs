@@ -207,10 +207,6 @@ namespace Clockwork
         /// <returns></returns>
         public override Rectangle GetRectangle()
         {
-            if (mode == 2)
-            {
-                return new Rectangle(0, 0, 0, 0);
-            }
             return base.GetRectangle();
         }
 

@@ -47,7 +47,7 @@ namespace Clockwork
 
        
 
-public Enemy(Vector2 position, Vector2 size, Vector2 velocity, int range, int health) : base(position, size, Sprites.Enemy)
+        public Enemy(Vector2 position, Vector2 size, Vector2 velocity, int range, int health) : base(position, size, Sprites.Enemy)
         {
             this.health = health;
             this.range = range;
@@ -55,7 +55,6 @@ public Enemy(Vector2 position, Vector2 size, Vector2 velocity, int range, int he
             this.velocity = velocity;
             acceleration = new Vector2(0, .5f);
             isDead = false;
-            
         }
         public override void Draw(SpriteBatch sb)
         {
@@ -63,7 +62,6 @@ public Enemy(Vector2 position, Vector2 size, Vector2 velocity, int range, int he
             {
                 base.Draw(sb);
             }
-            
         }
 
         /// <summary>

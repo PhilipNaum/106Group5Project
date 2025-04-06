@@ -16,13 +16,13 @@ namespace Clockwork
 {
     internal class Player : GameObject
     {
-        //the collectible that represents the thrown gear
-        private Collectible gearThrow;
-        private Collectible sword;
-        private Collectible aoeAttack;
+        //the collectible that represents the players current item;
+        private Collectible currentItem;
 
-        //enemies that weapons must check collisions for
-        private List<Enemy> enemies;
+        public Collectible CurrentItem
+        {
+            get { return currentItem; }
+        }
 
         private Vector2 velocity;
         public Vector2 Velocity { 
@@ -68,10 +68,9 @@ namespace Clockwork
         }
 
 
-        public Player(Vector2 position, Vector2 size, List<Enemy> enemies) : base(position, size, Sprites.Player)
+        public Player(Vector2 position, Vector2 size) : base(position, size, Sprites.Player)
         {
             currentAbility = Ability.None;
-            this.enemies = enemies;
             grounded = false;
         }
 
@@ -152,37 +151,31 @@ namespace Clockwork
                         break;
                     case Ability.Throw:
                         //these statements make sure that a gear can only be thrown once the one before is gone
-                        
-                        if (gearThrow == null)
+                        if (currentItem == null || currentItem.Mode == 2)
                         {
-                            gearThrow = new Collectible(this.Position,new Vector2(50,50) ,Type.Gear, 1, 2);
-                            gearThrow.Velocity = Vector2.Normalize(ms.Position.ToVector2()
-                            - (this.Position + this.Size / 2));
-                        }
-                        else if (gearThrow.Mode == 2)
-                        {
-                            gearThrow = new Collectible(this.Position, new Vector2(50, 50), Type.Gear, 1, 2);
-                            gearThrow.Velocity = Vector2.Normalize(ms.Position.ToVector2()
+                            currentItem = new Collectible(new Vector2(this.Position.X + Size.X / 4, this.Position.Y + Size.Y / 4), new Vector2(50, 50), Type.Gear, 1, 2);
+                            currentItem.Velocity = Vector2.Normalize(ms.Position.ToVector2()
                             - (this.Position + this.Size / 2));
                         }
                         break;
                     case Ability.Sword:
-                        sword = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + Size.Y/2),
+                        currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + Size.Y/2),
                             new Vector2(50, 50), Type.Hand, 1, 2);
                         break;
                     case Ability.AOE:
-                        if(aoeAttack == null)
+                        if(currentItem == null)
                         {
-                            aoeAttack = new Collectible(
+                            currentItem = new Collectible(
                             new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4),
                             new Vector2(150, 150), Type.Chime, 1, 2);
                         }
-                        else if (aoeAttack.Mode == 2)
+                        else if (currentItem.Mode == 2)
                         {
-                            aoeAttack = new Collectible(
+                            currentItem = new Collectible(
                             new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4),
                             new Vector2(150, 150), Type.Chime, 1, 2);
                         }
+                        currentItem.Position = new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4);
                         break;
                     default:
                         break;
@@ -190,23 +183,9 @@ namespace Clockwork
             }
             //putting this here makes sure it updates every frame
             //same reason why the object itself is a field
-            if (gearThrow != null)
+            if (currentItem != null)
             {
-                gearThrow.Update(gameTime);
-                for (int i = 0; i < enemies.Count; i++)
-                {
-                    gearThrow.CollisionResponse(enemies[i]);
-                }
-            }
-
-            if(aoeAttack != null)
-            {
-                aoeAttack.Position = new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4);
-                aoeAttack.Update(gameTime);
-                for (int i = 0; i < enemies.Count; i++)
-                {
-                    aoeAttack.CollisionResponse(enemies[i]);
-                }
+                currentItem.Update(gameTime);
             }
 
             this.Position += velocity;
@@ -217,14 +196,6 @@ namespace Clockwork
                 velocity.Y = 0;
             }
 
-            if (sword != null)
-            {
-                sword.Update(gameTime);
-                for (int i = 0; i < enemies.Count; i++)
-                {
-                    sword.CollisionResponse(enemies[i]);
-                }
-            }
             prevKS = ks;
 
             base.Update(gameTime);
@@ -234,19 +205,9 @@ namespace Clockwork
         {
             base.Draw(sb);
 
-            if (gearThrow != null)
+            if (currentItem != null)
             {
-                gearThrow.Draw(sb);
-            }
-
-            if (sword != null)
-            {
-                sword.Draw(sb);
-            }
-
-            if(aoeAttack != null)
-            {
-                aoeAttack.Draw(sb);
+                currentItem.Draw(sb);
             }
         }
 
