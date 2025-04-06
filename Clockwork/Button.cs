@@ -38,6 +38,13 @@ namespace Clockwork
             this(spriteName, new Rectangle(position, size))
         { }
 
+        /// <summary>
+        /// Create a new Button object that is 96x23
+        /// </summary>
+        /// <param name="spriteName">Name of the Sprite the Button uses</param>
+        /// <param name="location">Location of the button</param>
+        public Button(Sprites spriteName, Point location) : base(spriteName, new Rectangle(location, new Point(96, 32))) { }
+
 
         // === Methods ===
 

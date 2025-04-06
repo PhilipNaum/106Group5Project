@@ -87,6 +87,7 @@ namespace Clockwork
         /// </summary>
         public virtual void Update()
         {
+            this.ResetState();
             Sprite.Location = Rectangle.Location;
             // Check if mouse is hovering the UIElement
             Hovered = Rectangle.Contains(Mouse.GetState().Position);
@@ -114,6 +115,15 @@ namespace Clockwork
         public virtual void Draw(SpriteBatch sb, Color color, float rotation, SpriteEffects spriteEffects, float layer)
         {
             Sprite.Draw(sb, color, rotation, spriteEffects, layer);
+        }
+
+        /// <summary>
+        /// Resets the Hovered and Clicked states to false
+        /// </summary>
+        private void ResetState()
+        {
+            Hovered = false;
+            Clicked = false;
         }
     }
 }
