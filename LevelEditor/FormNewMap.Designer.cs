@@ -80,6 +80,7 @@
             buttonCreate.TabIndex = 4;
             buttonCreate.Text = "create";
             buttonCreate.UseVisualStyleBackColor = true;
+            buttonCreate.Click += buttonCreate_Click;
             // 
             // FormNewMap
             // 

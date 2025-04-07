@@ -2,7 +2,7 @@
 {
     public partial class FormNewMap : Form
     {
-         /// <summary>
+        /// <summary>
         /// the maximum width and height of the map
         /// </summary>
         private const int MaximumMapLength = 100;
@@ -11,7 +11,8 @@
 
         private event CreateMap MapCreated;
 
-        public FormNewMap(CreateMap mapCreatedHandler) {
+        public FormNewMap(CreateMap mapCreatedHandler)
+        {
             InitializeComponent();
 
             MapCreated += mapCreatedHandler;
@@ -78,5 +79,10 @@
             // close window
             Close();
         }
+
+        /// <summary>
+        /// when the create button is clicked
+        /// </summary>
+        private void buttonCreate_Click(object sender, EventArgs e) { TryCreateMap(); }
     }
 }
