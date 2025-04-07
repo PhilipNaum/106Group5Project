@@ -2,6 +2,11 @@
 {
     public partial class FormNewMap : Form
     {
+         /// <summary>
+        /// the maximum width and height of the map
+        /// </summary>
+        private const int MaximumMapLength = 100;
+
         public delegate void CreateMap(Size dimensions);
 
         private event CreateMap MapCreated;
@@ -15,7 +20,7 @@
         /// <summary>
         /// tries to parse the entered dimensions
         /// </summary>
-        /// <returns>the dimensions, null otherwise</returns>
+        /// <returns>the dimensions, null if invalid</returns>
         private Size? TryParseDimensions()
         {
             // try to parse width
@@ -32,10 +37,24 @@
         }
 
         /// <summary>
-        /// makes sure dimensions are in range (EMPTY)
+        /// makes sure dimensions are valid and in range
         /// </summary>
         /// <returns>whether the dimensions are in range</returns>
-        private bool ValidateDimensions() => true;
+        private bool ValidateDimensions()
+        {
+            // try to parse dimensions, or set to an out of range size
+            Size dimensions = TryParseDimensions() ?? new Size(-1, -1);
+
+            // check if dimensions are in range
+            if (
+                dimensions.Width <= 0 ||
+                dimensions.Width > MaximumMapLength ||
+                dimensions.Width <= 0 ||
+                dimensions.Height > MaximumMapLength
+                ) { return false; }
+
+            return true;
+        }
 
         private void TryCreateMap()
         {
