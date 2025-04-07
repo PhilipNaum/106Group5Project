@@ -45,6 +45,8 @@ namespace Clockwork
         private Menu levelComplete;
         private Menu creditsMenu;
 
+        private Texture2D scrim;
+
         private GameState gameState;
         private enum GameState
         {
@@ -130,6 +132,7 @@ namespace Clockwork
 
             // Load content
             UILoader.LoadContent(Content, _graphics);
+            scrim = this.Content.Load<Texture2D>("Scrim");
         }
 
         protected override void Update(GameTime gameTime)
@@ -438,6 +441,7 @@ namespace Clockwork
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             DrawGame();
+            _spriteBatch.Draw(scrim, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
             pauseMenu.Draw(_spriteBatch);
         }
 
