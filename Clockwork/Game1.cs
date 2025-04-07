@@ -380,21 +380,19 @@ namespace Clockwork
             _spriteBatch.DrawString(_arial24, $"{player.Position}",
                 new Vector2(0, 0), Color.White);
 
-            if (player.CurrentItem != null)
-            {
+            //if (player.CurrentItem != null)
+            //{
 
-                Collectible current = player.CurrentItem;
-                Vector2 finalPos = new Vector2(current.Position.X, current.Position.Y - 100);
-                _spriteBatch.DrawString(_arial24, $"{current.Position}",
-                new Vector2(0, 40), Color.White);
-                _spriteBatch.DrawString(_arial24, $"{finalPos - current.Home}",
-                new Vector2(0, 80), Color.White);
-                _spriteBatch.DrawString(_arial24, $"{current.Position - current.Home}",
-                new Vector2(0, 120), Color.White);
-                _spriteBatch.DrawString(_arial24, $"{(current.Position - current.Home) - (finalPos - current.Home) }",
-                new Vector2(0, 160), Color.White);
+            //    Collectible current = player.CurrentItem;
+            //    Vector2 finalPos = new Vector2(current.Position.X, current.Position.Y - 100);
+            //    _spriteBatch.DrawString(_arial24, $"{current.Position}",
+            //    new Vector2(0, 40), Color.White);
+            //    _spriteBatch.DrawString(_arial24, $"{finalPos - current.Home}",
+            //    new Vector2(0, 80), Color.White);
+            //    _spriteBatch.DrawString(_arial24, $"{current.Position - current.Home}",
+            //    new Vector2(0, 120), Color.White);
 
-            }
+            //}
 
         }
 
