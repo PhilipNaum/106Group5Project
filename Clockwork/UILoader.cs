@@ -93,7 +93,7 @@ namespace Clockwork
             // -- Player Setup --
             {
                 // Load Textures
-                Texture2D playerTexture = content.Load<Texture2D>("Player");
+                Texture2D playerTexture = content.Load<Texture2D>("playerPlaceholder");
 
                 // Set up Frames
                 List<Frame> playerFrames = new List<Frame>();
@@ -131,7 +131,7 @@ namespace Clockwork
                 Texture2D faceTexture = content.Load<Texture2D>("facePickup");
                 Texture2D handTexture = content.Load<Texture2D>("HandPickup");
                 Texture2D keyTexture = content.Load<Texture2D>("KeyPickup");
-                Texture2D bellTexture = content.Load<Texture2D>("empty");
+                Texture2D bellTexture = content.Load<Texture2D>("BellPickup");
 
                 // Set up Frames
                 List<Frame> collectibleFrames = new List<Frame>();

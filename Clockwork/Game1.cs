@@ -71,8 +71,8 @@ namespace Clockwork
 
             gameState = GameState.MainMenu;
 
-            player = new Player(Vector2.Zero, new Vector2(100, 100), enemies);
-            player = new Player(new Vector2(200, 0), new Vector2(100, 100), enemies);
+            player = new Player(Vector2.Zero, new Vector2(64, 128), enemies);
+            player = new Player(new Vector2(200, 0), new Vector2(64, 128), enemies);
 
             _testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
             _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
