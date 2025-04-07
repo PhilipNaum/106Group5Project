@@ -58,8 +58,6 @@ namespace Clockwork
         private static Dictionary<Menus, Menu> menuLibrary = new Dictionary<Menus, Menu>();
 
         // Fonts
-        public static SpriteFont Arial24 { get; private set; }
-        public static SpriteFont Arial36 { get; private set; }
         public static SpriteFont Medodica18 { get; private set; }
         public static SpriteFont Medodica24 { get; private set; }
         public static SpriteFont Medodica48 { get; private set; }
@@ -72,8 +70,6 @@ namespace Clockwork
         public static void LoadContent(ContentManager content, GraphicsDeviceManager graphics)
         {
             // Load Fonts
-            Arial36 = content.Load<SpriteFont>("ARIAL36");
-            Arial24 = content.Load<SpriteFont>("ARIAL24");
             Medodica18 = content.Load<SpriteFont>("MEDODICA18");
             Medodica24 = content.Load<SpriteFont>("MEDODICA24");
             Medodica48 = content.Load<SpriteFont>("MEDODICA48");

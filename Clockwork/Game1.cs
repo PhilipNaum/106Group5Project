@@ -157,7 +157,7 @@ namespace Clockwork
                     UpdateLevelComplete();
                     break;
                 case GameState.Credits:
-
+                    UpdateCredits();
                     break;
                 default:
                     break;
@@ -307,7 +307,7 @@ namespace Clockwork
                     continue;
 
                 // (x: x, y: y, z: width, w: height)
-                if (col.W >= col.Z) 
+                if (col.W >= col.Z)
                 {
                     if (col.Z > 0.3f)
                     {
@@ -356,7 +356,7 @@ namespace Clockwork
                         // player.Bottom > collider.Bottom stops velocity from being
                         // set to 0 when the player clips the top of a platform while
                         // moving upwards
-                        else if (playerVel.Y < 0 && player.Top <= collider.Bottom 
+                        else if (playerVel.Y < 0 && player.Top <= collider.Bottom
                             && player.Bottom > collider.Bottom)
                         {
                             playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);

@@ -13,20 +13,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin ARIAL24.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:ARIAL24.spritefont
-
-#begin ARIAL36.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:ARIAL36.spritefont
-
 #begin BellPickup.png
 /importer:TextureImporter
 /processor:TextureProcessor
