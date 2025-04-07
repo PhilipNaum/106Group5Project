@@ -137,22 +137,18 @@ namespace Clockwork
                         }
                         break;
                     case Type.Hand:
-                        double angle = 3 * Math.PI / 4;
-                        double oneDegree = 0.0174533;
-                        Vector2 tempPos = this.Position;
-                        Vector2 finalPos = tempPos;
-                        finalPos.X = (float)(Math.Cos(angle * tempPos.X) - Math.Sin(angle * tempPos.Y));
-                        finalPos.Y = (float)(Math.Sin(angle * tempPos.X) + Math.Cos(angle * tempPos.Y));
-                        while (tempPos.X != finalPos.X && tempPos.Y != finalPos.Y)
-                        {
-                            tempPos.X += (float)(Math.Cos(oneDegree * tempPos.X) - Math.Sin(oneDegree * tempPos.Y));
-                            tempPos.Y += (float)(Math.Sin(oneDegree * tempPos.X) + Math.Cos(oneDegree * tempPos.Y));
-                            Position = tempPos;
-                        }
-                        if (timer <= 0)
-                        {
-                            mode = 2;
-                        }
+                        //Vector2 finalPos = new Vector2(this.Position.X, this.Position.Y-100);
+                        //Vector2 distFromPlayer = this.Position - this.Home;
+                        //Vector2 homeToFinal = finalPos - this.Home;
+                        //double angle = Math.Acos(Vector2.Dot(homeToFinal,distFromPlayer)/(homeToFinal.Length()*distFromPlayer.Length()));
+                        //velocity = Position;
+                        //for(double i=0;i<angle;i+= 0.0174533)
+                        //{
+                        //    velocity.X -= (float)(Math.Cos(0.0174533 * velocity.X) + Math.Sin(0.0174533 * velocity.Y));
+                        //    velocity.Y -= (float)(Math.Sin(0.0174533 * velocity.X) + Math.Sin(0.0174533 * velocity.Y));
+
+                        //    Position = velocity;
+                        //}
                         break;
                     case Type.Chime:
                         timer -= gt.ElapsedGameTime.TotalSeconds;

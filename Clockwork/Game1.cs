@@ -377,13 +377,25 @@ namespace Clockwork
                 t.Draw(_spriteBatch);
             }
 
-            //_spriteBatch.DrawString(_arial36, $"{player.Position}",
-            //    new Vector2(0,0), Color.White);
+            _spriteBatch.DrawString(_arial24, $"{player.Position}",
+                new Vector2(0, 0), Color.White);
 
-            //_spriteBatch.DrawString(_arial36, $"{Math.Acos(Vector2.Dot(player.Position, new Vector2(800, 0)) / (player.Position.Length() * 800))}",
-            //    new Vector2(0,100), Color.White);
+            if (player.CurrentItem != null)
+            {
 
-            
+                Collectible current = player.CurrentItem;
+                Vector2 finalPos = new Vector2(current.Position.X, current.Position.Y - 100);
+                _spriteBatch.DrawString(_arial24, $"{current.Position}",
+                new Vector2(0, 40), Color.White);
+                _spriteBatch.DrawString(_arial24, $"{finalPos - current.Home}",
+                new Vector2(0, 80), Color.White);
+                _spriteBatch.DrawString(_arial24, $"{current.Position - current.Home}",
+                new Vector2(0, 120), Color.White);
+                _spriteBatch.DrawString(_arial24, $"{(current.Position - current.Home) - (finalPos - current.Home) }",
+                new Vector2(0, 160), Color.White);
+
+            }
+
         }
 
         private void DrawPause()
