@@ -150,7 +150,7 @@ namespace Clockwork
                         velocity = Dash(ms);
                         break;
                     case Ability.Throw:
-                        //these statements make sure that a gear can only be thrown once the one before is gone
+                        //if statement make sure that a gear can only be thrown once the one before is gone
                         if (currentItem == null || currentItem.Mode == 2)
                         {
                             currentItem = new Collectible(new Vector2(this.Position.X + Size.X / 4, this.Position.Y + Size.Y / 4), new Vector2(50, 50), Type.Gear, 1, 2);
@@ -161,21 +161,15 @@ namespace Clockwork
                     case Ability.Sword:
                         currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + Size.Y/2),
                             new Vector2(50, 50), Type.Hand, 1, 2);
+                        currentItem.Home = this.Position;
                         break;
                     case Ability.AOE:
-                        if(currentItem == null)
+                        if (currentItem == null || currentItem.Mode == 2)
                         {
                             currentItem = new Collectible(
                             new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4),
                             new Vector2(150, 150), Type.Chime, 1, 2);
                         }
-                        else if (currentItem.Mode == 2)
-                        {
-                            currentItem = new Collectible(
-                            new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4),
-                            new Vector2(150, 150), Type.Chime, 1, 2);
-                        }
-                        currentItem.Position = new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4);
                         break;
                     default:
                         break;
@@ -186,6 +180,10 @@ namespace Clockwork
             if (currentItem != null)
             {
                 currentItem.Update(gameTime);
+                if(currentAbility == Ability.AOE)
+                {
+                    currentItem.Position = new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4);
+                }
             }
 
             this.Position += velocity;

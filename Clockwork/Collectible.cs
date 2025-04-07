@@ -62,11 +62,16 @@ namespace Clockwork
             set { velocity = value; }
         }
 
-
         public int Mode
         {
             get { return mode; }
             set { mode = value; }
+        }
+
+        public Vector2 Home
+        {
+            get { return home; }
+            set { home = value; }
         }
 
         public Collectible(Vector2 position, Vector2 size, Type collectibletype, int mode) : base(position, size, collectibletype)
@@ -132,9 +137,18 @@ namespace Clockwork
                         }
                         break;
                     case Type.Hand:
-                        timer -= gt.ElapsedGameTime.TotalSeconds;
-                        Velocity = new Vector2(0, 0);
-                        double angle = Math.Acos(Vector2.Dot(this.Position, new Vector2(800, 0)) / (this.Position.Length() * 800));
+                        double angle = 3 * Math.PI / 4;
+                        double oneDegree = 0.0174533;
+                        Vector2 tempPos = this.Position;
+                        Vector2 finalPos = tempPos;
+                        finalPos.X = (float)(Math.Cos(angle * tempPos.X) - Math.Sin(angle * tempPos.Y));
+                        finalPos.Y = (float)(Math.Sin(angle * tempPos.X) + Math.Cos(angle * tempPos.Y));
+                        while (tempPos.X != finalPos.X && tempPos.Y != finalPos.Y)
+                        {
+                            tempPos.X += (float)(Math.Cos(oneDegree * tempPos.X) - Math.Sin(oneDegree * tempPos.Y));
+                            tempPos.Y += (float)(Math.Sin(oneDegree * tempPos.X) + Math.Cos(oneDegree * tempPos.Y));
+                            Position = tempPos;
+                        }
                         if (timer <= 0)
                         {
                             mode = 2;
