@@ -137,18 +137,18 @@ namespace Clockwork
                         }
                         break;
                     case Type.Hand:
-                        //Vector2 finalPos = new Vector2(this.Position.X, this.Position.Y-100);
-                        //Vector2 distFromPlayer = this.Position - this.Home;
-                        //Vector2 homeToFinal = finalPos - this.Home;
-                        //double angle = Math.Acos(Vector2.Dot(homeToFinal,distFromPlayer)/(homeToFinal.Length()*distFromPlayer.Length()));
-                        //velocity = Position;
-                        //for(double i=0;i<angle;i+= 0.0174533)
-                        //{
-                        //    velocity.X -= (float)(Math.Cos(0.0174533 * velocity.X) + Math.Sin(0.0174533 * velocity.Y));
-                        //    velocity.Y -= (float)(Math.Sin(0.0174533 * velocity.X) + Math.Sin(0.0174533 * velocity.Y));
+                        Vector2 finalPos = new Vector2(this.Position.X, this.Position.Y - 100);
+                        Vector2 distFromPlayer = this.Position - this.Home;
+                        Vector2 homeToFinal = finalPos - this.Home;
+                        double angle = Math.Acos(Vector2.Dot(homeToFinal, distFromPlayer) / (homeToFinal.Length() * distFromPlayer.Length()));
+                        velocity = Position;
+                        for (double i = 0; i < angle; i += 0.0174533)
+                        {
+                            velocity.X -= (float)(Math.Cos(0.0174533 * velocity.X) + Math.Sin(0.0174533 * velocity.Y));
+                            velocity.Y -= (float)(Math.Sin(0.0174533 * velocity.X) + Math.Sin(0.0174533 * velocity.Y));
 
-                        //    Position = velocity;
-                        //}
+                            Position = velocity;
+                        }
                         break;
                     case Type.Chime:
                         timer -= gt.ElapsedGameTime.TotalSeconds;
