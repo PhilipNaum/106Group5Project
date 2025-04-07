@@ -23,7 +23,7 @@ namespace Clockwork
     }
     internal class Collectible : GameObject
     {
-        //used for movement. Currently, the home is set to always be the enemies starting position
+        //used for movement. Currently, the home is set to always be the collecible's starting position
         private Vector2 home;
 
         private Vector2 velocity;
@@ -103,7 +103,6 @@ namespace Clockwork
                     velocity.Y *= -1;
                 }
                 this.Position = new Vector2(Position.X, Position.Y + velocity.Y);
-                base.Update(gt);
             }
             else if (mode == 1)
             {
@@ -111,20 +110,19 @@ namespace Clockwork
                 {
                     case Type.Gear:
                         range = 400;
-                        if (this.Position.X < home.X + range)
+                        if (Vector2.Distance(home, this.Position) < range)
                         {
-                            velocity = new Vector2(14, 0);
-                            this.Position += velocity;
+                            this.Position += velocity*14;
                         }
                         else
                         {
-                            velocity.X = 0;
-                            this.Position += velocity;
+                            
                             mode = 2;
                         }
                         break;
                 }
-            }   
+            }
+            base.Update(gt);
         }
 
         /// <summary>
@@ -159,6 +157,12 @@ namespace Clockwork
                             }
                             break;
                     }
+                }
+
+                if (other is Tile && mode == 1)
+                {
+                    System.Diagnostics.Debug.WriteLine("test");
+                    mode = 2;
                 }
             }
         }

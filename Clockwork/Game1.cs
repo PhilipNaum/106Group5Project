@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Data;
 using System.Diagnostics;
 
@@ -71,7 +72,6 @@ namespace Clockwork
 
             gameState = GameState.MainMenu;
 
-            player = new Player(Vector2.Zero, new Vector2(64, 128), enemies);
             player = new Player(new Vector2(200, 0), new Vector2(64, 128), enemies);
 
             _testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
@@ -215,6 +215,8 @@ namespace Clockwork
             // 2 lines since it's a bit easier to read than one.
             List<Tile> collisions = GetPlayerCollisions();
             HandlePlayerCollisions(collisions);
+            // update sprite because player may have moved from collisions.
+            player.SpriteUpdate(gameTime);
 
             for (int i = 0; i < enemies.Count; i++)
             {
@@ -288,26 +290,45 @@ namespace Clockwork
             Vector2 playerPos = player.Position;
             Vector2 playerVel = player.Velocity;
 
+            bool horizontalCollision = false;
+
+            // player vibrates when standing on tiles at height
+            // y = 3, 4
+            // less consistent at hundred thousandths place (alternates between two numbers)
+
             // horizontal collisions
             foreach (Tile collider in collisions)
             {
                 // collision rectangle
                 Vector4 col = player.GetCollision(collider);
 
+                // ignore a collision if the width or height is 0
+                if (col.W == 0 || col.Z == 0)
+                    continue;
+
                 // (x: x, y: y, z: width, w: height)
-                if (col.W >= col.Z)
+                if (col.W >= col.Z) 
                 {
-                    // moving right
-                    if (playerVel.X > 0 && player.Right >= collider.Left)
+                    if (col.Z > 0.3f)
                     {
-                        playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
-                        playerVel.X = 0;
-                    }
-                    // moving left
-                    else if (playerVel.X < 0 && player.Left <= collider.Right)
-                    {
-                        playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
-                        playerVel.X = 0;
+                        // moving right
+                        if (playerVel.X > 0 && player.Right >= collider.Left
+                            && player.Right < collider.Right)
+                        {
+                            horizontalCollision = true;
+
+                            playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
+                            playerVel.X = 0;
+                        }
+                        // moving left
+                        else if (playerVel.X < 0 && player.Left <= collider.Right
+                            && player.Left > collider.Left)
+                        {
+                            horizontalCollision = true;
+
+                            playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
+                            playerVel.X = 0;
+                        }
                     }
                 }
             }
@@ -321,19 +342,28 @@ namespace Clockwork
                 // (x: x, y: y, z: width, w: height)
                 if (col.Z >= col.W)
                 {
-                    // moving downwards (collision with feet)
-                    if (playerVel.Y > 0 && player.Bottom >= collider.Top)
+                    if ((col.Z > 8 && horizontalCollision) || !horizontalCollision)
                     {
-                        playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
-                        playerVel.Y = 0;
-                        player.Grounded = true;
+                        // moving downwards (collision with feet)
+                        if (playerVel.Y > 0 && player.Bottom >= collider.Top
+                            && player.Top < collider.Top)
+                        {
+                            playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
+                            playerVel.Y = 0;
+                            player.Grounded = true;
+                        }
+                        // moving upwards (collision with head)
+                        // player.Bottom > collider.Bottom stops velocity from being
+                        // set to 0 when the player clips the top of a platform while
+                        // moving upwards
+                        else if (playerVel.Y < 0 && player.Top <= collider.Bottom 
+                            && player.Bottom > collider.Bottom)
+                        {
+                            playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
+                            playerVel.Y = 0;
+                        }
                     }
-                    // moving upwards (collision with head)
-                    else if (playerVel.Y < 0 && player.Top <= collider.Bottom)
-                    {
-                        playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
-                        playerVel.Y = 0;
-                    }
+
                 }
             }
 

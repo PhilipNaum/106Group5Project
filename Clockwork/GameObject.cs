@@ -101,6 +101,15 @@ namespace Clockwork
         /// <param name="gt">Game time to do updates with</param>
         public virtual void Update(GameTime gt)
         {
+            SpriteUpdate(gt);
+        }
+
+        /// <summary>
+        /// Updates the sprite without running any subclass Update methods
+        /// </summary>
+        /// <param name="gt"></param>
+        public void SpriteUpdate(GameTime gt)
+        {
             Sprite.Location = new Point((int)Position.X, (int)Position.Y);
             Sprite.Update(gt);
         }
@@ -149,8 +158,6 @@ namespace Clockwork
             if (leftestRight >= rightestLeft && highestBot >= lowestTop)
             {
                 return true;
-                // rectangle
-                //return new Vector4(rightestLeft, lowestTop, leftestRight - rightestLeft, highestBot - lowestTop);
             }
 
             return false;
