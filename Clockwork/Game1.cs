@@ -20,9 +20,11 @@ namespace Clockwork
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private KeyboardState kb;
-        private SpriteFont _arial36;
-        private SpriteFont _arial24;
+
+        private static KeyboardState kb;
+        private static KeyboardState kbPrev;
+        private static MouseState ms;
+        private static MouseState msPrev;
 
         private Enemy _testenemy;
         private Enemy _testenemy2;
@@ -37,6 +39,12 @@ namespace Clockwork
 
         private TileType baseTileType;
 
+        private Menu mainMenu;
+        private Menu levelSelect;
+        private Menu pauseMenu;
+        private Menu levelComplete;
+        private Menu creditsMenu;
+
         private GameState gameState;
         private enum GameState
         {
@@ -44,7 +52,8 @@ namespace Clockwork
             LevelSelect,
             Gameplay,
             Pause,
-            LevelComplete
+            LevelComplete,
+            Credits
         }
 
         public Game1()
@@ -61,19 +70,25 @@ namespace Clockwork
         {
             base.Initialize();
 
-            gameState = GameState.Gameplay;
+            gameState = GameState.MainMenu;
 
-            player = new Player(new Vector2(200, 0), new Vector2(100, 100), enemies);
+            player = new Player(new Vector2(200, 0), new Vector2(64, 128), enemies);
 
             _testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
             _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
             enemies.Add(_testenemy);
             enemies.Add(_testenemy2);
 
-            _testitem = new Collectible(new Vector2(400, 240), new Vector2(50, 50), Type.Gear,0);
+            _testitem = new Collectible(new Vector2(400, 240), new Vector2(50, 50), Type.Gear, 0);
             _testitem2 = new Collectible(new Vector2(200, 240), new Vector2(50, 50), Type.Face, 0);
             collectibles.Add(_testitem);
             collectibles.Add(_testitem2);
+
+            mainMenu = UILoader.GetMenu(Menus.Main);
+            levelSelect = UILoader.GetMenu(Menus.Select);
+            pauseMenu = UILoader.GetMenu(Menus.Pause);
+            levelComplete = UILoader.GetMenu(Menus.Complete);
+            creditsMenu = UILoader.GetMenu(Menus.Credits);
 
             baseTileType = new TileType(false, true, Sprites.Tile);
 
@@ -106,23 +121,23 @@ namespace Clockwork
             }
 
             kb = Keyboard.GetState();
+            ms = Mouse.GetState();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // Load content for all animated sprites
-            AnimationLoader.LoadContent(Content);
-
-            _arial36 = Content.Load<SpriteFont>("ARIAL36");
-            _arial24 = Content.Load<SpriteFont>("ARIAL24");
-
-            // TODO: use this.Content to load your game content here
+            // Load content
+            UILoader.LoadContent(Content, _graphics);
         }
 
         protected override void Update(GameTime gameTime)
         {
+            kbPrev = kb;
+            kb = Keyboard.GetState();
+            msPrev = ms;
+            ms = Mouse.GetState();
 
             switch (gameState)
             {
@@ -141,6 +156,9 @@ namespace Clockwork
                 case GameState.LevelComplete:
                     UpdateLevelComplete();
                     break;
+                case GameState.Credits:
+
+                    break;
                 default:
                     break;
             }
@@ -149,24 +167,41 @@ namespace Clockwork
 
         private void UpdateMainMenu()
         {
-            kb = Keyboard.GetState();
-            if (kb.IsKeyDown(Keys.Enter))
-            {
+            mainMenu.Update();
+            if (mainMenu.UIElements["btStart"].Clicked)
                 gameState = GameState.Gameplay;
-            }
+            if (mainMenu.UIElements["btLevels"].Clicked)
+                gameState = GameState.LevelSelect;
+            if (mainMenu.UIElements["btCredits"].Clicked)
+                gameState = GameState.Credits;
+            if (mainMenu.UIElements["btExit"].Clicked || SingleKeyPress(Keys.Escape))
+                Exit();
         }
 
         private void UpdateLevelSelect()
         {
-
+            levelSelect.Update();
+            if (levelSelect.UIElements["btLevel1"].Clicked)
+                gameState = GameState.Gameplay;
+            if (levelSelect.UIElements["btLevel2"].Clicked)
+                gameState = GameState.Gameplay;
+            if (levelSelect.UIElements["btLevel3"].Clicked)
+                gameState = GameState.Gameplay;
+            if (levelSelect.UIElements["btLevel4"].Clicked)
+                gameState = GameState.Gameplay;
+            if (levelSelect.UIElements["btLevel5"].Clicked)
+                gameState = GameState.Gameplay;
+            if (levelSelect.UIElements["btLevel6"].Clicked)
+                gameState = GameState.Gameplay;
+            if (levelSelect.UIElements["btMenu"].Clicked || SingleKeyPress(Keys.Escape))
+                gameState = GameState.MainMenu;
         }
 
         private void UpdateGame(GameTime gameTime)
         {
-            kb = Keyboard.GetState();
-            if (kb.IsKeyDown(Keys.Escape))
+            if (SingleKeyPress(Keys.Escape))
             {
-                gameState = GameState.MainMenu;
+                gameState = GameState.Pause;
             }
 
             player.Update(gameTime);
@@ -187,7 +222,7 @@ namespace Clockwork
             {
                 enemies[i].Update(gameTime);
 
-                for(int j = 0; j < enemies.Count; j++)
+                for (int j = 0; j < enemies.Count; j++)
                 {
                     if (j != i)
                     {
@@ -196,7 +231,7 @@ namespace Clockwork
                 }
             }
 
-            for(int i=0; i< collectibles.Count; i++)
+            for (int i = 0; i < collectibles.Count; i++)
             {
                 collectibles[i].Update(gameTime);
                 player.CollisionResponse(collectibles[i]);
@@ -206,12 +241,23 @@ namespace Clockwork
 
         private void UpdatePause()
         {
-
+            pauseMenu.Update();
+            if (pauseMenu.UIElements["btResume"].Clicked || SingleKeyPress(Keys.Escape))
+                gameState = GameState.Gameplay;
+            if (pauseMenu.UIElements["btMenu"].Clicked)
+                gameState = GameState.MainMenu;
         }
 
         private void UpdateLevelComplete()
         {
 
+        }
+
+        private void UpdateCredits()
+        {
+            creditsMenu.Update();
+            if (creditsMenu.UIElements["btMenu"].Clicked || SingleKeyPress(Keys.Escape))
+                gameState = GameState.MainMenu;
         }
 
         /// <summary>
@@ -349,6 +395,9 @@ namespace Clockwork
                 case GameState.LevelComplete:
                     DrawLevelComplete();
                     break;
+                case GameState.Credits:
+                    DrawCredits();
+                    break;
                 default:
                     break;
             }
@@ -358,17 +407,13 @@ namespace Clockwork
         private void DrawMainMenu()
         {
             GraphicsDevice.Clear(Color.Black);
-            _spriteBatch.DrawString(_arial36, "Clock Work",
-                new Vector2(_graphics.PreferredBackBufferWidth / 2 - 120,
-                _graphics.PreferredBackBufferHeight / 2 - 50), Color.White);
-            _spriteBatch.DrawString(_arial24, "Press Enter to begin Debug mode",
-                new Vector2(_graphics.PreferredBackBufferWidth / 2 - 220,
-                _graphics.PreferredBackBufferHeight / 2 + 50), Color.White);
+            mainMenu.Draw(_spriteBatch);
         }
 
         private void DrawLevelSelect()
         {
-
+            GraphicsDevice.Clear(Color.Black);
+            levelSelect.Draw(_spriteBatch);
         }
 
         private void DrawGame()
@@ -391,13 +436,41 @@ namespace Clockwork
 
         private void DrawPause()
         {
-
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            DrawGame();
+            pauseMenu.Draw(_spriteBatch);
         }
 
         private void DrawLevelComplete()
         {
-
+            GraphicsDevice.Clear(Color.Black);
+            levelComplete.Draw(_spriteBatch);
         }
 
+        private void DrawCredits()
+        {
+
+            GraphicsDevice.Clear(Color.Black);
+            creditsMenu.Draw(_spriteBatch);
+        }
+
+        /// <summary>
+        /// Checks if a key has been pressed starting in this frame
+        /// </summary>
+        /// <param name="key">Key to check</param>
+        /// <returns>Whether the key has been pressed starting in this frame</returns>
+        public static bool SingleKeyPress(Keys key)
+        {
+            return kb.IsKeyDown(key) && kbPrev.IsKeyUp(key);
+        }
+
+        /// <summary>
+        /// Checks if the left mouse button has been pressed starting in this frame
+        /// </summary>
+        /// <returns>Whether the left mouse button has been pressed starting in this frame</returns>
+        public static bool SingleLeftClick()
+        {
+            return ms.LeftButton == ButtonState.Pressed && msPrev.LeftButton == ButtonState.Released;
+        }
     }
 }
