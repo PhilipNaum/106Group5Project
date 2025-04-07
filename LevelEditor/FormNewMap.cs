@@ -16,7 +16,7 @@
         /// tries to parse the entered dimensions
         /// </summary>
         /// <returns>the dimensions, null otherwise</returns>
-        public Size? TryParseDimensions()
+        private Size? TryParseDimensions()
         {
             // try to parse width
             int width;
@@ -36,5 +36,28 @@
         /// </summary>
         /// <returns>whether the dimensions are in range</returns>
         private bool ValidateDimensions() => true;
+
+        private void TryCreateMap()
+        {
+            // if invalid
+            if (!ValidateDimensions())
+            {
+                // show error message
+                MessageBox.Show(
+                    "dimensions invalid",
+                    "error creating map",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                    );
+
+                return;
+            }
+
+            // send event
+            MapCreated(TryParseDimensions() ?? new Size());
+
+            // close window
+            Close();
+        }
     }
 }
