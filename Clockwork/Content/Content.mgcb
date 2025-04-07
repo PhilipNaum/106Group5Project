@@ -279,6 +279,20 @@
 /processorParam:TextureFormat=Color
 /build:KeyPickup.png
 
+#begin MEDODICA18.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:MEDODICA18.spritefont
+
+#begin MEDODICA24.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:MEDODICA24.spritefont
+
 #begin MEDODICA48.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

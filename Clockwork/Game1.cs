@@ -19,8 +19,11 @@ namespace Clockwork
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private KeyboardState kb;
-        private KeyboardState kbPrev;
+
+        private static KeyboardState kb;
+        private static KeyboardState kbPrev;
+        private static MouseState ms;
+        private static MouseState msPrev;
 
         private Enemy _testenemy;
         private Enemy _testenemy2;
@@ -118,7 +121,7 @@ namespace Clockwork
             }
 
             kb = Keyboard.GetState();
-            kbPrev = Keyboard.GetState();
+            ms = Mouse.GetState();
         }
 
         protected override void LoadContent()
@@ -133,6 +136,9 @@ namespace Clockwork
         {
             kbPrev = kb;
             kb = Keyboard.GetState();
+            msPrev = ms;
+            ms = Mouse.GetState();
+
             switch (gameState)
             {
                 case GameState.MainMenu:
@@ -247,7 +253,9 @@ namespace Clockwork
 
         private void UpdateCredits()
         {
-
+            creditsMenu.Update();
+            if (creditsMenu.UIElements["btMenu"].Clicked || SingleKeyPress(Keys.Escape))
+                gameState = GameState.MainMenu;
         }
 
         /// <summary>
@@ -421,9 +429,18 @@ namespace Clockwork
         /// </summary>
         /// <param name="key">Key to check</param>
         /// <returns>Whether the key has been pressed starting in this frame</returns>
-        public bool SingleKeyPress(Keys key)
+        public static bool SingleKeyPress(Keys key)
         {
             return kb.IsKeyDown(key) && kbPrev.IsKeyUp(key);
+        }
+
+        /// <summary>
+        /// Checks if the left mouse button has been pressed starting in this frame
+        /// </summary>
+        /// <returns>Whether the left mouse button has been pressed starting in this frame</returns>
+        public static bool SingleLeftClick()
+        {
+            return ms.LeftButton == ButtonState.Pressed && msPrev.LeftButton == ButtonState.Released;
         }
     }
 }

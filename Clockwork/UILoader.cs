@@ -60,6 +60,8 @@ namespace Clockwork
         // Fonts
         public static SpriteFont Arial24 { get; private set; }
         public static SpriteFont Arial36 { get; private set; }
+        public static SpriteFont Medodica18 { get; private set; }
+        public static SpriteFont Medodica24 { get; private set; }
         public static SpriteFont Medodica48 { get; private set; }
         public static SpriteFont Medodica72 { get; private set; }
 
@@ -72,6 +74,8 @@ namespace Clockwork
             // Load Fonts
             Arial36 = content.Load<SpriteFont>("ARIAL36");
             Arial24 = content.Load<SpriteFont>("ARIAL24");
+            Medodica18 = content.Load<SpriteFont>("MEDODICA18");
+            Medodica24 = content.Load<SpriteFont>("MEDODICA24");
             Medodica48 = content.Load<SpriteFont>("MEDODICA48");
             Medodica72 = content.Load<SpriteFont>("MEDODICA72");
 
@@ -368,10 +372,13 @@ namespace Clockwork
             // Credits Menu
             {
                 Dictionary<string, UIElement> creditsElements = new Dictionary<string, UIElement>();
-                creditsElements.Add("lbTitle1", new TextElement("Environment Art by the Open Pixel Platformer Project:", Medodica72, 
+                creditsElements.Add("lbTitle1", new TextElement("Environment Art by the Open Pixel Platformer Project:", Medodica24,
                     new Rectangle(graphics.PreferredBackBufferWidth / 32, 0, 0, 0)));
-                creditsElements.Add("lbCredits1", new TextElement("Daniel Simu(Hapiel)\nDamian\nDawnbringer\nEllian\nSquirrelsquid\nRileyFiery\nNoburo\nNumberplay\nSkeddles\na3um\nSurt\nStava\nScarab\nguima1901\nConzeit\ngogglecrab\nanodomani\nyaomon17\nAils\nLetmethink\nGrimsane\nDiggyspiff\nPypeBros\npistachio\nnickthem\nCrow",
-                    Medodica48, new Rectangle(graphics.PreferredBackBufferWidth / 32, (int)Medodica72.MeasureString("Environment Art by the Open Pixel Platformer Project:").Y + 4, 0, 0)));
+                creditsElements.Add("lbCredits1", new TextElement("Daniel Simu(Hapiel)\nDamian\nDawnbringer\nEllian\nSquirrelsquid\nRileyFiery\nNoburo\nNumberplay\nSkeddles\na3um\nSurt\nStava\nScarab",
+                    Medodica18, new Rectangle(graphics.PreferredBackBufferWidth / 32, (int)Medodica24.MeasureString("Environment Art by the Open Pixel Platformer Project:").Y + 4, 0, 0)));
+                creditsElements.Add("lbCredits2", new TextElement("guima1901\nConzeit\ngogglecrab\nanodomani\nyaomon17\nAils\nLetmethink\nGrimsane\nDiggyspiff\nPypeBros\npistachio\nnickthem\nCrow",
+                    Medodica18, new Rectangle(graphics.PreferredBackBufferWidth * 2 / 5, (int)Medodica24.MeasureString("Environment Art by the Open Pixel Platformer Project:").Y + 4, 0, 0)));
+                creditsElements.Add("btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth * 7 / 8 - 48, graphics.PreferredBackBufferHeight * 15 / 16 - 16)));
                 menuLibrary.Add(Menus.Credits, new Menu(creditsElements));
             }
         }

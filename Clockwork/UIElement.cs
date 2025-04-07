@@ -92,7 +92,7 @@ namespace Clockwork
             // Check if mouse is hovering the UIElement
             Hovered = Rectangle.Contains(Mouse.GetState().Position);
             // Check if the mouse clicked on the UIELement
-            if (Hovered) Clicked = (Mouse.GetState().LeftButton == ButtonState.Pressed);
+            if (Hovered) Clicked = Game1.SingleLeftClick();
         }
 
         /// <summary>
