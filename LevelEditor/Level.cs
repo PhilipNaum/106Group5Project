@@ -160,6 +160,9 @@
             foreach (int tile in map)
             { output.Write((byte)tile); }
 
+            // write the number of collectibles
+            output.Write(collectibles.Count);
+
             // loop for each pair in collectibles
             foreach (KeyValuePair<Point, int> collectiblePair in collectibles)
             {
