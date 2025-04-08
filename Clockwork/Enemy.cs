@@ -64,7 +64,7 @@ namespace Clockwork
             acceleration = new Vector2(0, .5f);
             isDead = false;
             invincible = false;
-            timer = .6;
+            timer = .2;
         }
         public override void Draw(SpriteBatch sb)
         {
@@ -97,7 +97,7 @@ namespace Clockwork
                     if (timer <= 0)
                     {
                         invincible = false;
-                        timer = .6;
+                        timer = .2;
                     }
                 }
                 base.Update(gt);
