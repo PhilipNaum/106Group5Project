@@ -133,7 +133,7 @@ namespace LevelEditor
                 button.Image = Objects.CollectibleTypes[i].Texture;
 
                 // add click response
-                //button.Click += collectibleSelectionButton_Click;
+                button.Click += collectibleSelectionButton_Click;
 
                 // add button to tab page
                 tabPageItems.Controls.Add(button);
@@ -241,7 +241,7 @@ namespace LevelEditor
         }
 
         /// <summary>
-        /// when a selection button is clicked
+        /// when a tile selection button is clicked
         /// </summary>
         private void tileSelectionButton_Click(object? sender, EventArgs e)
         {
@@ -249,10 +249,25 @@ namespace LevelEditor
             if (sender == null || tileSelectionButtons == null) { return; }
 
             // get tile index
-            int tileIndex = Array.IndexOf(tileSelectionButtons, (Button)sender);
+            int index = Array.IndexOf(tileSelectionButtons, (Button)sender);
 
             // select the tile
-            SelectObject(Objects.TileTypes[tileIndex]);
+            SelectObject(Objects.TileTypes[index]);
+        }
+
+        /// <summary>
+        /// when a collectible selection button is clicked
+        /// </summary>
+        private void collectibleSelectionButton_Click(object? sender, EventArgs e)
+        {
+            // return if unready
+            if (sender == null || collectibleSelectionButtons == null) { return; }
+
+            // get collectible index
+            int index = Array.IndexOf(collectibleSelectionButtons, (Button)sender);
+
+            // select the collectible
+            SelectObject(Objects.CollectibleTypes[index]);
         }
 
         /// <summary>
