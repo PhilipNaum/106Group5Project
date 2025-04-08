@@ -100,6 +100,7 @@
             pictureBoxSelected.Size = new Size(82, 82);
             pictureBoxSelected.TabIndex = 5;
             pictureBoxSelected.TabStop = false;
+            pictureBoxSelected.SizeMode = PictureBoxSizeMode.StretchImage;
             // 
             // buttonSave
             // 

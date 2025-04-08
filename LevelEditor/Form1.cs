@@ -57,6 +57,7 @@ namespace LevelEditor
                         );
                     tile.Size = new Size(tileLength, tileLength);
                     tile.BackColor = Color.PowderBlue;
+                    tile.SizeMode = PictureBoxSizeMode.StretchImage;
 
                     // add click response
                     tile.Click += pictureBoxMapTile_Click;
