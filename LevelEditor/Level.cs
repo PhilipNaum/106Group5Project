@@ -61,7 +61,7 @@
         /// <summary>
         /// the dimensions of the level
         /// </summary>
-        private Size Dimensions { get => dimensions; }
+        public Size Dimensions { get => dimensions; }
 
         /// <summary>
         /// width of the level

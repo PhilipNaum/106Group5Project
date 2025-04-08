@@ -59,6 +59,40 @@ namespace LevelEditor
             }
         }
 
+        private void TryLoadLevel(string filename)
+        {
+            // try to load level
+            Level? newLevel = Level.Load(filename);
+
+            // show error message and return if failed
+            if (newLevel == null)
+            {
+                MessageBox.Show(
+                    "unable to load map",
+                    "error loading map",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                    );
+
+                return;
+            }
+
+            // update level
+            level = newLevel;
+
+            // initialise map
+            InitializeMap(newLevel.Dimensions);
+
+            // update picture box map images to tile texture
+            for (int y = 0; y < level.Height; y++)
+            {
+                for (int x = 0; x < level.Width; x++)
+                {
+                    pictureBoxMap![y, x].Image = level.GetTileAt(x, y).Texture;
+                }
+            }
+        }
+
         private void buttonNewMap_Click(object sender, EventArgs e)
         { new FormNewMap(InitializeMap).ShowDialog(); }
     }
