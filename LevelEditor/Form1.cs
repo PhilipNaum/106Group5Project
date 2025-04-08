@@ -59,7 +59,7 @@ namespace LevelEditor
                     tile.BackColor = Color.PowderBlue;
 
                     // add click response
-                    //tile.Click += pictureBoxMapTile_Click;
+                    tile.Click += pictureBoxMapTile_Click;
 
                     // add tile to group box
                     groupBoxMap.Controls.Add(tile);
@@ -210,6 +210,24 @@ namespace LevelEditor
 
             // select the tile
             SelectObject(Objects.TileTypes[tileIndex]);
+        }
+
+        private void pictureBoxMapTile_Click(object? sender, EventArgs e)
+        {
+            if (
+                sender == null ||
+                level == null ||
+                pictureBoxMap == null
+                ) { return; }
+
+            // find the tile's location and paint the tile
+            for (int y = 0; y < level.Height; y++)
+            {
+                for (int x = 0; x < level.Width; x++)
+                {
+                    if (pictureBoxMap[y, x] == sender) { PaintTile(x, y); }
+                }
+            }
         }
 
         /// <summary>
