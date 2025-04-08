@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
 using System.Data;
 using System.Diagnostics;
+using System.Transactions;
 
 namespace Clockwork
 {
@@ -30,6 +31,8 @@ namespace Clockwork
 
         private Collectible _testitem;
         private Collectible _testitem2;
+        private Collectible _testitem3;
+        private Collectible _testitem4;
         private List<Collectible> collectibles;
 
         private Player player;
@@ -72,8 +75,12 @@ namespace Clockwork
 
             _testitem = new Collectible(new Vector2(400, 240), new Vector2(50, 50), Type.Gear,0);
             _testitem2 = new Collectible(new Vector2(200, 240), new Vector2(50, 50), Type.Face, 0);
-            collectibles.Add(_testitem);
-            collectibles.Add(_testitem2);
+            _testitem3 = new Collectible(new Vector2(400, 240), new Vector2(50, 50), Type.Chime, 0);
+            _testitem4 = new Collectible(new Vector2(200, 240), new Vector2(50, 50), Type.Hand, 0);
+            //collectibles.Add(_testitem);
+            //collectibles.Add(_testitem2);
+            collectibles.Add(_testitem3);
+            //collectibles.Add(_testitem4);
 
             baseTileType = new TileType(false, true, Sprites.Tile);
 
@@ -187,20 +194,28 @@ namespace Clockwork
             {
                 enemies[i].Update(gameTime);
 
-                for(int j = 0; j < enemies.Count; j++)
+                for (int j = 0; j < enemies.Count; j++)
                 {
                     if (j != i)
                     {
                         enemies[i].CollisionResponse(enemies[j]);
                     }
                 }
+
+                if (player.CurrentItem != null && player.CurrentItem.Mode != 2)
+                {
+                    player.CurrentItem.CollisionResponse(enemies[i]);
+                }
             }
 
             for(int i=0; i< collectibles.Count; i++)
             {
-                collectibles[i].Update(gameTime);
-                player.CollisionResponse(collectibles[i]);
-                //collectibles[i].CollisionResponse(player);
+                if (collectibles[i].Mode != 2)
+                {
+                    collectibles[i].Update(gameTime);
+                    player.CollisionResponse(collectibles[i]);
+                    //collectibles[i].CollisionResponse(player);
+                }
             }
         }
 
@@ -380,6 +395,10 @@ namespace Clockwork
             for (int i = 0; i < enemies.Count; i++)
             {
                 enemies[i].Draw(_spriteBatch);
+            }
+
+            for(int i=0;i<collectibles.Count; i++)
+            {
                 collectibles[i].Draw(_spriteBatch);
             }
 
