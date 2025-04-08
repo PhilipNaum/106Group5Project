@@ -128,11 +128,11 @@ namespace LevelEditor
                 return;
             }
 
-            // update level
-            level = newLevel;
-
             // initialise map
             InitializeMap(newLevel.Dimensions);
+
+            // update level
+            level = newLevel;
 
             // update picture box map images to tile texture
             for (int y = 0; y < level.Height; y++)
