@@ -174,6 +174,11 @@ namespace LevelEditor
             }
         }
 
+        /// <summary>
+        /// paints tile
+        /// </summary>
+        /// <param name="x">x</param>
+        /// <param name="y">y</param>
         private void PaintTile(int x, int y)
         {
             // return if unready
@@ -213,6 +218,9 @@ namespace LevelEditor
             SelectObject(Objects.TileTypes[tileIndex]);
         }
 
+        /// <summary>
+        /// when a tile is clicked
+        /// </summary>
         private void pictureBoxMapTile_Click(object? sender, EventArgs e)
         {
             if (
