@@ -173,6 +173,19 @@ namespace LevelEditor
             }
         }
 
+        private void PaintTile(int x, int y)
+        {
+            // return if unready
+            if (
+                level == null ||
+                selected == null ||
+                pictureBoxMap == null
+                ) { return; }
+
+            level.SetTileAt(x, y, selected);
+            pictureBoxMap[y, x].Image = selected.Texture;
+        }
+
         /// <summary>
         /// selects an object
         /// </summary>
