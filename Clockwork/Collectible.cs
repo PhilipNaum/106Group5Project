@@ -84,10 +84,7 @@ namespace Clockwork
             switch (collectibleType)
             {
                 case (Type.Chime):
-                    timer = .16;
-                    break;
-                case (Type.Hand):
-                    timer = .75;
+                    timer = .1667;
                     break;
             }
         }
@@ -137,17 +134,20 @@ namespace Clockwork
                         }
                         break;
                     case Type.Hand:
-                        Vector2 finalPos = new Vector2(this.Position.X, this.Position.Y - 100);
-                        Vector2 distFromPlayer = this.Position - this.Home;
-                        Vector2 homeToFinal = finalPos - this.Home;
-                        double angle = Math.Acos(Vector2.Dot(homeToFinal, distFromPlayer) / (homeToFinal.Length() * distFromPlayer.Length()));
-                        velocity = Position;
-                        for (double i = 0; i < angle; i += 0.0174533)
-                        {
-                            velocity.X -= (float)(Math.Cos(0.0174533 * velocity.X) + Math.Sin(0.0174533 * velocity.Y));
-                            velocity.Y -= (float)(Math.Sin(0.0174533 * velocity.X) + Math.Sin(0.0174533 * velocity.Y));
+                        Vector2 finalPos = new Vector2(this.Home.X + 100, this.Home.Y - 50);
 
-                            Position = velocity;
+                        float xDiff = this.Position.X - this.Home.X;
+                        float yDiff = this.Position.Y - this.Home.Y;
+
+                        Vector2 rotate = new Vector2(
+                            (float)((Math.Cos(5*-0.0174533) * xDiff) - (Math.Sin(5*-0.0174533) * yDiff) + this.Home.X),
+                            (float)((Math.Sin(5*-0.0174533) * xDiff) + (Math.Cos(5*-0.0174533) * yDiff) + this.Home.Y));
+
+                        Position = rotate;
+
+                        if(Position.X <= finalPos.X && Position.Y <= finalPos.Y)
+                        {
+                            mode = 2;
                         }
                         break;
                     case Type.Chime:
@@ -165,7 +165,7 @@ namespace Clockwork
         /// <summary>
         /// Performs collision test and responds approriatley
         /// </summary>
-        /// <param name="other">the other game object to be checkd</param>
+        /// <param name="other">the other game object to be checked</param>
         public void CollisionResponse(GameObject other)
         {
             if (IsColliding(other))
@@ -183,23 +183,22 @@ namespace Clockwork
                 if (other is Enemy)
                 {
                     Enemy otherEnemy = (Enemy)other;
-
-                    switch (collectibleType)
-                    {
-                        case Type.Gear:
-                            otherEnemy.TakeDamage(damage);
-                            if (mode == 1)
-                            {
-                                mode = 2;
-                            }
-                            break;
-                        case Type.Hand:
-                            otherEnemy.TakeDamage(damage);
-                            break;
-                        case Type.Chime:
-                            otherEnemy.TakeDamage(damage);
-                            break;
-                    }
+                        switch (collectibleType)
+                        {
+                            case Type.Gear:
+                                otherEnemy.TakeDamage(damage);
+                                if (mode == 1)
+                                {
+                                    mode = 2;
+                                }
+                                break;
+                            case Type.Hand:
+                                otherEnemy.TakeDamage(damage);
+                                break;
+                            case Type.Chime:
+                                otherEnemy.TakeDamage(damage);
+                                break;
+                        }
                 }
 
                 if (other is Tile && mode == 1)
@@ -209,7 +208,6 @@ namespace Clockwork
                 }
             }
         }
-
         /// <summary>
         /// Only returns a valid rectangle if mode is 2
         /// Might be changed later once level manager is done
@@ -217,8 +215,13 @@ namespace Clockwork
         /// <returns></returns>
         public override Rectangle GetRectangle()
         {
+            if (mode == 2)
+            {
+                return new Rectangle(0, 0, 0, 0);
+            }
             return base.GetRectangle();
         }
+
 
     }
 }

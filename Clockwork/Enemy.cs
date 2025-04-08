@@ -6,10 +6,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SharpDX.MediaFoundation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.Design.Serialization;
 using System.Drawing.Printing;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
+using System.Windows.Forms;
 
 namespace Clockwork
 {
@@ -33,17 +35,23 @@ namespace Clockwork
         //represents if the enemy is dead
         private bool isDead;
 
+        private bool invincible;
+
+        private double timer;
+
         public Vector2 Velocity
         {
             get { return velocity; }
             set { velocity = value; }
         }
 
-        public int Health
+        public bool Invincible
         {
-            get { return health; }
-            set { health = value; }
+            get { return invincible; }
+            set { invincible = value; }
         }
+
+        
 
        
 
@@ -55,6 +63,8 @@ namespace Clockwork
             this.velocity = velocity;
             acceleration = new Vector2(0, .5f);
             isDead = false;
+            invincible = false;
+            timer = .6;
         }
         public override void Draw(SpriteBatch sb)
         {
@@ -69,17 +79,29 @@ namespace Clockwork
         /// <param name="gt">the game time paramter to be passed through</param>
         public override void Update(GameTime gt)
         {
-            if (this.Position.X >= home.X + range / 2 || this.Position.X <= home.X - range / 2)
+            if (!isDead)
             {
-                velocity.X *= -1;
+                if (this.Position.X >= home.X + range / 2 || this.Position.X <= home.X - range / 2)
+                {
+                    velocity.X *= -1;
+                }
+                this.Position = new Vector2(Position.X + velocity.X, Position.Y);
+                if (this.Position.Y < 370)
+                {
+                    velocity += acceleration;
+                    this.Position += velocity;
+                }
+                if (invincible)
+                {
+                    timer -= gt.ElapsedGameTime.TotalSeconds;
+                    if (timer <= 0)
+                    {
+                        invincible = false;
+                        timer = .6;
+                    }
+                }
+                base.Update(gt);
             }
-            this.Position = new Vector2(Position.X + velocity.X, Position.Y);
-            if (this.Position.Y < 370)
-            {
-                velocity += acceleration;
-                this.Position += velocity;
-            }
-            base.Update(gt);
         }
 
         /// <summary>
@@ -90,6 +112,7 @@ namespace Clockwork
         {
             if (IsColliding(other))
             {
+                
                 if (other is Enemy)
                 {
                     //if two enemies run into eachother, then they should turn around
@@ -119,14 +142,9 @@ namespace Clockwork
                 if (other is Collectible)
                 {
                     ////depending on the type of collectible, decrease health
-                    //Collectible item = (Collectible)other;
-                    //if ((item.CollectibleType == Type.Hand
-                    //    || item.CollectibleType == Type.Gear
-                    //    || item.CollectibleType == Type.Chime)
-                    //    && item.Mode == 1)
-                    //{
-                    //    color = Color.Red;
-                    //}
+                    Collectible item = (Collectible)other;
+                    System.Diagnostics.Debug.WriteLine("hit");
+                    TakeDamage(item.Damage);
 
                     //Right now, collectible handles everything, but I might change that later
                 }
@@ -161,7 +179,12 @@ namespace Clockwork
 
         public void TakeDamage(int damage)
         {
-            health -= damage;
+            if (!invincible)
+            {
+                health -= damage;
+                invincible = true;
+            }
+
             if (health <= 0)
             {
                 isDead = true;

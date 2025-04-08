@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
 using System.Data;
 using System.Diagnostics;
+using System.Transactions;
 
 namespace Clockwork
 {
@@ -79,8 +80,8 @@ namespace Clockwork
             _testitem4 = new Collectible(new Vector2(200, 240), new Vector2(50, 50), Type.Hand, 0);
             //collectibles.Add(_testitem);
             //collectibles.Add(_testitem2);
-            //collectibles.Add(_testitem3);
-            collectibles.Add(_testitem4);
+            collectibles.Add(_testitem3);
+            //collectibles.Add(_testitem4);
 
             baseTileType = new TileType(false, true, Sprites.Tile);
 
@@ -377,22 +378,22 @@ namespace Clockwork
                 t.Draw(_spriteBatch);
             }
 
-            _spriteBatch.DrawString(_arial24, $"{player.Position}",
+            _spriteBatch.DrawString(_arial24, $"{enemies[0].Invincible}",
                 new Vector2(0, 0), Color.White);
 
-            //if (player.CurrentItem != null)
-            //{
+            if (player.CurrentItem != null)
+            {
 
-            //    Collectible current = player.CurrentItem;
-            //    Vector2 finalPos = new Vector2(current.Position.X, current.Position.Y - 100);
-            //    _spriteBatch.DrawString(_arial24, $"{current.Position}",
-            //    new Vector2(0, 40), Color.White);
-            //    _spriteBatch.DrawString(_arial24, $"{finalPos - current.Home}",
-            //    new Vector2(0, 80), Color.White);
-            //    _spriteBatch.DrawString(_arial24, $"{current.Position - current.Home}",
-            //    new Vector2(0, 120), Color.White);
+                //Collectible current = player.CurrentItem;
+                //Vector2 finalPos = new Vector2(current.Home.X + 100, current.Home.Y - 50);
+                //_spriteBatch.DrawString(_arial24, $"{current.Position}",
+                //new Vector2(0, 40), Color.White);
+                //_spriteBatch.DrawString(_arial24, $"{finalPos}",
+                //new Vector2(0, 80), Color.White);
+                //_spriteBatch.DrawString(_arial24, $"{current.Position - current.Home}",
+                //new Vector2(0, 160), Color.White);
 
-            //}
+            }
 
         }
 

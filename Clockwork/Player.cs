@@ -3,6 +3,7 @@
  * Leo
  * Philip
  */
+using Microsoft.Win32.SafeHandles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -180,9 +181,13 @@ namespace Clockwork
             if (currentItem != null)
             {
                 currentItem.Update(gameTime);
-                if(currentAbility == Ability.AOE)
+                if (currentAbility == Ability.AOE)
                 {
                     currentItem.Position = new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4);
+                }
+                if (currentAbility == Ability.Sword)
+                {
+                    //currentItem.Position = new Vector2(currentItem.Position.X-Size.X, currentItem.Position.Y - Size.Y / 2);
                 }
             }
 
