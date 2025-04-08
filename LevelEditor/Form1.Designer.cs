@@ -120,6 +120,7 @@
             buttonNewMap.TabIndex = 4;
             buttonNewMap.Text = "new map";
             buttonNewMap.UseVisualStyleBackColor = true;
+            buttonNewMap.Click += buttonNewMap_Click;
             // 
             // pictureBoxSelected
             // 
