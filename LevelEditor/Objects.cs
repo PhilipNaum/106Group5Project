@@ -7,7 +7,8 @@
     {
         private static ObjectType[] tileTypes =
         {
-            new ObjectType(null)
+            new ObjectType(null, ObjectCategory.Tile),
+            new ObjectType(null, ObjectCategory.Tile),
         };
 
         private static ObjectType[] collectibleTypes =
