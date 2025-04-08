@@ -69,7 +69,7 @@
             tabPageItems.Location = new Point(4, 34);
             tabPageItems.Name = "tabPageItems";
             tabPageItems.Padding = new Padding(3);
-            tabPageItems.Size = new Size(768, 62);
+            tabPageItems.Size = new Size(946, 62);
             tabPageItems.TabIndex = 1;
             tabPageItems.Text = "items";
             tabPageItems.UseVisualStyleBackColor = true;
@@ -110,6 +110,7 @@
             buttonSave.TabIndex = 2;
             buttonSave.Text = "save";
             buttonSave.UseVisualStyleBackColor = true;
+            buttonSave.Click += buttonSave_Click;
             // 
             // buttonLoad
             // 

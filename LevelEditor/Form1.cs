@@ -147,5 +147,20 @@ namespace LevelEditor
             // try to load level
             TryLoadLevel(openFileDialogLoadMap.FileName);
         }
+
+        /// <summary>
+        /// when the save button is clicked
+        /// </summary>
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            // return if no level loaded
+            if (level == null) { return; }
+
+            // show dialog, return if closed
+            if (saveFileDialogSaveMap.ShowDialog() != DialogResult.OK) { return; }
+
+            // try to save level
+            TrySaveLevel(saveFileDialogSaveMap.FileName);
+        }
     }
 }
