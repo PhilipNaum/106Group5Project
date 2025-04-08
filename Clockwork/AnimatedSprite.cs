@@ -92,7 +92,8 @@ namespace AnimationHelper
         /// <param name="sb"></param
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(frames[currentAnimation.CurrentFrame].Texture, new Rectangle(Location, new Point(frames[currentAnimation.CurrentFrame].Source.Width, frames[currentAnimation.CurrentFrame].Source.Height)),
+            sb.Draw(frames[currentAnimation.CurrentFrame].Texture, 
+                new Rectangle(Location, new Point(frames[currentAnimation.CurrentFrame].Source.Width, frames[currentAnimation.CurrentFrame].Source.Height)),
                 frames[currentAnimation.CurrentFrame].Source, Color.White, 0, frames[currentAnimation.CurrentFrame].Origin, SpriteEffects.None, 1);
         }
 
@@ -104,9 +105,11 @@ namespace AnimationHelper
         /// <param name="rotation"></param>
         /// <param name="spriteEffects"></param>
         /// <param name="layer"></param>
-        public void Draw(SpriteBatch sb, Color color, float rotation, SpriteEffects spriteEffects, float layer)
+        public void Draw(SpriteBatch sb, float scale, Color color, float rotation, SpriteEffects spriteEffects, float layer)
         {
-            sb.Draw(frames[currentAnimation.CurrentFrame].Texture, new Rectangle(Location, new Point(frames[currentAnimation.CurrentFrame].Source.Width, frames[currentAnimation.CurrentFrame].Source.Height)),
+            sb.Draw(frames[currentAnimation.CurrentFrame].Texture, 
+                new Rectangle(Location, new Point((int)(frames[currentAnimation.CurrentFrame].Source.Width * scale), 
+                (int)(frames[currentAnimation.CurrentFrame].Source.Height * scale))),
                 frames[currentAnimation.CurrentFrame].Source, color, rotation, frames[currentAnimation.CurrentFrame].Origin, spriteEffects, layer);
         }
     }
