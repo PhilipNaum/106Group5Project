@@ -11,12 +11,14 @@ namespace LevelEditor
         private ObjectType? selected;
         private bool unsaved;
         private Button[]? tileSelectionButtons;
+        private Button[]? collectibleSelectionButtons;
 
         public Form1()
         {
             InitializeComponent();
 
             InitializeTileSelector();
+            InitializeCollectibleSelector();
 
             SelectObject(Objects.TileTypes[0]);
         }
@@ -103,6 +105,41 @@ namespace LevelEditor
 
                 // add button to array
                 tileSelectionButtons[i] = button;
+            }
+        }
+
+        /// <summary>
+        /// sets up collectible (item) selector
+        /// </summary>
+        private void InitializeCollectibleSelector()
+        {
+            // calculate length of collectible buttons
+            int buttonLength = tabPageItems.Height - 2 * selectorPadding;
+
+            collectibleSelectionButtons = new Button[Objects.CollectibleTypes.Length];
+
+            // loop for all collectible indices
+            for (int i = 0; i < Objects.CollectibleTypes.Length; i++)
+            {
+                // create button
+                Button button = new Button();
+
+                // set up button
+                button.Location = new Point(
+                    selectorPadding + i * (buttonLength + selectorSpacing),
+                    selectorPadding
+                    );
+                button.Size = new Size(buttonLength, buttonLength);
+                button.Image = Objects.CollectibleTypes[i].Texture;
+
+                // add click response
+                //button.Click += collectibleSelectionButton_Click;
+
+                // add button to tab page
+                tabPageItems.Controls.Add(button);
+
+                // add button to array
+                collectibleSelectionButtons[i] = button;
             }
         }
 
