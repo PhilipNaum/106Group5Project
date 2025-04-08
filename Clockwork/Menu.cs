@@ -40,10 +40,10 @@ namespace Clockwork
         }
 
 
-        public void Draw(SpriteBatch sb, Color c, float rot, SpriteEffects se, float lay)
+        public void Draw(SpriteBatch sb, float s, Color c, float rot, SpriteEffects se, float lay)
         {
             foreach (UIElement e in UIElements.Values)
-                e.Draw(sb, c, rot, se, lay);
+                e.Draw(sb, s, c, rot, se, lay);
         }
     }
 }

@@ -130,9 +130,9 @@ namespace Clockwork
         /// <param name="rotation"></param>
         /// <param name="spriteEffects"></param>
         /// <param name="layer"></param>
-        public void Draw(SpriteBatch sb, Color color, float rotation, SpriteEffects spriteEffects, float layer)
+        public void Draw(SpriteBatch sb, float scale, Color color, float rotation, SpriteEffects spriteEffects, float layer)
         {
-            Sprite.Draw(sb, color, rotation, spriteEffects, layer);
+            Sprite.Draw(sb, scale, color, rotation, spriteEffects, layer);
         }
 
 
