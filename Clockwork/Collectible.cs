@@ -43,6 +43,8 @@ namespace Clockwork
         //the total units that make up the space the item floats in before being collected
         private int range;
 
+        private double timer;
+
 
         public Type CollectibleType
         {
@@ -66,6 +68,12 @@ namespace Clockwork
             set { mode = value; }
         }
 
+        public Vector2 Home
+        {
+            get { return home; }
+            set { home = value; }
+        }
+
         public Collectible(Vector2 position, Vector2 size, Type collectibletype, int mode) : base(position, size, collectibletype)
         {
             this.collectibleType = collectibletype;
@@ -73,6 +81,12 @@ namespace Clockwork
             home = this.Position;
             range = 7;
             velocity = new Vector2(0, .05f);
+            switch (collectibleType)
+            {
+                case (Type.Chime):
+                    timer = .1667;
+                    break;
+            }
         }
         
         public Collectible(Vector2 position, Vector2 size,Type collectibletype, int mode, int damage)
@@ -92,7 +106,7 @@ namespace Clockwork
         
 
         /// <summary>
-        /// Makes the item float up and down before being collected
+        /// Makes the item float up and down before being collected if mode is 0;
         /// </summary>
         public override void Update(GameTime gt)
         { 
@@ -116,7 +130,30 @@ namespace Clockwork
                         }
                         else
                         {
-                            
+                            mode = 2;
+                        }
+                        break;
+                    case Type.Hand:
+                        Vector2 finalPos = new Vector2(this.Home.X + 100, this.Home.Y - 50);
+
+                        float xDiff = this.Position.X - this.Home.X;
+                        float yDiff = this.Position.Y - this.Home.Y;
+
+                        Vector2 rotate = new Vector2(
+                            (float)((Math.Cos(5*-0.0174533) * xDiff) - (Math.Sin(5*-0.0174533) * yDiff) + this.Home.X),
+                            (float)((Math.Sin(5*-0.0174533) * xDiff) + (Math.Cos(5*-0.0174533) * yDiff) + this.Home.Y));
+
+                        Position = rotate;
+
+                        if(Position.X <= finalPos.X && Position.Y <= finalPos.Y)
+                        {
+                            mode = 2;
+                        }
+                        break;
+                    case Type.Chime:
+                        timer -= gt.ElapsedGameTime.TotalSeconds;
+                        if(timer <= 0)
+                        {
                             mode = 2;
                         }
                         break;
@@ -128,7 +165,7 @@ namespace Clockwork
         /// <summary>
         /// Performs collision test and responds approriatley
         /// </summary>
-        /// <param name="other">the other game object to be checkd</param>
+        /// <param name="other">the other game object to be checked</param>
         public void CollisionResponse(GameObject other)
         {
             if (IsColliding(other))
@@ -146,17 +183,22 @@ namespace Clockwork
                 if (other is Enemy)
                 {
                     Enemy otherEnemy = (Enemy)other;
-
-                    switch (collectibleType)
-                    {
-                        case Type.Gear:
-                            otherEnemy.TakeDamage(damage);
-                            if (mode == 1)
-                            {
-                                mode = 2;
-                            }
-                            break;
-                    }
+                        switch (collectibleType)
+                        {
+                            case Type.Gear:
+                                otherEnemy.TakeDamage(damage);
+                                if (mode == 1)
+                                {
+                                    mode = 2;
+                                }
+                                break;
+                            case Type.Hand:
+                                otherEnemy.TakeDamage(damage);
+                                break;
+                            case Type.Chime:
+                                otherEnemy.TakeDamage(damage);
+                                break;
+                        }
                 }
 
                 if (other is Tile && mode == 1)
@@ -166,7 +208,6 @@ namespace Clockwork
                 }
             }
         }
-
         /// <summary>
         /// Only returns a valid rectangle if mode is 2
         /// Might be changed later once level manager is done
@@ -180,6 +221,7 @@ namespace Clockwork
             }
             return base.GetRectangle();
         }
+
 
     }
 }
