@@ -158,18 +158,19 @@ namespace Clockwork
             // -- Tile Setup --
             {
                 // Load Textures
-                Texture2D tileTexture = content.Load<Texture2D>("Tile");
+                Texture2D terrainTexture1 = content.Load<Texture2D>("Jungle_terrainwater");
+                Texture2D terrainTextureSlopes = content.Load<Texture2D>("Jungle_slope");
 
                 // Set up Frames
                 List<Frame> tileFrames = new List<Frame>();
-                tileFrames.Add(new Frame(tileTexture, GetRect(tileTexture), Vector2.Zero));
+                tileFrames.Add(new Frame(, , Vector2.Zero));
 
                 // Set up Animations
                 Dictionary<string, Animation> tileAnimations = new Dictionary<string, Animation>();
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("", new Animation(0, 0, 1));
 
                 // Create AnimatedSprites in Animation Library
-                animationLibrary.Add(Sprites.Tile, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites.Tile, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations[""], Point.Zero));
             }
 
             // -- Buttons Setup --

@@ -241,7 +241,7 @@
 /processorParam:TextureFormat=Color
 /build:HandPickup.png
 
-#begin Item.png
+#begin Jungle_slope.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -251,7 +251,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Item.png
+/build:Jungle_slope.png
+
+#begin Jungle_terrainwater.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Jungle_terrainwater.png
 
 #begin KeyPickup.png
 /importer:TextureImporter
@@ -316,16 +328,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Scrim.png
-
-#begin Tile.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Tile.png
 
