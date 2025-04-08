@@ -3,13 +3,21 @@ namespace LevelEditor
     public partial class Form1 : Form
     {
         private const int mapPadding = 30;
+        private const int selectorPadding = 5;
+        private const int selectorSpacing = 5;
 
         private Level? level;
         private PictureBox[,]? pictureBoxMap;
         private ObjectType? selected;
         private bool unsaved;
+        private Button[] selectionButtons;
 
-        public Form1() { InitializeComponent(); }
+        public Form1()
+        {
+            InitializeComponent();
+
+            InitializeTileSelector();
+        }
 
         /// <summary>
         /// sets up an empty map
@@ -45,10 +53,7 @@ namespace LevelEditor
                         x * tileLength + mapPadding,
                         y * tileLength + mapPadding
                         );
-                    tile.Size = new Size(
-                        tileLength,
-                        tileLength
-                        );
+                    tile.Size = new Size(tileLength, tileLength);
                     tile.BackColor = Color.PowderBlue;
 
                     // add click response
@@ -60,6 +65,40 @@ namespace LevelEditor
                     // add tile to map
                     pictureBoxMap[y, x] = tile;
                 }
+            }
+        }
+
+        /// <summary>
+        /// sets up tile selector
+        /// </summary>
+        private void InitializeTileSelector()
+        {
+            // calculate length of tile buttons
+            int buttonLength = tabPageTiles.Height - 2 * selectorPadding;
+
+            selectionButtons = new Button[Objects.TileTypes.Length];
+
+            // loop for all tile indices
+            for (int i = 0; i < Objects.TileTypes.Length; i++)
+            {
+                // create button
+                Button button = new Button();
+
+                // set up button
+                button.Location = new Point(
+                    selectorPadding + i * (buttonLength + selectorSpacing),
+                    selectorPadding
+                    );
+                button.Size = new Size(buttonLength, buttonLength);
+
+                // add click response
+                //button.Click += selectionButton_Click;
+
+                // add button to tab page
+                tabPageTiles.Controls.Add(button);
+
+                // add button to array
+                selectionButtons[i] = button;
             }
         }
 
