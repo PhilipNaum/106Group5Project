@@ -84,10 +84,10 @@ namespace Clockwork
             enemies.Add(_testenemy);
             enemies.Add(_testenemy2);
 
-            _testitem = new Collectible(new Vector2(400, 240), new Vector2(50, 50), Type.Gear, 0);
-            _testitem2 = new Collectible(new Vector2(200, 240), new Vector2(50, 50), Type.Face, 0);
-            _testitem3 = new Collectible(new Vector2(400, 240), new Vector2(50, 50), Type.Chime, 0);
-            _testitem4 = new Collectible(new Vector2(200, 240), new Vector2(50, 50), Type.Hand, 0);
+            _testitem = new Collectible(new Vector2(400, 240), new Vector2(16, 16), Type.Gear, 0);
+            _testitem2 = new Collectible(new Vector2(200, 240), new Vector2(16, 16), Type.Face, 0);
+            _testitem3 = new Collectible(new Vector2(400, 240), new Vector2(16, 16), Type.Chime, 0);
+            _testitem4 = new Collectible(new Vector2(200, 240), new Vector2(16, 16), Type.Hand, 0);
             //collectibles.Add(_testitem);
             //collectibles.Add(_testitem2);
             //collectibles.Add(_testitem3);

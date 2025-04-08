@@ -153,14 +153,14 @@ namespace Clockwork
                         //if statement make sure that a gear can only be thrown once the one before is gone
                         if (currentItem == null || currentItem.Mode == 2)
                         {
-                            currentItem = new Collectible(new Vector2(this.Position.X + Size.X / 4, this.Position.Y + Size.Y / 4), new Vector2(50, 50), Type.Gear, 1, 2);
+                            currentItem = new Collectible(new Vector2(this.Position.X + Size.X / 4, this.Position.Y + Size.Y / 4), new Vector2(16,16), Type.Gear, 1, 2);
                             currentItem.Velocity = Vector2.Normalize(ms.Position.ToVector2()
                             - (this.Position + this.Size / 2));
                         }
                         break;
                     case Ability.Sword:
                         currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + Size.Y / 2),
-                            new Vector2(50, 50), Type.Hand, 1, 4);
+                            new Vector2(50,50), Type.Hand, 1, 4);
                         currentItem.Home = this.Position;
                         break;
                     case Ability.AOE:
@@ -168,7 +168,7 @@ namespace Clockwork
                         {
                             currentItem = new Collectible(
                             new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4),
-                            new Vector2(150, 150), Type.Chime, 1, 3);
+                            new Vector2(48,48), Type.Chime, 1, 3);
                         }
                         break;
                     default:
@@ -186,7 +186,7 @@ namespace Clockwork
                 }
                 if (currentAbility == Ability.Sword)
                 {
-                    //currentItem.Position = new Vector2(this.Position.X-Size.X, this.Position.Y - Size.Y / 2);
+                    currentItem.Home = this.Position;
                 }
             }
 
