@@ -60,6 +60,7 @@ namespace LevelEditor
                     tile.Size = new Size(tileLength, tileLength);
                     tile.BackColor = Color.PowderBlue;
                     tile.SizeMode = PictureBoxSizeMode.StretchImage;
+                    tile.BackgroundImageLayout = ImageLayout.Stretch;
 
                     // add click response
                     tile.Click += pictureBoxMapTile_Click;
@@ -176,7 +177,7 @@ namespace LevelEditor
             {
                 for (int x = 0; x < level.Width; x++)
                 {
-                    pictureBoxMap![y, x].Image = level.GetTileAt(x, y).Texture;
+                    pictureBoxMap![y, x].BackgroundImage = level.GetTileAt(x, y).Texture;
                 }
             }
         }
@@ -226,7 +227,7 @@ namespace LevelEditor
                 ) { return; }
 
             level.SetTileAt(x, y, selected);
-            pictureBoxMap[y, x].Image = selected.Texture;
+            pictureBoxMap[y, x].BackgroundImage = selected.Texture;
         }
 
         /// <summary>
