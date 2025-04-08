@@ -84,8 +84,7 @@
             // 
             // FormNewMap
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(313, 174);
             Controls.Add(buttonCreate);
             Controls.Add(textBoxHeight);
