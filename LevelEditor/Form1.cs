@@ -49,6 +49,7 @@ namespace LevelEditor
                         tileLength,
                         tileLength
                         );
+                    tile.BackColor = Color.PowderBlue;
 
                     // add click response
                     //tile.Click += pictureBoxMapTile_Click;
