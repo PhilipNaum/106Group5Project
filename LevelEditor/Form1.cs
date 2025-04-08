@@ -213,11 +213,11 @@ namespace LevelEditor
         }
 
         /// <summary>
-        /// paints tile
+        /// paints the selected tile / collectible
         /// </summary>
         /// <param name="x">x</param>
         /// <param name="y">y</param>
-        private void PaintTile(int x, int y)
+        private void PaintObject(int x, int y)
         {
             // return if unready
             if (
@@ -226,8 +226,19 @@ namespace LevelEditor
                 pictureBoxMap == null
                 ) { return; }
 
-            level.SetTileAt(x, y, selected);
-            pictureBoxMap[y, x].BackgroundImage = selected.Texture;
+            // check object category
+            if (selected.Category == ObjectCategory.Tile)
+            {
+                // paint tile
+                level.SetTileAt(x, y, selected);
+                pictureBoxMap[y, x].BackgroundImage = selected.Texture;
+            }
+            else if (selected.Category == ObjectCategory.Collectible)
+            {
+                // place collectible
+                level.SetCollectibleAt(x, y, selected);
+                pictureBoxMap[y, x].Image = selected.Texture;
+            }
         }
 
         /// <summary>
@@ -287,7 +298,7 @@ namespace LevelEditor
             {
                 for (int x = 0; x < level.Width; x++)
                 {
-                    if (pictureBoxMap[y, x] == sender) { PaintTile(x, y); }
+                    if (pictureBoxMap[y, x] == sender) { PaintObject(x, y); }
                 }
             }
         }
