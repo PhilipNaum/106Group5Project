@@ -9,15 +9,16 @@ namespace LevelEditor
         private Level? level;
         private PictureBox[,]? pictureBoxMap;
         private ObjectType? selected;
-        private bool? selectedCollectible;
         private bool unsaved;
-        private Button[] tileSelectionButtons;
+        private Button[]? tileSelectionButtons;
 
         public Form1()
         {
             InitializeComponent();
 
             InitializeTileSelector();
+
+            SelectObject(Objects.TileTypes[0]);
         }
 
         /// <summary>
@@ -188,7 +189,8 @@ namespace LevelEditor
         /// </summary>
         private void tileSelectionButton_Click(object? sender, EventArgs e)
         {
-            if (sender == null) { return; }
+            // return if unready
+            if (sender == null || tileSelectionButtons == null) { return; }
 
             // get tile index
             int tileIndex = Array.IndexOf(tileSelectionButtons, (Button)sender);
