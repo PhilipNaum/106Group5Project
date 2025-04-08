@@ -95,5 +95,14 @@ namespace LevelEditor
 
         private void buttonNewMap_Click(object sender, EventArgs e)
         { new FormNewMap(InitializeMap).ShowDialog(); }
+
+        private void buttonLoad_Click(object sender, EventArgs e)
+        {
+            // show file dialog, return if closed
+            if (openFileDialogLoadMap.ShowDialog() != DialogResult.OK) { return; }
+
+            // try to load level
+            TryLoadLevel(openFileDialogLoadMap.FileName);
+        }
     }
 }

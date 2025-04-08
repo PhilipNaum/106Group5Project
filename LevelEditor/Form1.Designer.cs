@@ -120,6 +120,7 @@
             buttonLoad.TabIndex = 3;
             buttonLoad.Text = "load";
             buttonLoad.UseVisualStyleBackColor = true;
+            buttonLoad.Click += buttonLoad_Click;
             // 
             // buttonNewMap
             // 
