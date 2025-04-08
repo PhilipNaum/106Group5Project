@@ -41,19 +41,6 @@ namespace Clockwork
         private static string[] levelFilenames = {
         };
 
-        private int currentLevelIndex;
-        private Level currentLevel;
-
-        /// <summary>
-        /// the index of the current level
-        /// </summary>
-        public int CurrentLevelIndex { get => currentLevelIndex;}
-
-        /// <summary>
-        /// the current level of the game
-        /// </summary>
-        public Level CurrentLevel { get => currentLevel;}
-
         /// <summary>
         /// (untested) loads a level from filename, returns null if failed
         /// </summary>
@@ -96,6 +83,19 @@ namespace Clockwork
 
             return level;
         }
+
+        private int currentLevelIndex;
+        private Level currentLevel;
+
+        /// <summary>
+        /// the index of the current level
+        /// </summary>
+        public int CurrentLevelIndex { get => currentLevelIndex;}
+
+        /// <summary>
+        /// the current level of the game
+        /// </summary>
+        public Level CurrentLevel { get => currentLevel;}
 
         /// <summary>
         /// set the current level based on level index
