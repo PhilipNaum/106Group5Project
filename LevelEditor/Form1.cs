@@ -17,6 +17,9 @@ namespace LevelEditor
         /// <param name="dimensions">dimensions of the map</param>
         private void InitializeMap(Size dimensions)
         {
+            // clear group box
+            groupBoxMap.Controls.Clear();
+
             // create an empty level
             level = new Level(dimensions);
 
