@@ -134,7 +134,7 @@ namespace Clockwork
                         }
                         break;
                     case Type.Hand:
-                        Vector2 finalPos = new Vector2(this.Home.X + 32, this.Home.Y - 64);
+                        Vector2 finalPos = new Vector2(this.Home.X + 100, this.Home.Y - 50);
 
                         float xDiff = this.Position.X - this.Home.X;
                         float yDiff = this.Position.Y - this.Home.Y;

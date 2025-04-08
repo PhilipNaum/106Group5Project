@@ -159,7 +159,7 @@ namespace Clockwork
                         break;
                     case Ability.Sword:
                         currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + Size.Y/2),
-                            new Vector2(50, 50), Type.Hand, 1, 2);
+                            new Vector2(50, 50), Type.Hand, 1, 4);
                         currentItem.Home = this.Position;
                         break;
                     case Ability.AOE:
@@ -167,7 +167,7 @@ namespace Clockwork
                         {
                             currentItem = new Collectible(
                             new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4),
-                            new Vector2(150, 150), Type.Chime, 1, 2);
+                            new Vector2(150, 150), Type.Chime, 1, 3);
                         }
                         break;
                     default:
@@ -185,7 +185,7 @@ namespace Clockwork
                 }
                 if (currentAbility == Ability.Sword)
                 {
-                    //currentItem.Position = new Vector2(currentItem.Position.X-Size.X, currentItem.Position.Y - Size.Y / 2);
+                    //currentItem.Position = new Vector2(this.Position.X-Size.X, this.Position.Y - Size.Y / 2);
                 }
             }
 

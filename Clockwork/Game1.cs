@@ -66,7 +66,7 @@ namespace Clockwork
 
             gameState = GameState.Gameplay;
 
-            player = new Player(new Vector2(200, 0), new Vector2(100, 100), enemies);
+            player = new Player(new Vector2(200, 0), new Vector2(100, 100));
 
             _testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
             _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
@@ -79,8 +79,8 @@ namespace Clockwork
             _testitem4 = new Collectible(new Vector2(200, 240), new Vector2(50, 50), Type.Hand, 0);
             //collectibles.Add(_testitem);
             //collectibles.Add(_testitem2);
-            collectibles.Add(_testitem3);
-            //collectibles.Add(_testitem4);
+            //collectibles.Add(_testitem3);
+            collectibles.Add(_testitem4);
 
             baseTileType = new TileType(false, true, Sprites.Tile);
 
