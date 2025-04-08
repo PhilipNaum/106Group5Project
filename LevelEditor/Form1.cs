@@ -25,8 +25,8 @@ namespace LevelEditor
 
             // calculate the length of tiles for the picture boxes
             int tileLength = Math.Min(
-                groupBoxMap.Width - 2 * mapPadding / dimensions.Width,
-                groupBoxMap.Height - 2 * mapPadding / dimensions.Height
+                (groupBoxMap.Width - 2 * mapPadding) / dimensions.Width,
+                (groupBoxMap.Height - 2 * mapPadding) / dimensions.Height
                 );
 
             // loop for each tile on the map
