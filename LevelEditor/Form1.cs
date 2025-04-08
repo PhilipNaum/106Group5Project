@@ -91,6 +91,7 @@ namespace LevelEditor
                     selectorPadding
                     );
                 button.Size = new Size(buttonLength, buttonLength);
+                button.Image = Objects.TileTypes[i].Texture;
 
                 // add click response
                 button.Click += tileSelectionButton_Click;
