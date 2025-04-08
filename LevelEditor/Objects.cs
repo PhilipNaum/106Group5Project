@@ -1,0 +1,28 @@
+﻿namespace LevelEditor
+{
+    /// <summary>
+    /// keeps track of possible objects
+    /// </summary>
+    internal class Objects
+    {
+        private static ObjectType[] tileTypes =
+        {
+            new ObjectType(null, ObjectCategory.Tile),
+            new ObjectType(null, ObjectCategory.Tile),
+        };
+
+        private static ObjectType[] collectibleTypes =
+        {
+        };
+
+        /// <summary>
+        /// array of all tile types
+        /// </summary>
+        internal static ObjectType[] TileTypes { get => tileTypes; }
+
+        /// <summary>
+        /// array of all collectible types
+        /// </summary>
+        internal static ObjectType[] CollectibleTypes { get => collectibleTypes; }
+    }
+}
