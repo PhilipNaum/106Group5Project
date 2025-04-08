@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
-using System.Drawing;
 using System.Globalization;
 
 namespace Clockwork
@@ -26,9 +25,10 @@ namespace Clockwork
         }
 
         private Vector2 velocity;
-        public Vector2 Velocity { 
-            get { return velocity; } 
-            set { velocity = value; } 
+        public Vector2 Velocity
+        {
+            get { return velocity; }
+            set { velocity = value; }
         }
 
         // Probably want to put gravity somewhere else, but here now for testing
@@ -37,10 +37,10 @@ namespace Clockwork
         private KeyboardState prevKS;
 
         private float jumpSpeed = 9;
-        
+
         private float maxHorizontalSpeed = 9;
         // it may be better to represent accelerations as time to max speed
-        private float horizontalAcceleration = 45; 
+        private float horizontalAcceleration = 45;
         private float horizontalDeceleration = 45;
 
         // probably want to dash farther horizontally than vertically
@@ -50,9 +50,10 @@ namespace Clockwork
         // if the player is on the ground
         // used for checking if the player should be able to jump
         private bool grounded;
-        public bool Grounded { 
-            get { return grounded; } 
-            set { grounded = value; } 
+        public bool Grounded
+        {
+            get { return grounded; }
+            set { grounded = value; }
         }
 
         // enum so there can only be one ability active at a time
@@ -158,7 +159,7 @@ namespace Clockwork
                         }
                         break;
                     case Ability.Sword:
-                        currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + Size.Y/2),
+                        currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + Size.Y / 2),
                             new Vector2(50, 50), Type.Hand, 1, 4);
                         currentItem.Home = this.Position;
                         break;
@@ -198,7 +199,7 @@ namespace Clockwork
 
         public override void Draw(SpriteBatch sb)
         {
-            base.Draw(sb);
+            base.Draw(sb, .5f, Color.White, 0, SpriteEffects.None, 1);
 
             if (currentItem != null)
             {
