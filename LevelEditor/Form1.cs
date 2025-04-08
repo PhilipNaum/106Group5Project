@@ -9,8 +9,9 @@ namespace LevelEditor
         private Level? level;
         private PictureBox[,]? pictureBoxMap;
         private ObjectType? selected;
+        private bool? selectedCollectible;
         private bool unsaved;
-        private Button[] selectionButtons;
+        private Button[] tileSelectionButtons;
 
         public Form1()
         {
@@ -76,7 +77,7 @@ namespace LevelEditor
             // calculate length of tile buttons
             int buttonLength = tabPageTiles.Height - 2 * selectorPadding;
 
-            selectionButtons = new Button[Objects.TileTypes.Length];
+            tileSelectionButtons = new Button[Objects.TileTypes.Length];
 
             // loop for all tile indices
             for (int i = 0; i < Objects.TileTypes.Length; i++)
@@ -92,13 +93,13 @@ namespace LevelEditor
                 button.Size = new Size(buttonLength, buttonLength);
 
                 // add click response
-                //button.Click += selectionButton_Click;
+                button.Click += tileSelectionButton_Click;
 
                 // add button to tab page
                 tabPageTiles.Controls.Add(button);
 
                 // add button to array
-                selectionButtons[i] = button;
+                tileSelectionButtons[i] = button;
             }
         }
 
@@ -168,6 +169,31 @@ namespace LevelEditor
                     MessageBoxIcon.Error
                     );
             }
+        }
+
+        /// <summary>
+        /// selects an object
+        /// </summary>
+        /// <param name="selection">the selection</param>
+        private void SelectObject(ObjectType selection)
+        {
+            // update selected and picture box
+            selected = selection;
+            pictureBoxSelected.Image = selection.Texture;
+        }
+
+        /// <summary>
+        /// when a selection button is clicked
+        /// </summary>
+        private void tileSelectionButton_Click(object? sender, EventArgs e)
+        {
+            if (sender == null) { return; }
+
+            // get tile index
+            int tileIndex = Array.IndexOf(tileSelectionButtons, (Button)sender);
+
+            // select the tile
+            SelectObject(Objects.TileTypes[tileIndex]);
         }
 
         /// <summary>
