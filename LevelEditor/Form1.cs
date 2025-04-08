@@ -62,6 +62,10 @@ namespace LevelEditor
             }
         }
 
+        /// <summary>
+        /// tries to load a level
+        /// </summary>
+        /// <param name="filename">filename to load</param>
         private void TryLoadLevel(string filename)
         {
             // try to load level
