@@ -45,7 +45,8 @@ namespace Clockwork
         {
             this.Position = position;
             this.Size = size;
-            this.Sprite = AnimationLoader.GetSprite(spriteName);
+            this.Sprite = UILoader.GetSprite(spriteName);
+            Sprite.Location = position.ToPoint();
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace Clockwork
             }
             this.Position = position;
             this.Size = size;
-            this.Sprite = AnimationLoader.GetSprite(spriteName);
+            this.Sprite = UILoader.GetSprite(spriteName);
         }
 
 
@@ -119,6 +120,19 @@ namespace Clockwork
         public virtual void Draw(SpriteBatch sb)
         {
             Sprite.Draw(sb);
+        }
+
+        /// <summary>
+        /// Draw the sprite at the current frame
+        /// </summary>
+        /// <param name="sb"></param
+        /// <param name="color"></param>
+        /// <param name="rotation"></param>
+        /// <param name="spriteEffects"></param>
+        /// <param name="layer"></param>
+        public void Draw(SpriteBatch sb, float scale, Color color, float rotation, SpriteEffects spriteEffects, float layer)
+        {
+            Sprite.Draw(sb, scale, color, rotation, spriteEffects, layer);
         }
 
 
@@ -180,6 +194,6 @@ namespace Clockwork
         /// <returns>the rectangle</returns>
         public virtual Rectangle GetRectangle() => new Rectangle(this.Position.ToPoint(), this.Size.ToPoint());
 
-        
+
     }
 }
