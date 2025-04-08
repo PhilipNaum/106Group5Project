@@ -7,6 +7,7 @@
     {
         private static ObjectType[] tileTypes =
         {
+            new ObjectType(null)
         };
 
         private static ObjectType[] collectibleTypes =
