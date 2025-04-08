@@ -33,10 +33,12 @@
             tabPageItems = new TabPage();
             groupBoxMap = new GroupBox();
             groupBoxSelected = new GroupBox();
+            pictureBoxSelected = new PictureBox();
             buttonSave = new Button();
             buttonLoad = new Button();
             buttonNewMap = new Button();
-            pictureBoxSelected = new PictureBox();
+            openFileDialogLoadMap = new OpenFileDialog();
+            saveFileDialogSaveMap = new SaveFileDialog();
             tabControlSelection.SuspendLayout();
             groupBoxSelected.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxSelected).BeginInit();
@@ -46,28 +48,28 @@
             // 
             tabControlSelection.Controls.Add(tabPageTiles);
             tabControlSelection.Controls.Add(tabPageItems);
-            tabControlSelection.Location = new Point(12, 338);
+            tabControlSelection.Location = new Point(12, 432);
             tabControlSelection.Name = "tabControlSelection";
             tabControlSelection.SelectedIndex = 0;
-            tabControlSelection.Size = new Size(776, 100);
+            tabControlSelection.Size = new Size(954, 100);
             tabControlSelection.TabIndex = 0;
             // 
             // tabPageTiles
             // 
-            tabPageTiles.Location = new Point(4, 24);
+            tabPageTiles.Location = new Point(4, 34);
             tabPageTiles.Name = "tabPageTiles";
             tabPageTiles.Padding = new Padding(3);
-            tabPageTiles.Size = new Size(768, 72);
+            tabPageTiles.Size = new Size(946, 62);
             tabPageTiles.TabIndex = 0;
             tabPageTiles.Text = "tiles";
             tabPageTiles.UseVisualStyleBackColor = true;
             // 
             // tabPageItems
             // 
-            tabPageItems.Location = new Point(4, 24);
+            tabPageItems.Location = new Point(4, 34);
             tabPageItems.Name = "tabPageItems";
             tabPageItems.Padding = new Padding(3);
-            tabPageItems.Size = new Size(768, 72);
+            tabPageItems.Size = new Size(768, 62);
             tabPageItems.TabIndex = 1;
             tabPageItems.Text = "items";
             tabPageItems.UseVisualStyleBackColor = true;
@@ -76,7 +78,7 @@
             // 
             groupBoxMap.Location = new Point(128, 12);
             groupBoxMap.Name = "groupBoxMap";
-            groupBoxMap.Size = new Size(660, 344);
+            groupBoxMap.Size = new Size(838, 414);
             groupBoxMap.TabIndex = 1;
             groupBoxMap.TabStop = false;
             groupBoxMap.Text = "map";
@@ -84,12 +86,20 @@
             // groupBoxSelected
             // 
             groupBoxSelected.Controls.Add(pictureBoxSelected);
-            groupBoxSelected.Location = new Point(12, 222);
+            groupBoxSelected.Location = new Point(12, 316);
             groupBoxSelected.Name = "groupBoxSelected";
             groupBoxSelected.Size = new Size(110, 110);
             groupBoxSelected.TabIndex = 0;
             groupBoxSelected.TabStop = false;
             groupBoxSelected.Text = "selected";
+            // 
+            // pictureBoxSelected
+            // 
+            pictureBoxSelected.Location = new Point(14, 22);
+            pictureBoxSelected.Name = "pictureBoxSelected";
+            pictureBoxSelected.Size = new Size(82, 82);
+            pictureBoxSelected.TabIndex = 5;
+            pictureBoxSelected.TabStop = false;
             // 
             // buttonSave
             // 
@@ -122,18 +132,20 @@
             buttonNewMap.UseVisualStyleBackColor = true;
             buttonNewMap.Click += buttonNewMap_Click;
             // 
-            // pictureBoxSelected
+            // openFileDialogLoadMap
             // 
-            pictureBoxSelected.Location = new Point(14, 22);
-            pictureBoxSelected.Name = "pictureBoxSelected";
-            pictureBoxSelected.Size = new Size(82, 82);
-            pictureBoxSelected.TabIndex = 5;
-            pictureBoxSelected.TabStop = false;
+            openFileDialogLoadMap.Filter = "map files|*.map";
+            openFileDialogLoadMap.Title = "open map";
+            // 
+            // saveFileDialogSaveMap
+            // 
+            saveFileDialogSaveMap.Filter = "map files|*.map";
+            saveFileDialogSaveMap.Title = "save map";
             // 
             // Form1
             // 
             AutoScaleMode = AutoScaleMode.None;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(978, 544);
             Controls.Add(buttonNewMap);
             Controls.Add(buttonLoad);
             Controls.Add(buttonSave);
@@ -160,5 +172,7 @@
         private Button buttonLoad;
         private Button buttonNewMap;
         private PictureBox pictureBoxSelected;
+        private OpenFileDialog openFileDialogLoadMap;
+        private SaveFileDialog saveFileDialogSaveMap;
     }
 }
