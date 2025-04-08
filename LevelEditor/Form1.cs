@@ -101,6 +101,36 @@ namespace LevelEditor
         }
 
         /// <summary>
+        /// tries to save the level
+        /// </summary>
+        /// <param name="filename">filename to save as</param>
+        private void TrySaveLevel(string filename)
+        {
+            // return if no level loaded
+            if (level == null) { return; }
+
+            // try to save level and report result
+            if (level.Save(filename))
+            {
+                MessageBox.Show(
+                    "map saved successfully",
+                    "map saved",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                    );
+            }
+            else
+            {
+                MessageBox.Show(
+                    "unable to save map",
+                    "error saving map",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                    );
+            }
+        }
+
+        /// <summary>
         /// when the new map is clicked
         /// </summary>
         private void buttonNewMap_Click(object sender, EventArgs e)
