@@ -99,7 +99,7 @@ namespace Clockwork
             levelComplete = UILoader.GetMenu(Menus.Complete);
             creditsMenu = UILoader.GetMenu(Menus.Credits);
 
-            baseTileType = new TileType(false, true, Sprites.Tile);
+            baseTileType = new TileType(false, true, Sprites.tileGroundBlank);
 
             // Temporary level
             for (int i = 0; i < 16; i++)
