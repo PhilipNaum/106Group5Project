@@ -252,6 +252,14 @@ namespace Clockwork
                 }
             }
 
+            if (player.CurrentItem != null)
+            {
+                for(int i = 0; i < tiles.Count; i++)
+                {
+                    player.CurrentItem.CollisionResponse(tiles[i]);
+                }
+            }
+
             for (int i = 0; i < collectibles.Count; i++)
             {
                 if (collectibles[i].Mode != 2)

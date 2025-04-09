@@ -137,19 +137,25 @@ namespace Clockwork
                         Vector2 finalPos = new Vector2(this.Home.X + 32, this.Home.Y - 16);
                         float xDiff = this.Position.X - this.Home.X;
                         float yDiff = this.Position.Y - this.Home.Y;
-
+                        if (this.Position.X < this.Home.X)
+                        {
+                            this.Position = new Vector2(this.Home.X + xDiff, this.Position.Y);
+                        }
+                        if (this.Position.X > this.Home.X + xDiff)
+                        {
+                            this.Position = new Vector2(this.Home.X - xDiff, this.Position.Y);
+                        }
                         Vector2 rotate = new Vector2(
-                            (float)((Math.Cos(6*-0.0174533) * xDiff) - (Math.Sin(6*-0.0174533) * yDiff) + this.Home.X),
-                            (float)((Math.Sin(6*-0.0174533) * xDiff) + (Math.Cos(6*-0.0174533) * yDiff) + this.Home.Y));
+                            (float)((Math.Cos(5*-0.0174533) * xDiff) - (Math.Sin(5*-0.0174533) * yDiff) + this.Home.X),
+                            (float)((Math.Sin(5*-0.0174533) * xDiff) + (Math.Cos(5*-0.0174533) * yDiff) + this.Home.Y));
 
                         Position = rotate;
 
-                        xDiff = this.Position.X - this.Home.X;
-                        yDiff = this.Position.X - this.Home.X;
-
                         
 
-                        if(Position.X <= finalPos.X && Position.Y <= finalPos.Y)
+
+
+                        if (Position.X <= finalPos.X && Position.Y <= finalPos.Y)
                         {
                             mode = 2;
                         }
@@ -191,17 +197,17 @@ namespace Clockwork
                         {
                             case Type.Gear:
                                 
-                                if (mode == 1)
-                                {
-                                    mode = 2;
-                                }
+                                //if (mode == 1)
+                                //{
+                                //    mode = 2;
+                                //}
                                 break;
                         }
                 }
 
                 if (other is Tile && mode == 1)
                 {
-                    System.Diagnostics.Debug.WriteLine("test");
+                    if(collectibleType==Type.Gear)
                     mode = 2;
                 }
             }

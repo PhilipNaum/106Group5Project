@@ -151,38 +151,16 @@ namespace Clockwork
                     Collectible item = (Collectible)other;
                     System.Diagnostics.Debug.WriteLine("hit");
                     TakeDamage(item.Damage);
+                    item.Mode = 2;
 
                     //Right now, collectible handles everything, but I might change that later
                 }
                 if (other is Tile)
                 {
-                    //dont let the enemy fall through the ground
+                    //add the tiles to the list of colliding tiles;
                     Tile tile = (Tile)other;
                     isColliding.Add(tile);
-                    //Rectangle displacement = Rectangle.Intersect(GetRectangle(), tile.GetRectangle());
-                    //if (displacement.Height >= displacement.Width)
-                    //{
-                    //    if (this.Position.X < tile.Position.X)
-                    //    {
-                    //        this.Position = new Vector2(Position.X - displacement.Width, Position.Y);
-                    //    }
-                    //    else if (this.Position.X > tile.Position.X)
-                    //    {
-                    //        this.Position = new Vector2(Position.X + displacement.Width, Position.Y);
-                    //    }
-                    //}
-
-                    //if (displacement.Height < displacement.Width)
-                    //{
-                    //    if (GetRectangle().Bottom <= tile.GetRectangle().Bottom)
-                    //    {
-                    //        this.Position = new Vector2(this.Position.X, this.Position.Y - displacement.Height);
-                    //    }
-                    //    else
-                    //    {
-                    //        this.Position = new Vector2(this.Position.X, this.Position.Y + displacement.Height);
-                    //    }
-                    //}
+                    
                 }
             }
         }

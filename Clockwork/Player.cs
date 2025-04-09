@@ -153,13 +153,14 @@ namespace Clockwork
                         //if statement make sure that a gear can only be thrown once the one before is gone
                         if (currentItem == null || currentItem.Mode == 2)
                         {
-                            currentItem = new Collectible(new Vector2(this.Position.X + Size.X / 4, this.Position.Y + Size.Y / 4), new Vector2(50, 50), Type.Gear, 1, 2);
+                            currentItem = new Collectible(new Vector2(this.Position.X + Size.X / 4, this.Position.Y + Size.Y / 4), new Vector2(32,32), Type.Gear, 1, 2);
                             currentItem.Sprite.SetAnimation("gearSpin");
                             currentItem.Velocity = Vector2.Normalize(ms.Position.ToVector2()
                             - (this.Position + this.Size / 2));
                         }
                         break;
                     case Ability.Sword:
+                        //create a new sword,
                         currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + Size.Y / 2),
                             new Vector2(50,50), Type.Hand, 1, 4);
                         currentItem.Home = this.Position;
