@@ -15,7 +15,7 @@ namespace Clockwork
         /// <summary>
         /// the length of a tile
         /// </summary>
-        private const int TileLength = 32;
+        public const int TileLength = 32;
         // this has to match the size of the tile sprite
 
         private TileType tileType;

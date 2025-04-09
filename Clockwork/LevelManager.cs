@@ -77,7 +77,27 @@ namespace Clockwork
                 }
             }
 
-            //TODO load collectibles
+            // read and loop for the number of collectibles
+            int collectibleCount = input.ReadInt32();
+            for (int i = 0; i < collectibleCount; i++)
+            {
+                // read collectible type
+                Type collectibleType = (Type)input.ReadByte();
+
+                // read collectible position and calculate to screen position
+                Vector2 collectiblePosition = new Point(
+                    input.ReadInt32(),
+                    input.ReadInt32()
+                    ).ToVector2() * Tile.TileLength;
+
+                // add collectible to list
+                level.Collectibles.Add(new Collectible(
+                    collectiblePosition,
+                    new Vector2(16, 16),
+                    collectibleType,
+                    0
+                    ));
+            }
 
             input.Close();
 
