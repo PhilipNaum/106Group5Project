@@ -32,11 +32,13 @@
             for (int y = 0; y < dimensions.Height; y++)
             {
                 for (int x = 0; x < dimensions.Width; x++)
-                { level.Map[y, x] = input.ReadByte(); }
+                { level.map[y, x] = input.ReadByte(); }
             }
 
             // read the number of collectibles and loop for that
-            for (int i = 0; i < input.ReadInt32(); i++)
+            int collectibleCount = input.ReadInt32();
+
+            for (int i = 0; i < collectibleCount; i++)
             {
                 // read collectible information
                 int collectible = input.ReadByte();
@@ -127,7 +129,7 @@
         /// <param name="y">y</param>
         /// <returns>retrieved collectible object</returns>
         public ObjectType? GetCollectibleAt(int x, int y)
-            => Collectibles.ContainsKey(new Point(x, y)) ? Objects.CollectibleTypes[Collectibles[new Point(x, y)]] : null;
+            => collectibles.ContainsKey(new Point(x, y)) ? Objects.CollectibleTypes[collectibles[new Point(x, y)]] : null;
 
         /// <summary>
         /// sets the collectible at position
@@ -136,7 +138,10 @@
         /// <param name="y">y</param>
         /// <param name="collectible">collectible object to set</param>
         public void SetCollectibleAt(int x, int y, ObjectType collectible)
-        { Collectibles[new Point(x, y)] = Array.IndexOf(Objects.CollectibleTypes, collectible); }
+        { collectibles[new Point(x, y)] = Array.IndexOf(Objects.CollectibleTypes, collectible); }
+
+        public void RemoveCollectibleAt(int x, int y)
+        { collectibles.Remove(new Point(x, y)); }
 
         /// <summary>
         /// saves the level

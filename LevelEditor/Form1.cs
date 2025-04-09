@@ -4,6 +4,7 @@ namespace LevelEditor
     {
         private const int mapPadding = 30;
         private const int selectorPadding = 5;
+        private const int selectorScrollBarPadding = 25;
         private const int selectorSpacing = 5;
 
         private Level? level;
@@ -11,12 +12,14 @@ namespace LevelEditor
         private ObjectType? selected;
         private bool unsaved;
         private Button[]? tileSelectionButtons;
+        private Button[]? collectibleSelectionButtons;
 
         public Form1()
         {
             InitializeComponent();
 
             InitializeTileSelector();
+            InitializeCollectibleSelector();
 
             SelectObject(Objects.TileTypes[0]);
         }
@@ -58,6 +61,7 @@ namespace LevelEditor
                     tile.Size = new Size(tileLength, tileLength);
                     tile.BackColor = Color.PowderBlue;
                     tile.SizeMode = PictureBoxSizeMode.StretchImage;
+                    tile.BackgroundImageLayout = ImageLayout.Stretch;
 
                     // add click response
                     tile.Click += pictureBoxMapTile_Click;
@@ -77,7 +81,7 @@ namespace LevelEditor
         private void InitializeTileSelector()
         {
             // calculate length of tile buttons
-            int buttonLength = tabPageTiles.Height - 2 * selectorPadding;
+            int buttonLength = tabPageTiles.Height - 2 * selectorPadding - selectorScrollBarPadding;
 
             tileSelectionButtons = new Button[Objects.TileTypes.Length];
 
@@ -103,6 +107,41 @@ namespace LevelEditor
 
                 // add button to array
                 tileSelectionButtons[i] = button;
+            }
+        }
+
+        /// <summary>
+        /// sets up collectible (item) selector
+        /// </summary>
+        private void InitializeCollectibleSelector()
+        {
+            // calculate length of collectible buttons
+            int buttonLength = tabPageItems.Height - 2 * selectorPadding - selectorScrollBarPadding;
+
+            collectibleSelectionButtons = new Button[Objects.CollectibleTypes.Length];
+
+            // loop for all collectible indices
+            for (int i = 0; i < Objects.CollectibleTypes.Length; i++)
+            {
+                // create button
+                Button button = new Button();
+
+                // set up button
+                button.Location = new Point(
+                    selectorPadding + i * (buttonLength + selectorSpacing),
+                    selectorPadding
+                    );
+                button.Size = new Size(buttonLength, buttonLength);
+                button.Image = Objects.CollectibleTypes[i].Texture;
+
+                // add click response
+                button.Click += collectibleSelectionButton_Click;
+
+                // add button to tab page
+                tabPageItems.Controls.Add(button);
+
+                // add button to array
+                collectibleSelectionButtons[i] = button;
             }
         }
 
@@ -139,8 +178,17 @@ namespace LevelEditor
             {
                 for (int x = 0; x < level.Width; x++)
                 {
-                    pictureBoxMap![y, x].Image = level.GetTileAt(x, y).Texture;
+                    pictureBoxMap![y, x].BackgroundImage = level.GetTileAt(x, y).Texture;
                 }
+            }
+
+            // loop for each collectible
+            foreach (KeyValuePair<Point, int> collectiblePair in level.Collectibles)
+            {
+                int x = collectiblePair.Key.X;
+                int y = collectiblePair.Key.Y;
+
+                pictureBoxMap![y, x].Image = level.GetCollectibleAt(x, y)!.Texture;
             }
         }
 
@@ -174,7 +222,12 @@ namespace LevelEditor
             }
         }
 
-        private void PaintTile(int x, int y)
+        /// <summary>
+        /// paints the selected tile / collectible
+        /// </summary>
+        /// <param name="x">x</param>
+        /// <param name="y">y</param>
+        private void PaintObject(int x, int y)
         {
             // return if unready
             if (
@@ -183,8 +236,28 @@ namespace LevelEditor
                 pictureBoxMap == null
                 ) { return; }
 
-            level.SetTileAt(x, y, selected);
-            pictureBoxMap[y, x].Image = selected.Texture;
+            // check object category
+            if (selected.Category == ObjectCategory.Tile)
+            {
+                // paint tile
+                level.SetTileAt(x, y, selected);
+                pictureBoxMap[y, x].BackgroundImage = selected.Texture;
+            }
+            else if (selected.Category == ObjectCategory.Collectible)
+            {
+                // remove collectible if it's already placed
+                if (level.GetCollectibleAt(x, y) == selected)
+                {
+                    level.RemoveCollectibleAt(x, y);
+                    pictureBoxMap[y, x].Image = null;
+                }
+                else
+                {
+                    // place collectible
+                    level.SetCollectibleAt(x, y, selected);
+                    pictureBoxMap[y, x].Image = selected.Texture;
+                }
+            }
         }
 
         /// <summary>
@@ -199,7 +272,7 @@ namespace LevelEditor
         }
 
         /// <summary>
-        /// when a selection button is clicked
+        /// when a tile selection button is clicked
         /// </summary>
         private void tileSelectionButton_Click(object? sender, EventArgs e)
         {
@@ -207,12 +280,30 @@ namespace LevelEditor
             if (sender == null || tileSelectionButtons == null) { return; }
 
             // get tile index
-            int tileIndex = Array.IndexOf(tileSelectionButtons, (Button)sender);
+            int index = Array.IndexOf(tileSelectionButtons, (Button)sender);
 
             // select the tile
-            SelectObject(Objects.TileTypes[tileIndex]);
+            SelectObject(Objects.TileTypes[index]);
         }
 
+        /// <summary>
+        /// when a collectible selection button is clicked
+        /// </summary>
+        private void collectibleSelectionButton_Click(object? sender, EventArgs e)
+        {
+            // return if unready
+            if (sender == null || collectibleSelectionButtons == null) { return; }
+
+            // get collectible index
+            int index = Array.IndexOf(collectibleSelectionButtons, (Button)sender);
+
+            // select the collectible
+            SelectObject(Objects.CollectibleTypes[index]);
+        }
+
+        /// <summary>
+        /// when a tile is clicked
+        /// </summary>
         private void pictureBoxMapTile_Click(object? sender, EventArgs e)
         {
             if (
@@ -226,7 +317,7 @@ namespace LevelEditor
             {
                 for (int x = 0; x < level.Width; x++)
                 {
-                    if (pictureBoxMap[y, x] == sender) { PaintTile(x, y); }
+                    if (pictureBoxMap[y, x] == sender) { PaintObject(x, y); }
                 }
             }
         }
