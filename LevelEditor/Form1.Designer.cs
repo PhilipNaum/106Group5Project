@@ -51,25 +51,27 @@
             tabControlSelection.Location = new Point(12, 552);
             tabControlSelection.Name = "tabControlSelection";
             tabControlSelection.SelectedIndex = 0;
-            tabControlSelection.Size = new Size(1154, 100);
+            tabControlSelection.Size = new Size(1154, 130);
             tabControlSelection.TabIndex = 0;
             // 
             // tabPageTiles
             // 
+            tabPageTiles.AutoScroll = true;
             tabPageTiles.Location = new Point(4, 34);
             tabPageTiles.Name = "tabPageTiles";
             tabPageTiles.Padding = new Padding(3);
-            tabPageTiles.Size = new Size(1146, 62);
+            tabPageTiles.Size = new Size(1146, 92);
             tabPageTiles.TabIndex = 0;
             tabPageTiles.Text = "tiles";
             tabPageTiles.UseVisualStyleBackColor = true;
             // 
             // tabPageItems
             // 
+            tabPageItems.AutoScroll = true;
             tabPageItems.Location = new Point(4, 34);
             tabPageItems.Name = "tabPageItems";
             tabPageItems.Padding = new Padding(3);
-            tabPageItems.Size = new Size(946, 62);
+            tabPageItems.Size = new Size(1146, 92);
             tabPageItems.TabIndex = 1;
             tabPageItems.Text = "items";
             tabPageItems.UseVisualStyleBackColor = true;
@@ -148,7 +150,7 @@
             // Form1
             // 
             AutoScaleMode = AutoScaleMode.None;
-            ClientSize = new Size(1178, 664);
+            ClientSize = new Size(1178, 694);
             Controls.Add(buttonNewMap);
             Controls.Add(buttonLoad);
             Controls.Add(buttonSave);

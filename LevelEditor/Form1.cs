@@ -4,6 +4,7 @@ namespace LevelEditor
     {
         private const int mapPadding = 30;
         private const int selectorPadding = 5;
+        private const int selectorScrollBarPadding = 25;
         private const int selectorSpacing = 5;
 
         private Level? level;
@@ -80,7 +81,7 @@ namespace LevelEditor
         private void InitializeTileSelector()
         {
             // calculate length of tile buttons
-            int buttonLength = tabPageTiles.Height - 2 * selectorPadding;
+            int buttonLength = tabPageTiles.Height - 2 * selectorPadding - selectorScrollBarPadding;
 
             tileSelectionButtons = new Button[Objects.TileTypes.Length];
 
@@ -115,7 +116,7 @@ namespace LevelEditor
         private void InitializeCollectibleSelector()
         {
             // calculate length of collectible buttons
-            int buttonLength = tabPageItems.Height - 2 * selectorPadding;
+            int buttonLength = tabPageItems.Height - 2 * selectorPadding - selectorScrollBarPadding;
 
             collectibleSelectionButtons = new Button[Objects.CollectibleTypes.Length];
 
