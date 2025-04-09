@@ -244,9 +244,18 @@ namespace LevelEditor
             }
             else if (selected.Category == ObjectCategory.Collectible)
             {
-                // place collectible
-                level.SetCollectibleAt(x, y, selected);
-                pictureBoxMap[y, x].Image = selected.Texture;
+                // remove collectible if it's already placed
+                if (level.GetCollectibleAt(x, y) == selected)
+                {
+                    level.RemoveCollectibleAt(x, y);
+                    pictureBoxMap[y, x].Image = null;
+                }
+                else
+                {
+                    // place collectible
+                    level.SetCollectibleAt(x, y, selected);
+                    pictureBoxMap[y, x].Image = selected.Texture;
+                }
             }
         }
 

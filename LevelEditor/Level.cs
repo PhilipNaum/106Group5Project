@@ -140,6 +140,9 @@
         public void SetCollectibleAt(int x, int y, ObjectType collectible)
         { Collectibles[new Point(x, y)] = Array.IndexOf(Objects.CollectibleTypes, collectible); }
 
+        public void RemoveCollectibleAt(int x, int y)
+        { collectibles.Remove(new Point(x, y)); }
+
         /// <summary>
         /// saves the level
         /// </summary>
