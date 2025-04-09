@@ -36,7 +36,9 @@
             }
 
             // read the number of collectibles and loop for that
-            for (int i = 0; i < input.ReadInt32(); i++)
+            int collectibleCount = input.ReadInt32();
+
+            for (int i = 0; i < collectibleCount; i++)
             {
                 // read collectible information
                 int collectible = input.ReadByte();

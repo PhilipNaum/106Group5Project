@@ -180,6 +180,15 @@ namespace LevelEditor
                     pictureBoxMap![y, x].BackgroundImage = level.GetTileAt(x, y).Texture;
                 }
             }
+
+            // loop for each collectible
+            foreach (KeyValuePair<Point, int> collectiblePair in level.Collectibles)
+            {
+                int x = collectiblePair.Key.X;
+                int y = collectiblePair.Key.Y;
+
+                pictureBoxMap![y, x].Image = level.GetCollectibleAt(x, y)!.Texture;
+            }
         }
 
         /// <summary>
