@@ -77,7 +77,9 @@ namespace Clockwork
         {
             base.Initialize();
 
-            gameState = GameState.MainMenu;
+            gameState = GameState.LevelComplete;
+
+            LevelManager.Instance.SetCurrentLevel(0);
 
             player = new Player(new Vector2(200, 0), new Vector2(32, 64));
             playerLastFrame = player.Position;
@@ -201,27 +203,32 @@ namespace Clockwork
             }
             if (levelSelect.UIElements["btLevel2"].Clicked)
             {
-                LevelManager.Instance.SetCurrentLevel(0);
+
+                LevelManager.Instance.SetCurrentLevel(1);
                 gameState = GameState.Gameplay;
             }
             if (levelSelect.UIElements["btLevel3"].Clicked)
             {
-                LevelManager.Instance.SetCurrentLevel(0);
+
+                LevelManager.Instance.SetCurrentLevel(2);
                 gameState = GameState.Gameplay;
             }
             if (levelSelect.UIElements["btLevel4"].Clicked)
             {
-                LevelManager.Instance.SetCurrentLevel(0);
+
+                LevelManager.Instance.SetCurrentLevel(3);
                 gameState = GameState.Gameplay;
             }
             if (levelSelect.UIElements["btLevel5"].Clicked)
             {
-                LevelManager.Instance.SetCurrentLevel(0);
+
+                LevelManager.Instance.SetCurrentLevel(4);
                 gameState = GameState.Gameplay;
             }
             if (levelSelect.UIElements["btLevel6"].Clicked)
             {
-                LevelManager.Instance.SetCurrentLevel(0);
+
+                LevelManager.Instance.SetCurrentLevel(5);
                 gameState = GameState.Gameplay;
             }
             if (levelSelect.UIElements["btMenu"].Clicked || SingleKeyPress(Keys.Escape))
@@ -289,7 +296,21 @@ namespace Clockwork
 
         private void UpdateLevelComplete()
         {
-
+            levelComplete.Update();
+            if (levelComplete.UIElements["btNext"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex + 1);
+                gameState = GameState.Gameplay;
+            }
+            if (levelComplete.UIElements["btLevels"].Clicked)
+            {
+                gameState = GameState.LevelSelect;
+            }
+            if (levelComplete.UIElements["btMenu"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex + 1);
+                gameState = GameState.MainMenu;
+            }
         }
 
         private void UpdateCredits()
@@ -488,7 +509,9 @@ namespace Clockwork
 
         private void DrawLevelComplete()
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            DrawGame();
+            _spriteBatch.Draw(scrim, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
             levelComplete.Draw(_spriteBatch);
         }
 
