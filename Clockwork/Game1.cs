@@ -237,17 +237,17 @@ namespace Clockwork
                     enemies[i].CollisionResponse(player.CurrentItem);
                 }
 
-                for(int j = 0; j < tiles.Count; j++)
+                //for(int j = 0; j < tiles.Count; j++)
                 {
-                    enemies[i].CollisionResponse(tiles[j]);
+                   // enemies[i].CollisionResponse(tiles[j]);
                 }
             }
 
             if (player.CurrentItem != null)
             {
-                for(int i = 0; i < tiles.Count; i++)
+               // for(int i = 0; i < tiles.Count; i++)
                 {
-                    player.CurrentItem.CollisionResponse(tiles[i]);
+               //     player.CurrentItem.CollisionResponse(tiles[i]);
                 }
             }
 
