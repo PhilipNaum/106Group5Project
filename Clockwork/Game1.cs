@@ -38,6 +38,8 @@ namespace Clockwork
         private List<Collectible> collectibles;
 
         private Player player;
+        private Vector2 playerLastFrame;
+
         private List<Tile> tiles;
 
         private TileType baseTileType;
@@ -78,6 +80,7 @@ namespace Clockwork
             gameState = GameState.MainMenu;
 
             player = new Player(new Vector2(200, 0), new Vector2(32, 64));
+            playerLastFrame = player.Position;
 
             _testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
             _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
@@ -310,10 +313,6 @@ namespace Clockwork
 
             bool horizontalCollision = false;
 
-            // player vibrates when standing on tiles at height
-            // y = 3, 4
-            // less consistent at hundred thousandths place (alternates between two numbers)
-
             // horizontal collisions
             foreach (Tile collider in collisions)
             {
@@ -358,7 +357,10 @@ namespace Clockwork
                 Vector4 col = player.GetCollision(collider);
 
                 // (x: x, y: y, z: width, w: height)
-                if (col.Z >= col.W)
+                // check if the player was above the top of a tile last frame and is below this frame
+                if (col.Z >= col.W || 
+                    ((playerLastFrame.Y + player.Size.Y) < collider.Top 
+                    && playerPos.Y + player.Size.Y > collider.Top && playerVel.Y > 0 && col.Z > 1))
                 {
                     if ((col.Z > 8 && horizontalCollision) || !horizontalCollision)
                     {
@@ -387,6 +389,8 @@ namespace Clockwork
 
             player.Position = playerPos;
             player.Velocity = playerVel;
+            // position of player last frame used for additional checks
+            playerLastFrame = player.Position;
         }
 
 
