@@ -5,7 +5,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SharpDX.Direct3D11;
 using SharpDX.MediaFoundation;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.Design.Serialization;
 using System.Drawing.Printing;
@@ -39,6 +41,8 @@ namespace Clockwork
 
         private double timer;
 
+        private List<Tile> isColliding;
+
         public Vector2 Velocity
         {
             get { return velocity; }
@@ -65,6 +69,7 @@ namespace Clockwork
             isDead = false;
             invincible = false;
             timer = .2;
+            isColliding = new List<Tile>();
         }
         public override void Draw(SpriteBatch sb)
         {
@@ -86,11 +91,11 @@ namespace Clockwork
                     velocity.X *= -1;
                 }
                 this.Position = new Vector2(Position.X + velocity.X, Position.Y);
-                if (this.Position.Y < 370)
-                {
+                //if (this.Position.Y < 370)
+                //{
                     velocity += acceleration;
                     this.Position += velocity;
-                }
+                //}
                 if (invincible)
                 {
                     timer -= gt.ElapsedGameTime.TotalSeconds;
@@ -100,6 +105,7 @@ namespace Clockwork
                         timer = .2;
                     }
                 }
+                ResolveTileCollisions();
                 base.Update(gt);
             }
         }
@@ -151,9 +157,10 @@ namespace Clockwork
                 if (other is Tile)
                 {
                     //dont let the enemy fall through the ground
-                    //Tile tile = (Tile)other;
+                    Tile tile = (Tile)other;
+                    isColliding.Add(tile);
                     //Rectangle displacement = Rectangle.Intersect(GetRectangle(), tile.GetRectangle());
-                    //if (displacement.Height > displacement.Width)
+                    //if (displacement.Height >= displacement.Width)
                     //{
                     //    if (this.Position.X < tile.Position.X)
                     //    {
@@ -164,8 +171,62 @@ namespace Clockwork
                     //        this.Position = new Vector2(Position.X + displacement.Width, Position.Y);
                     //    }
                     //}
+
+                    //if (displacement.Height < displacement.Width)
+                    //{
+                    //    if (GetRectangle().Bottom <= tile.GetRectangle().Bottom)
+                    //    {
+                    //        this.Position = new Vector2(this.Position.X, this.Position.Y - displacement.Height);
+                    //    }
+                    //    else
+                    //    {
+                    //        this.Position = new Vector2(this.Position.X, this.Position.Y + displacement.Height);
+                    //    }
+                    //}
                 }
             }
+        }
+
+        private void ResolveTileCollisions()
+        {
+            for (int i = 0; i < isColliding.Count; i++)
+            {
+                Rectangle intsRect = Rectangle.Intersect(GetRectangle(), isColliding[i].GetRectangle());
+                if (intsRect.Height < intsRect.Width)
+                {
+                    if (GetRectangle().Bottom > isColliding[i].Position.Y)
+                    {
+                        this.Position = new Vector2(this.Position.X, this.Position.Y - intsRect.Height);
+                    }
+                    else if (this.Position.Y > isColliding[i].GetRectangle().Top)
+                    {
+                        this.Position = new Vector2(this.Position.X, this.Position.Y + intsRect.Height);
+                    }
+                    velocity.Y = 0;
+                }
+            }
+
+            for (int i = 0; i < isColliding.Count; i++)
+            {
+                Rectangle intsRect = Rectangle.Intersect(GetRectangle(), isColliding[i].GetRectangle());
+                if (intsRect.Height >= intsRect.Width)
+                {
+                    if(this.Position.X < isColliding[i].Position.X)
+                    {
+                        this.Position = new Vector2(this.Position.X - intsRect.Width,this.Position.Y);
+                    }
+                    else if(this.Position.X > isColliding[i].Position.X)
+                    {
+                        this.Position = new Vector2(this.Position.X + intsRect.Width, this.Position.Y);
+                    }
+                    if (isColliding[i].GetRectangle().Intersects(GetRectangle()))
+                    {
+                        velocity.X *= 1;
+                    }
+                }
+            }
+
+            
         }
 
         //test IsColliding method for milestone 1.5, can be changed.

@@ -82,7 +82,7 @@ namespace Clockwork
             _testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
             _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
             enemies.Add(_testenemy);
-            enemies.Add(_testenemy2);
+            //enemies.Add(_testenemy2);
 
             _testitem = new Collectible(new Vector2(400, 240), new Vector2(16, 16), Type.Gear, 0);
             _testitem2 = new Collectible(new Vector2(200, 240), new Vector2(16, 16), Type.Face, 0);
@@ -243,6 +243,12 @@ namespace Clockwork
                 if (player.CurrentItem != null && player.CurrentItem.Mode != 2)
                 {
                     player.CurrentItem.CollisionResponse(enemies[i]);
+                    enemies[i].CollisionResponse(player.CurrentItem);
+                }
+
+                for(int j = 0; j < tiles.Count; j++)
+                {
+                    enemies[i].CollisionResponse(tiles[j]);
                 }
             }
 
@@ -254,6 +260,8 @@ namespace Clockwork
                     player.CollisionResponse(collectibles[i]);
                     //collectibles[i].CollisionResponse(player);
                 }
+
+                
             }
         }
 
