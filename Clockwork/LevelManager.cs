@@ -33,12 +33,24 @@ namespace Clockwork
         /// an array of all tile types
         /// </summary>
         private static TileType[] tileTypes = {
+            new(false, false, Sprites.Empty),
+            new(false, false, Sprites.Empty),
+            new(false, false, Sprites.Empty),
+            new(false, false, Sprites.Empty),
+            new(false, false, Sprites.Empty),
+            new(false, false, Sprites.Empty),
+            new(false, false, Sprites.Empty),
+            new(false, false, Sprites.Empty),
+            new(false, false, Sprites.Empty),
+            new(false, false, Sprites.Empty),
+            new(false, true, Sprites.tileGroundBlank), // index 10
         };
 
         /// <summary>
         /// an array of all filenames of levels
         /// </summary>
         private static string[] levelFilenames = {
+            "..\\..\\..\\TestMap.map"
         };
 
         /// <summary>
@@ -74,6 +86,10 @@ namespace Clockwork
 
                     // place tile on the map
                     level.Map[y, x] = new Tile(tileType, new Point(x, y));
+                    if (tileType.Collidable)
+                    {
+                        level.collidableTiles.Add(level.Map[y, x]);
+                    }
                 }
             }
 
