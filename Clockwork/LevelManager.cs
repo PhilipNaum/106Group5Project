@@ -64,7 +64,7 @@ namespace Clockwork
         /// an array of all filenames of levels
         /// </summary>
         private static string[] levelFilenames = {
-            "..\\..\\..\\TestMap.map"
+            "Levels/TestMap.map"
         };
 
         /// <summary>
