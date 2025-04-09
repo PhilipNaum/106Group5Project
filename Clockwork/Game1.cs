@@ -195,17 +195,35 @@ namespace Clockwork
         {
             levelSelect.Update();
             if (levelSelect.UIElements["btLevel1"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(0);
                 gameState = GameState.Gameplay;
+            }
             if (levelSelect.UIElements["btLevel2"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(0);
                 gameState = GameState.Gameplay;
+            }
             if (levelSelect.UIElements["btLevel3"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(0);
                 gameState = GameState.Gameplay;
+            }
             if (levelSelect.UIElements["btLevel4"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(0);
                 gameState = GameState.Gameplay;
+            }
             if (levelSelect.UIElements["btLevel5"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(0);
                 gameState = GameState.Gameplay;
+            }
             if (levelSelect.UIElements["btLevel6"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(0);
                 gameState = GameState.Gameplay;
+            }
             if (levelSelect.UIElements["btMenu"].Clicked || SingleKeyPress(Keys.Escape))
                 gameState = GameState.MainMenu;
         }
@@ -358,8 +376,8 @@ namespace Clockwork
 
                 // (x: x, y: y, z: width, w: height)
                 // check if the player was above the top of a tile last frame and is below this frame
-                if (col.Z >= col.W || 
-                    ((playerLastFrame.Y + player.Size.Y) < collider.Top 
+                if (col.Z >= col.W ||
+                    ((playerLastFrame.Y + player.Size.Y) < collider.Top
                     && playerPos.Y + player.Size.Y > collider.Top && playerVel.Y > 0 && col.Z > 1))
                 {
                     if ((col.Z > 8 && horizontalCollision) || !horizontalCollision)
@@ -449,7 +467,7 @@ namespace Clockwork
                 enemies[i].Draw(_spriteBatch);
             }
 
-            for(int i=0;i<collectibles.Count; i++)
+            for (int i = 0; i < collectibles.Count; i++)
             {
                 collectibles[i].Draw(_spriteBatch);
             }
