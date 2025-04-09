@@ -45,7 +45,7 @@ namespace Clockwork
         tileGrassEndL,
         tileGrassEndR,
         tileGrassLightToDark,
-        tileGrassToDirt,
+        tileGrassToDirtL,
         tileGroundBlank,
         tileGroundEndL1,
         tileGroundEndL2,
@@ -60,7 +60,7 @@ namespace Clockwork
         tileGroundTop3,
         tileGroundTopRocks,
         tileGroundTopRocksVines,
-        tileGroundTopRocksVines1
+        tileGroundTopVines1
     }
 
     public enum Menus
@@ -189,7 +189,7 @@ namespace Clockwork
                 Texture2D tileGrassEndL = content.Load<Texture2D>("tileGrassEndL");
                 Texture2D tileGrassEndR = content.Load<Texture2D>("tileGrassEndR");
                 Texture2D tileGrassLightToDark = content.Load<Texture2D>("tileGrassLightToDark");
-                Texture2D tileGrassToDirt = content.Load<Texture2D>("tileGrassToDirt");
+                Texture2D tileGrassToDirtL = content.Load<Texture2D>("tileGrassToDirtL");
                 Texture2D tileGroundBlank = content.Load<Texture2D>("tileGroundBlank");
                 Texture2D tileGroundEndL1 = content.Load<Texture2D>("tileGroundEndL1");
                 Texture2D tileGroundEndL2 = content.Load<Texture2D>("tileGroundEndL2");
@@ -204,7 +204,7 @@ namespace Clockwork
                 Texture2D tileGroundTop3 = content.Load<Texture2D>("tileGroundTop3");
                 Texture2D tileGroundTopRocks = content.Load<Texture2D>("tileGroundTopRocks");
                 Texture2D tileGroundTopRocksVines = content.Load<Texture2D>("tileGroundTopRocksVines");
-                Texture2D tileGroundTopRocksVines1 = content.Load<Texture2D>("tileGroundTopRocksVines1");
+                Texture2D tileGroundTopVines1 = content.Load<Texture2D>("tileGroundTopVines1");
 
                 // Set up Frames
                 List<Frame> tileFrames = new List<Frame>();
@@ -216,7 +216,7 @@ namespace Clockwork
                 tileFrames.Add(new Frame(tileGrassEndL, GetRect(tileGrassEndL), Vector2.Zero));
                 tileFrames.Add(new Frame(tileGrassEndR, GetRect(tileGrassEndR), Vector2.Zero));
                 tileFrames.Add(new Frame(tileGrassLightToDark, GetRect(tileGrassLightToDark), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGrassToDirt, GetRect(tileGrassToDirt), Vector2.Zero));
+                tileFrames.Add(new Frame(tileGrassToDirtL, GetRect(tileGrassToDirtL), Vector2.Zero));
                 tileFrames.Add(new Frame(tileGroundBlank, GetRect(tileGroundBlank), Vector2.Zero));
                 tileFrames.Add(new Frame(tileGroundEndL1, GetRect(tileGroundEndL1), Vector2.Zero));
                 tileFrames.Add(new Frame(tileGroundEndL2, GetRect(tileGroundEndL2), Vector2.Zero));
@@ -231,7 +231,7 @@ namespace Clockwork
                 tileFrames.Add(new Frame(tileGroundTop3, GetRect(tileGroundTop3), Vector2.Zero));
                 tileFrames.Add(new Frame(tileGroundTopRocks, GetRect(tileGroundTopRocks), Vector2.Zero));
                 tileFrames.Add(new Frame(tileGroundTopRocksVines, GetRect(tileGroundTopRocksVines), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundTopRocksVines1, GetRect(tileGroundTopRocksVines1), Vector2.Zero));
+                tileFrames.Add(new Frame(tileGroundTopVines1, GetRect(tileGroundTopVines1), Vector2.Zero));
 
                 // Set up Animations
                 Dictionary<string, Animation> tileAnimations = new Dictionary<string, Animation>();
@@ -243,7 +243,7 @@ namespace Clockwork
                 tileAnimations.Add("tileGrassEndL", new Animation(5, 5, 1));
                 tileAnimations.Add("tileGrassEndR", new Animation(6, 6, 1));
                 tileAnimations.Add("tileGrassLightToDark", new Animation(7, 7, 1));
-                tileAnimations.Add("tileGrassToDirt", new Animation(8, 8, 1));
+                tileAnimations.Add("tileGrassToDirtL", new Animation(8, 8, 1));
                 tileAnimations.Add("tileGroundBlank", new Animation(9, 9, 1));
                 tileAnimations.Add("tileGroundEndL1", new Animation(10, 10, 1));
                 tileAnimations.Add("tileGroundEndL2", new Animation(11, 11, 1));
@@ -258,7 +258,7 @@ namespace Clockwork
                 tileAnimations.Add("tileGroundTop3", new Animation(20, 20, 1));
                 tileAnimations.Add("tileGroundTopRocks", new Animation(21, 21, 1));
                 tileAnimations.Add("tileGroundTopRocksVines", new Animation(22, 22, 1));
-                tileAnimations.Add("tileGroundTopRocksVines1", new Animation(23, 23, 1));
+                tileAnimations.Add("tileGroundTopVines1", new Animation(23, 23, 1));
 
                 // Create AnimatedSprites in Animation Library
                 animationLibrary.Add(Sprites.tileDirtL, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileDirtL"], Point.Zero));
@@ -269,7 +269,7 @@ namespace Clockwork
                 animationLibrary.Add(Sprites.tileGrassEndL, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassEndL"], Point.Zero));
                 animationLibrary.Add(Sprites.tileGrassEndR, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassEndR"], Point.Zero));
                 animationLibrary.Add(Sprites.tileGrassLightToDark, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassLightToDark"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGrassToDirt, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassToDirt"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassToDirtL, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassToDirtL"], Point.Zero));
                 animationLibrary.Add(Sprites.tileGroundBlank, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundBlank"], Point.Zero));
                 animationLibrary.Add(Sprites.tileGroundEndL1, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundEndL1"], Point.Zero));
                 animationLibrary.Add(Sprites.tileGroundEndL2, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundEndL2"], Point.Zero));
@@ -284,7 +284,7 @@ namespace Clockwork
                 animationLibrary.Add(Sprites.tileGroundTop3, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTop3"], Point.Zero));
                 animationLibrary.Add(Sprites.tileGroundTopRocks, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTopRocks"], Point.Zero));
                 animationLibrary.Add(Sprites.tileGroundTopRocksVines, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTopRocksVines"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundTopRocksVines1, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTopRocksVines1"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundTopVines1, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTopVines1"], Point.Zero));
             }
 
             // -- Buttons Setup --
