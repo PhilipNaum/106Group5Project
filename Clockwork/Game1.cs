@@ -38,9 +38,7 @@ namespace Clockwork
         private List<Collectible> collectibles;
 
         private Player player;
-        private List<Tile> tiles;
-
-        private TileType baseTileType;
+        private Vector2 playerLastFrame;
 
         private Menu mainMenu;
         private Menu levelSelect;
@@ -68,7 +66,6 @@ namespace Clockwork
             IsMouseVisible = true;
             enemies = new List<Enemy>();
             collectibles = new List<Collectible>();
-            tiles = new List<Tile>();
         }
 
         protected override void Initialize()
@@ -78,6 +75,7 @@ namespace Clockwork
             gameState = GameState.MainMenu;
 
             player = new Player(new Vector2(200, 0), new Vector2(32, 64));
+            playerLastFrame = player.Position;
 
             _testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
             _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
@@ -99,35 +97,7 @@ namespace Clockwork
             levelComplete = UILoader.GetMenu(Menus.Complete);
             creditsMenu = UILoader.GetMenu(Menus.Credits);
 
-            baseTileType = new TileType(false, true, Sprites.tileGroundBlank);
-
-            // Temporary level
-            for (int i = 0; i < 16; i++)
-            {
-                tiles.Add(new Tile(baseTileType, new Point(i, 9)));
-            }
-            for (int i = 0; i < 5; i++)
-            {
-                tiles.Add(new Tile(baseTileType, new Point(10 + i, 6)));
-            }
-            for (int i = 0; i < 3; i++)
-            {
-                tiles.Add(new Tile(baseTileType, new Point(12 + i, 5)));
-            }
-            tiles.Add(new Tile(baseTileType, new Point(1, 5)));
-            tiles.Add(new Tile(baseTileType, new Point(14, 4)));
-            for (int i = 0; i < 2; i++)
-            {
-                tiles.Add(new Tile(baseTileType, new Point(5, 8 - i)));
-            }
-            for (int i = 0; i < 9; i++)
-            {
-                tiles.Add(new Tile(baseTileType, new Point(15, 8 - i)));
-            }
-            for (int i = 0; i < 9; i++)
-            {
-                tiles.Add(new Tile(baseTileType, new Point(0, 8 - i)));
-            }
+            LevelManager.Instance.SetCurrentLevel(0);
 
             kb = Keyboard.GetState();
             ms = Mouse.GetState();
@@ -192,17 +162,35 @@ namespace Clockwork
         {
             levelSelect.Update();
             if (levelSelect.UIElements["btLevel1"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(0);
                 gameState = GameState.Gameplay;
+            }
             if (levelSelect.UIElements["btLevel2"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(0);
                 gameState = GameState.Gameplay;
+            }
             if (levelSelect.UIElements["btLevel3"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(0);
                 gameState = GameState.Gameplay;
+            }
             if (levelSelect.UIElements["btLevel4"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(0);
                 gameState = GameState.Gameplay;
+            }
             if (levelSelect.UIElements["btLevel5"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(0);
                 gameState = GameState.Gameplay;
+            }
             if (levelSelect.UIElements["btLevel6"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(0);
                 gameState = GameState.Gameplay;
+            }
             if (levelSelect.UIElements["btMenu"].Clicked || SingleKeyPress(Keys.Escape))
                 gameState = GameState.MainMenu;
         }
@@ -216,11 +204,7 @@ namespace Clockwork
 
             player.Update(gameTime);
 
-            // tiles will not be drawn if not updated
-            foreach (Tile t in tiles)
-            {
-                t.Update(gameTime);
-            }
+            LevelManager.Instance.CurrentLevel.Update(gameTime);
 
             // 2 lines since it's a bit easier to read than one.
             List<Tile> collisions = GetPlayerCollisions();
@@ -300,7 +284,7 @@ namespace Clockwork
         private List<Tile> GetPlayerCollisions()
         {
             List<Tile> collisions = new List<Tile>();
-            foreach (Tile t in tiles)
+            foreach (Tile t in LevelManager.Instance.CurrentLevel.CollidableTiles)
             {
                 if (player.IsCollidingPrecise(t))
                 {
@@ -325,10 +309,6 @@ namespace Clockwork
             Vector2 playerVel = player.Velocity;
 
             bool horizontalCollision = false;
-
-            // player vibrates when standing on tiles at height
-            // y = 3, 4
-            // less consistent at hundred thousandths place (alternates between two numbers)
 
             // horizontal collisions
             foreach (Tile collider in collisions)
@@ -374,7 +354,10 @@ namespace Clockwork
                 Vector4 col = player.GetCollision(collider);
 
                 // (x: x, y: y, z: width, w: height)
-                if (col.Z >= col.W)
+                // check if the player was above the top of a tile last frame and is below this frame
+                if (col.Z >= col.W ||
+                    ((playerLastFrame.Y + player.Size.Y) < collider.Top
+                    && playerPos.Y + player.Size.Y > collider.Top && playerVel.Y > 0 && col.Z > 1))
                 {
                     if ((col.Z > 8 && horizontalCollision) || !horizontalCollision)
                     {
@@ -403,6 +386,8 @@ namespace Clockwork
 
             player.Position = playerPos;
             player.Velocity = playerVel;
+            // position of player last frame used for additional checks
+            playerLastFrame = player.Position;
         }
 
 
@@ -461,15 +446,12 @@ namespace Clockwork
                 enemies[i].Draw(_spriteBatch);
             }
 
-            for(int i=0;i<collectibles.Count; i++)
+            for (int i = 0; i < collectibles.Count; i++)
             {
                 collectibles[i].Draw(_spriteBatch);
             }
 
-            foreach (Tile t in tiles)
-            {
-                t.Draw(_spriteBatch);
-            }
+            LevelManager.Instance.CurrentLevel.Draw(_spriteBatch);
         }
 
         private void DrawPause()
