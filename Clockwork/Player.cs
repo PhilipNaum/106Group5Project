@@ -68,10 +68,6 @@ namespace Clockwork
             AOE
         }
 
-        //the direction the player is facing
-        
-
-
         public Player(Vector2 position, Vector2 size) : base(position, size, Sprites.Player)
         {
             currentAbility = Ability.None;
@@ -203,34 +199,23 @@ namespace Clockwork
                 {
                     if(currentItem.Home != this.Position)
                     {
-                        if(currentItem.Home.X < this.Position.X)
-                        {
-                            float xDiff = this.Position.X - currentItem.Home.X;
-                            currentItem.Position = new Vector2(
-                                currentItem.Position.X + xDiff, 
-                                currentItem.Position.Y);
-                        }
-                        if(currentItem.Home.X > this.Position.X)
-                        {
-                            float xDiff = currentItem.Home.X - this.Position.X;
-                            currentItem.Position = new Vector2(
-                                currentItem.Position.X - xDiff,
-                                currentItem.Position.Y);
-                        }
+                        float xDiff = this.Position.X - currentItem.Home.X;
+                        
                         if (currentItem.Home.Y > this.Position.Y)
                         {
                             float YDiff = currentItem.Home.Y - this.Position.Y;
                             currentItem.Position = new Vector2(
-                                currentItem.Position.X,
+                                currentItem.Position.X + xDiff,
                                 currentItem.Position.Y - YDiff);
                         }
                         if (currentItem.Home.Y < this.Position.Y)
                         {
                             float YDiff = currentItem.Home.Y - this.Position.Y;
                             currentItem.Position = new Vector2(
-                                currentItem.Position.X,
+                                currentItem.Position.X + xDiff,
                                 currentItem.Position.Y + YDiff);
                         }
+
                         currentItem.Home = this.Position;
                     }
                 }
