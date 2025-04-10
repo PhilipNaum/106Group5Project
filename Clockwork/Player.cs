@@ -164,12 +164,12 @@ namespace Clockwork
                         if (horDir>=0)
                         {
                             currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + Size.Y / 2),
-                                new Vector2(50, 50), Type.Hand, 1, 4);
+                                new Vector2(50, 50), Type.Hand, 1, 1);
                         }
                         else if (horDir<0)
                         {
                             currentItem = new Collectible(new Vector2(this.Position.X - Size.X, this.Position.Y + Size.Y / 2),
-                                new Vector2(50, 50), Type.Hand, 1, 4);
+                                new Vector2(50, 50), Type.Hand, 1, 1);
                         }
                         currentItem.Home = this.Position;
                         break;

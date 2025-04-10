@@ -95,7 +95,7 @@ namespace Clockwork
                     if (timer <= 0)
                     {
                         invincible = false;
-                        timer = .2;
+                        timer = .3;
                     }
                 }
                 ResolveTileCollisions();
@@ -146,6 +146,9 @@ namespace Clockwork
                     TakeDamage(item.Damage);
                     item.Mode = 2;
 
+                    velocity.X *= -2;
+                    velocity.Y -= 5;
+
                     //Right now, collectible handles everything, but I might change that later
                 }
                 if (other is Tile)
@@ -179,6 +182,14 @@ namespace Clockwork
                         this.Position = new Vector2(this.Position.X, this.Position.Y + intsRect.Height);
                     }
                     velocity.Y = 0;
+                    if(velocity.X > .5)
+                    {
+                        velocity.X = .5f;
+                    }
+                    if(velocity.X < -.5)
+                    {
+                        velocity.X = -.5f;
+                    }
                 }
             }
 
