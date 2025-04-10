@@ -195,7 +195,7 @@ namespace Clockwork
                         {
                             float xDiff = this.Position.X - currentItem.Home.X;
                             currentItem.Position = new Vector2(
-                                currentItem.Position.X + xDiff, 
+                                currentItem.Position.X + xDiff+1, 
                                 currentItem.Position.Y);
                         }
                         if(currentItem.Home.X > this.Position.X)

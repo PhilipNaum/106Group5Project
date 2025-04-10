@@ -55,10 +55,6 @@ namespace Clockwork
             set { invincible = value; }
         }
 
-        
-
-       
-
         public Enemy(Vector2 position, Vector2 size, Vector2 velocity, int range, int health) : base(position, size, Sprites.Enemy)
         {
             this.health = health;
@@ -86,16 +82,13 @@ namespace Clockwork
         {
             if (!isDead)
             {
-                if (this.Position.X >= home.X + range / 2 || this.Position.X <= home.X - range / 2)
+                if (this.Position.X >= home.X + range / 2 - Size.X || this.Position.X <= home.X - range / 2)
                 {
                     velocity.X *= -1;
                 }
                 this.Position = new Vector2(Position.X + velocity.X, Position.Y);
-                //if (this.Position.Y < 370)
-                //{
-                    velocity += acceleration;
-                    this.Position += velocity;
-                //}
+                velocity += acceleration;
+                this.Position += velocity;
                 if (invincible)
                 {
                     timer -= gt.ElapsedGameTime.TotalSeconds;
@@ -165,8 +158,13 @@ namespace Clockwork
             }
         }
 
+        /// <summary>
+        /// Resolves the enemies collisions with tiles
+        /// Uses very similar code the Collisions&Gravity PE
+        /// </summary>
         private void ResolveTileCollisions()
         {
+            //resolves vertical before horizantal so enemies can bounce when they hit the side of a tile
             for (int i = 0; i < isColliding.Count; i++)
             {
                 Rectangle intsRect = Rectangle.Intersect(GetRectangle(), isColliding[i].GetRectangle());
@@ -189,22 +187,21 @@ namespace Clockwork
                 Rectangle intsRect = Rectangle.Intersect(GetRectangle(), isColliding[i].GetRectangle());
                 if (intsRect.Height >= intsRect.Width)
                 {
-                    if(this.Position.X < isColliding[i].Position.X)
+                    if (this.Position.X < isColliding[i].Position.X)
                     {
-                        this.Position = new Vector2(this.Position.X - intsRect.Width,this.Position.Y);
+                        this.Position = new Vector2(this.Position.X - intsRect.Width, this.Position.Y);
                     }
-                    else if(this.Position.X > isColliding[i].Position.X)
+                    else if (this.Position.X > isColliding[i].Position.X)
                     {
                         this.Position = new Vector2(this.Position.X + intsRect.Width, this.Position.Y);
                     }
+                    //bounces enemy only if rectangles intersect
                     if (isColliding[i].GetRectangle().Intersects(GetRectangle()))
                     {
                         velocity.X *= 1;
                     }
                 }
             }
-
-            
         }
 
         //test IsColliding method for milestone 1.5, can be changed.

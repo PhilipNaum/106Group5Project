@@ -77,7 +77,7 @@ namespace Clockwork
             player = new Player(new Vector2(200, 0), new Vector2(32, 64));
             playerLastFrame = player.Position;
 
-            _testenemy = new Enemy(new Vector2(448, 50), new Vector2(100, 100), new Vector2(.75f, 0), 96, 10);
+            _testenemy = new Enemy(new Vector2(416, 32), new Vector2(32,32), new Vector2(-.5f, 0), 192, 10);
             _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
             enemies.Add(_testenemy);
             //enemies.Add(_testenemy2);
