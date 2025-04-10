@@ -8,6 +8,7 @@ using SharpDX.Direct3D9;
 using SharpDX.DirectWrite;
 using System;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 
 namespace Clockwork
@@ -134,22 +135,37 @@ namespace Clockwork
                         }
                         break;
                     case Type.Hand:
+                        Vector2 finalPos = new Vector2();
+                        if (this.Position.X > this.Home.X)
+                        {
+                            finalPos = new Vector2(this.Home.X + 32, this.Home.Y - 16);
                         
-                        Vector2 finalPos = new Vector2(this.Home.X + 32, this.Home.Y - 16);
-                        
-                        float xDiff = this.Position.X - this.Home.X;
-                        float yDiff = this.Position.Y - this.Home.Y;
+                            float xDiff = this.Position.X - this.Home.X;
+                            float yDiff = this.Position.Y - this.Home.Y;
 
-                        if (Position.X <= finalPos.X && Position.Y <= finalPos.Y)
+
+                            Vector2 rotate = new Vector2(
+                            (float)((Math.Cos(5 * -0.0174533) * xDiff) - (Math.Sin(5 * -0.0174533) * yDiff) + this.Home.X),
+                            (float)((Math.Sin(5 * -0.0174533) * xDiff) + (Math.Cos(5 * -0.0174533) * yDiff) + this.Home.Y));
+                            Position = rotate;
+                        }
+                        else if (this.Position.X < this.Home.X)
+                        {
+                            finalPos = new Vector2(this.Home.X - 32, this.Home.Y - 16);
+
+                            float xDiff = this.Position.X - this.Home.X;
+                            float yDiff = this.Position.Y - this.Home.Y;
+
+
+                            Vector2 rotate = new Vector2(
+                            (float)((Math.Cos(5 * 0.0174533) * xDiff) - (Math.Sin(5 * 0.0174533) * yDiff) + this.Home.X),
+                            (float)((Math.Sin(5 * 0.0174533) * xDiff) + (Math.Cos(5 * 0.0174533) * yDiff) + this.Home.Y));
+                            Position = rotate;
+                        }
+                        if (Position.X >= finalPos.X && Position.Y <= finalPos.Y)
                         {
                             mode = 2;
                         }
-                        Vector2 rotate = new Vector2(
-                            (float)((Math.Cos(5*-0.0174533) * xDiff) - (Math.Sin(5*-0.0174533) * yDiff) + this.Home.X),
-                            (float)((Math.Sin(5*-0.0174533) * xDiff) + (Math.Cos(5*-0.0174533) * yDiff) + this.Home.Y));
-
-                        Position = rotate;
-                        
                         break;
                     case Type.Chime:
                         timer -= gt.ElapsedGameTime.TotalSeconds;
