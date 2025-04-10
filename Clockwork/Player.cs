@@ -69,19 +69,13 @@ namespace Clockwork
         }
 
         //the direction the player is facing
-        private Direction direction;
-        private enum Direction
-        {
-            Left,
-            Right,
-        }
+        
 
 
         public Player(Vector2 position, Vector2 size) : base(position, size, Sprites.Player)
         {
             currentAbility = Ability.None;
             grounded = false;
-            direction = Direction.Right;
         }
 
         /// <summary>
@@ -121,15 +115,9 @@ namespace Clockwork
 
             float horDir = 0;
             if (ks.IsKeyDown(Keys.A))
-            {
                 horDir--;
-                direction = Direction.Left;
-            }
             if (ks.IsKeyDown(Keys.D))
-            {
-                direction = Direction.Right;
                 horDir++;
-            }
                 
             // only accelerate if under max speed
             if (horDir != 0 && MathF.Abs(velocity.X) < maxHorizontalSpeed)
@@ -169,7 +157,7 @@ namespace Clockwork
                         //if statement makes sure that a gear can only be thrown once the one before is gone
                         if (currentItem == null || currentItem.Mode == 2)
                         {
-                            currentItem = new Collectible(new Vector2(this.Position.X + Size.X / 4, this.Position.Y + Size.Y / 4), new Vector2(32,32), Type.Gear, 1, 2);
+                            currentItem = new Collectible(new Vector2(this.Position.X + Size.X / 4, this.Position.Y + Size.Y / 4), new Vector2(32, 32), Type.Gear, 1, 2);
                             currentItem.Sprite.SetAnimation("gearSpin");
                             currentItem.Velocity = Vector2.Normalize(ms.Position.ToVector2()
                             - (this.Position + this.Size / 2));
@@ -177,12 +165,12 @@ namespace Clockwork
                         break;
                     case Ability.Sword:
                         //create a new sword
-                        if(direction == Direction.Right)
+                        if (horDir>=0)
                         {
                             currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + Size.Y / 2),
                                 new Vector2(50, 50), Type.Hand, 1, 4);
                         }
-                        if (direction == Direction.Left)
+                        else if (horDir<0)
                         {
                             currentItem = new Collectible(new Vector2(this.Position.X - Size.X, this.Position.Y + Size.Y / 2),
                                 new Vector2(50, 50), Type.Hand, 1, 4);
