@@ -225,16 +225,27 @@ namespace Clockwork
                     //it needs to be updated so the sword can be in the right position
                     if (currentItem.Home != this.Position)
                     {
-                        //the difference between where the home off the sword is and the player's current position (where the home should be)
-                        //the sword should be moved by this same amount
-                        float xDiff = this.Position.X - currentItem.Home.X;
+                        if (currentItem.Home.X < this.Position.X)
+                        {
+                            float xDiff = this.Position.X - currentItem.Home.X;
+                            currentItem.Position = new Vector2(
+                                currentItem.Position.X + xDiff,
+                                currentItem.Position.Y);
+                        }
+                        if (currentItem.Home.X > this.Position.X)
+                        {
+                            float xDiff = currentItem.Home.X - this.Position.X;
+                            currentItem.Position = new Vector2(
+                                currentItem.Position.X - xDiff,
+                                currentItem.Position.Y);
+                        }
 
                         //if the sword is above where it should be, subtract the y difference between home and position
                         if (currentItem.Home.Y > this.Position.Y)
                         {
                             float YDiff = currentItem.Home.Y - this.Position.Y;
                             currentItem.Position = new Vector2(
-                                currentItem.Position.X + xDiff,
+                                currentItem.Position.X,
                                 currentItem.Position.Y - YDiff);
                         }
 
@@ -243,7 +254,7 @@ namespace Clockwork
                         {
                             float YDiff = currentItem.Home.Y - this.Position.Y;
                             currentItem.Position = new Vector2(
-                                currentItem.Position.X + xDiff,
+                                currentItem.Position.X,
                                 currentItem.Position.Y + YDiff);
                         }
 
