@@ -72,7 +72,7 @@ namespace Clockwork
         {
             base.Initialize();
 
-            gameState = GameState.LevelComplete;
+            gameState = GameState.MainMenu;
 
             LevelManager.Instance.SetCurrentLevel(0);
 
