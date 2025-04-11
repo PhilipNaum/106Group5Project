@@ -35,7 +35,7 @@ namespace Clockwork
         private Collectible _testitem2;
         private Collectible _testitem3;
         private Collectible _testitem4;
-        private List<Collectible> collectibles;
+        //private List<Collectible> collectibles;
 
         private Player player;
         private Vector2 playerLastFrame;
@@ -65,7 +65,7 @@ namespace Clockwork
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             enemies = new List<Enemy>();
-            collectibles = new List<Collectible>();
+            //collectibles = new List<Collectible>();
         }
 
         protected override void Initialize()
@@ -76,7 +76,7 @@ namespace Clockwork
 
             LevelManager.Instance.SetCurrentLevel(0);
 
-            player = new Player(new Vector2(200, 0), new Vector2(32, 64));
+            player = new Player(new Vector2(100, 200), new Vector2(32, 64));
             playerLastFrame = player.Position;
 
             _testenemy = new Enemy(new Vector2(416, 32), new Vector2(32,32), new Vector2(-.5f, 0), 192, 10);
@@ -91,7 +91,7 @@ namespace Clockwork
             //collectibles.Add(_testitem);
             //collectibles.Add(_testitem2);
             //collectibles.Add(_testitem3);
-            collectibles.Add(_testitem4);
+            //collectibles.Add(_testitem4);
 
             mainMenu = UILoader.GetMenu(Menus.Main);
             levelSelect = UILoader.GetMenu(Menus.Select);
@@ -170,31 +170,26 @@ namespace Clockwork
             }
             if (levelSelect.UIElements["btLevel2"].Clicked)
             {
-
                 LevelManager.Instance.SetCurrentLevel(1);
                 gameState = GameState.Gameplay;
             }
             if (levelSelect.UIElements["btLevel3"].Clicked)
             {
-
                 LevelManager.Instance.SetCurrentLevel(2);
                 gameState = GameState.Gameplay;
             }
             if (levelSelect.UIElements["btLevel4"].Clicked)
             {
-
                 LevelManager.Instance.SetCurrentLevel(3);
                 gameState = GameState.Gameplay;
             }
             if (levelSelect.UIElements["btLevel5"].Clicked)
             {
-
                 LevelManager.Instance.SetCurrentLevel(4);
                 gameState = GameState.Gameplay;
             }
             if (levelSelect.UIElements["btLevel6"].Clicked)
             {
-
                 LevelManager.Instance.SetCurrentLevel(5);
                 gameState = GameState.Gameplay;
             }
@@ -207,6 +202,10 @@ namespace Clockwork
             if (SingleKeyPress(Keys.Escape))
             {
                 gameState = GameState.Pause;
+            }
+            if (SingleKeyPress(Keys.X))
+            {
+                gameState = GameState.LevelComplete;
             }
 
             player.Update(gameTime);
@@ -254,12 +253,12 @@ namespace Clockwork
                 }
             }
 
-            for (int i = 0; i < collectibles.Count; i++)
+            for (int i = 0; i < LevelManager.Instance.CurrentLevel.Collectibles.Count; i++)
             {
-                if (collectibles[i].Mode != 2)
+                if (LevelManager.Instance.CurrentLevel.Collectibles[i].Mode != 2)
                 {
-                    collectibles[i].Update(gameTime);
-                    player.CollisionResponse(collectibles[i]);
+                    LevelManager.Instance.CurrentLevel.Collectibles[i].Update(gameTime);
+                    player.CollisionResponse(LevelManager.Instance.CurrentLevel.Collectibles[i]);
                     //collectibles[i].CollisionResponse(player);
                 }
 
@@ -470,9 +469,9 @@ namespace Clockwork
                 enemies[i].Draw(_spriteBatch);
             }
 
-            for (int i = 0; i < collectibles.Count; i++)
+            for (int i = 0; i < LevelManager.Instance.CurrentLevel.Collectibles.Count; i++)
             {
-                collectibles[i].Draw(_spriteBatch);
+                LevelManager.Instance.CurrentLevel.Collectibles[i].Draw(_spriteBatch);
             }
 
             LevelManager.Instance.CurrentLevel.Draw(_spriteBatch);
@@ -481,6 +480,7 @@ namespace Clockwork
         private void DrawPause()
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            player.ResetPlayer();
             DrawGame();
             _spriteBatch.Draw(scrim, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
             pauseMenu.Draw(_spriteBatch);
@@ -489,6 +489,7 @@ namespace Clockwork
         private void DrawLevelComplete()
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            player.ResetPlayer();
             DrawGame();
             _spriteBatch.Draw(scrim, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
             levelComplete.Draw(_spriteBatch);

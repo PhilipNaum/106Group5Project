@@ -84,6 +84,17 @@ namespace Clockwork
         }
 
         /// <summary>
+        /// Resets the players position, velocity, and ability.
+        /// For starting/restarting levels.
+        /// </summary>
+        public void ResetPlayer()
+        {
+            Position = new Vector2(100, 200);
+            velocity = Vector2.Zero;
+            currentAbility = Ability.None;
+        }
+
+        /// <summary>
         /// Returns new velocity after dash.
         /// Just a possible implementation of a dash.
         /// </summary>

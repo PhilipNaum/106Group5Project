@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
@@ -12,11 +12,12 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Levels\TestMap.map" />
+	  <None Remove="Levels\TestMap.map" />
+	  <None Remove="Levels\TestMapAbil.map" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Levels\TestMap.map">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="Levels\TestMap.map;Levels\TestMapAbil.map">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>

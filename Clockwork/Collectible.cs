@@ -37,7 +37,7 @@ namespace Clockwork
 
         //How to check whether the collectible should float in place, is being used, or neither
         //0 is floating in place, waiting to be collected
-        //1 is activley being used
+        //1 is actively being used
         //2 is can not be collected, is not being used
         private int mode;
 
