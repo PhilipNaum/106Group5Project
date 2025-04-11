@@ -264,6 +264,12 @@ namespace Clockwork
 
                 
             }
+
+            if (!player.GetRectangle().Intersects(new Rectangle(0, 0, 
+                _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight)))
+            {
+                player.ResetPlayer();
+            }
         }
 
         private void UpdatePause()
