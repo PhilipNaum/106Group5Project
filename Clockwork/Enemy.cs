@@ -156,12 +156,8 @@ namespace Clockwork
                     System.Diagnostics.Debug.WriteLine("hit");
                     TakeDamage(item.Damage);
                     item.Mode = 2;
-
-                    if (!invincible)
-                    {
-                        velocity.X *= -2;
-                        velocity.Y -= 5;
-                    }
+                    velocity.X *= -2;
+                    velocity.Y -= 5;
 
                     //Right now, collectible handles everything, but I might change that later
                 }
