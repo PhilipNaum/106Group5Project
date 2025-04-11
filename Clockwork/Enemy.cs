@@ -37,11 +37,21 @@ namespace Clockwork
         //represents if the enemy is dead
         private bool isDead;
 
+        //represents if the enemy is invincible or not
         private bool invincible;
 
+        //a timer used for the enemy's i-frames
         private double timer;
 
+        //the list of tiles that the enemy has to check for collisions
         private List<Tile> isColliding;
+
+        private int damage;
+
+        public int Damage
+        {
+            get { return damage; }
+        }
 
         public Vector2 Velocity
         {
@@ -66,6 +76,7 @@ namespace Clockwork
             invincible = false;
             timer = .2;
             isColliding = new List<Tile>();
+            damage = 2;
         }
         public override void Draw(SpriteBatch sb)
         {
@@ -146,8 +157,11 @@ namespace Clockwork
                     TakeDamage(item.Damage);
                     item.Mode = 2;
 
-                    velocity.X *= -2;
-                    velocity.Y -= 5;
+                    if (!invincible)
+                    {
+                        velocity.X *= -2;
+                        velocity.Y -= 5;
+                    }
 
                     //Right now, collectible handles everything, but I might change that later
                 }

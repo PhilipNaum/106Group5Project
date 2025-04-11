@@ -7,10 +7,13 @@ using Microsoft.Win32.SafeHandles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SharpDX.Direct2D1.Effects;
+using SharpDX.XAudio2;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
 using System.Globalization;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 
 namespace Clockwork
@@ -19,6 +22,12 @@ namespace Clockwork
     {
         //the collectible that represents the players current item;
         private Collectible currentItem;
+
+        private bool invincible;
+
+        private double timer = .2;
+
+        private int health = 10;
 
         public Collectible CurrentItem
         {
@@ -114,7 +123,7 @@ namespace Clockwork
                 horDir--;
             if (ks.IsKeyDown(Keys.D))
                 horDir++;
-                
+
             // only accelerate if under max speed
             if (horDir != 0 && MathF.Abs(velocity.X) < maxHorizontalSpeed)
             {
@@ -161,15 +170,15 @@ namespace Clockwork
                         break;
                     case Ability.Sword:
                         //create a new sword
-                        if (horDir>=0)
+                        if (horDir >= 0)
                         {
                             currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + Size.Y / 2),
-                                new Vector2(50, 50), Type.Hand, 1, 1);
+                                new Vector2(50, 50), Type.Hand, 1, 5);
                         }
-                        else if (horDir<0)
+                        else if (horDir < 0)
                         {
                             currentItem = new Collectible(new Vector2(this.Position.X - Size.X, this.Position.Y + Size.Y / 2),
-                                new Vector2(50, 50), Type.Hand, 1, 1);
+                                new Vector2(50, 50), Type.Hand, 1, 5);
                         }
                         currentItem.Home = this.Position;
                         break;
@@ -178,7 +187,7 @@ namespace Clockwork
                         {
                             currentItem = new Collectible(
                             new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4),
-                            new Vector2(48,48), Type.Chime, 1, 3);
+                            new Vector2(48, 48), Type.Chime, 1, 3);
                         }
                         break;
                     default:
@@ -191,16 +200,25 @@ namespace Clockwork
             {
 
                 currentItem.Update(gameTime);
+
                 if (currentAbility == Ability.AOE)
                 {
+                    //set the position of the aoe 
                     currentItem.Position = new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4);
                 }
+                //keep the sword with the player
                 if (currentAbility == Ability.Sword)
                 {
-                    if(currentItem.Home != this.Position)
+                    //check if the sword actually needs to be moved
+                    //home is used to calculate the rotation and final position of the sword
+                    //it needs to be updated so the sword can be in the right position
+                    if (currentItem.Home != this.Position)
                     {
+                        //the difference between where the home off the sword is and the player's current position (where the home should be)
+                        //the sword should be moved by this same amount
                         float xDiff = this.Position.X - currentItem.Home.X;
-                        
+
+                        //if the sword is above where it should be, subtract the y difference between home and position
                         if (currentItem.Home.Y > this.Position.Y)
                         {
                             float YDiff = currentItem.Home.Y - this.Position.Y;
@@ -208,6 +226,8 @@ namespace Clockwork
                                 currentItem.Position.X + xDiff,
                                 currentItem.Position.Y - YDiff);
                         }
+
+                        //if the sword is below where it should be, add the y difference between home and position
                         if (currentItem.Home.Y < this.Position.Y)
                         {
                             float YDiff = currentItem.Home.Y - this.Position.Y;
@@ -216,8 +236,19 @@ namespace Clockwork
                                 currentItem.Position.Y + YDiff);
                         }
 
+                        //set the sword's home to the player's current position
                         currentItem.Home = this.Position;
                     }
+                }
+            }
+
+            if (invincible)
+            {
+                timer -= gameTime.ElapsedGameTime.TotalSeconds;
+                if (timer <= 0)
+                {
+                    invincible = false;
+                    timer = .3;
                 }
             }
 
@@ -262,7 +293,18 @@ namespace Clockwork
                             break;
                     }
                 }
+                if (other is Enemy)
+                {
+                    Enemy otherEnemy = (Enemy)other;
+                    if (!invincible)
+                    {
+                        velocity.X *= -1;
+                        invincible = true;
+                        health -= otherEnemy.Damage;
+                    }
+                }
             }
         }
+
     }
 }

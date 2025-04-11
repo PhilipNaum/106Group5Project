@@ -242,6 +242,8 @@ namespace Clockwork
                 {
                     enemies[i].CollisionResponse(LevelManager.Instance.CurrentLevel.CollidableTiles[j]);
                 }
+
+                player.CollisionResponse(enemies[i]);
             }
 
             if (player.CurrentItem != null)
