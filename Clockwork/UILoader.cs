@@ -476,10 +476,11 @@ namespace Clockwork
             // Level Complete Menu
             {
                 Dictionary<string, UIElement> levelCompleteElements = new Dictionary<string, UIElement>();
-                levelCompleteElements.Add("lbLevelComplete", new TextElement("Level Complete!",Medodica72, new Rectangle(0,0,0,0)));
+                levelCompleteElements.Add("lbLevelComplete", new TextElement("Level Complete!", Medodica72,
+                    new Rectangle((graphics.PreferredBackBufferWidth / 2) - ((int)Medodica72.MeasureString("Level Complete!").X / 2), graphics.PreferredBackBufferHeight / 16, 0, 0)));
                 levelCompleteElements.Add("btNext", new Button(Sprites.btNext, new Point(graphics.PreferredBackBufferWidth / 2 - 48, graphics.PreferredBackBufferHeight * 2 / 5)));
                 levelCompleteElements.Add("btLevels", new Button(Sprites.btLevels, new Point(graphics.PreferredBackBufferWidth / 2 - 48, graphics.PreferredBackBufferHeight * 2 / 5 + 34)));
-                levelCompleteElements.Add("btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth / 2 - 48, graphics.PreferredBackBufferHeight * 2 / 5 + 34)));
+                levelCompleteElements.Add("btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth / 2 - 48, graphics.PreferredBackBufferHeight * 2 / 5 + 68)));
                 menuLibrary.Add(Menus.Complete, new Menu(levelCompleteElements));
             }
 
