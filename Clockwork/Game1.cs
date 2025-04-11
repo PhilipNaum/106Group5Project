@@ -79,7 +79,7 @@ namespace Clockwork
             player = new Player(new Vector2(200, 0), new Vector2(32, 64));
             playerLastFrame = player.Position;
 
-            _testenemy = new Enemy(new Vector2(400, 50), new Vector2(100, 100), new Vector2(.75f, 0), 200, 10);
+            _testenemy = new Enemy(new Vector2(416, 32), new Vector2(32,32), new Vector2(-.5f, 0), 192, 10);
             _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
             enemies.Add(_testenemy);
             //enemies.Add(_testenemy2);
@@ -87,7 +87,7 @@ namespace Clockwork
             _testitem = new Collectible(new Vector2(400, 240), new Vector2(16, 16), Type.Gear, 0);
             _testitem2 = new Collectible(new Vector2(200, 240), new Vector2(16, 16), Type.Face, 0);
             _testitem3 = new Collectible(new Vector2(400, 240), new Vector2(16, 16), Type.Chime, 0);
-            _testitem4 = new Collectible(new Vector2(200, 240), new Vector2(16, 16), Type.Hand, 0);
+            _testitem4 = new Collectible(new Vector2(192,128), new Vector2(16, 16), Type.Hand, 0);
             //collectibles.Add(_testitem);
             //collectibles.Add(_testitem2);
             //collectibles.Add(_testitem3);
@@ -237,17 +237,18 @@ namespace Clockwork
                     enemies[i].CollisionResponse(player.CurrentItem);
                 }
 
-                //for(int j = 0; j < tiles.Count; j++)
+
+                for(int j = 0; j < LevelManager.Instance.CurrentLevel.CollidableTiles.Count; j++)
                 {
-                   // enemies[i].CollisionResponse(tiles[j]);
+                    enemies[i].CollisionResponse(LevelManager.Instance.CurrentLevel.CollidableTiles[j]);
                 }
             }
 
             if (player.CurrentItem != null)
             {
-               // for(int i = 0; i < tiles.Count; i++)
+                for(int i = 0; i < LevelManager.Instance.CurrentLevel.CollidableTiles.Count; i++)
                 {
-               //     player.CurrentItem.CollisionResponse(tiles[i]);
+                    player.CurrentItem.CollisionResponse(LevelManager.Instance.CurrentLevel.CollidableTiles[i]);
                 }
             }
 

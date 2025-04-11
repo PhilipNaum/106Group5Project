@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
 namespace Clockwork
 {
@@ -67,7 +68,6 @@ namespace Clockwork
             AOE
         }
 
-
         public Player(Vector2 position, Vector2 size) : base(position, size, Sprites.Player)
         {
             currentAbility = Ability.None;
@@ -114,7 +114,7 @@ namespace Clockwork
                 horDir--;
             if (ks.IsKeyDown(Keys.D))
                 horDir++;
-
+                
             // only accelerate if under max speed
             if (horDir != 0 && MathF.Abs(velocity.X) < maxHorizontalSpeed)
             {
@@ -150,19 +150,27 @@ namespace Clockwork
                         velocity = Dash(ms);
                         break;
                     case Ability.Throw:
-                        //if statement make sure that a gear can only be thrown once the one before is gone
+                        //if statement makes sure that a gear can only be thrown once the one before is gone
                         if (currentItem == null || currentItem.Mode == 2)
                         {
-                            currentItem = new Collectible(new Vector2(this.Position.X + Size.X / 4, this.Position.Y + Size.Y / 4), new Vector2(32,32), Type.Gear, 1, 2);
+                            currentItem = new Collectible(new Vector2(this.Position.X + Size.X / 4, this.Position.Y + Size.Y / 4), new Vector2(32, 32), Type.Gear, 1, 2);
                             currentItem.Sprite.SetAnimation("gearSpin");
                             currentItem.Velocity = Vector2.Normalize(ms.Position.ToVector2()
                             - (this.Position + this.Size / 2));
                         }
                         break;
                     case Ability.Sword:
-                        //create a new sword,
-                        currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + Size.Y / 2),
-                            new Vector2(50,50), Type.Hand, 1, 4);
+                        //create a new sword
+                        if (horDir>=0)
+                        {
+                            currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + Size.Y / 2),
+                                new Vector2(50, 50), Type.Hand, 1, 1);
+                        }
+                        else if (horDir<0)
+                        {
+                            currentItem = new Collectible(new Vector2(this.Position.X - Size.X, this.Position.Y + Size.Y / 2),
+                                new Vector2(50, 50), Type.Hand, 1, 1);
+                        }
                         currentItem.Home = this.Position;
                         break;
                     case Ability.AOE:
@@ -181,6 +189,7 @@ namespace Clockwork
             //same reason why the object itself is a field
             if (currentItem != null)
             {
+
                 currentItem.Update(gameTime);
                 if (currentAbility == Ability.AOE)
                 {
@@ -188,7 +197,27 @@ namespace Clockwork
                 }
                 if (currentAbility == Ability.Sword)
                 {
-                    currentItem.Home = this.Position;
+                    if(currentItem.Home != this.Position)
+                    {
+                        float xDiff = this.Position.X - currentItem.Home.X;
+                        
+                        if (currentItem.Home.Y > this.Position.Y)
+                        {
+                            float YDiff = currentItem.Home.Y - this.Position.Y;
+                            currentItem.Position = new Vector2(
+                                currentItem.Position.X + xDiff,
+                                currentItem.Position.Y - YDiff);
+                        }
+                        if (currentItem.Home.Y < this.Position.Y)
+                        {
+                            float YDiff = currentItem.Home.Y - this.Position.Y;
+                            currentItem.Position = new Vector2(
+                                currentItem.Position.X + xDiff,
+                                currentItem.Position.Y + YDiff);
+                        }
+
+                        currentItem.Home = this.Position;
+                    }
                 }
             }
 

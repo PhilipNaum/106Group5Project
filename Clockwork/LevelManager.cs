@@ -34,23 +34,37 @@ namespace Clockwork
         /// </summary>
         private static TileType[] tileTypes = {
             new(false, false, Sprites.Empty),
-            new(false, false, Sprites.Empty),
-            new(false, false, Sprites.Empty),
-            new(false, false, Sprites.Empty),
-            new(false, false, Sprites.Empty),
-            new(false, false, Sprites.Empty),
-            new(false, false, Sprites.Empty),
-            new(false, false, Sprites.Empty),
-            new(false, false, Sprites.Empty),
-            new(false, false, Sprites.Empty),
-            new(false, true, Sprites.tileGroundBlank), // index 10
+            new(false, true, Sprites.tileDirtL),
+            new(false, true, Sprites.tileDirtToGrassR),
+            new(false, true, Sprites.tileGrass),
+            new(false, true, Sprites.tileGrassDark),
+            new(false, true, Sprites.tileGrassDarkToLight),
+            new(false, true, Sprites.tileGrassEndL),
+            new(false, true, Sprites.tileGrassEndR),
+            new(false, true, Sprites.tileGrassLightToDark),
+            new(false, true, Sprites.tileGrassToDirtL),
+            new(false, true, Sprites.tileGroundBlank),
+            new(false, true, Sprites.tileGroundEndL1),
+            new(false, true, Sprites.tileGroundEndL2),
+            new(false, true, Sprites.tileGroundEndR1),
+            new(false, true, Sprites.tileGroundEndL2),
+            new(false, true, Sprites.tileGroundRocks),
+            new(false, true, Sprites.tileGroundRocks2),
+            new(false, true, Sprites.tileGroundRocksLeavesBottom),
+            new(false, true, Sprites.tileGroundRocksLeavesTop),
+            new(false, true, Sprites.tileGroundTop1),
+            new(false, true, Sprites.tileGroundTop2),
+            new(false, true, Sprites.tileGroundTop3),
+            new(false, true, Sprites.tileGroundTopRocks),
+            new(false, true, Sprites.tileGroundTopRocksVines),
+            new(false, true, Sprites.tileGroundTopVines1),
         };
 
         /// <summary>
         /// an array of all filenames of levels
         /// </summary>
         private static string[] levelFilenames = {
-            "..\\..\\..\\TestMap.map"
+            "Levels/TestMap.map"
         };
 
         /// <summary>
@@ -93,7 +107,27 @@ namespace Clockwork
                 }
             }
 
-            //TODO load collectibles
+            // read and loop for the number of collectibles
+            int collectibleCount = input.ReadInt32();
+            for (int i = 0; i < collectibleCount; i++)
+            {
+                // read collectible type
+                Type collectibleType = (Type)input.ReadByte();
+
+                // read collectible position and calculate to screen position
+                Vector2 collectiblePosition = new Point(
+                    input.ReadInt32(),
+                    input.ReadInt32()
+                    ).ToVector2() * Tile.TileLength;
+
+                // add collectible to list
+                level.Collectibles.Add(new Collectible(
+                    collectiblePosition,
+                    new Vector2(16, 16),
+                    collectibleType,
+                    0
+                    ));
+            }
 
             input.Close();
 
