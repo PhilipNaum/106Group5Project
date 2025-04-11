@@ -135,6 +135,8 @@ namespace Clockwork
                     ));
             }
 
+            level.SetExit(new Exit(new Vector2(input.ReadInt32(), input.ReadInt32())));
+
             input.Close();
 
             return level;
