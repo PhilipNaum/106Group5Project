@@ -27,7 +27,8 @@ namespace Clockwork
 
         private double timer = .2;
 
-        private int health = 10;
+        private readonly int maxHealth = 10;
+        private int health;
 
         public Collectible CurrentItem
         {
@@ -81,6 +82,7 @@ namespace Clockwork
         {
             currentAbility = Ability.None;
             grounded = false;
+            health = maxHealth;
         }
 
         /// <summary>
@@ -89,9 +91,13 @@ namespace Clockwork
         /// </summary>
         public void ResetPlayer()
         {
+            // this should actually get a position from the current level
             Position = new Vector2(100, 200);
+            //Position = LevelManager.Instance.CurrentLevel.PlayerStart;
+
             velocity = Vector2.Zero;
             currentAbility = Ability.None;
+            health = maxHealth;
         }
 
         /// <summary>
@@ -322,11 +328,24 @@ namespace Clockwork
                     {
                         velocity.X *= -1;
                         invincible = true;
-                        health -= otherEnemy.Damage;
+                        TakeDamage(otherEnemy.Damage);
                     }
                 }
             }
         }
 
+        private void TakeDamage(int damage)
+        {
+            health -= damage;
+
+            if (health <= 0)
+            {
+                // this also resets health to max
+                ResetPlayer();
+                invincible = true;
+
+                LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex);
+            }
+        }
     }
 }

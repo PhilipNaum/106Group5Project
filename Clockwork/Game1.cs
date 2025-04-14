@@ -486,7 +486,6 @@ namespace Clockwork
         private void DrawPause()
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            player.ResetPlayer();
             DrawGame();
             _spriteBatch.Draw(scrim, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
             pauseMenu.Draw(_spriteBatch);

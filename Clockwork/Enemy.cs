@@ -46,7 +46,7 @@ namespace Clockwork
         //the list of tiles that the enemy has to check for collisions
         private List<Tile> isColliding;
 
-        private int damage;
+        private int damage = 4;
 
         public int Damage
         {
