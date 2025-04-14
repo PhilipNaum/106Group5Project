@@ -14,23 +14,23 @@ namespace Clockwork
     internal class Level
     {
         private Tile[,] map;
-        internal List<Tile> collidableTiles;
+        private List<Tile> collidableTiles;
         private List<Collectible> collectibles;
 
         /// <summary>
         /// the tile map for the level
         /// </summary>
-        internal Tile[,] Map { get => map; }
+        public Tile[,] Map { get => map; }
 
         /// <summary>
         /// a list of the collidable tiles in the level, used for collision checks
         /// </summary>
-        internal List<Tile> CollidableTiles { get => collidableTiles; }
+        public List<Tile> CollidableTiles { get => collidableTiles; }
 
         /// <summary>
         /// a list of collectibles in the level
         /// </summary>
-        internal List<Collectible> Collectibles { get => collectibles; }
+        public List<Collectible> Collectibles { get => collectibles; }
 
         /// <summary>
         /// creates an empty level

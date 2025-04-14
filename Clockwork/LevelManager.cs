@@ -66,11 +66,11 @@ namespace Clockwork
         private static string[] levelFilenames = {
             //"Levels/TestMap.map",
             "Levels/TestMapAbil.map",
-            "..\\..\\..\\Levels/DemoLevel2.map",
-            "..\\..\\..\\Levels/DemoLevel3.map",
-            "..\\..\\..\\Levels/DemoLevel4.map",
-            "..\\..\\..\\Levels/DemoLevel5.map",
-            "..\\..\\..\\Levels/DemoLevel6.map"
+            "Levels/DemoLevel2.map",
+            "Levels/DemoLevel3.map",
+            "Levels/DemoLevel4.map",
+            "Levels/DemoLevel5.map",
+            "Levels/DemoLevel6.map"
         };
 
         /// <summary>
@@ -106,10 +106,7 @@ namespace Clockwork
 
                     // place tile on the map
                     level.Map[y, x] = new Tile(tileType, new Point(x, y));
-                    if (tileType.Collidable)
-                    {
-                        level.collidableTiles.Add(level.Map[y, x]);
-                    }
+                    if (tileType.Collidable) { level.CollidableTiles.Add(level.Map[y, x]); }
                 }
             }
 
@@ -159,11 +156,11 @@ namespace Clockwork
         /// <param name="index">level index</param>
         public void SetCurrentLevel(int index)
         {
-            if (index >= 0 && index < levelFilenames.Length)
-            {
-                currentLevel = LoadLevel(levelFilenames[index]);
-                currentLevelIndex = index;
-            }
+            // range check
+            if (index < 0 || index >= levelFilenames.Length) { return; }
+
+            currentLevel = LoadLevel(levelFilenames[index]);
+            currentLevelIndex = index;
         }
 
         /// <summary>
