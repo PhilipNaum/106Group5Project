@@ -337,7 +337,7 @@ namespace Clockwork
                         {
                             System.Diagnostics.Debug.WriteLine("test");
                             //enemy hits you from the bottom
-                            if (this.Position.Y > otherEnemy.Position.Y)
+                            if (this.Position.Y < otherEnemy.Position.Y)
                             {
                                 
                                 this.Position = new Vector2(this.Position.X, this.Position.Y - displacement.Height);
@@ -347,7 +347,7 @@ namespace Clockwork
 
                             //enemy hits you from the top
                             //might not need but will be good to have
-                            if (this.Position.Y < otherEnemy.Position.Y)
+                            if (this.Position.Y > otherEnemy.Position.Y)
                             {
                                 this.Position = new Vector2(this.Position.X, this.Position.Y - displacement.Height);
                             }
@@ -373,9 +373,6 @@ namespace Clockwork
                                 velocity.X += 10;
                             }
                         }
-
-                        
-
 
                         invincible = true;
                         TakeDamage(otherEnemy.Damage);
