@@ -103,8 +103,6 @@ namespace Clockwork
                 base.Draw(sb);
             }
         }
-            
-        
 
         /// <summary>
         /// Makes the item float up and down before being collected if mode is 0;
@@ -239,6 +237,8 @@ namespace Clockwork
             return base.GetRectangle();
         }
 
+
+        public event EventHandler ReverseTime;
 
     }
 }

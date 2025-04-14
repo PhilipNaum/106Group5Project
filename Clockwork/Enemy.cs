@@ -23,7 +23,7 @@ namespace Clockwork
 
         //the health of the enemy
         private int health;
-        
+
         //used for movement. Currently, the home is set to always be the enemies starting position
         private Vector2 home;
 
@@ -51,7 +51,7 @@ namespace Clockwork
         //the amount of damage the enemy does to the player
         private int damage = 4;
 
-        
+
         public int Damage
         {
             get { return damage; }
@@ -62,6 +62,7 @@ namespace Clockwork
             get { return invincible; }
             set { invincible = value; }
         }
+
 
         /// <summary>
         /// creates a new enemy
@@ -133,6 +134,9 @@ namespace Clockwork
             }
             else
             {
+                timer = 0;
+                timer += gt.ElapsedGameTime.TotalSeconds;
+
 
             }
         }
@@ -145,19 +149,19 @@ namespace Clockwork
         {
             if (IsColliding(other))
             {
-                
+
                 if (other is Enemy)
                 {
                     //if two enemies run into eachother, then they should turn around
                     Enemy otherEnemy = (Enemy)other;
                     Rectangle displacement = Rectangle.Intersect(GetRectangle(), otherEnemy.GetRectangle());
-                    if(displacement.Height> displacement.Width)
+                    if (displacement.Height > displacement.Width)
                     {
                         if (this.Position.X < otherEnemy.Position.X)
                         {
                             this.Position = new Vector2(Position.X - displacement.Width, Position.Y);
                         }
-                        else if(this.Position.X > otherEnemy.Position.X)
+                        else if (this.Position.X > otherEnemy.Position.X)
                         {
                             this.Position = new Vector2(Position.X + displacement.Width, Position.Y);
                         }
@@ -202,7 +206,7 @@ namespace Clockwork
                     //add the tiles to the list of colliding tiles;
                     Tile tile = (Tile)other;
                     isColliding.Add(tile);
-                    
+
                 }
             }
         }
@@ -228,11 +232,11 @@ namespace Clockwork
                         this.Position = new Vector2(this.Position.X, this.Position.Y + intsRect.Height);
                     }
                     velocity.Y = 0;
-                    if(velocity.X > .5)
+                    if (velocity.X > .5)
                     {
                         velocity.X = .5f;
                     }
-                    if(velocity.X < -.5)
+                    if (velocity.X < -.5)
                     {
                         velocity.X = -.5f;
                     }
@@ -292,9 +296,9 @@ namespace Clockwork
                 return new Rectangle(0, 0, 0, 0);
             }
             return base.GetRectangle();
-        
+
         }
 
+        
     }
 }
-
