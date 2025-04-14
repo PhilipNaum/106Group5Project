@@ -155,9 +155,25 @@ namespace Clockwork
                     Collectible item = (Collectible)other;
                     System.Diagnostics.Debug.WriteLine("hit");
                     TakeDamage(item.Damage);
+                    Rectangle difference = Rectangle.Intersect(this.GetRectangle(), item.GetRectangle());
+                    if (difference.Width <= difference.Height)
+                    {
+                        if (item.Velocity.X < 0)
+                        {
+                            velocity.X -= 2;
+                            velocity.Y -= 5;
+                        }
+                        else if (item.Velocity.X > 0)
+                        {
+                            velocity.X += 2;
+                            velocity.Y -= 5;
+                        }
+                    }
+                    else
+                    {
+
+                    }
                     item.Mode = 2;
-                    velocity.X *= -2;
-                    velocity.Y -= 5;
 
                     //Right now, collectible handles everything, but I might change that later
                 }
@@ -262,6 +278,7 @@ namespace Clockwork
             return base.GetRectangle();
         
         }
+
     }
 }
 

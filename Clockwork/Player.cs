@@ -25,7 +25,7 @@ namespace Clockwork
 
         private bool invincible;
 
-        private double timer = .2;
+        private double timer = .5;
 
         private readonly int maxHealth = 10;
         private int health;
@@ -83,6 +83,7 @@ namespace Clockwork
             currentAbility = Ability.None;
             grounded = false;
             health = maxHealth;
+            invincible = false;
         }
 
         /// <summary>
@@ -238,6 +239,7 @@ namespace Clockwork
                                 currentItem.Position.X + xDiff,
                                 currentItem.Position.Y);
                         }
+
                         if (currentItem.Home.X > this.Position.X)
                         {
                             float xDiff = currentItem.Home.X - this.Position.X;
@@ -326,7 +328,24 @@ namespace Clockwork
                     Enemy otherEnemy = (Enemy)other;
                     if (!invincible)
                     {
-                        velocity.X *= -1;
+                        //get the intersection rectangle of the enemy and the player
+                        //get the intersection rectangle of the enemy and the player
+                        Rectangle displacement = Rectangle.Intersect(this.GetRectangle(), otherEnemy.GetRectangle());
+
+                        //if the enemy hits you from the right 
+                        if (this.Position.X < otherEnemy.Position.X)
+                        {
+                            this.Position = new Vector2(this.Position.X - 2*displacement.Width, this.Position.Y);
+                            velocity.X = 0;
+                            velocity.X -= 10;
+                        }
+                        //if the enemy hits you from the left
+                        else if (this.Position.X > otherEnemy.Position.X)
+                        {
+                            this.Position = new Vector2(this.Position.X + 2*displacement.Width, this.Position.Y);
+                            velocity.X = 0;
+                            velocity.X += 10;
+                        }
                         invincible = true;
                         TakeDamage(otherEnemy.Damage);
                     }
