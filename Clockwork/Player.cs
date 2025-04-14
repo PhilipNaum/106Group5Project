@@ -335,11 +335,11 @@ namespace Clockwork
                         //vertical interactions
                         if (displacement.Height <= displacement.Width)
                         {
-                            
+                            System.Diagnostics.Debug.WriteLine("test");
                             //enemy hits you from the bottom
                             if (this.Position.Y > otherEnemy.Position.Y)
                             {
-                                System.Diagnostics.Debug.WriteLine("test");
+                                
                                 this.Position = new Vector2(this.Position.X, this.Position.Y - displacement.Height);
                                 velocity.Y = 0;
                                 velocity.Y -= 5;
