@@ -169,10 +169,6 @@ namespace Clockwork
                             velocity.Y -= 5;
                         }
                     }
-                    else
-                    {
-
-                    }
                     item.Mode = 2;
 
                     //Right now, collectible handles everything, but I might change that later

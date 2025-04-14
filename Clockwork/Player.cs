@@ -332,20 +332,51 @@ namespace Clockwork
                         //get the intersection rectangle of the enemy and the player
                         Rectangle displacement = Rectangle.Intersect(this.GetRectangle(), otherEnemy.GetRectangle());
 
-                        //if the enemy hits you from the right 
-                        if (this.Position.X < otherEnemy.Position.X)
+                        //vertical interactions
+                        if (displacement.Height <= displacement.Width)
                         {
-                            this.Position = new Vector2(this.Position.X - 2*displacement.Width, this.Position.Y);
-                            velocity.X = 0;
-                            velocity.X -= 10;
+                            
+                            //enemy hits you from the bottom
+                            if (this.Position.Y > otherEnemy.Position.Y)
+                            {
+                                System.Diagnostics.Debug.WriteLine("test");
+                                this.Position = new Vector2(this.Position.X, this.Position.Y - displacement.Height);
+                                velocity.Y = 0;
+                                velocity.Y -= 5;
+                            }
+
+                            //enemy hits you from the top
+                            //might not need but will be good to have
+                            if (this.Position.Y < otherEnemy.Position.Y)
+                            {
+                                this.Position = new Vector2(this.Position.X, this.Position.Y - displacement.Height);
+                            }
                         }
-                        //if the enemy hits you from the left
-                        else if (this.Position.X > otherEnemy.Position.X)
+
+                        //horizantal interactions
+                        if (displacement.Height > displacement.Width)
                         {
-                            this.Position = new Vector2(this.Position.X + 2*displacement.Width, this.Position.Y);
-                            velocity.X = 0;
-                            velocity.X += 10;
+                            //if the enemy hits you from the left
+                            if (this.Position.X < otherEnemy.Position.X)
+                            {
+                                this.Position = new Vector2(this.Position.X - displacement.Width, this.Position.Y);
+                                //set velocity to 0 to get rid of any movment
+                                velocity.X = 0;
+                                velocity.X -= 10;
+                            }
+                            //if the enemy hits you from the right
+                            else if (this.Position.X > otherEnemy.Position.X)
+                            {
+                                this.Position = new Vector2(this.Position.X + displacement.Width, this.Position.Y);
+                                //set velocity to 0 to get rid of any movment
+                                velocity.X = 0;
+                                velocity.X += 10;
+                            }
                         }
+
+                        
+
+
                         invincible = true;
                         TakeDamage(otherEnemy.Damage);
                     }
