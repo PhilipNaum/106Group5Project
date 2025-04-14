@@ -214,8 +214,14 @@ namespace Clockwork
 
                 if (other is Tile && mode == 1)
                 {
+                    Tile otherTile = (Tile)other;
                     if(collectibleType==Type.Gear)
                     mode = 2;
+
+                    if (collectibleType == Type.Chime)
+                    {
+                        otherTile.Active = false;
+                    }
                 }
             }
         }

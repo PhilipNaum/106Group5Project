@@ -25,7 +25,7 @@ namespace Clockwork
 
         private bool invincible;
 
-        private double timer = .5;
+        private double timer = 1;
 
         private readonly int maxHealth = 10;
         private int health;
@@ -278,7 +278,7 @@ namespace Clockwork
                 if (timer <= 0)
                 {
                     invincible = false;
-                    timer = .3;
+                    timer = 1;
                 }
             }
 
@@ -374,7 +374,6 @@ namespace Clockwork
                             }
                         }
 
-                        invincible = true;
                         TakeDamage(otherEnemy.Damage);
                     }
                 }

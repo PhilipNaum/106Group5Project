@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SharpDX.Direct3D11;
 using SharpDX.MediaFoundation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.Design.Serialization;
@@ -26,6 +27,7 @@ namespace Clockwork
         //used for movement. Currently, the home is set to always be the enemies starting position
         private Vector2 home;
 
+        //velocity of the enemy
         private Vector2 velocity;
 
         //used for gravity, but name might change if other enemies need/use other types of acceleration
@@ -40,23 +42,19 @@ namespace Clockwork
         //represents if the enemy is invincible or not
         private bool invincible;
 
-        //a timer used for the enemy's i-frames
+        //a timer used for the enemy's i-frames and when it died
         private double timer;
 
         //the list of tiles that the enemy has to check for collisions
         private List<Tile> isColliding;
 
+        //the amount of damage the enemy does to the player
         private int damage = 4;
 
+        
         public int Damage
         {
             get { return damage; }
-        }
-
-        public Vector2 Velocity
-        {
-            get { return velocity; }
-            set { velocity = value; }
         }
 
         public bool Invincible
@@ -65,6 +63,14 @@ namespace Clockwork
             set { invincible = value; }
         }
 
+        /// <summary>
+        /// creates a new enemy
+        /// </summary>
+        /// <param name="position">the enemy's position</param>
+        /// <param name="size">the size (same as sprite)</param>
+        /// <param name="velocity">the enemy's velocity</param>
+        /// <param name="range">the total range the enemy can move</param>
+        /// <param name="health">the total health of the enemy</param>
         public Enemy(Vector2 position, Vector2 size, Vector2 velocity, int range, int health) : base(position, size, Sprites.Enemy)
         {
             this.health = health;
@@ -74,10 +80,15 @@ namespace Clockwork
             acceleration = new Vector2(0, .5f);
             isDead = false;
             invincible = false;
-            timer = .2;
+            timer = .75;
             isColliding = new List<Tile>();
             damage = 2;
         }
+
+        /// <summary>
+        /// draw method
+        /// </summary>
+        /// <param name="sb">the spritebatch to draw with</param>
         public override void Draw(SpriteBatch sb)
         {
             if (!isDead)
@@ -88,29 +99,41 @@ namespace Clockwork
 
         /// <summary>
         /// Enemies move in their set range with their home as the center
-        /// <param name="gt">the game time paramter to be passed through</param>
+        /// <param name="gt">GameTime variable</param>
         public override void Update(GameTime gt)
         {
+            //only update if the enemy isn't dead
             if (!isDead)
             {
+                //if the enemy reaches the bounds of it's range, then reverse it's direction
                 if (this.Position.X >= home.X + range / 2 - Size.X || this.Position.X <= home.X - range / 2)
                 {
                     velocity.X *= -1;
                 }
+                //change position, velocity, and acceleration
                 this.Position = new Vector2(Position.X + velocity.X, Position.Y);
                 velocity += acceleration;
                 this.Position += velocity;
+
+                //starts a timer that
                 if (invincible)
                 {
                     timer -= gt.ElapsedGameTime.TotalSeconds;
+                    System.Diagnostics.Debug.WriteLine(timer);
                     if (timer <= 0)
                     {
                         invincible = false;
-                        timer = .3;
+                        timer = .75;
                     }
                 }
+
+                //resolve tile collisions
                 ResolveTileCollisions();
                 base.Update(gt);
+            }
+            else
+            {
+
             }
         }
 
@@ -151,27 +174,28 @@ namespace Clockwork
                 }
                 if (other is Collectible)
                 {
-                    ////depending on the type of collectible, decrease health
+                    //depending on the type of collectible, decrease health
                     Collectible item = (Collectible)other;
-                    System.Diagnostics.Debug.WriteLine("hit");
-                    TakeDamage(item.Damage);
-                    Rectangle difference = Rectangle.Intersect(this.GetRectangle(), item.GetRectangle());
-                    if (difference.Width <= difference.Height)
+                    if (!invincible)
                     {
-                        if (item.Velocity.X < 0)
+                        TakeDamage(item.Damage);
+                        Rectangle difference = Rectangle.Intersect(this.GetRectangle(), item.GetRectangle());
+                        if (difference.Width <= difference.Height)
                         {
-                            velocity.X -= 2;
-                            velocity.Y -= 5;
-                        }
-                        else if (item.Velocity.X > 0)
-                        {
-                            velocity.X += 2;
-                            velocity.Y -= 5;
+                            if (item.Velocity.X < 0)
+                            {
+                                velocity.X -= 2;
+                                velocity.Y -= 5;
+                            }
+                            else if (item.Velocity.X > 0)
+                            {
+                                velocity.X += 2;
+                                velocity.Y -= 5;
+                            }
                         }
                     }
                     item.Mode = 2;
 
-                    //Right now, collectible handles everything, but I might change that later
                 }
                 if (other is Tile)
                 {
@@ -237,15 +261,11 @@ namespace Clockwork
             }
         }
 
-        //test IsColliding method for milestone 1.5, can be changed.
-        //Checks if the other is an enemy since I didn't want to mess with gameObject
-
         /// <summary>
-        /// Checks if this object is colliding with another
+        /// Decrease enemy health if it's not invincible
+        /// Kills the enemy when it's health is <= 0
         /// </summary>
-        /// <param name="other">the game object to check collision with</param>
-        /// <returns>a bool represnting if they collide or not</returns>
-
+        /// <param name="damage">the incoming damage</param>
         public void TakeDamage(int damage)
         {
             if (!invincible)
@@ -262,7 +282,7 @@ namespace Clockwork
 
         /// <summary>
         /// Creates and returns a rectangle reprenting the enemy.
-        /// If the enemy is dead, then 
+        /// If the enemy is dead, then return nothing
         /// </summary>
         /// <returns>A rectangle with the same position and texture width and height as the enemy</returns>
         public override Rectangle GetRectangle()
