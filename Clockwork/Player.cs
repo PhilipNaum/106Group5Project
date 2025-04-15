@@ -75,7 +75,8 @@ namespace Clockwork
             Dash,
             Throw,
             Sword,
-            AOE
+            AOE,
+            Undo
         }
 
         public Player(Vector2 position, Vector2 size) : base(position, size, Sprites.Player)
@@ -199,6 +200,7 @@ namespace Clockwork
                                 new Vector2(50, 50), Type.Hand, 1, 5);
                         }
                         currentItem.Home = this.Position;
+
                         break;
                     case Ability.AOE:
                         if (currentItem == null || currentItem.Mode == 2)
@@ -206,7 +208,11 @@ namespace Clockwork
                             currentItem = new Collectible(
                             new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4),
                             new Vector2(48, 48), Type.Chime, 1, 3);
+
                         }
+                        break;
+                    case Ability.Undo:
+                        currentItem.Update(gameTime);
                         break;
                     default:
                         break;
@@ -214,7 +220,7 @@ namespace Clockwork
             }
             //putting this here makes sure it updates every frame
             //same reason why the object itself is a field
-            if (currentItem != null)
+            if (currentItem != null && currentItem.CollectibleType != Type.Key)
             {
 
                 currentItem.Update(gameTime);
@@ -293,7 +299,7 @@ namespace Clockwork
         {
             base.Draw(sb, .5f, Color.White, 0, SpriteEffects.None, 1);
 
-            if (currentItem != null)
+            if (currentItem != null && currentItem.CollectibleType != Type.Key)
             {
                 currentItem.Draw(sb);
             }
@@ -307,6 +313,7 @@ namespace Clockwork
                 {
                     Collectible item = (Collectible)other;
                     //changes the player's ability based on the item's type
+                    currentItem = null;
                     switch (item.CollectibleType)
                     {
                         case (Type.Gear):
@@ -320,6 +327,10 @@ namespace Clockwork
                             break;
                         case (Type.Chime):
                             currentAbility = Ability.AOE;
+                            break;
+                        case (Type.Key):
+                            currentAbility = Ability.Undo;
+                            currentItem = new Collectible(this.Position, this.Size, Type.Key, 1);
                             break;
                     }
                 }

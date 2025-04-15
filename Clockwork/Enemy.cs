@@ -14,6 +14,7 @@ using System.ComponentModel.Design.Serialization;
 using System.Drawing.Printing;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Policy;
 using System.Windows.Forms;
 
 namespace Clockwork
@@ -120,7 +121,6 @@ namespace Clockwork
                 if (invincible)
                 {
                     timer -= gt.ElapsedGameTime.TotalSeconds;
-                    System.Diagnostics.Debug.WriteLine(timer);
                     if (timer <= 0)
                     {
                         invincible = false;
@@ -134,10 +134,7 @@ namespace Clockwork
             }
             else
             {
-                timer = 0;
                 timer += gt.ElapsedGameTime.TotalSeconds;
-
-
             }
         }
 
@@ -281,6 +278,7 @@ namespace Clockwork
             if (health <= 0)
             {
                 isDead = true;
+                timer = 0;
             }
         }
 
@@ -299,6 +297,14 @@ namespace Clockwork
 
         }
 
-        
+
+        public void DeathCheck()
+        {
+            if (timer < 5)
+            {
+                isDead = false;
+                timer = 0;
+            }
+        }
     }
 }
