@@ -67,7 +67,7 @@ namespace Clockwork
             //"Levels/TestMap.map",
             "Levels/TestMapAbil.map",
             "Levels/DemoLevel2.map",
-            "Levels/DemoLevel3.map",
+            "Levels/DestructibleLevel.map",
             "Levels/DemoLevel4.map",
             "Levels/DemoLevel5.map",
             "Levels/DemoLevel6.map"

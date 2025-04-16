@@ -218,8 +218,10 @@ namespace Clockwork
                     {
                         mode = 2;
                     }
-
-                    ((Tile)other).TileWeaponCollision();
+                    else if (collectibleType == Type.Chime)
+                    {
+                        ((Tile)other).TileWeaponCollision();
+                    }
                 }
             }
         }
