@@ -74,7 +74,7 @@ namespace Clockwork
             get { return home; }
             set { home = value; }
         }
-        public delegate void Reverse();
+        public delegate void Reverse(GameTime gt);
         public event Reverse KeyTurn;
 
         public Collectible(Vector2 position, Vector2 size, Type collectibletype, int mode) : base(position, size, collectibletype)
@@ -87,7 +87,7 @@ namespace Clockwork
             switch (collectibleType)
             {
                 case (Type.Chime):
-                    timer = .1667;
+                    timer = .5;
                     break;
             }
             if (collectibletype == Type.Key && mode == 1)
@@ -179,7 +179,7 @@ namespace Clockwork
                         }
                         break;
                     case Type.Key:
-                        KeyTurn();
+                        KeyTurn(gt);
                         break;
                 }
             }
@@ -225,7 +225,7 @@ namespace Clockwork
                     if(collectibleType==Type.Gear)
                     mode = 2;
 
-                    if (collectibleType == Type.Chime)
+                    if (collectibleType == Type.Chime && otherTile.TileType.Breakable == true)
                     {
                         otherTile.Active = false;
                     }

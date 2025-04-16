@@ -25,7 +25,7 @@ namespace Clockwork
 
         private bool invincible;
 
-        private double timer = 1;
+        private double timer = 2;
 
         private readonly int maxHealth = 10;
         private int health;
@@ -206,9 +206,8 @@ namespace Clockwork
                         if (currentItem == null || currentItem.Mode == 2)
                         {
                             currentItem = new Collectible(
-                            new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4),
-                            new Vector2(48, 48), Type.Chime, 1, 3);
-
+                            new Vector2(this.Position.X - 20, this.Position.Y - Size.Y / 4),
+                            new Vector2(72,96), Type.Chime, 1, 3);
                         }
                         break;
                     case Ability.Undo:
@@ -228,7 +227,7 @@ namespace Clockwork
                 if (currentAbility == Ability.AOE)
                 {
                     //set the position of the aoe 
-                    currentItem.Position = new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4);
+                    currentItem.Position = new Vector2(this.Position.X - 20, this.Position.Y - Size.Y / 4);
                 }
                 //keep the sword with the player
                 if (currentAbility == Ability.Sword)
@@ -283,8 +282,8 @@ namespace Clockwork
                 timer -= gameTime.ElapsedGameTime.TotalSeconds;
                 if (timer <= 0)
                 {
-                    invincible = false;
                     timer = 1;
+                    invincible = false;
                 }
             }
 
@@ -350,10 +349,19 @@ namespace Clockwork
                             //enemy hits you from the bottom
                             if (this.Position.Y < otherEnemy.Position.Y)
                             {
-                                
                                 this.Position = new Vector2(this.Position.X, this.Position.Y - displacement.Height);
                                 velocity.Y = 0;
                                 velocity.Y -= 5;
+                                if (this.Position.X >= otherEnemy.Position.X + otherEnemy.Size.X / 2)
+                                {
+                                    velocity.X = 0;
+                                    velocity.X += 10;
+                                }
+                                else
+                                {
+                                    velocity.X = 0;
+                                    velocity.X -= 10;
+                                }
                             }
 
                             //enemy hits you from the top
@@ -393,14 +401,17 @@ namespace Clockwork
 
         private void TakeDamage(int damage)
         {
-            health -= damage;
+            if (!invincible)
+            {
+                health -= damage;
+                invincible = true;
+            }
 
             if (health <= 0)
             {
                 // this also resets health to max
                 ResetPlayer();
                 invincible = true;
-
                 LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex);
             }
         }

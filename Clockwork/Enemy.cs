@@ -22,8 +22,11 @@ namespace Clockwork
     internal class Enemy : GameObject
     {
 
-        //the health of the enemy
+        //the current health of the enemy
         private int health;
+
+        //the max health of the eneym
+        private int maxHealth;
 
         //used for movement. Currently, the home is set to always be the enemies starting position
         private Vector2 home;
@@ -76,6 +79,7 @@ namespace Clockwork
         public Enemy(Vector2 position, Vector2 size, Vector2 velocity, int range, int health) : base(position, size, Sprites.Enemy)
         {
             this.health = health;
+            maxHealth = health;
             this.range = range;
             home = this.Position;
             this.velocity = velocity;
@@ -108,16 +112,19 @@ namespace Clockwork
             if (!isDead)
             {
                 //if the enemy reaches the bounds of it's range, then reverse it's direction
-                if (this.Position.X >= home.X + range / 2 - Size.X || this.Position.X <= home.X - range / 2)
+                if (velocity.X >= -.5 || velocity.X <= .5)
                 {
-                    velocity.X *= -1;
+                    if (this.Position.X >= home.X + range / 2 - Size.X || this.Position.X <= home.X - range / 2)
+                    {
+                        velocity.X *= -1;
+                    }
                 }
                 //change position, velocity, and acceleration
                 this.Position = new Vector2(Position.X + velocity.X, Position.Y);
                 velocity += acceleration;
                 this.Position += velocity;
 
-                //starts a timer that
+                //starts a timer that if the enemy is supposed to be invincible
                 if (invincible)
                 {
                     timer -= gt.ElapsedGameTime.TotalSeconds;
@@ -179,21 +186,28 @@ namespace Clockwork
                     Collectible item = (Collectible)other;
                     if (!invincible)
                     {
-                        TakeDamage(item.Damage);
                         Rectangle difference = Rectangle.Intersect(this.GetRectangle(), item.GetRectangle());
                         if (difference.Width <= difference.Height)
                         {
-                            if (item.Velocity.X < 0)
+                            if (item.Position.X > this.Position.X)
                             {
                                 velocity.X -= 2;
                                 velocity.Y -= 5;
                             }
-                            else if (item.Velocity.X > 0)
+                            else if (item.Position.X < this.Position.X)
                             {
                                 velocity.X += 2;
                                 velocity.Y -= 5;
                             }
                         }
+                        if(difference.Width > difference.Height)
+                        {
+                            if (this.Position.Y < item.Position.Y)
+                            {
+                                velocity.Y -= 5;
+                            }
+                        }
+                        TakeDamage(item.Damage);
                     }
                     item.Mode = 2;
 
@@ -203,7 +217,6 @@ namespace Clockwork
                     //add the tiles to the list of colliding tiles;
                     Tile tile = (Tile)other;
                     isColliding.Add(tile);
-
                 }
             }
         }
@@ -256,7 +269,7 @@ namespace Clockwork
                     //bounces enemy only if rectangles intersect
                     if (isColliding[i].GetRectangle().Intersects(GetRectangle()))
                     {
-                        velocity.X *= 1;
+                        velocity.X *= -1;
                     }
                 }
             }
@@ -297,13 +310,31 @@ namespace Clockwork
 
         }
 
-
-        public void DeathCheck()
+        /// <summary>
+        /// subcribes to collectibles keyTurn event
+        /// If the enemy died more than 5 seconds ago (the so time the key is reversing),
+        /// then it is dead for good
+        /// </summary>
+        public void DeathCheck(GameTime gt)
         {
-            if (timer < 5)
+            //only do this if the enemy is dead
+            if (isDead)
             {
-                isDead = false;
-                timer = 0;
+                //only revive if the enemy is killed in less time than the timer revereses
+                if (timer < 5)
+                {
+                    isDead = false;
+                    health = maxHealth;
+                    while (timer > 0)
+                    {
+                        timer -= gt.TotalGameTime.Seconds;
+                        velocity.X *= -3;
+                        velocity.Y *= -1;
+                    }
+                    velocity.X /= -3;
+                    velocity.Y *= -1;
+                    timer = 0;
+                }
             }
         }
     }
