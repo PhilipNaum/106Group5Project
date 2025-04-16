@@ -51,6 +51,12 @@
                 level.collectibles.Add(collectiblePosition, collectible);
             }
 
+            // read the exit position
+            level.exit = new Point(
+                input.ReadInt32(),
+                input.ReadInt32()
+                );
+
             input.Close();
 
             return level;
@@ -59,6 +65,7 @@
         private Size dimensions;
         private int[,] map;
         private Dictionary<Point, int> collectibles;
+        private Point exit;
 
         /// <summary>
         /// the dimensions of the level
@@ -84,6 +91,23 @@
         /// list of collectibles (value as index of Objects.CollectibleTypes)
         /// </summary>
         public Dictionary<Point, int> Collectibles { get => collectibles; }
+
+        /// <summary>
+        /// the exit for the level
+        /// </summary>
+        public Point Exit
+        {
+            get => exit;
+            set
+            {
+                // remove tile or collectible at position
+                map[value.Y, value.X] = 0;
+                collectibles.Remove(value);
+
+                // set exit
+                exit = value;
+            }
+        }
 
         /// <summary>
         /// creates a blank level
@@ -178,6 +202,10 @@
                 output.Write(collectiblePair.Key.X);
                 output.Write(collectiblePair.Key.Y);
             }
+
+            // write exit position
+            output.Write(exit.X);
+            output.Write(exit.Y);
 
             output.Close();
 
