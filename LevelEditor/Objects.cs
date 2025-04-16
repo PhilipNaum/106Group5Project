@@ -46,11 +46,11 @@
         /// <summary>
         /// array of all tile types
         /// </summary>
-        internal static ObjectType[] TileTypes { get => tileTypes; }
+        public static ObjectType[] TileTypes { get => tileTypes; }
 
         /// <summary>
         /// array of all collectible types
         /// </summary>
-        internal static ObjectType[] CollectibleTypes { get => collectibleTypes; }
+        public static ObjectType[] CollectibleTypes { get => collectibleTypes; }
     }
 }
