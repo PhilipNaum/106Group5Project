@@ -4,6 +4,7 @@
  */
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace Clockwork
 {
@@ -61,6 +62,8 @@ namespace Clockwork
 
             // set grid position
             this.gridPosition = gridPosition;
+
+            tileDestructCountdown = tileDestructTimer;
         }
 
         public override void Update(GameTime gt)

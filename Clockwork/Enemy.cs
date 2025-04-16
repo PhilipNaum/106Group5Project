@@ -173,12 +173,11 @@ namespace Clockwork
 
                     //Right now, collectible handles everything, but I might change that later
                 }
-                if (other is Tile)
+                if (other is Tile && ((Tile)other).Active)
                 {
                     //add the tiles to the list of colliding tiles;
                     Tile tile = (Tile)other;
                     isColliding.Add(tile);
-                    
                 }
             }
         }
@@ -193,7 +192,7 @@ namespace Clockwork
             for (int i = 0; i < isColliding.Count; i++)
             {
                 Rectangle intsRect = Rectangle.Intersect(GetRectangle(), isColliding[i].GetRectangle());
-                if (intsRect.Height < intsRect.Width)
+                if (isColliding[i].Active && intsRect.Height < intsRect.Width)
                 {
                     if (GetRectangle().Bottom > isColliding[i].Position.Y)
                     {
@@ -218,7 +217,7 @@ namespace Clockwork
             for (int i = 0; i < isColliding.Count; i++)
             {
                 Rectangle intsRect = Rectangle.Intersect(GetRectangle(), isColliding[i].GetRectangle());
-                if (intsRect.Height >= intsRect.Width)
+                if (isColliding[i].Active && intsRect.Height >= intsRect.Width)
                 {
                     if (this.Position.X < isColliding[i].Position.X)
                     {

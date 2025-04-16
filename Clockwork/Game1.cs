@@ -239,7 +239,8 @@ namespace Clockwork
 
                 for(int j = 0; j < LevelManager.Instance.CurrentLevel.CollidableTiles.Count; j++)
                 {
-                    enemies[i].CollisionResponse(LevelManager.Instance.CurrentLevel.CollidableTiles[j]);
+                    if (LevelManager.Instance.CurrentLevel.CollidableTiles[i].Active)
+                        enemies[i].CollisionResponse(LevelManager.Instance.CurrentLevel.CollidableTiles[j]);
                 }
 
                 player.CollisionResponse(enemies[i]);
@@ -249,7 +250,8 @@ namespace Clockwork
             {
                 for(int i = 0; i < LevelManager.Instance.CurrentLevel.CollidableTiles.Count; i++)
                 {
-                    player.CurrentItem.CollisionResponse(LevelManager.Instance.CurrentLevel.CollidableTiles[i]);
+                    if (LevelManager.Instance.CurrentLevel.CollidableTiles[i].Active)
+                        player.CurrentItem.CollisionResponse(LevelManager.Instance.CurrentLevel.CollidableTiles[i]);
                 }
             }
 
@@ -315,7 +317,7 @@ namespace Clockwork
             List<Tile> collisions = new List<Tile>();
             foreach (Tile t in LevelManager.Instance.CurrentLevel.CollidableTiles)
             {
-                if (player.IsCollidingPrecise(t))
+                if (t.Active && player.IsCollidingPrecise(t))
                 {
                     collisions.Add(t);
                 }

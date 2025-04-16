@@ -60,6 +60,15 @@ namespace Clockwork
         /// updates the collectibles
         /// </summary>
         public void Update(GameTime gameTime)
-        { foreach (Collectible collectible in collectibles) { collectible.Update(gameTime); } }
+        { 
+            foreach (Collectible collectible in collectibles) 
+            { 
+                collectible.Update(gameTime); 
+            }
+            foreach (Tile tile in map) 
+            { 
+                tile.Update(gameTime); 
+            }
+        }
     }
 }
