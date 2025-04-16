@@ -385,13 +385,14 @@ namespace Clockwork
         {
             health -= damage;
 
+            // player death
             if (health <= 0)
             {
                 // this also resets health to max
                 ResetPlayer();
                 invincible = true;
 
-                LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex);
+                LevelManager.Instance.ReloadLevel();
             }
         }
     }

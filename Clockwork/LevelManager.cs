@@ -173,5 +173,14 @@ namespace Clockwork
             currentLevel = LoadLevel(filename);
             currentLevelIndex = index;
         }
+
+        /// <summary>
+        /// Reloads the current level.
+        /// Used for player deaths and restarting.
+        /// </summary>
+        public void ReloadLevel()
+        {
+            SetCurrentLevel(currentLevelIndex);
+        }
     }
 }
