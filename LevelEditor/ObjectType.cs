@@ -6,7 +6,8 @@
     enum ObjectCategory
     {
         Tile,
-        Collectible
+        Collectible,
+        Exit
     }
 
     /// <summary>

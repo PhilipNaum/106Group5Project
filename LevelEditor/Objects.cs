@@ -43,6 +43,8 @@
             new ObjectType("Textures/Collectibles/Chime.png", ObjectCategory.Collectible),
         };
 
+        private static ObjectType exit = new ObjectType("Textures/Other/Exit.png", ObjectCategory.Exit);
+
         /// <summary>
         /// array of all tile types
         /// </summary>
@@ -52,5 +54,10 @@
         /// array of all collectible types
         /// </summary>
         public static ObjectType[] CollectibleTypes { get => collectibleTypes; }
+
+        /// <summary>
+        /// the exit object type
+        /// </summary>
+        public static ObjectType Exit { get => exit; }
     }
 }
