@@ -16,6 +16,7 @@ namespace Clockwork
         private Tile[,] map;
         private List<Tile> collidableTiles;
         private List<Collectible> collectibles;
+        private List<Enemy> enemies;
 
         /// <summary>
         /// the tile map for the level
@@ -31,6 +32,11 @@ namespace Clockwork
         /// a list of collectibles in the level
         /// </summary>
         public List<Collectible> Collectibles { get => collectibles; }
+
+        /// <summary>
+        /// a list of enemies in the level
+        /// </summary>
+        public List<Enemy> Enemies { get => enemies; }
 
         /// <summary>
         /// creates an empty level
@@ -54,10 +60,13 @@ namespace Clockwork
 
             // draw all collectibles
             foreach (Collectible collectible in collectibles) { collectible.Draw(spriteBatch); }
+
+            // draw all enemies
+            foreach (Enemy enemy in enemies) { enemy.Draw(spriteBatch); }
         }
 
         /// <summary>
-        /// updates the collectibles
+        /// updates all collectibles, tiles, and enemies in the level.
         /// </summary>
         public void Update(GameTime gameTime)
         { 
@@ -68,6 +77,10 @@ namespace Clockwork
             foreach (Tile tile in map) 
             { 
                 tile.Update(gameTime); 
+            }
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Update(gameTime);
             }
         }
     }
