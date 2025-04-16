@@ -281,7 +281,7 @@
 /processorParam:TextureFormat=Compressed
 /build:MEDODICA72.spritefont
 
-#begin playerPlaceholder.png
+#begin PC_Idle_Base.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -291,7 +291,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:playerPlaceholder.png
+/build:PC_Idle_Base.png
+
+#begin PC_Run_Base.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PC_Run_Base.png
 
 #begin Scrim.png
 /importer:TextureImporter

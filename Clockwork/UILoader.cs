@@ -112,18 +112,35 @@ namespace Clockwork
             // -- Player Setup --
             {
                 // Load Textures
-                Texture2D playerTexture = content.Load<Texture2D>("playerPlaceholder");
+                Texture2D playerIdleBaseTexture = content.Load<Texture2D>("PC_Idle_Base");
+                Texture2D playerRunBaseTexture = content.Load<Texture2D>("PC_Run_Base");
 
                 // Set up Frames
                 List<Frame> playerFrames = new List<Frame>();
-                playerFrames.Add(new Frame(playerTexture, GetRect(playerTexture), Vector2.Zero));
+                playerFrames.Add(new Frame(playerIdleBaseTexture, new Rectangle(0, 0, 64, 64), new Vector2(16, 0)));
+                playerFrames.Add(new Frame(playerIdleBaseTexture, new Rectangle(0, 0, 64, 64), new Vector2(16, 0)));
+                playerFrames.Add(new Frame(playerIdleBaseTexture, new Rectangle(0, 0, 64, 64), new Vector2(16, 0)));
+                playerFrames.Add(new Frame(playerIdleBaseTexture, new Rectangle(0, 0, 64, 64), new Vector2(16, 0)));
+                playerFrames.Add(new Frame(playerIdleBaseTexture, new Rectangle(0, 0, 64, 64), new Vector2(16, 0)));
+                playerFrames.Add(new Frame(playerIdleBaseTexture, new Rectangle(64, 0, 64, 64), new Vector2(16, 0)));
+                playerFrames.Add(new Frame(playerIdleBaseTexture, new Rectangle(128, 0, 64, 64), new Vector2(16, 0)));
+                playerFrames.Add(new Frame(playerIdleBaseTexture, new Rectangle(192, 0, 64, 64), new Vector2(16, 0)));
+                playerFrames.Add(new Frame(playerRunBaseTexture, new Rectangle(0, 0, 64, 64), new Vector2(16, 0)));
+                playerFrames.Add(new Frame(playerRunBaseTexture, new Rectangle(64, 0, 64, 64), new Vector2(16, 0)));
+                playerFrames.Add(new Frame(playerRunBaseTexture, new Rectangle(128, 0, 64, 64), new Vector2(16, 0)));
+                playerFrames.Add(new Frame(playerRunBaseTexture, new Rectangle(192, 0, 64, 64), new Vector2(16, 0)));
+                playerFrames.Add(new Frame(playerRunBaseTexture, new Rectangle(256, 0, 64, 64), new Vector2(16, 0)));
+                playerFrames.Add(new Frame(playerRunBaseTexture, new Rectangle(320, 0, 64, 64), new Vector2(16, 0)));
+                playerFrames.Add(new Frame(playerRunBaseTexture, new Rectangle(384, 0, 64, 64), new Vector2(16, 0)));
+                playerFrames.Add(new Frame(playerRunBaseTexture, new Rectangle(448, 0, 64, 64), new Vector2(16, 0)));
 
                 // Set up Animations
                 Dictionary<string, Animation> playerAnimations = new Dictionary<string, Animation>();
-                playerAnimations.Add("player", new Animation(0, 0, 1));
+                playerAnimations.Add("idleBase", new Animation(0, 7, 3));
+                playerAnimations.Add("runBase", new Animation(8, 15, 6));
 
                 // Create AnimatedSprites in Animation Library
-                animationLibrary.Add(Sprites.Player, new AnimatedSprite(playerFrames, playerAnimations, playerAnimations["player"], Point.Zero));
+                animationLibrary.Add(Sprites.Player, new AnimatedSprite(playerFrames, playerAnimations, playerAnimations["idleBase"], Point.Zero));
             }
 
             // -- Enemy Setup --
