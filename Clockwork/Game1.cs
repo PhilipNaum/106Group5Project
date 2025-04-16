@@ -45,6 +45,7 @@ namespace Clockwork
         private Menu pauseMenu;
         private Menu levelComplete;
         private Menu creditsMenu;
+        private Menu controlsMenu;
 
         private Texture2D scrim;
 
@@ -56,7 +57,8 @@ namespace Clockwork
             Gameplay,
             Pause,
             LevelComplete,
-            Credits
+            Credits,
+            Controls
         }
 
         public Game1()
@@ -98,6 +100,7 @@ namespace Clockwork
             pauseMenu = UILoader.GetMenu(Menus.Pause);
             levelComplete = UILoader.GetMenu(Menus.Complete);
             creditsMenu = UILoader.GetMenu(Menus.Credits);
+            controlsMenu = UILoader.GetMenu(Menus.Controls);
 
             LevelManager.Instance.SetCurrentLevel(0);
 
@@ -140,6 +143,9 @@ namespace Clockwork
                     break;
                 case GameState.Credits:
                     UpdateCredits();
+                    break;
+                case GameState.Controls:
+                    UpdateControls();
                     break;
                 default:
                     break;
@@ -307,6 +313,13 @@ namespace Clockwork
                 gameState = GameState.MainMenu;
         }
 
+        private void UpdateControls()
+        {
+            controlsMenu.Update();
+            if (controlsMenu.UIElements["btMenu"].Clicked || SingleKeyPress(Keys.Escape))
+                gameState = GameState.MainMenu;
+        }
+
         /// <summary>
         /// Returns a list of all tiles currently colliding with the player.
         /// </summary>
@@ -446,6 +459,9 @@ namespace Clockwork
                 case GameState.Credits:
                     DrawCredits();
                     break;
+                case GameState.Controls:
+                    DrawControls();
+                    break;
                 default:
                     break;
             }
@@ -505,6 +521,12 @@ namespace Clockwork
 
             GraphicsDevice.Clear(Color.Black);
             creditsMenu.Draw(_spriteBatch);
+        }
+
+        private void DrawControls()
+        {
+            GraphicsDevice.Clear(Color.Black);
+            controlsMenu.Draw(_spriteBatch);
         }
 
         /// <summary>

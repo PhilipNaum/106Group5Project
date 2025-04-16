@@ -69,7 +69,8 @@ namespace Clockwork
         Select,
         Pause,
         Complete,
-        Credits
+        Credits,
+        Controls
     }
 
     internal class UILoader
@@ -514,6 +515,14 @@ namespace Clockwork
                     new Rectangle(graphics.PreferredBackBufferWidth / 32, graphics.PreferredBackBufferHeight * 13 / 16, 0, 0)));
                 creditsElements.Add("btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth * 7 / 8 - 48, graphics.PreferredBackBufferHeight * 15 / 16 - 16)));
                 menuLibrary.Add(Menus.Credits, new Menu(creditsElements));
+            }
+
+            // Controls Menu
+            {
+                Dictionary<string, UIElement> controlsElements = new Dictionary<string, UIElement>();
+                controlsElements.Add("lbControls", new TextElement("A,D: Move Player\nW: Jump\nSpace: Use Ability", Medodica48, new Rectangle(16, 0, 0, 0)));
+                controlsElements.Add("btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth * 7 / 8 - 48, graphics.PreferredBackBufferHeight * 15 / 16 - 16)));
+                menuLibrary.Add(Menus.Controls, new Menu(controlsElements));
             }
         }
 
