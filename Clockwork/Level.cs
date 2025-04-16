@@ -48,6 +48,7 @@ namespace Clockwork
 
             collectibles = new List<Collectible>();
             collidableTiles = new List<Tile>();
+            enemies = new List<Enemy>();
         }
 
         /// <summary>
