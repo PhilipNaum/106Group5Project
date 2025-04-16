@@ -261,14 +261,14 @@ namespace Clockwork
                     player.CollisionResponse(LevelManager.Instance.CurrentLevel.Collectibles[i]);
                     //collectibles[i].CollisionResponse(player);
                 }
-
-                
             }
 
+            // if the player exits the bounds of the screen reset them and the level.
             if (!player.GetRectangle().Intersects(new Rectangle(0, 0, 
                 _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight)))
             {
                 player.ResetPlayer();
+                LevelManager.Instance.ReloadLevel();
             }
         }
 
@@ -362,6 +362,8 @@ namespace Clockwork
 
                             playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
                             playerVel.X = 0;
+
+                            collider.TilePlayerCollision();
                         }
                         // moving left
                         else if (playerVel.X < 0 && player.Left <= collider.Right
@@ -371,6 +373,8 @@ namespace Clockwork
 
                             playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
                             playerVel.X = 0;
+                            
+                            collider.TilePlayerCollision();
                         }
                     }
                 }
@@ -397,6 +401,8 @@ namespace Clockwork
                             playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
                             playerVel.Y = 0;
                             player.Grounded = true;
+
+                            collider.TilePlayerCollision();
                         }
                         // moving upwards (collision with head)
                         // player.Bottom > collider.Bottom stops velocity from being
@@ -407,6 +413,8 @@ namespace Clockwork
                         {
                             playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
                             playerVel.Y = 0;
+
+                            collider.TilePlayerCollision();
                         }
                     }
 

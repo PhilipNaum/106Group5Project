@@ -200,22 +200,26 @@ namespace Clockwork
                 if (other is Enemy)
                 {
                     Enemy otherEnemy = (Enemy)other;
-                        switch (collectibleType)
-                        {
-                            case Type.Gear:
+                    switch (collectibleType)
+                    {
+                        case Type.Gear:
                                 
-                                //if (mode == 1)
-                                //{
-                                //    mode = 2;
-                                //}
-                                break;
-                        }
+                            //if (mode == 1)
+                            //{
+                            //    mode = 2;
+                            //}
+                            break;
+                    }
                 }
 
                 if (other is Tile && mode == 1)
                 {
-                    if(collectibleType==Type.Gear)
-                    mode = 2;
+                    if (collectibleType == Type.Gear)
+                    {
+                        mode = 2;
+                    }
+
+                    ((Tile)other).TileWeaponCollision();
                 }
             }
         }

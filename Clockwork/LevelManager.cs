@@ -43,7 +43,7 @@ namespace Clockwork
             new(false, true, Sprites.tileGrassEndR),
             new(false, true, Sprites.tileGrassLightToDark),
             new(false, true, Sprites.tileGrassToDirtL),
-            new(false, true, Sprites.tileGroundBlank),
+            new(true, true, Sprites.tileGroundBlank),
             new(false, true, Sprites.tileGroundEndL1),
             new(false, true, Sprites.tileGroundEndL2),
             new(false, true, Sprites.tileGroundEndR1),

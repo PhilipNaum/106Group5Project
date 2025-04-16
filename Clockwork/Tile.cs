@@ -22,6 +22,11 @@ namespace Clockwork
         private bool active;
         private Point gridPosition;
 
+        // only used if the tile is destructible
+        private bool tileTouched;
+        private readonly float tileDestructTimer = 1;
+        private float tileDestructCountdown;
+
         /// <summary>
         /// the type of the tile
         /// </summary>
@@ -58,6 +63,23 @@ namespace Clockwork
             this.gridPosition = gridPosition;
         }
 
+        public override void Update(GameTime gt)
+        {
+            if (active && tileType.Breakable && tileTouched)
+            {
+                tileDestructCountdown -= (float)gt.ElapsedGameTime.TotalSeconds;
+
+                if (tileDestructCountdown <= 0)
+                {
+                    tileDestructCountdown = tileDestructTimer;
+                    active = false;
+                    tileTouched = false;
+                }
+            }
+
+            base.Update(gt);
+        }
+
         /// <summary>
         /// draws the tile
         /// </summary>
@@ -65,6 +87,23 @@ namespace Clockwork
         {
             // draw the tile if active
             if (active) { base.Draw(spriteBatch); }
+        }
+
+        /// <summary>
+        /// Starts a timer before the tile breaks.
+        /// </summary>
+        public void TilePlayerCollision()
+        {
+            tileTouched = true;
+        }
+
+        /// <summary>
+        /// Instantly breaks the tile.
+        /// </summary>
+        public void TileWeaponCollision()
+        {
+            tileTouched = true;
+            tileDestructCountdown = 0;
         }
 
         /// <summary>
