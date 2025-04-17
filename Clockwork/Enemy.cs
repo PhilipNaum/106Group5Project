@@ -326,7 +326,6 @@ namespace Clockwork
                 {
                     isDead = false;
                     health = maxHealth;
-                    double rewind = 5 - timer;
                     timer = .75;
                     velocity.Y = 0;
                 }
