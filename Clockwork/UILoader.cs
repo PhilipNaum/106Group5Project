@@ -200,17 +200,106 @@ namespace Clockwork
 
             // -- Tile Setup --
             {
-                // Load Textures
-                
+                // Load Texture
+                Texture2D tileset = content.Load<Texture2D>("tileset");
 
-                // Set up Frames
-                
+                // Create frames
+                List<Frame> tileFrames = new List<Frame>();
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
 
-                // Set up Animations
-                
+                // Create Aniamtions
+                Dictionary<string, Animation> tileAnimations = new Dictionary<string, Animation>();
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tile", new Animation(0, 0, 1));
 
-                // Create AnimatedSprites in Animation Library
-                
+                // Create sprites
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
             }
 
             // -- Buttons Setup --
@@ -241,8 +330,8 @@ namespace Clockwork
                 framesbtStart.Add(new Frame(btStart, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtStart = new Dictionary<string, Animation>();
                 animationsbtStart.Add("default", new Animation(0, 0, 1));
-                animationsbtStart.Add("hovered", new Animation(0, 0, 1));
-                animationsbtStart.Add("clicked", new Animation(0, 0, 1));
+                animationsbtStart.Add("hovered", new Animation(1, 1, 1));
+                animationsbtStart.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btStart, new AnimatedSprite(framesbtStart, animationsbtStart, animationsbtStart["default"], Point.Zero));
 
                 List<Frame> framesbtResume = new List<Frame>();
@@ -251,8 +340,8 @@ namespace Clockwork
                 framesbtResume.Add(new Frame(btResume, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtResume = new Dictionary<string, Animation>();
                 animationsbtResume.Add("default", new Animation(0, 0, 1));
-                animationsbtResume.Add("hovered", new Animation(0, 0, 1));
-                animationsbtResume.Add("clicked", new Animation(0, 0, 1));
+                animationsbtResume.Add("hovered", new Animation(1, 1, 1));
+                animationsbtResume.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btResume, new AnimatedSprite(framesbtResume, animationsbtResume, animationsbtResume["default"], Point.Zero));
 
                 List<Frame> framesbtNext = new List<Frame>();
@@ -261,8 +350,8 @@ namespace Clockwork
                 framesbtNext.Add(new Frame(btNext, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtNext = new Dictionary<string, Animation>();
                 animationsbtNext.Add("default", new Animation(0, 0, 1));
-                animationsbtNext.Add("hovered", new Animation(0, 0, 1));
-                animationsbtNext.Add("clicked", new Animation(0, 0, 1));
+                animationsbtNext.Add("hovered", new Animation(1, 1, 1));
+                animationsbtNext.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btNext, new AnimatedSprite(framesbtNext, animationsbtNext, animationsbtNext["default"], Point.Zero));
 
                 List<Frame> framesbtExit = new List<Frame>();
@@ -271,8 +360,8 @@ namespace Clockwork
                 framesbtExit.Add(new Frame(btExit, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtExit = new Dictionary<string, Animation>();
                 animationsbtExit.Add("default", new Animation(0, 0, 1));
-                animationsbtExit.Add("hovered", new Animation(0, 0, 1));
-                animationsbtExit.Add("clicked", new Animation(0, 0, 1));
+                animationsbtExit.Add("hovered", new Animation(1, 1, 1));
+                animationsbtExit.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btExit, new AnimatedSprite(framesbtExit, animationsbtExit, animationsbtExit["default"], Point.Zero));
 
                 List<Frame> framesbtMenu = new List<Frame>();
@@ -281,8 +370,8 @@ namespace Clockwork
                 framesbtMenu.Add(new Frame(btMenu, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtMenu = new Dictionary<string, Animation>();
                 animationsbtMenu.Add("default", new Animation(0, 0, 1));
-                animationsbtMenu.Add("hovered", new Animation(0, 0, 1));
-                animationsbtMenu.Add("clicked", new Animation(0, 0, 1));
+                animationsbtMenu.Add("hovered", new Animation(1, 1, 1));
+                animationsbtMenu.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btMenu, new AnimatedSprite(framesbtMenu, animationsbtMenu, animationsbtMenu["default"], Point.Zero));
 
                 List<Frame> framesbtLevels = new List<Frame>();
@@ -291,8 +380,8 @@ namespace Clockwork
                 framesbtLevels.Add(new Frame(btLevels, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtLevels = new Dictionary<string, Animation>();
                 animationsbtLevels.Add("default", new Animation(0, 0, 1));
-                animationsbtLevels.Add("hovered", new Animation(0, 0, 1));
-                animationsbtLevels.Add("clicked", new Animation(0, 0, 1));
+                animationsbtLevels.Add("hovered", new Animation(1, 1, 1));
+                animationsbtLevels.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btLevels, new AnimatedSprite(framesbtLevels, animationsbtLevels, animationsbtLevels["default"], Point.Zero));
 
                 List<Frame> framesbtCredits = new List<Frame>();
@@ -301,8 +390,8 @@ namespace Clockwork
                 framesbtCredits.Add(new Frame(btCredits, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtCredits = new Dictionary<string, Animation>();
                 animationsbtCredits.Add("default", new Animation(0, 0, 1));
-                animationsbtCredits.Add("hovered", new Animation(0, 0, 1));
-                animationsbtCredits.Add("clicked", new Animation(0, 0, 1));
+                animationsbtCredits.Add("hovered", new Animation(1, 1, 1));
+                animationsbtCredits.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btCredits, new AnimatedSprite(framesbtCredits, animationsbtCredits, animationsbtCredits["default"], Point.Zero));
 
                 List<Frame> framesbtControls = new List<Frame>();
@@ -311,8 +400,8 @@ namespace Clockwork
                 framesbtControls.Add(new Frame(btControls, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtControls = new Dictionary<string, Animation>();
                 animationsbtControls.Add("default", new Animation(0, 0, 1));
-                animationsbtControls.Add("hovered", new Animation(0, 0, 1));
-                animationsbtControls.Add("clicked", new Animation(0, 0, 1));
+                animationsbtControls.Add("hovered", new Animation(1, 1, 1));
+                animationsbtControls.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btControls, new AnimatedSprite(framesbtControls, animationsbtControls, animationsbtControls["default"], Point.Zero));
 
                 List<Frame> framesbtReset = new List<Frame>();
@@ -321,8 +410,8 @@ namespace Clockwork
                 framesbtReset.Add(new Frame(btReset, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtReset = new Dictionary<string, Animation>();
                 animationsbtReset.Add("default", new Animation(0, 0, 1));
-                animationsbtReset.Add("hovered", new Animation(0, 0, 1));
-                animationsbtReset.Add("clicked", new Animation(0, 0, 1));
+                animationsbtReset.Add("hovered", new Animation(1, 1, 1));
+                animationsbtReset.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btReset, new AnimatedSprite(framesbtReset, animationsbtReset, animationsbtReset["default"], Point.Zero));
 
                 List<Frame> framesbtLevel1 = new List<Frame>();
@@ -331,8 +420,8 @@ namespace Clockwork
                 framesbtLevel1.Add(new Frame(btLevel1, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtLevel1 = new Dictionary<string, Animation>();
                 animationsbtLevel1.Add("default", new Animation(0, 0, 1));
-                animationsbtLevel1.Add("hovered", new Animation(0, 0, 1));
-                animationsbtLevel1.Add("clicked", new Animation(0, 0, 1));
+                animationsbtLevel1.Add("hovered", new Animation(1, 1, 1));
+                animationsbtLevel1.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btLevel1, new AnimatedSprite(framesbtLevel1, animationsbtLevel1, animationsbtLevel1["default"], Point.Zero));
 
                 List<Frame> framesbtLevel2 = new List<Frame>();
@@ -341,8 +430,8 @@ namespace Clockwork
                 framesbtLevel2.Add(new Frame(btLevel2, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtLevel2 = new Dictionary<string, Animation>();
                 animationsbtLevel2.Add("default", new Animation(0, 0, 1));
-                animationsbtLevel2.Add("hovered", new Animation(0, 0, 1));
-                animationsbtLevel2.Add("clicked", new Animation(0, 0, 1));
+                animationsbtLevel2.Add("hovered", new Animation(1, 1, 1));
+                animationsbtLevel2.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btLevel2, new AnimatedSprite(framesbtLevel2, animationsbtLevel2, animationsbtLevel2["default"], Point.Zero));
 
                 List<Frame> framesbtLevel3 = new List<Frame>();
@@ -351,8 +440,8 @@ namespace Clockwork
                 framesbtLevel3.Add(new Frame(btLevel3, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtLevel3 = new Dictionary<string, Animation>();
                 animationsbtLevel3.Add("default", new Animation(0, 0, 1));
-                animationsbtLevel3.Add("hovered", new Animation(0, 0, 1));
-                animationsbtLevel3.Add("clicked", new Animation(0, 0, 1));
+                animationsbtLevel3.Add("hovered", new Animation(1, 1, 1));
+                animationsbtLevel3.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btLevel3, new AnimatedSprite(framesbtLevel3, animationsbtLevel3, animationsbtLevel3["default"], Point.Zero));
 
                 List<Frame> framesbtLevel4 = new List<Frame>();
@@ -361,8 +450,8 @@ namespace Clockwork
                 framesbtLevel4.Add(new Frame(btLevel4, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtLevel4 = new Dictionary<string, Animation>();
                 animationsbtLevel4.Add("default", new Animation(0, 0, 1));
-                animationsbtLevel4.Add("hovered", new Animation(0, 0, 1));
-                animationsbtLevel4.Add("clicked", new Animation(0, 0, 1));
+                animationsbtLevel4.Add("hovered", new Animation(1, 1, 1));
+                animationsbtLevel4.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btLevel4, new AnimatedSprite(framesbtLevel4, animationsbtLevel4, animationsbtLevel4["default"], Point.Zero));
 
                 List<Frame> framesbtLevel5 = new List<Frame>();
@@ -371,8 +460,8 @@ namespace Clockwork
                 framesbtLevel5.Add(new Frame(btLevel5, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtLevel5 = new Dictionary<string, Animation>();
                 animationsbtLevel5.Add("default", new Animation(0, 0, 1));
-                animationsbtLevel5.Add("hovered", new Animation(0, 0, 1));
-                animationsbtLevel5.Add("clicked", new Animation(0, 0, 1));
+                animationsbtLevel5.Add("hovered", new Animation(1, 1, 1));
+                animationsbtLevel5.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btLevel5, new AnimatedSprite(framesbtLevel5, animationsbtLevel5, animationsbtLevel5["default"], Point.Zero));
 
                 List<Frame> framesbtLevel6 = new List<Frame>();
@@ -381,8 +470,8 @@ namespace Clockwork
                 framesbtLevel6.Add(new Frame(btLevel6, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtLevel6 = new Dictionary<string, Animation>();
                 animationsbtLevel6.Add("default", new Animation(0, 0, 1));
-                animationsbtLevel6.Add("hovered", new Animation(0, 0, 1));
-                animationsbtLevel6.Add("clicked", new Animation(0, 0, 1));
+                animationsbtLevel6.Add("hovered", new Animation(1, 1, 1));
+                animationsbtLevel6.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btLevel6, new AnimatedSprite(framesbtLevel6, animationsbtLevel6, animationsbtLevel6["default"], Point.Zero));
 
             }
