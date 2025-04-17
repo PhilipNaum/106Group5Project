@@ -39,30 +39,35 @@ namespace Clockwork
         btLevel5,
         btLevel6,
 
-        tileDirtL,
-        tileDirtToGrassR,
-        tileGrass,
-        tileGrassDark,
-        tileGrassDarkToLight,
-        tileGrassEndL,
-        tileGrassEndR,
-        tileGrassLightToDark,
-        tileGrassToDirtL,
-        tileGroundBlank,
-        tileGroundEndL1,
-        tileGroundEndL2,
-        tileGroundEndR1,
-        tileGroundEndR2,
-        tileGroundRocks,
+        tileGrassTopEndL,
+        tileGrassToDirtTop,
+        tileDirtTop,
+        tileDirtToGrassTop,
+        tileGrassTop,
+        tileGrassToShadeTop,
+        tileShadeTop,
+        tileShadeToGrassTop,
+        tileGrassTopEndR,
+        tileGrassEndLBottom,
+        tileGrassToDirtBottom,
+        tileDirtBottom,
+        tileDirtToGrassBottom,
+        tileGrassBottom,
+        tileGrassToShadeBottom,
+        tileShadeBottom,
+        tileShadeToGrassBottom,
+        tileGrassEndRBottom,
+        tileGroundEndL,
+        tileGroundRocks1,
+        tileGroundRocksLeaves,
+        tileGroundEmpty,
         tileGroundRocks2,
-        tileGroundRocksLeavesBottom,
-        tileGroundRocksLeavesTop,
-        tileGroundTop1,
-        tileGroundTop2,
-        tileGroundTop3,
-        tileGroundTopRocks,
-        tileGroundTopRocksVines,
-        tileGroundTopVines1
+        tileGroundEndR,
+        tileGroundBottomEndL,
+        tileGroundRocks3,
+        tileGroundRocks4,
+        tileGroundBottomEndR,
+        tileDestructible
     }
 
     public enum Menus
@@ -205,101 +210,98 @@ namespace Clockwork
 
                 // Create frames
                 List<Frame> tileFrames = new List<Frame>();
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
-                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));    // tileGrassTopEndL
+                tileFrames.Add(new Frame(tileset, new Rectangle(32, 0, 32, 32), Vector2.Zero));   // tileGrassToDirtTop
+                tileFrames.Add(new Frame(tileset, new Rectangle(64, 0, 32, 32), Vector2.Zero));   // tileDirtTop
+                tileFrames.Add(new Frame(tileset, new Rectangle(96, 0, 32, 32), Vector2.Zero));   // tileDirtToGrassTop
+                tileFrames.Add(new Frame(tileset, new Rectangle(128, 0, 32, 32), Vector2.Zero));  // tileGrassTop
+                tileFrames.Add(new Frame(tileset, new Rectangle(160, 0, 32, 32), Vector2.Zero));  // tileGrassToShadeTop
+                tileFrames.Add(new Frame(tileset, new Rectangle(192, 0, 32, 32), Vector2.Zero));  // tileShadeTop
+                tileFrames.Add(new Frame(tileset, new Rectangle(224, 0, 32, 32), Vector2.Zero));  // tileShadeToGrassTop
+                tileFrames.Add(new Frame(tileset, new Rectangle(256, 0, 32, 32), Vector2.Zero));  // tileGrassTopEndR
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 32, 32, 32), Vector2.Zero));   // tileGrassEndLBottom
+                tileFrames.Add(new Frame(tileset, new Rectangle(32, 32, 32, 32), Vector2.Zero));  // tileGrassToDirtBottom
+                tileFrames.Add(new Frame(tileset, new Rectangle(64, 32, 32, 32), Vector2.Zero));  // tileDirtBottom
+                tileFrames.Add(new Frame(tileset, new Rectangle(96, 32, 32, 32), Vector2.Zero));  // tileDirtToGrassBottom
+                tileFrames.Add(new Frame(tileset, new Rectangle(128, 32, 32, 32), Vector2.Zero)); // tileGrassBottom
+                tileFrames.Add(new Frame(tileset, new Rectangle(160, 32, 32, 32), Vector2.Zero)); // tileGrassToShadeBottom
+                tileFrames.Add(new Frame(tileset, new Rectangle(192, 32, 32, 32), Vector2.Zero)); // tileShadeBottom
+                tileFrames.Add(new Frame(tileset, new Rectangle(224, 32, 32, 32), Vector2.Zero)); // tileShadeToGrassBottom
+                tileFrames.Add(new Frame(tileset, new Rectangle(256, 32, 32, 32), Vector2.Zero)); // tileGrassEndRBottom
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 64, 32, 32), Vector2.Zero));   // tileGroundEndL
+                tileFrames.Add(new Frame(tileset, new Rectangle(32, 64, 32, 32), Vector2.Zero));  // tileGroundRocks1
+                tileFrames.Add(new Frame(tileset, new Rectangle(64, 64, 32, 32), Vector2.Zero));  // tileGroundRocksLeaves
+                tileFrames.Add(new Frame(tileset, new Rectangle(192, 64, 32, 32), Vector2.Zero)); // tileGroundEmpty
+                tileFrames.Add(new Frame(tileset, new Rectangle(224, 64, 32, 32), Vector2.Zero)); // tileGroundRocks2
+                tileFrames.Add(new Frame(tileset, new Rectangle(256, 64, 32, 32), Vector2.Zero)); // tileGroundEndR
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 96, 32, 32), Vector2.Zero));   // tileGroundBottomEndL
+                tileFrames.Add(new Frame(tileset, new Rectangle(32, 96, 32, 32), Vector2.Zero));  // tileGroundRocks3
+                tileFrames.Add(new Frame(tileset, new Rectangle(64, 96, 32, 32), Vector2.Zero));  // tileGroundRocks4
+                tileFrames.Add(new Frame(tileset, new Rectangle(256, 96, 32, 32), Vector2.Zero)); // tileGroundBottomEndR
+                tileFrames.Add(new Frame(tileset, new Rectangle(192, 96, 32, 32), Vector2.Zero)); // tileDestructible
 
                 // Create Aniamtions
                 Dictionary<string, Animation> tileAnimations = new Dictionary<string, Animation>();
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
-                tileAnimations.Add("tile", new Animation(0, 0, 1));
+                tileAnimations.Add("tileGrassTopEndL", new Animation(0, 0, 1));
+                tileAnimations.Add("tileGrassToDirtTop", new Animation(1, 1, 1));
+                tileAnimations.Add("tileDirtTop", new Animation(2, 2, 1));
+                tileAnimations.Add("tileDirtToGrassTop", new Animation(3, 3, 1));
+                tileAnimations.Add("tileGrassTop", new Animation(4, 4, 1));
+                tileAnimations.Add("tileGrassToShadeTop", new Animation(5, 5, 1));
+                tileAnimations.Add("tileShadeTop", new Animation(6, 6, 1));
+                tileAnimations.Add("tileShadeToGrassTop", new Animation(7, 7, 1));
+                tileAnimations.Add("tileGrassTopEndR", new Animation(8, 8, 1));
+                tileAnimations.Add("tileGrassEndLBottom", new Animation(9, 9, 1));
+                tileAnimations.Add("tileGrassToDirtBottom", new Animation(10, 10, 1));
+                tileAnimations.Add("tileDirtBottom", new Animation(11, 11, 1));
+                tileAnimations.Add("tileDirtToGrassBottom", new Animation(12, 12, 1));
+                tileAnimations.Add("tileGrassBottom", new Animation(13, 13, 1));
+                tileAnimations.Add("tileGrassToShadeBottom", new Animation(14, 14, 1));
+                tileAnimations.Add("tileShadeBottom", new Animation(15, 15, 1));
+                tileAnimations.Add("tileShadeToGrassBottom", new Animation(16, 16, 1));
+                tileAnimations.Add("tileGrassEndRBottom", new Animation(17, 17, 1));
+                tileAnimations.Add("tileGroundEndL", new Animation(18, 18, 1));
+                tileAnimations.Add("tileGroundRocks1", new Animation(19, 19, 1));
+                tileAnimations.Add("tileGroundRocksLeaves", new Animation(20, 20, 1));
+                tileAnimations.Add("tileGroundEmpty", new Animation(21, 21, 1));
+                tileAnimations.Add("tileGroundRocks2", new Animation(22, 22, 1));
+                tileAnimations.Add("tileGroundEndR", new Animation(23, 23, 1));
+                tileAnimations.Add("tileGroundBottomEndL", new Animation(24, 24, 1));
+                tileAnimations.Add("tileGroundRocks3", new Animation(25, 25, 1));
+                tileAnimations.Add("tileGroundRocks4", new Animation(26, 26, 1));
+                tileAnimations.Add("tileGroundBottomEndR", new Animation(27, 27, 1));
+                tileAnimations.Add("tileDestructible", new Animation(28, 28, 1));
 
                 // Create sprites
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
-                animationLibrary.Add(Sprites., new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tile"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassTopEndL, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassTopEndL"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassToDirtTop, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassToDirtTop"], Point.Zero));
+                animationLibrary.Add(Sprites.tileDirtTop, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileDirtTop"], Point.Zero));
+                animationLibrary.Add(Sprites.tileDirtToGrassTop, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileDirtToGrassTop"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassTop, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassTop"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassToShadeTop, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassToShadeTop"], Point.Zero));
+                animationLibrary.Add(Sprites.tileShadeTop, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileShadeTop"], Point.Zero));
+                animationLibrary.Add(Sprites.tileShadeToGrassTop, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileShadeToGrassTop"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassTopEndR, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassTopEndR"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassEndLBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassEndLBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassToDirtBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassToDirtBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileDirtBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileDirtBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileDirtToGrassBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileDirtToGrassBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassToShadeBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassToShadeBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileShadeBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileShadeBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileShadeToGrassBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileShadeToGrassBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassEndRBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassEndRBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundEndL, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundEndL"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundRocks1, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocks1"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundRocksLeaves, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocksLeaves"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundEmpty, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundEmpty"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundRocks2, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocks2"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundEndR, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundEndR"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundBottomEndL, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundBottomEndL"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundRocks3, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocks3"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundRocks4, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocks4"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundBottomEndR, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundBottomEndR"], Point.Zero));
+                animationLibrary.Add(Sprites.tileDestructible, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileDestructible"], Point.Zero));
             }
 
             // -- Buttons Setup --
