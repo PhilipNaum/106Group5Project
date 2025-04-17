@@ -64,13 +64,14 @@ namespace Clockwork
         /// an array of all filenames of levels
         /// </summary>
         private static string[] levelFilenames = {
-            //"Levels/TestMap.map",
             "Levels/TestMapAbil.map",
             "Levels/DemoLevel2.map",
             "Levels/DestructibleLevel.map",
-            "Levels/DemoLevel4.map",
-            "Levels/DemoLevel5.map",
-            "Levels/DemoLevel6.map"
+            "Levels/MovementIntro.map",
+            "Levels/GearIntro.map",
+            "Levels/ChimeIntro.map",
+            "Levels/RewindIntro.map",
+            "Levels/HandIntro.map"
         };
 
         /// <summary>
