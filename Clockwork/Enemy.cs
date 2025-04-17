@@ -47,7 +47,7 @@ namespace Clockwork
         private bool invincible;
 
         //a timer used for the enemy's i-frames and when it died
-        private double timer;
+        public double timer;
 
         //the list of tiles that the enemy has to check for collisions
         private List<Tile> isColliding;
@@ -291,6 +291,7 @@ namespace Clockwork
             if (health <= 0)
             {
                 isDead = true;
+                invincible = false;
                 timer = 0;
             }
         }
@@ -325,15 +326,9 @@ namespace Clockwork
                 {
                     isDead = false;
                     health = maxHealth;
-                    while (timer > 0)
-                    {
-                        timer -= gt.TotalGameTime.Seconds;
-                        velocity.X *= -3;
-                        velocity.Y *= -1;
-                    }
-                    velocity.X /= -3;
-                    velocity.Y *= -1;
-                    timer = 0;
+                    double rewind = 5 - timer;
+                    timer = .75;
+                    velocity.Y = 0;
                 }
             }
         }

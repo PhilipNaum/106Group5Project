@@ -48,6 +48,8 @@ namespace Clockwork
 
         private Texture2D scrim;
 
+        private SpriteFont medodica18;
+
         private GameState gameState;
         private enum GameState
         {
@@ -71,6 +73,8 @@ namespace Clockwork
         protected override void Initialize()
         {
             base.Initialize();
+
+            medodica18 = Content.Load < SpriteFont >("MEDODICA18");
 
             gameState = GameState.MainMenu;
 
@@ -485,6 +489,9 @@ namespace Clockwork
             }
 
             LevelManager.Instance.CurrentLevel.Draw(_spriteBatch);
+
+
+            _spriteBatch.DrawString(medodica18, " "+_testenemy.timer, new Vector2(100, 60), Color.White);
         }
 
         private void DrawPause()
