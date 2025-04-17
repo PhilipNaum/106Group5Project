@@ -160,6 +160,8 @@ namespace Clockwork
                 gameState = GameState.Gameplay;
             if (mainMenu.UIElements["btLevels"].Clicked)
                 gameState = GameState.LevelSelect;
+            if (mainMenu.UIElements["btControls"].Clicked)
+                gameState = GameState.Controls;
             if (mainMenu.UIElements["btCredits"].Clicked)
                 gameState = GameState.Credits;
             if (mainMenu.UIElements["btExit"].Clicked || SingleKeyPress(Keys.Escape))
@@ -283,6 +285,11 @@ namespace Clockwork
             pauseMenu.Update();
             if (pauseMenu.UIElements["btResume"].Clicked || SingleKeyPress(Keys.Escape))
                 gameState = GameState.Gameplay;
+            if (pauseMenu.UIElements["btReset"].Clicked)
+            {
+                //LevelManager.Instance.ReloadLevel();
+                gameState = GameState.Gameplay;
+            }
             if (pauseMenu.UIElements["btMenu"].Clicked)
                 gameState = GameState.MainMenu;
         }

@@ -30,6 +30,8 @@ namespace Clockwork
         btMenu,
         btLevels,
         btCredits,
+        btControls,
+        btReset,
         btLevel1,
         btLevel2,
         btLevel3,
@@ -314,6 +316,8 @@ namespace Clockwork
                 Texture2D btMenu = content.Load<Texture2D>("btMenu");
                 Texture2D btLevels = content.Load<Texture2D>("btLevelSelect");
                 Texture2D btCredits = content.Load<Texture2D>("btCredits");
+                Texture2D btControls = content.Load<Texture2D>("btControls");
+                Texture2D btReset = content.Load<Texture2D>("btReset");
                 Texture2D btLevel1 = content.Load<Texture2D>("btLevel1");
                 Texture2D btLevel2 = content.Load<Texture2D>("btLevel2");
                 Texture2D btLevel3 = content.Load<Texture2D>("btLevel3");
@@ -395,6 +399,26 @@ namespace Clockwork
                 animationsbtCredits.Add("clicked", new Animation(0, 0, 1));
                 animationLibrary.Add(Sprites.btCredits, new AnimatedSprite(framesbtCredits, animationsbtCredits, animationsbtCredits["default"], Point.Zero));
 
+                List<Frame> framesbtControls = new List<Frame>();
+                framesbtControls.Add(new Frame(btControls, basic, Vector2.Zero));
+                framesbtControls.Add(new Frame(btControls, hover, Vector2.Zero));
+                framesbtControls.Add(new Frame(btControls, press, Vector2.Zero));
+                Dictionary<string, Animation> animationsbtControls = new Dictionary<string, Animation>();
+                animationsbtControls.Add("default", new Animation(0, 0, 1));
+                animationsbtControls.Add("hovered", new Animation(0, 0, 1));
+                animationsbtControls.Add("clicked", new Animation(0, 0, 1));
+                animationLibrary.Add(Sprites.btControls, new AnimatedSprite(framesbtControls, animationsbtControls, animationsbtControls["default"], Point.Zero));
+
+                List<Frame> framesbtReset = new List<Frame>();
+                framesbtReset.Add(new Frame(btReset, basic, Vector2.Zero));
+                framesbtReset.Add(new Frame(btReset, hover, Vector2.Zero));
+                framesbtReset.Add(new Frame(btReset, press, Vector2.Zero));
+                Dictionary<string, Animation> animationsbtReset = new Dictionary<string, Animation>();
+                animationsbtReset.Add("default", new Animation(0, 0, 1));
+                animationsbtReset.Add("hovered", new Animation(0, 0, 1));
+                animationsbtReset.Add("clicked", new Animation(0, 0, 1));
+                animationLibrary.Add(Sprites.btReset, new AnimatedSprite(framesbtReset, animationsbtReset, animationsbtReset["default"], Point.Zero));
+
                 List<Frame> framesbtLevel1 = new List<Frame>();
                 framesbtLevel1.Add(new Frame(btLevel1, basic, Vector2.Zero));
                 framesbtLevel1.Add(new Frame(btLevel1, hover, Vector2.Zero));
@@ -464,8 +488,9 @@ namespace Clockwork
                     (graphics.PreferredBackBufferWidth / 2) - ((int)Medodica72.MeasureString("Clockwork").X / 2), (graphics.PreferredBackBufferHeight / 8), 0, 0)));
                 mainMenuElements.Add("btStart", new Button(Sprites.btStart, new Point(graphics.PreferredBackBufferWidth / 2 - 48, (graphics.PreferredBackBufferHeight / 2))));
                 mainMenuElements.Add("btLevels", new Button(Sprites.btLevels, new Point(graphics.PreferredBackBufferWidth / 2 - 48, (graphics.PreferredBackBufferHeight / 2) + 34)));
-                mainMenuElements.Add("btCredits", new Button(Sprites.btCredits, new Point(graphics.PreferredBackBufferWidth / 2 - 48, (graphics.PreferredBackBufferHeight / 2) + 68)));
-                mainMenuElements.Add("btExit", new Button(Sprites.btExit, new Point(graphics.PreferredBackBufferWidth / 2 - 48, (graphics.PreferredBackBufferHeight / 2) + 102)));
+                mainMenuElements.Add("btControls", new Button(Sprites.btControls, new Point(graphics.PreferredBackBufferWidth / 2 - 48, (graphics.PreferredBackBufferHeight / 2) + 68)));
+                mainMenuElements.Add("btCredits", new Button(Sprites.btCredits, new Point(graphics.PreferredBackBufferWidth / 2 - 48, (graphics.PreferredBackBufferHeight / 2) + 102)));
+                mainMenuElements.Add("btExit", new Button(Sprites.btExit, new Point(graphics.PreferredBackBufferWidth / 2 - 48, (graphics.PreferredBackBufferHeight / 2) + 136)));
                 menuLibrary.Add(Menus.Main, new Menu(mainMenuElements));
             }
 
@@ -487,7 +512,8 @@ namespace Clockwork
             {
                 Dictionary<string, UIElement> pauseMenuElements = new Dictionary<string, UIElement>();
                 pauseMenuElements.Add("btResume", new Button(Sprites.btResume, new Point(graphics.PreferredBackBufferWidth / 2 - 48, graphics.PreferredBackBufferHeight * 2 / 5)));
-                pauseMenuElements.Add("btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth / 2 - 48, graphics.PreferredBackBufferHeight * 2 / 5 + 34)));
+                pauseMenuElements.Add("btReset", new Button(Sprites.btReset, new Point(graphics.PreferredBackBufferWidth / 2 - 48, graphics.PreferredBackBufferHeight * 2 / 5 + 34)));
+                pauseMenuElements.Add("btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth / 2 - 48, (graphics.PreferredBackBufferHeight * 2 / 5) + 68)));
                 menuLibrary.Add(Menus.Pause, new Menu(pauseMenuElements));
             }
 
