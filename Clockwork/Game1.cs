@@ -252,10 +252,14 @@ namespace Clockwork
 
             if (player.CurrentItem != null)
             {
-                for(int i = 0; i < LevelManager.Instance.CurrentLevel.CollidableTiles.Count; i++)
+                for (int i = 0; i < LevelManager.Instance.CurrentLevel.CollidableTiles.Count; i++)
                 {
                     if (LevelManager.Instance.CurrentLevel.CollidableTiles[i].Active)
                         player.CurrentItem.CollisionResponse(LevelManager.Instance.CurrentLevel.CollidableTiles[i]);
+                    if (LevelManager.Instance.CurrentLevel.CollidableTiles[i].TileType.Breakable)
+                    {
+                        player.CurrentItem.KeyTurn += LevelManager.Instance.CurrentLevel.CollidableTiles[i].Fix;
+                    }
                 }
             }
 

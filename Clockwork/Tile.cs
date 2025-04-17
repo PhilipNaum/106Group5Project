@@ -4,7 +4,9 @@
  */
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D11;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Clockwork
 {
@@ -41,7 +43,9 @@ namespace Clockwork
         /// <summary>
         /// the position of the tile on the level grid
         /// </summary>
+        /// 
         public Point GridPosition { get => gridPosition; }
+
 
         /// <summary>
         /// creates a tile
@@ -74,10 +78,13 @@ namespace Clockwork
 
                 if (tileDestructCountdown <= 0)
                 {
-                    tileDestructCountdown = tileDestructTimer;
                     active = false;
                     tileTouched = false;
                 }
+            }
+            if (!active)
+            {
+                tileDestructCountdown += (float)gt.ElapsedGameTime.TotalSeconds;
             }
 
             base.Update(gt);
@@ -107,6 +114,18 @@ namespace Clockwork
         {
             tileTouched = true;
             tileDestructCountdown = 0;
+        }
+
+        public void Fix(GameTime gt)
+        {
+            if (!active)
+            {
+                if (tileDestructCountdown < 5)
+                {
+                    active = true;
+                    tileDestructCountdown = tileDestructTimer;
+                }
+            }
         }
 
         /// <summary>
