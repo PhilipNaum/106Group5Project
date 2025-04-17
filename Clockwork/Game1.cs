@@ -234,6 +234,10 @@ namespace Clockwork
                 {
                     player.CurrentItem.CollisionResponse(enemies[i]);
                     enemies[i].CollisionResponse(player.CurrentItem);
+                    if(player.CurrentItem.CollectibleType == Type.Key)
+                    {
+                        player.CurrentItem.KeyTurn += enemies[i].DeathCheck;
+                    }
                 }
 
 
@@ -491,6 +495,7 @@ namespace Clockwork
             }
 
             LevelManager.Instance.CurrentLevel.Draw(_spriteBatch);
+
         }
 
         private void DrawPause()

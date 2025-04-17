@@ -25,7 +25,7 @@ namespace Clockwork
 
         private bool invincible;
 
-        private double timer = .5;
+        private double timer = 2;
 
         private readonly int maxHealth = 10;
         private int health;
@@ -75,7 +75,8 @@ namespace Clockwork
             Dash,
             Throw,
             Sword,
-            AOE
+            AOE,
+            Undo
         }
 
         public Player(Vector2 position, Vector2 size) : base(position, size, Sprites.Player)
@@ -199,14 +200,18 @@ namespace Clockwork
                                 new Vector2(50, 50), Type.Hand, 1, 5);
                         }
                         currentItem.Home = this.Position;
+
                         break;
                     case Ability.AOE:
                         if (currentItem == null || currentItem.Mode == 2)
                         {
                             currentItem = new Collectible(
-                            new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4),
-                            new Vector2(48, 48), Type.Chime, 1, 3);
+                            new Vector2(this.Position.X - 20, this.Position.Y - Size.Y / 4),
+                            new Vector2(72,96), Type.Chime, 1, 3);
                         }
+                        break;
+                    case Ability.Undo:
+                        currentItem.Update(gameTime);
                         break;
                     default:
                         break;
@@ -214,7 +219,7 @@ namespace Clockwork
             }
             //putting this here makes sure it updates every frame
             //same reason why the object itself is a field
-            if (currentItem != null)
+            if (currentItem != null && currentItem.CollectibleType != Type.Key)
             {
 
                 currentItem.Update(gameTime);
@@ -222,7 +227,7 @@ namespace Clockwork
                 if (currentAbility == Ability.AOE)
                 {
                     //set the position of the aoe 
-                    currentItem.Position = new Vector2(this.Position.X - Size.X / 4, this.Position.Y - Size.X / 4);
+                    currentItem.Position = new Vector2(this.Position.X - 20, this.Position.Y - Size.Y / 4);
                 }
                 //keep the sword with the player
                 if (currentAbility == Ability.Sword)
@@ -277,8 +282,8 @@ namespace Clockwork
                 timer -= gameTime.ElapsedGameTime.TotalSeconds;
                 if (timer <= 0)
                 {
+                    timer = 1;
                     invincible = false;
-                    timer = .3;
                 }
             }
 
@@ -293,7 +298,7 @@ namespace Clockwork
         {
             base.Draw(sb, .5f, Color.White, 0, SpriteEffects.None, 1);
 
-            if (currentItem != null)
+            if (currentItem != null && currentItem.CollectibleType != Type.Key)
             {
                 currentItem.Draw(sb);
             }
@@ -307,6 +312,7 @@ namespace Clockwork
                 {
                     Collectible item = (Collectible)other;
                     //changes the player's ability based on the item's type
+                    currentItem = null;
                     switch (item.CollectibleType)
                     {
                         case (Type.Gear):
@@ -320,6 +326,10 @@ namespace Clockwork
                             break;
                         case (Type.Chime):
                             currentAbility = Ability.AOE;
+                            break;
+                        case (Type.Key):
+                            currentAbility = Ability.Undo;
+                            currentItem = new Collectible(this.Position, this.Size, Type.Key, 1);
                             break;
                     }
                 }
@@ -339,10 +349,19 @@ namespace Clockwork
                             //enemy hits you from the bottom
                             if (this.Position.Y < otherEnemy.Position.Y)
                             {
-                                
                                 this.Position = new Vector2(this.Position.X, this.Position.Y - displacement.Height);
                                 velocity.Y = 0;
                                 velocity.Y -= 5;
+                                if (this.Position.X >= otherEnemy.Position.X + otherEnemy.Size.X / 2)
+                                {
+                                    velocity.X = 0;
+                                    velocity.X += 10;
+                                }
+                                else
+                                {
+                                    velocity.X = 0;
+                                    velocity.X -= 10;
+                                }
                             }
 
                             //enemy hits you from the top
@@ -374,7 +393,6 @@ namespace Clockwork
                             }
                         }
 
-                        invincible = true;
                         TakeDamage(otherEnemy.Damage);
                     }
                 }
@@ -383,7 +401,11 @@ namespace Clockwork
 
         private void TakeDamage(int damage)
         {
-            health -= damage;
+            if (!invincible)
+            {
+                health -= damage;
+                invincible = true;
+            }
 
             // player death
             if (health <= 0)
