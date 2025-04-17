@@ -201,110 +201,16 @@ namespace Clockwork
             // -- Tile Setup --
             {
                 // Load Textures
-                Texture2D tileDirtL = content.Load<Texture2D>("tileDirtL");
-                Texture2D tileDirtToGrassR = content.Load<Texture2D>("tileDirtToGrassR");
-                Texture2D tileGrass = content.Load<Texture2D>("tileGrass");
-                Texture2D tileGrassDark = content.Load<Texture2D>("tileGrassDark");
-                Texture2D tileGrassDarkToLight = content.Load<Texture2D>("tileGrassDarkToLight");
-                Texture2D tileGrassEndL = content.Load<Texture2D>("tileGrassEndL");
-                Texture2D tileGrassEndR = content.Load<Texture2D>("tileGrassEndR");
-                Texture2D tileGrassLightToDark = content.Load<Texture2D>("tileGrassLightToDark");
-                Texture2D tileGrassToDirtL = content.Load<Texture2D>("tileGrassToDirtL");
-                Texture2D tileGroundBlank = content.Load<Texture2D>("tileGroundBlank");
-                Texture2D tileGroundEndL1 = content.Load<Texture2D>("tileGroundEndL1");
-                Texture2D tileGroundEndL2 = content.Load<Texture2D>("tileGroundEndL2");
-                Texture2D tileGroundEndR1 = content.Load<Texture2D>("tileGroundEndR1");
-                Texture2D tileGroundEndR2 = content.Load<Texture2D>("tileGroundEndR2");
-                Texture2D tileGroundRocks = content.Load<Texture2D>("tileGroundRocks");
-                Texture2D tileGroundRocks2 = content.Load<Texture2D>("tileGroundRocks2");
-                Texture2D tileGroundRocksLeavesBottom = content.Load<Texture2D>("tileGroundRocksLeavesBottom");
-                Texture2D tileGroundRocksLeavesTop = content.Load<Texture2D>("tileGroundRocksLeavesTop");
-                Texture2D tileGroundTop1 = content.Load<Texture2D>("tileGroundTop1");
-                Texture2D tileGroundTop2 = content.Load<Texture2D>("tileGroundTop2");
-                Texture2D tileGroundTop3 = content.Load<Texture2D>("tileGroundTop3");
-                Texture2D tileGroundTopRocks = content.Load<Texture2D>("tileGroundTopRocks");
-                Texture2D tileGroundTopRocksVines = content.Load<Texture2D>("tileGroundTopRocksVines");
-                Texture2D tileGroundTopVines1 = content.Load<Texture2D>("tileGroundTopVines1");
+                
 
                 // Set up Frames
-                List<Frame> tileFrames = new List<Frame>();
-                tileFrames.Add(new Frame(tileDirtL, GetRect(tileDirtL), Vector2.Zero));
-                tileFrames.Add(new Frame(tileDirtToGrassR, GetRect(tileDirtToGrassR), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGrass, GetRect(tileGrass), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGrassDark, GetRect(tileGrassDark), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGrassDarkToLight, GetRect(tileGrassDarkToLight), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGrassEndL, GetRect(tileGrassEndL), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGrassEndR, GetRect(tileGrassEndR), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGrassLightToDark, GetRect(tileGrassLightToDark), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGrassToDirtL, GetRect(tileGrassToDirtL), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundBlank, GetRect(tileGroundBlank), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundEndL1, GetRect(tileGroundEndL1), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundEndL2, GetRect(tileGroundEndL2), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundEndR1, GetRect(tileGroundEndR1), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundEndR2, GetRect(tileGroundEndR2), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundRocks, GetRect(tileGroundRocks), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundRocks2, GetRect(tileGroundRocks2), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundRocksLeavesBottom, GetRect(tileGroundRocksLeavesBottom), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundRocksLeavesTop, GetRect(tileGroundRocksLeavesTop), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundTop1, GetRect(tileGroundTop1), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundTop2, GetRect(tileGroundTop2), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundTop3, GetRect(tileGroundTop3), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundTopRocks, GetRect(tileGroundTopRocks), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundTopRocksVines, GetRect(tileGroundTopRocksVines), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundTopVines1, GetRect(tileGroundTopVines1), Vector2.Zero));
+                
 
                 // Set up Animations
-                Dictionary<string, Animation> tileAnimations = new Dictionary<string, Animation>();
-                tileAnimations.Add("tileDirtL", new Animation(0, 0, 1));
-                tileAnimations.Add("tileDirtToGrassR", new Animation(1, 1, 1));
-                tileAnimations.Add("tileGrass", new Animation(2, 2, 1));
-                tileAnimations.Add("tileGrassDark", new Animation(3, 3, 1));
-                tileAnimations.Add("tileGrassDarkToLight", new Animation(4, 4, 1));
-                tileAnimations.Add("tileGrassEndL", new Animation(5, 5, 1));
-                tileAnimations.Add("tileGrassEndR", new Animation(6, 6, 1));
-                tileAnimations.Add("tileGrassLightToDark", new Animation(7, 7, 1));
-                tileAnimations.Add("tileGrassToDirtL", new Animation(8, 8, 1));
-                tileAnimations.Add("tileGroundBlank", new Animation(9, 9, 1));
-                tileAnimations.Add("tileGroundEndL1", new Animation(10, 10, 1));
-                tileAnimations.Add("tileGroundEndL2", new Animation(11, 11, 1));
-                tileAnimations.Add("tileGroundEndR1", new Animation(12, 12, 1));
-                tileAnimations.Add("tileGroundEndR2", new Animation(13, 13, 1));
-                tileAnimations.Add("tileGroundRocks", new Animation(14, 14, 1));
-                tileAnimations.Add("tileGroundRocks2", new Animation(15, 15, 1));
-                tileAnimations.Add("tileGroundRocksLeavesBottom", new Animation(16, 16, 1));
-                tileAnimations.Add("tileGroundRocksLeavesTop", new Animation(17, 17, 1));
-                tileAnimations.Add("tileGroundTop1", new Animation(18, 18, 1));
-                tileAnimations.Add("tileGroundTop2", new Animation(19, 19, 1));
-                tileAnimations.Add("tileGroundTop3", new Animation(20, 20, 1));
-                tileAnimations.Add("tileGroundTopRocks", new Animation(21, 21, 1));
-                tileAnimations.Add("tileGroundTopRocksVines", new Animation(22, 22, 1));
-                tileAnimations.Add("tileGroundTopVines1", new Animation(23, 23, 1));
+                
 
                 // Create AnimatedSprites in Animation Library
-                animationLibrary.Add(Sprites.tileDirtL, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileDirtL"], Point.Zero));
-                animationLibrary.Add(Sprites.tileDirtToGrassR, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileDirtToGrassR"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGrass, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrass"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGrassDark, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassDark"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGrassDarkToLight, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassDarkToLight"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGrassEndL, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassEndL"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGrassEndR, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassEndR"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGrassLightToDark, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassLightToDark"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGrassToDirtL, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassToDirtL"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundBlank, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundBlank"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundEndL1, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundEndL1"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundEndL2, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundEndL2"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundEndR1, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundEndR1"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundEndR2, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundEndR2"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundRocks, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocks"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundRocks2, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocks2"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundRocksLeavesBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocksLeavesBottom"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundRocksLeavesTop, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocksLeavesTop"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundTop1, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTop1"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundTop2, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTop2"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundTop3, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTop3"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundTopRocks, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTopRocks"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundTopRocksVines, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTopRocksVines"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundTopVines1, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTopVines1"], Point.Zero));
+                
             }
 
             // -- Buttons Setup --
