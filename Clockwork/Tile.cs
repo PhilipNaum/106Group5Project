@@ -25,6 +25,8 @@ namespace Clockwork
         private bool active;
         private Point gridPosition;
 
+        private bool fixing;
+
         // only used if the tile is destructible
         private bool tileTouched;
         private readonly float tileDestructTimer = 1;
@@ -68,6 +70,9 @@ namespace Clockwork
             this.gridPosition = gridPosition;
 
             tileDestructCountdown = tileDestructTimer;
+
+            fixing = false;
+
         }
 
         public override void Update(GameTime gt)
@@ -80,9 +85,20 @@ namespace Clockwork
                 {
                     active = false;
                     tileTouched = false;
+                    tileDestructCountdown = 0;
                 }
             }
-            if (!active)
+            else if (fixing)
+            {
+                tileDestructCountdown -= (float)gt.ElapsedGameTime.TotalSeconds;
+                if (tileDestructCountdown < 0)
+                {
+                    
+                    active = true;
+                    tileDestructCountdown = tileDestructTimer;
+                }
+            }
+            else if (!active)
             {
                 tileDestructCountdown += (float)gt.ElapsedGameTime.TotalSeconds;
             }
@@ -116,14 +132,21 @@ namespace Clockwork
             tileDestructCountdown = 0;
         }
 
+        /// <summary>
+        /// Fixes the tile after its been broken
+        /// </summary>
+        /// <param name="gt"></param>
         public void Fix(GameTime gt)
         {
+            //only do this if it's inactive
             if (!active)
             {
+                //only fix the tile if it was broken less than 5 seconds ago
                 if (tileDestructCountdown < 5)
                 {
-                    active = true;
-                    tileDestructCountdown = tileDestructTimer;
+                    fixing = true;
+                    tileDestructCountdown = 5 - tileDestructCountdown;
+                    System.Diagnostics.Debug.WriteLine(tileDestructCountdown);
                 }
             }
         }

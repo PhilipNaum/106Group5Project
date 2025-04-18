@@ -47,7 +47,7 @@ namespace Clockwork
         private bool invincible;
 
         //a timer used for the enemy's i-frames and when it died
-        public double timer;
+        private double deathTimer;
 
         //the list of tiles that the enemy has to check for collisions
         private List<Tile> isColliding;
@@ -86,7 +86,7 @@ namespace Clockwork
             acceleration = new Vector2(0, .5f);
             isDead = false;
             invincible = false;
-            timer = .75;
+            deathTimer = .75;
             isColliding = new List<Tile>();
             damage = 2;
         }
@@ -127,11 +127,11 @@ namespace Clockwork
                 //starts a timer that if the enemy is supposed to be invincible
                 if (invincible)
                 {
-                    timer -= gt.ElapsedGameTime.TotalSeconds;
-                    if (timer <= 0)
+                    deathTimer -= gt.ElapsedGameTime.TotalSeconds;
+                    if (deathTimer <= 0)
                     {
                         invincible = false;
-                        timer = .75;
+                        deathTimer = .75;
                     }
                 }
 
@@ -141,7 +141,7 @@ namespace Clockwork
             }
             else
             {
-                timer += gt.ElapsedGameTime.TotalSeconds;
+                deathTimer += gt.ElapsedGameTime.TotalSeconds;
             }
         }
 
@@ -292,28 +292,27 @@ namespace Clockwork
             {
                 isDead = true;
                 invincible = false;
-                timer = 0;
+                deathTimer = 0;
             }
         }
 
-        /// <summary>
-        /// Creates and returns a rectangle reprenting the enemy.
-        /// If the enemy is dead, then return nothing
-        /// </summary>
-        /// <returns>A rectangle with the same position and texture width and height as the enemy</returns>
-        public override Rectangle GetRectangle()
-        {
-            if (isDead)
-            {
-                return new Rectangle(0, 0, 0, 0);
-            }
-            return base.GetRectangle();
+       
 
+        /// <summary>
+        /// return false if the enemy is dead,
+        /// else return true;
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public override bool IsColliding(GameObject other)
+        {
+            if (isDead) return false;
+            else return base.IsColliding(other);
         }
 
         /// <summary>
         /// subcribes to collectibles keyTurn event
-        /// If the enemy died more than 5 seconds ago (the so time the key is reversing),
+        /// If the enemy died more than 5 seconds ago (the time the key is reversing),
         /// then it is dead for good
         /// </summary>
         public void DeathCheck(GameTime gt)
@@ -322,11 +321,12 @@ namespace Clockwork
             if (isDead)
             {
                 //only revive if the enemy is killed in less time than the timer revereses
-                if (timer < 5)
+                if (deathTimer < 5)
                 {
+                    //reset the enemy
                     isDead = false;
                     health = maxHealth;
-                    timer = .75;
+                    deathTimer = .75;
                     velocity.Y = 0;
                 }
             }
