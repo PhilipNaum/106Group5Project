@@ -88,16 +88,19 @@ namespace Clockwork
                     tileDestructCountdown = 0;
                 }
             }
+            //do this whe th
             else if (fixing)
             {
+                //count down
                 tileDestructCountdown -= (float)gt.ElapsedGameTime.TotalSeconds;
                 if (tileDestructCountdown < 0)
                 {
-                    
+                    //reset
                     active = true;
                     tileDestructCountdown = tileDestructTimer;
                 }
             }
+            //when brokn, start 
             else if (!active)
             {
                 tileDestructCountdown += (float)gt.ElapsedGameTime.TotalSeconds;
@@ -144,9 +147,10 @@ namespace Clockwork
                 //only fix the tile if it was broken less than 5 seconds ago
                 if (tileDestructCountdown < 5)
                 {
+                    //start the process for fixing the tile
                     fixing = true;
+                    //5 minus the time the tile has been broken for
                     tileDestructCountdown = 5 - tileDestructCountdown;
-                    System.Diagnostics.Debug.WriteLine(tileDestructCountdown);
                 }
             }
         }
