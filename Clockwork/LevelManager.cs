@@ -71,9 +71,9 @@ namespace Clockwork
             "Levels/GearIntro.map",
             "Levels/ChimeIntro.map",
             "Levels/RewindIntro.map",
-            "Levels/HandIntro.map",
-            "Levels/AOEDash.map",
-            "Levels/AOETimer.map"
+            "Levels/HandIntro.map"
+            //"Levels/AOEDash.map",
+            //"Levels/AOETimer.map"
         };
 
         /// <summary>
