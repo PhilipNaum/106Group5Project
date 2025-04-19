@@ -223,6 +223,41 @@ namespace LevelEditor
         }
 
         /// <summary>
+        /// resync the picture on tile to level
+        /// </summary>
+        /// <param name="x">x</param>
+        /// <param name="y">y</param>
+        private void ResyncTilePicture(int x, int y)
+        {
+            // return if not ready
+            if (pictureBoxMap == null || level == null) { return; }
+
+            // range check
+            if (
+                x < 0 ||
+                y < 0 ||
+                x >= level.Width ||
+                y >= level.Height
+                ) { return; }
+
+            // resync tile
+            pictureBoxMap[y, x].BackgroundImage = level.GetTileAt(x, y).Texture;
+
+            // resync collectibe
+            ObjectType? collectible = level.GetCollectibleAt(x, y);
+            if (collectible != null) { pictureBoxMap[y, x].Image = collectible.Texture; }
+            else { pictureBoxMap[y, x].Image = null; }
+
+            // resync start
+            if (level.Start == new Point(x, y))
+            { pictureBoxMap[y, x].Image = Objects.Start.Texture; }
+
+            // resync exit
+            if (level.Exit == new Point(x, y))
+            { pictureBoxMap[y, x].Image = Objects.Exit.Texture; }
+        }
+
+        /// <summary>
         /// paints the selected tile / collectible
         /// </summary>
         /// <param name="x">x</param>
@@ -261,13 +296,27 @@ namespace LevelEditor
 
                     break;
                 case ObjectCategory.Start:
+                    // get previous start position
+                    Point previousStart = level.Start;
+
+                    // place new start
                     level.Start = new Point(x, y);
                     pictureBoxMap[y, x].Image = selected.Texture;
 
+                    // reset old start
+                    ResyncTilePicture(previousStart.X, previousStart.Y);
+
                     break;
                 case ObjectCategory.Exit:
+                    // get previous exit position
+                    Point previousExit = level.Exit;
+
+                    // place new exit
                     level.Exit = new Point(x, y);
                     pictureBoxMap[y, x].Image = selected.Texture;
+
+                    // reset old exit
+                    ResyncTilePicture(previousExit.X, previousExit.Y);
 
                     break;
             }
