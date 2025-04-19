@@ -102,36 +102,12 @@
         /// <summary>
         /// the start for the level
         /// </summary>
-        public Point Start
-        {
-            get => start;
-            set
-            {
-                // remove tile or collectible at position
-                map[value.Y, value.X] = 0;
-                collectibles.Remove(value);
-
-                // set start
-                start = value;
-            }
-        }
+        public Point Start { get => start; set { start = value; } }
 
         /// <summary>
         /// the exit for the level
         /// </summary>
-        public Point Exit
-        {
-            get => exit;
-            set
-            {
-                // remove tile or collectible at position
-                map[value.Y, value.X] = 0;
-                collectibles.Remove(value);
-
-                // set exit
-                exit = value;
-            }
-        }
+        public Point Exit { get => exit; set { exit = value; } }
 
         /// <summary>
         /// creates a blank level
