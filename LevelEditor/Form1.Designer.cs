@@ -39,9 +39,13 @@
             buttonNewMap = new Button();
             openFileDialogLoadMap = new OpenFileDialog();
             saveFileDialogSaveMap = new SaveFileDialog();
+            GroupBoxExtra = new GroupBox();
+            buttonStart = new Button();
+            buttonExit = new Button();
             tabControlSelection.SuspendLayout();
             groupBoxSelected.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxSelected).BeginInit();
+            GroupBoxExtra.SuspendLayout();
             SuspendLayout();
             // 
             // tabControlSelection
@@ -147,10 +151,42 @@
             saveFileDialogSaveMap.Filter = "map files|*.map";
             saveFileDialogSaveMap.Title = "save map";
             // 
+            // GroupBoxExtra
+            // 
+            GroupBoxExtra.Controls.Add(buttonExit);
+            GroupBoxExtra.Controls.Add(buttonStart);
+            GroupBoxExtra.Location = new Point(12, 308);
+            GroupBoxExtra.Name = "GroupBoxExtra";
+            GroupBoxExtra.Size = new Size(110, 122);
+            GroupBoxExtra.TabIndex = 5;
+            GroupBoxExtra.TabStop = false;
+            GroupBoxExtra.Text = "extra";
+            // 
+            // buttonStart
+            // 
+            buttonStart.Font = new Font("Segoe UI", 12F);
+            buttonStart.Location = new Point(6, 30);
+            buttonStart.Name = "buttonStart";
+            buttonStart.Size = new Size(98, 40);
+            buttonStart.TabIndex = 6;
+            buttonStart.Text = "start";
+            buttonStart.UseVisualStyleBackColor = true;
+            // 
+            // buttonExit
+            // 
+            buttonExit.Font = new Font("Segoe UI", 12F);
+            buttonExit.Location = new Point(6, 76);
+            buttonExit.Name = "buttonExit";
+            buttonExit.Size = new Size(98, 40);
+            buttonExit.TabIndex = 7;
+            buttonExit.Text = "exit";
+            buttonExit.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(1178, 694);
+            Controls.Add(GroupBoxExtra);
             Controls.Add(buttonNewMap);
             Controls.Add(buttonLoad);
             Controls.Add(buttonSave);
@@ -163,6 +199,7 @@
             tabControlSelection.ResumeLayout(false);
             groupBoxSelected.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBoxSelected).EndInit();
+            GroupBoxExtra.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -179,5 +216,8 @@
         private PictureBox pictureBoxSelected;
         private OpenFileDialog openFileDialogLoadMap;
         private SaveFileDialog saveFileDialogSaveMap;
+        private GroupBox GroupBoxExtra;
+        private Button buttonStart;
+        private Button buttonExit;
     }
 }
