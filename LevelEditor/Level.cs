@@ -120,6 +120,9 @@
             map = new int[dimensions.Height, dimensions.Width];
 
             collectibles = new Dictionary<Point, int>();
+
+            start = new Point(-1, -1);
+            exit = new Point(-1, -1);
         }
 
         /// <summary>
