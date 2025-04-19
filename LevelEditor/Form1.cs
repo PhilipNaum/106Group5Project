@@ -237,26 +237,33 @@ namespace LevelEditor
                 ) { return; }
 
             // check object category
-            if (selected.Category == ObjectCategory.Tile)
+            switch (selected.Category)
             {
-                // paint tile
-                level.SetTileAt(x, y, selected);
-                pictureBoxMap[y, x].BackgroundImage = selected.Texture;
-            }
-            else if (selected.Category == ObjectCategory.Collectible)
-            {
-                // remove collectible if it's already placed
-                if (level.GetCollectibleAt(x, y) == selected)
-                {
-                    level.RemoveCollectibleAt(x, y);
-                    pictureBoxMap[y, x].Image = null;
-                }
-                else
-                {
-                    // place collectible
-                    level.SetCollectibleAt(x, y, selected);
-                    pictureBoxMap[y, x].Image = selected.Texture;
-                }
+                case ObjectCategory.Tile:
+                    // paint tile
+                    level.SetTileAt(x, y, selected);
+                    pictureBoxMap[y, x].BackgroundImage = selected.Texture;
+
+                    break;
+                case ObjectCategory.Collectible:
+                    // remove collectible if it's already placed
+                    if (level.GetCollectibleAt(x, y) == selected)
+                    {
+                        level.RemoveCollectibleAt(x, y);
+                        pictureBoxMap[y, x].Image = null;
+                    }
+                    else
+                    {
+                        // place collectible
+                        level.SetCollectibleAt(x, y, selected);
+                        pictureBoxMap[y, x].Image = selected.Texture;
+                    }
+
+                    break;
+                case ObjectCategory.Exit:
+                    break;
+                case ObjectCategory.Start:
+                    break;
             }
         }
 
