@@ -260,9 +260,15 @@ namespace LevelEditor
                     }
 
                     break;
-                case ObjectCategory.Exit:
-                    break;
                 case ObjectCategory.Start:
+                    level.Start = new Point(x, y);
+                    pictureBoxMap[y, x].Image = selected.Texture;
+
+                    break;
+                case ObjectCategory.Exit:
+                    level.Exit = new Point(x, y);
+                    pictureBoxMap[y, x].Image = selected.Texture;
+
                     break;
             }
         }
