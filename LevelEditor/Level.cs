@@ -51,6 +51,18 @@
                 level.collectibles.Add(collectiblePosition, collectible);
             }
 
+            // read the start position
+            level.start = new Point(
+                input.ReadInt32(),
+                input.ReadInt32()
+                );
+
+            // read the exit position
+            level.exit = new Point(
+                input.ReadInt32(),
+                input.ReadInt32()
+                );
+
             input.Close();
 
             return level;
@@ -59,6 +71,8 @@
         private Size dimensions;
         private int[,] map;
         private Dictionary<Point, int> collectibles;
+        private Point start;
+        private Point exit;
 
         /// <summary>
         /// the dimensions of the level
@@ -86,6 +100,16 @@
         public Dictionary<Point, int> Collectibles { get => collectibles; }
 
         /// <summary>
+        /// the start for the level
+        /// </summary>
+        public Point Start { get => start; set { start = value; } }
+
+        /// <summary>
+        /// the exit for the level
+        /// </summary>
+        public Point Exit { get => exit; set { exit = value; } }
+
+        /// <summary>
         /// creates a blank level
         /// </summary>
         /// <param name="dimensions">dimensions of the level</param>
@@ -96,6 +120,9 @@
             map = new int[dimensions.Height, dimensions.Width];
 
             collectibles = new Dictionary<Point, int>();
+
+            start = new Point(-1, -1);
+            exit = new Point(-1, -1);
         }
 
         /// <summary>
@@ -178,6 +205,14 @@
                 output.Write(collectiblePair.Key.X);
                 output.Write(collectiblePair.Key.Y);
             }
+
+            // write start position
+            output.Write(start.X);
+            output.Write(start.Y);
+
+            // write exit position
+            output.Write(exit.X);
+            output.Write(exit.Y);
 
             output.Close();
 
