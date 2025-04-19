@@ -7,7 +7,8 @@
     {
         Tile,
         Collectible,
-        Exit
+        Exit,
+        Start
     }
 
     /// <summary>
