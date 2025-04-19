@@ -51,6 +51,12 @@
                 level.collectibles.Add(collectiblePosition, collectible);
             }
 
+            // read the start position
+            level.start = new Point(
+                input.ReadInt32(),
+                input.ReadInt32()
+                );
+
             // read the exit position
             level.exit = new Point(
                 input.ReadInt32(),
@@ -65,6 +71,7 @@
         private Size dimensions;
         private int[,] map;
         private Dictionary<Point, int> collectibles;
+        private Point start;
         private Point exit;
 
         /// <summary>
@@ -91,6 +98,23 @@
         /// list of collectibles (value as index of Objects.CollectibleTypes)
         /// </summary>
         public Dictionary<Point, int> Collectibles { get => collectibles; }
+
+        /// <summary>
+        /// the start for the level
+        /// </summary>
+        public Point Start
+        {
+            get => start;
+            set
+            {
+                // remove tile or collectible at position
+                map[value.Y, value.X] = 0;
+                collectibles.Remove(value);
+
+                // set start
+                start = value;
+            }
+        }
 
         /// <summary>
         /// the exit for the level
@@ -202,6 +226,10 @@
                 output.Write(collectiblePair.Key.X);
                 output.Write(collectiblePair.Key.Y);
             }
+
+            // write start position
+            output.Write(start.X);
+            output.Write(start.Y);
 
             // write exit position
             output.Write(exit.X);
