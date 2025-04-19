@@ -354,5 +354,17 @@ namespace LevelEditor
             // try to save level
             TrySaveLevel(saveFileDialogSaveMap.FileName);
         }
+
+        /// <summary>
+        /// when the start selection button is clicked
+        /// </summary>
+        private void buttonStart_Click(object sender, EventArgs e)
+        { SelectObject(Objects.Start); }
+
+        /// <summary>
+        /// when the start selection button is clicked
+        /// </summary>
+        private void buttonExit_Click(object sender, EventArgs e)
+        { SelectObject(Objects.Exit); }
     }
 }

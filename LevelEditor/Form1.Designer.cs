@@ -171,6 +171,7 @@
             buttonStart.TabIndex = 6;
             buttonStart.Text = "start";
             buttonStart.UseVisualStyleBackColor = true;
+            buttonStart.Click += buttonStart_Click;
             // 
             // buttonExit
             // 
@@ -181,6 +182,7 @@
             buttonExit.TabIndex = 7;
             buttonExit.Text = "exit";
             buttonExit.UseVisualStyleBackColor = true;
+            buttonExit.Click += buttonExit_Click;
             // 
             // Form1
             // 
