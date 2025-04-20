@@ -65,32 +65,28 @@ namespace Clockwork
         /// an array of all filenames of levels
         /// </summary>
         private static string[] levelFilenames = {
-            "Levels/TestMapAbil.map",
-            "Levels/DemoLevel2.map",
-            "Levels/DestructibleLevel.map",
             "Levels/MovementIntro.map",
             "Levels/GearIntro.map",
             "Levels/ChimeIntro.map",
             "Levels/RewindIntro.map",
             "Levels/HandIntro.map",
-            "Levels/AOEDash.map",
-            "Levels/AOERewind.map",
-            "Levels/BreakableTilesIntro.map"
+            //"Levels/BreakableTilesIntro.map",
+            "Levels/DestructibleLevel.map",
+            //"Levels/AOEDash.map",
+            "Levels/AOERewind.map"
         };
 
         private static string[] enemyFilenames =
         {
-            "Enemies/TestMapEnemies.data",
-            "none",
-            "none",
             "none",
             "Enemies/GearIntroEnemies.data",
             "none",
             "none",
             "Enemies/HandIntroEnemies.data",
+            //"none",
             "none",
-            "Enemies/AOERewindEnemies.data",
-            "none"
+            //none",
+            "Enemies/AOERewindEnemies.data"
         };
 
         /// <summary>
@@ -152,7 +148,8 @@ namespace Clockwork
                     ));
             }
 
-            level.SetExit(new Exit(new Vector2(input.ReadInt32(), input.ReadInt32())));
+            level.StartPosition = new Vector2(input.ReadInt32() * 32 + 32, input.ReadInt32() * 32);
+            level.SetExit(new Exit(new Vector2(input.ReadInt32() * 32, input.ReadInt32() * 32)));
             level.Enemies.AddRange(LoadEnemies(filename));
             input.Close();
 
@@ -205,12 +202,12 @@ namespace Clockwork
         /// <summary>
         /// the index of the current level
         /// </summary>
-        public int CurrentLevelIndex { get => currentLevelIndex;}
+        public int CurrentLevelIndex { get => currentLevelIndex; }
 
         /// <summary>
         /// the current level of the game
         /// </summary>
-        public Level CurrentLevel { get => currentLevel;}
+        public Level CurrentLevel { get => currentLevel; }
 
         /// <summary>
         /// set the current level based on level index

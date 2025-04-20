@@ -93,9 +93,7 @@ namespace Clockwork
         /// </summary>
         public void ResetPlayer()
         {
-            // this should actually get a position from the current level
-            Position = new Vector2(100, 200);
-            //Position = LevelManager.Instance.CurrentLevel.PlayerStart;
+            Position = LevelManager.Instance.CurrentLevel.StartPosition;
 
             velocity = Vector2.Zero;
             currentAbility = Ability.None;
@@ -207,7 +205,7 @@ namespace Clockwork
                         {
                             currentItem = new Collectible(
                             new Vector2(this.Position.X - 20, this.Position.Y - Size.Y / 4),
-                            new Vector2(72,96), Type.Chime, 1, 5);
+                            new Vector2(72, 96), Type.Chime, 1, 5);
                         }
                         break;
                     case Ability.Undo:

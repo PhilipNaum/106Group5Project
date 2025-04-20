@@ -40,6 +40,11 @@ namespace Clockwork
         public List<Enemy> Enemies { get => enemies; }
 
         /// <summary>
+        /// Player start position
+        /// </summary>
+        public Vector2 StartPosition { get; set; }
+
+        /// <summary>
         /// creates an empty level
         /// </summary>
         /// <param name="mapDimensions">the dimensions of the map</param>
@@ -71,21 +76,23 @@ namespace Clockwork
 
             // draw all enemies
             foreach (Enemy enemy in enemies) { enemy.Draw(spriteBatch); }
+
+            exit.Draw(spriteBatch);
         }
 
         /// <summary>
         /// updates all collectibles, tiles, and enemies in the level.
         /// </summary>
         public void Update(GameTime gameTime)
-        { 
+        {
             exit.ExitCheck(this);
-            foreach (Collectible collectible in collectibles) 
-            { 
-                collectible.Update(gameTime); 
+            foreach (Collectible collectible in collectibles)
+            {
+                collectible.Update(gameTime);
             }
-            foreach (Tile tile in map) 
-            { 
-                tile.Update(gameTime); 
+            foreach (Tile tile in map)
+            {
+                tile.Update(gameTime);
             }
             foreach (Enemy enemy in enemies)
             {
