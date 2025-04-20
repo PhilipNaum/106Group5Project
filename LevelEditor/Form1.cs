@@ -193,11 +193,11 @@ namespace LevelEditor
 
             // show start
             if (level.IsPositionInMap(level.Start))
-            { pictureBoxMap![level.Start.X, level.Start.Y].Image = Objects.Start.Texture; }
+            { pictureBoxMap![level.Start.Y, level.Start.X].Image = Objects.Start.Texture; }
 
             // show exit
             if (level.IsPositionInMap(level.Exit))
-            { pictureBoxMap![level.Exit.X, level.Exit.Y].Image = Objects.Exit.Texture; }
+            { pictureBoxMap![level.Exit.Y, level.Exit.X].Image = Objects.Exit.Texture; }
         }
 
         /// <summary>
