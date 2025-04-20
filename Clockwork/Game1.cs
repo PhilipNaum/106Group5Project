@@ -79,7 +79,7 @@ namespace Clockwork
             player = new Player(new Vector2(100, 200), new Vector2(32, 64));
             playerLastFrame = player.Position;
 
-            _testenemy = new Enemy(new Vector2(416, 32), new Vector2(32,32), new Vector2(-.5f, 0), 192, 10);
+            _testenemy = new Enemy(new Vector2(416, 32), new Vector2(32, 32), new Vector2(-.5f, 0), 192, 10);
             _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
             enemies.Add(_testenemy);
             //enemies.Add(_testenemy2);
@@ -87,7 +87,7 @@ namespace Clockwork
             _testitem = new Collectible(new Vector2(400, 240), new Vector2(16, 16), Type.Gear, 0);
             _testitem2 = new Collectible(new Vector2(200, 240), new Vector2(16, 16), Type.Face, 0);
             _testitem3 = new Collectible(new Vector2(400, 240), new Vector2(16, 16), Type.Chime, 0);
-            _testitem4 = new Collectible(new Vector2(192,128), new Vector2(16, 16), Type.Hand, 0);
+            _testitem4 = new Collectible(new Vector2(192, 128), new Vector2(16, 16), Type.Hand, 0);
             //collectibles.Add(_testitem);
             //collectibles.Add(_testitem2);
             //collectibles.Add(_testitem3);
@@ -151,7 +151,10 @@ namespace Clockwork
         {
             mainMenu.Update();
             if (mainMenu.UIElements["btStart"].Clicked)
+            {
+                player.ResetPlayer();
                 gameState = GameState.Gameplay;
+            }
             if (mainMenu.UIElements["btLevels"].Clicked)
                 gameState = GameState.LevelSelect;
             if (mainMenu.UIElements["btCredits"].Clicked)
@@ -166,31 +169,37 @@ namespace Clockwork
             if (levelSelect.UIElements["btLevel1"].Clicked)
             {
                 LevelManager.Instance.SetCurrentLevel(0);
+                player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
             if (levelSelect.UIElements["btLevel2"].Clicked)
             {
                 LevelManager.Instance.SetCurrentLevel(1);
+                player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
             if (levelSelect.UIElements["btLevel3"].Clicked)
             {
                 LevelManager.Instance.SetCurrentLevel(2);
+                player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
             if (levelSelect.UIElements["btLevel4"].Clicked)
             {
                 LevelManager.Instance.SetCurrentLevel(3);
+                player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
             if (levelSelect.UIElements["btLevel5"].Clicked)
             {
                 LevelManager.Instance.SetCurrentLevel(4);
+                player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
             if (levelSelect.UIElements["btLevel6"].Clicked)
             {
                 LevelManager.Instance.SetCurrentLevel(5);
+                player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
             if (levelSelect.UIElements["btMenu"].Clicked || SingleKeyPress(Keys.Escape))
@@ -203,14 +212,17 @@ namespace Clockwork
             {
                 gameState = GameState.Pause;
             }
-            if (SingleKeyPress(Keys.X))
-            {
-                gameState = GameState.LevelComplete;
-            }
+
 
             player.Update(gameTime);
 
             LevelManager.Instance.CurrentLevel.Update(gameTime);
+
+            // End Level check
+            if (LevelManager.Instance.CurrentLevel.Exit.CanExit && player.IsCollidingPrecise(LevelManager.Instance.CurrentLevel.Exit))
+            {
+                gameState = GameState.LevelComplete;
+            }
 
             // 2 lines since it's a bit easier to read than one.
             List<Tile> collisions = GetPlayerCollisions();
@@ -232,14 +244,14 @@ namespace Clockwork
                 {
                     player.CurrentItem.CollisionResponse(LevelManager.Instance.CurrentLevel.Enemies[i]);
                     LevelManager.Instance.CurrentLevel.Enemies[i].CollisionResponse(player.CurrentItem);
-                    if(player.CurrentItem.CollectibleType == Type.Key)
+                    if (player.CurrentItem.CollectibleType == Type.Key)
                     {
                         player.CurrentItem.KeyTurn += LevelManager.Instance.CurrentLevel.Enemies[i].DeathCheck;
                     }
                 }
 
 
-                for(int j = 0; j < LevelManager.Instance.CurrentLevel.CollidableTiles.Count; j++)
+                for (int j = 0; j < LevelManager.Instance.CurrentLevel.CollidableTiles.Count; j++)
                 {
                     if (LevelManager.Instance.CurrentLevel.CollidableTiles[i].Active)
                         LevelManager.Instance.CurrentLevel.Enemies[i].CollisionResponse(LevelManager.Instance.CurrentLevel.CollidableTiles[j]);
@@ -267,12 +279,12 @@ namespace Clockwork
                 {
                     LevelManager.Instance.CurrentLevel.Collectibles[i].Update(gameTime);
                     player.CollisionResponse(LevelManager.Instance.CurrentLevel.Collectibles[i]);
-                    //collectibles[i].CollisionResponse(player);
+                    LevelManager.Instance.CurrentLevel.Collectibles[i].CollisionResponse(player);
                 }
             }
 
             // if the player exits the bounds of the screen reset them and the level.
-            if (!player.GetRectangle().Intersects(new Rectangle(0, 0, 
+            if (!player.GetRectangle().Intersects(new Rectangle(0, 0,
                 _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight)))
             {
                 player.ResetPlayer();
@@ -295,6 +307,7 @@ namespace Clockwork
             if (levelComplete.UIElements["btNext"].Clicked)
             {
                 LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex + 1);
+                player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
             if (levelComplete.UIElements["btLevels"].Clicked)
@@ -304,6 +317,7 @@ namespace Clockwork
             if (levelComplete.UIElements["btMenu"].Clicked)
             {
                 LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex + 1);
+                player.ResetPlayer();
                 gameState = GameState.MainMenu;
             }
         }
@@ -381,7 +395,7 @@ namespace Clockwork
 
                             playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
                             playerVel.X = 0;
-                            
+
                             collider.TilePlayerCollision();
                         }
                     }

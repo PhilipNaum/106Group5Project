@@ -23,6 +23,8 @@ namespace Clockwork
         Key,
         Chime,
 
+        Exit,
+
         btStart,
         btResume,
         btNext,
@@ -176,6 +178,16 @@ namespace Clockwork
                 animationLibrary.Add(Sprites.Face, new AnimatedSprite(collectibleFrames, collectibleAnimations, collectibleAnimations["face"], Point.Zero));
                 animationLibrary.Add(Sprites.Key, new AnimatedSprite(collectibleFrames, collectibleAnimations, collectibleAnimations["key"], Point.Zero));
                 animationLibrary.Add(Sprites.Chime, new AnimatedSprite(collectibleFrames, collectibleAnimations, collectibleAnimations["bell"], Point.Zero));
+            }
+
+            // -- Exit Setup --
+            {
+                Texture2D exitTexture = content.Load<Texture2D>("exitPlaceholder");
+                List<Frame> exitFrames = new List<Frame>();
+                exitFrames.Add(new Frame(exitTexture, GetRect(exitTexture), Vector2.Zero));
+                Dictionary<string, Animation> exitAnimations = new Dictionary<string, Animation>();
+                exitAnimations.Add("exit", new Animation(0, 0, 1));
+                animationLibrary.Add(Sprites.Exit, new AnimatedSprite(exitFrames, exitAnimations, exitAnimations["exit"], Point.Zero));
             }
 
             // -- Tile Setup --
