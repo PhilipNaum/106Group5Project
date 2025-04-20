@@ -32,6 +32,8 @@ namespace Clockwork
         btMenu,
         btLevels,
         btCredits,
+        btControls,
+        btReset,
         btLevel1,
         btLevel2,
         btLevel3,
@@ -39,30 +41,35 @@ namespace Clockwork
         btLevel5,
         btLevel6,
 
-        tileDirtL,
-        tileDirtToGrassR,
-        tileGrass,
-        tileGrassDark,
-        tileGrassDarkToLight,
-        tileGrassEndL,
-        tileGrassEndR,
-        tileGrassLightToDark,
-        tileGrassToDirtL,
-        tileGroundBlank,
-        tileGroundEndL1,
-        tileGroundEndL2,
-        tileGroundEndR1,
-        tileGroundEndR2,
-        tileGroundRocks,
+        tileGrassTopEndL,
+        tileGrassToDirtTop,
+        tileDirtTop,
+        tileDirtToGrassTop,
+        tileGrassTop,
+        tileGrassToShadeTop,
+        tileShadeTop,
+        tileShadeToGrassTop,
+        tileGrassTopEndR,
+        tileGrassEndLBottom,
+        tileGrassToDirtBottom,
+        tileDirtBottom,
+        tileDirtToGrassBottom,
+        tileGrassBottom,
+        tileGrassToShadeBottom,
+        tileShadeBottom,
+        tileShadeToGrassBottom,
+        tileGrassEndRBottom,
+        tileGroundEndL,
+        tileGroundRocks1,
+        tileGroundRocksLeaves,
+        tileGroundEmpty,
         tileGroundRocks2,
-        tileGroundRocksLeavesBottom,
-        tileGroundRocksLeavesTop,
-        tileGroundTop1,
-        tileGroundTop2,
-        tileGroundTop3,
-        tileGroundTopRocks,
-        tileGroundTopRocksVines,
-        tileGroundTopVines1
+        tileGroundEndR,
+        tileGroundBottomEndL,
+        tileGroundRocks3,
+        tileGroundRocks4,
+        tileGroundBottomEndR,
+        tileDestructible
     }
 
     public enum Menus
@@ -71,7 +78,8 @@ namespace Clockwork
         Select,
         Pause,
         Complete,
-        Credits
+        Credits,
+        Controls
     }
 
     internal class UILoader
@@ -193,110 +201,102 @@ namespace Clockwork
             // -- Tile Setup --
             {
                 // Load Textures
-                Texture2D tileDirtL = content.Load<Texture2D>("tileDirtL");
-                Texture2D tileDirtToGrassR = content.Load<Texture2D>("tileDirtToGrassR");
-                Texture2D tileGrass = content.Load<Texture2D>("tileGrass");
-                Texture2D tileGrassDark = content.Load<Texture2D>("tileGrassDark");
-                Texture2D tileGrassDarkToLight = content.Load<Texture2D>("tileGrassDarkToLight");
-                Texture2D tileGrassEndL = content.Load<Texture2D>("tileGrassEndL");
-                Texture2D tileGrassEndR = content.Load<Texture2D>("tileGrassEndR");
-                Texture2D tileGrassLightToDark = content.Load<Texture2D>("tileGrassLightToDark");
-                Texture2D tileGrassToDirtL = content.Load<Texture2D>("tileGrassToDirtL");
-                Texture2D tileGroundBlank = content.Load<Texture2D>("tileGroundBlank");
-                Texture2D tileGroundEndL1 = content.Load<Texture2D>("tileGroundEndL1");
-                Texture2D tileGroundEndL2 = content.Load<Texture2D>("tileGroundEndL2");
-                Texture2D tileGroundEndR1 = content.Load<Texture2D>("tileGroundEndR1");
-                Texture2D tileGroundEndR2 = content.Load<Texture2D>("tileGroundEndR2");
-                Texture2D tileGroundRocks = content.Load<Texture2D>("tileGroundRocks");
-                Texture2D tileGroundRocks2 = content.Load<Texture2D>("tileGroundRocks2");
-                Texture2D tileGroundRocksLeavesBottom = content.Load<Texture2D>("tileGroundRocksLeavesBottom");
-                Texture2D tileGroundRocksLeavesTop = content.Load<Texture2D>("tileGroundRocksLeavesTop");
-                Texture2D tileGroundTop1 = content.Load<Texture2D>("tileGroundTop1");
-                Texture2D tileGroundTop2 = content.Load<Texture2D>("tileGroundTop2");
-                Texture2D tileGroundTop3 = content.Load<Texture2D>("tileGroundTop3");
-                Texture2D tileGroundTopRocks = content.Load<Texture2D>("tileGroundTopRocks");
-                Texture2D tileGroundTopRocksVines = content.Load<Texture2D>("tileGroundTopRocksVines");
-                Texture2D tileGroundTopVines1 = content.Load<Texture2D>("tileGroundTopVines1");
+                Texture2D tileset = content.Load<Texture2D>("tileset");
 
                 // Set up Frames
                 List<Frame> tileFrames = new List<Frame>();
-                tileFrames.Add(new Frame(tileDirtL, GetRect(tileDirtL), Vector2.Zero));
-                tileFrames.Add(new Frame(tileDirtToGrassR, GetRect(tileDirtToGrassR), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGrass, GetRect(tileGrass), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGrassDark, GetRect(tileGrassDark), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGrassDarkToLight, GetRect(tileGrassDarkToLight), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGrassEndL, GetRect(tileGrassEndL), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGrassEndR, GetRect(tileGrassEndR), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGrassLightToDark, GetRect(tileGrassLightToDark), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGrassToDirtL, GetRect(tileGrassToDirtL), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundBlank, GetRect(tileGroundBlank), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundEndL1, GetRect(tileGroundEndL1), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundEndL2, GetRect(tileGroundEndL2), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundEndR1, GetRect(tileGroundEndR1), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundEndR2, GetRect(tileGroundEndR2), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundRocks, GetRect(tileGroundRocks), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundRocks2, GetRect(tileGroundRocks2), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundRocksLeavesBottom, GetRect(tileGroundRocksLeavesBottom), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundRocksLeavesTop, GetRect(tileGroundRocksLeavesTop), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundTop1, GetRect(tileGroundTop1), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundTop2, GetRect(tileGroundTop2), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundTop3, GetRect(tileGroundTop3), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundTopRocks, GetRect(tileGroundTopRocks), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundTopRocksVines, GetRect(tileGroundTopRocksVines), Vector2.Zero));
-                tileFrames.Add(new Frame(tileGroundTopVines1, GetRect(tileGroundTopVines1), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(32, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(64, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(96, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(128, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(160, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(192, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(224, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(256, 0, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 32, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(32, 32, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(64, 32, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(96, 32, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(128, 32, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(160, 32, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(192, 32, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(224, 32, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(256, 32, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 64, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(32, 64, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(64, 64, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(192, 64, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(224, 64, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(256, 64, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(0, 96, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(32, 96, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(64, 96, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(256, 96, 32, 32), Vector2.Zero));
+                tileFrames.Add(new Frame(tileset, new Rectangle(192, 96, 32, 32), Vector2.Zero));
 
                 // Set up Animations
                 Dictionary<string, Animation> tileAnimations = new Dictionary<string, Animation>();
-                tileAnimations.Add("tileDirtL", new Animation(0, 0, 1));
-                tileAnimations.Add("tileDirtToGrassR", new Animation(1, 1, 1));
-                tileAnimations.Add("tileGrass", new Animation(2, 2, 1));
-                tileAnimations.Add("tileGrassDark", new Animation(3, 3, 1));
-                tileAnimations.Add("tileGrassDarkToLight", new Animation(4, 4, 1));
-                tileAnimations.Add("tileGrassEndL", new Animation(5, 5, 1));
-                tileAnimations.Add("tileGrassEndR", new Animation(6, 6, 1));
-                tileAnimations.Add("tileGrassLightToDark", new Animation(7, 7, 1));
-                tileAnimations.Add("tileGrassToDirtL", new Animation(8, 8, 1));
-                tileAnimations.Add("tileGroundBlank", new Animation(9, 9, 1));
-                tileAnimations.Add("tileGroundEndL1", new Animation(10, 10, 1));
-                tileAnimations.Add("tileGroundEndL2", new Animation(11, 11, 1));
-                tileAnimations.Add("tileGroundEndR1", new Animation(12, 12, 1));
-                tileAnimations.Add("tileGroundEndR2", new Animation(13, 13, 1));
-                tileAnimations.Add("tileGroundRocks", new Animation(14, 14, 1));
-                tileAnimations.Add("tileGroundRocks2", new Animation(15, 15, 1));
-                tileAnimations.Add("tileGroundRocksLeavesBottom", new Animation(16, 16, 1));
-                tileAnimations.Add("tileGroundRocksLeavesTop", new Animation(17, 17, 1));
-                tileAnimations.Add("tileGroundTop1", new Animation(18, 18, 1));
-                tileAnimations.Add("tileGroundTop2", new Animation(19, 19, 1));
-                tileAnimations.Add("tileGroundTop3", new Animation(20, 20, 1));
-                tileAnimations.Add("tileGroundTopRocks", new Animation(21, 21, 1));
-                tileAnimations.Add("tileGroundTopRocksVines", new Animation(22, 22, 1));
-                tileAnimations.Add("tileGroundTopVines1", new Animation(23, 23, 1));
+                tileAnimations.Add("tileGrassTopEndL", new Animation(0, 0, 1));
+                tileAnimations.Add("tileGrassToDirtTop", new Animation(1, 1, 1));
+                tileAnimations.Add("tileDirtTop", new Animation(2, 2, 1));
+                tileAnimations.Add("tileDirtToGrassTop", new Animation(3, 3, 1));
+                tileAnimations.Add("tileGrassTop", new Animation(4, 4, 1));
+                tileAnimations.Add("tileGrassToShadeTop", new Animation(5, 5, 1));
+                tileAnimations.Add("tileShadeTop", new Animation(6, 6, 1));
+                tileAnimations.Add("tileShadeToGrassTop", new Animation(7, 7, 1));
+                tileAnimations.Add("tileGrassTopEndR", new Animation(8, 8, 1));
+                tileAnimations.Add("tileGrassEndLBottom", new Animation(9, 9, 1));
+                tileAnimations.Add("tileGrassToDirtBottom", new Animation(10, 10, 1));
+                tileAnimations.Add("tileDirtBottom", new Animation(11, 11, 1));
+                tileAnimations.Add("tileDirtToGrassBottom", new Animation(12, 12, 1));
+                tileAnimations.Add("tileGrassBottom", new Animation(13, 13, 1));
+                tileAnimations.Add("tileGrassToShadeBottom", new Animation(14, 14, 1));
+                tileAnimations.Add("tileShadeBottom", new Animation(15, 15, 1));
+                tileAnimations.Add("tileShadeToGrassBottom", new Animation(16, 16, 1));
+                tileAnimations.Add("tileGrassEndRBottom", new Animation(17, 17, 1));
+                tileAnimations.Add("tileGroundEndL", new Animation(18, 18, 1));
+                tileAnimations.Add("tileGroundRocks1", new Animation(19, 19, 1));
+                tileAnimations.Add("tileGroundRocksLeaves", new Animation(20, 20, 1));
+                tileAnimations.Add("tileGroundEmpty", new Animation(21, 21, 1));
+                tileAnimations.Add("tileGroundRocks2", new Animation(22, 22, 1));
+                tileAnimations.Add("tileGroundEndR", new Animation(23, 23, 1));
+                tileAnimations.Add("tileGroundBottomEndL", new Animation(24, 24, 1));
+                tileAnimations.Add("tileGroundRocks3", new Animation(25, 25, 1));
+                tileAnimations.Add("tileGroundRocks4", new Animation(26, 26, 1));
+                tileAnimations.Add("tileGroundBottomEndR", new Animation(27, 27, 1));
+                tileAnimations.Add("tileDestructible", new Animation(28, 28, 1));
 
                 // Create AnimatedSprites in Animation Library
-                animationLibrary.Add(Sprites.tileDirtL, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileDirtL"], Point.Zero));
-                animationLibrary.Add(Sprites.tileDirtToGrassR, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileDirtToGrassR"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGrass, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrass"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGrassDark, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassDark"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGrassDarkToLight, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassDarkToLight"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGrassEndL, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassEndL"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGrassEndR, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassEndR"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGrassLightToDark, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassLightToDark"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGrassToDirtL, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassToDirtL"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundBlank, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundBlank"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundEndL1, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundEndL1"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundEndL2, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundEndL2"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundEndR1, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundEndR1"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundEndR2, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundEndR2"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundRocks, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocks"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassTopEndL, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassTopEndL"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassToDirtTop, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassToDirtTop"], Point.Zero));
+                animationLibrary.Add(Sprites.tileDirtTop, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileDirtTop"], Point.Zero));
+                animationLibrary.Add(Sprites.tileDirtToGrassTop, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileDirtToGrassTop"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassTop, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassTop"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassToShadeTop, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassToShadeTop"], Point.Zero));
+                animationLibrary.Add(Sprites.tileShadeTop, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileShadeTop"], Point.Zero));
+                animationLibrary.Add(Sprites.tileShadeToGrassTop, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileShadeToGrassTop"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassTopEndR, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassTopEndR"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassEndLBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassEndLBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassToDirtBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassToDirtBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileDirtBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileDirtBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileDirtToGrassBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileDirtToGrassBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassToShadeBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassToShadeBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileShadeBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileShadeBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileShadeToGrassBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileShadeToGrassBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGrassEndRBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGrassEndRBottom"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundEndL, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundEndL"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundRocks1, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocks1"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundRocksLeaves, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocksLeaves"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundEmpty, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundEmpty"], Point.Zero));
                 animationLibrary.Add(Sprites.tileGroundRocks2, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocks2"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundRocksLeavesBottom, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocksLeavesBottom"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundRocksLeavesTop, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocksLeavesTop"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundTop1, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTop1"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundTop2, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTop2"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundTop3, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTop3"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundTopRocks, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTopRocks"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundTopRocksVines, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTopRocksVines"], Point.Zero));
-                animationLibrary.Add(Sprites.tileGroundTopVines1, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundTopVines1"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundEndR, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundEndR"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundBottomEndL, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundBottomEndL"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundRocks3, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocks3"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundRocks4, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundRocks4"], Point.Zero));
+                animationLibrary.Add(Sprites.tileGroundBottomEndR, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileGroundBottomEndR"], Point.Zero));
+                animationLibrary.Add(Sprites.tileDestructible, new AnimatedSprite(tileFrames, tileAnimations, tileAnimations["tileDestructible"], Point.Zero));
             }
 
             // -- Buttons Setup --
@@ -308,6 +308,8 @@ namespace Clockwork
                 Texture2D btMenu = content.Load<Texture2D>("btMenu");
                 Texture2D btLevels = content.Load<Texture2D>("btLevelSelect");
                 Texture2D btCredits = content.Load<Texture2D>("btCredits");
+                Texture2D btControls = content.Load<Texture2D>("btControls");
+                Texture2D btReset = content.Load<Texture2D>("btReset");
                 Texture2D btLevel1 = content.Load<Texture2D>("btLevel1");
                 Texture2D btLevel2 = content.Load<Texture2D>("btLevel2");
                 Texture2D btLevel3 = content.Load<Texture2D>("btLevel3");
@@ -325,8 +327,8 @@ namespace Clockwork
                 framesbtStart.Add(new Frame(btStart, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtStart = new Dictionary<string, Animation>();
                 animationsbtStart.Add("default", new Animation(0, 0, 1));
-                animationsbtStart.Add("hovered", new Animation(0, 0, 1));
-                animationsbtStart.Add("clicked", new Animation(0, 0, 1));
+                animationsbtStart.Add("hovered", new Animation(1, 1, 1));
+                animationsbtStart.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btStart, new AnimatedSprite(framesbtStart, animationsbtStart, animationsbtStart["default"], Point.Zero));
 
                 List<Frame> framesbtResume = new List<Frame>();
@@ -335,8 +337,8 @@ namespace Clockwork
                 framesbtResume.Add(new Frame(btResume, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtResume = new Dictionary<string, Animation>();
                 animationsbtResume.Add("default", new Animation(0, 0, 1));
-                animationsbtResume.Add("hovered", new Animation(0, 0, 1));
-                animationsbtResume.Add("clicked", new Animation(0, 0, 1));
+                animationsbtResume.Add("hovered", new Animation(1, 1, 1));
+                animationsbtResume.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btResume, new AnimatedSprite(framesbtResume, animationsbtResume, animationsbtResume["default"], Point.Zero));
 
                 List<Frame> framesbtNext = new List<Frame>();
@@ -345,8 +347,8 @@ namespace Clockwork
                 framesbtNext.Add(new Frame(btNext, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtNext = new Dictionary<string, Animation>();
                 animationsbtNext.Add("default", new Animation(0, 0, 1));
-                animationsbtNext.Add("hovered", new Animation(0, 0, 1));
-                animationsbtNext.Add("clicked", new Animation(0, 0, 1));
+                animationsbtNext.Add("hovered", new Animation(1, 1, 1));
+                animationsbtNext.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btNext, new AnimatedSprite(framesbtNext, animationsbtNext, animationsbtNext["default"], Point.Zero));
 
                 List<Frame> framesbtExit = new List<Frame>();
@@ -355,8 +357,8 @@ namespace Clockwork
                 framesbtExit.Add(new Frame(btExit, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtExit = new Dictionary<string, Animation>();
                 animationsbtExit.Add("default", new Animation(0, 0, 1));
-                animationsbtExit.Add("hovered", new Animation(0, 0, 1));
-                animationsbtExit.Add("clicked", new Animation(0, 0, 1));
+                animationsbtExit.Add("hovered", new Animation(1, 1, 1));
+                animationsbtExit.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btExit, new AnimatedSprite(framesbtExit, animationsbtExit, animationsbtExit["default"], Point.Zero));
 
                 List<Frame> framesbtMenu = new List<Frame>();
@@ -365,8 +367,8 @@ namespace Clockwork
                 framesbtMenu.Add(new Frame(btMenu, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtMenu = new Dictionary<string, Animation>();
                 animationsbtMenu.Add("default", new Animation(0, 0, 1));
-                animationsbtMenu.Add("hovered", new Animation(0, 0, 1));
-                animationsbtMenu.Add("clicked", new Animation(0, 0, 1));
+                animationsbtMenu.Add("hovered", new Animation(1, 1, 1));
+                animationsbtMenu.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btMenu, new AnimatedSprite(framesbtMenu, animationsbtMenu, animationsbtMenu["default"], Point.Zero));
 
                 List<Frame> framesbtLevels = new List<Frame>();
@@ -375,8 +377,8 @@ namespace Clockwork
                 framesbtLevels.Add(new Frame(btLevels, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtLevels = new Dictionary<string, Animation>();
                 animationsbtLevels.Add("default", new Animation(0, 0, 1));
-                animationsbtLevels.Add("hovered", new Animation(0, 0, 1));
-                animationsbtLevels.Add("clicked", new Animation(0, 0, 1));
+                animationsbtLevels.Add("hovered", new Animation(1, 1, 1));
+                animationsbtLevels.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btLevels, new AnimatedSprite(framesbtLevels, animationsbtLevels, animationsbtLevels["default"], Point.Zero));
 
                 List<Frame> framesbtCredits = new List<Frame>();
@@ -385,9 +387,31 @@ namespace Clockwork
                 framesbtCredits.Add(new Frame(btCredits, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtCredits = new Dictionary<string, Animation>();
                 animationsbtCredits.Add("default", new Animation(0, 0, 1));
-                animationsbtCredits.Add("hovered", new Animation(0, 0, 1));
-                animationsbtCredits.Add("clicked", new Animation(0, 0, 1));
+                animationsbtCredits.Add("hovered", new Animation(1, 1, 1));
+                animationsbtCredits.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btCredits, new AnimatedSprite(framesbtCredits, animationsbtCredits, animationsbtCredits["default"], Point.Zero));
+
+
+                List<Frame> framesbtControls = new List<Frame>();
+                framesbtControls.Add(new Frame(btControls, basic, Vector2.Zero));
+                framesbtControls.Add(new Frame(btControls, hover, Vector2.Zero));
+                framesbtControls.Add(new Frame(btControls, press, Vector2.Zero));
+                Dictionary<string, Animation> animationsbtControls = new Dictionary<string, Animation>();
+                animationsbtControls.Add("default", new Animation(0, 0, 1));
+                animationsbtControls.Add("hovered", new Animation(1, 1, 1));
+                animationsbtControls.Add("clicked", new Animation(2, 2, 1));
+                animationLibrary.Add(Sprites.btControls, new AnimatedSprite(framesbtControls, animationsbtControls, animationsbtControls["default"], Point.Zero));
+
+
+                List<Frame> framesbtReset = new List<Frame>();
+                framesbtReset.Add(new Frame(btReset, basic, Vector2.Zero));
+                framesbtReset.Add(new Frame(btReset, hover, Vector2.Zero));
+                framesbtReset.Add(new Frame(btReset, press, Vector2.Zero));
+                Dictionary<string, Animation> animationsbtReset = new Dictionary<string, Animation>();
+                animationsbtReset.Add("default", new Animation(0, 0, 1));
+                animationsbtReset.Add("hovered", new Animation(1, 1, 1));
+                animationsbtReset.Add("clicked", new Animation(2, 2, 1));
+                animationLibrary.Add(Sprites.btReset, new AnimatedSprite(framesbtReset, animationsbtReset, animationsbtReset["default"], Point.Zero));
 
                 List<Frame> framesbtLevel1 = new List<Frame>();
                 framesbtLevel1.Add(new Frame(btLevel1, basic, Vector2.Zero));
@@ -395,8 +419,8 @@ namespace Clockwork
                 framesbtLevel1.Add(new Frame(btLevel1, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtLevel1 = new Dictionary<string, Animation>();
                 animationsbtLevel1.Add("default", new Animation(0, 0, 1));
-                animationsbtLevel1.Add("hovered", new Animation(0, 0, 1));
-                animationsbtLevel1.Add("clicked", new Animation(0, 0, 1));
+                animationsbtLevel1.Add("hovered", new Animation(1, 1, 1));
+                animationsbtLevel1.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btLevel1, new AnimatedSprite(framesbtLevel1, animationsbtLevel1, animationsbtLevel1["default"], Point.Zero));
 
                 List<Frame> framesbtLevel2 = new List<Frame>();
@@ -405,8 +429,8 @@ namespace Clockwork
                 framesbtLevel2.Add(new Frame(btLevel2, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtLevel2 = new Dictionary<string, Animation>();
                 animationsbtLevel2.Add("default", new Animation(0, 0, 1));
-                animationsbtLevel2.Add("hovered", new Animation(0, 0, 1));
-                animationsbtLevel2.Add("clicked", new Animation(0, 0, 1));
+                animationsbtLevel2.Add("hovered", new Animation(1, 1, 1));
+                animationsbtLevel2.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btLevel2, new AnimatedSprite(framesbtLevel2, animationsbtLevel2, animationsbtLevel2["default"], Point.Zero));
 
                 List<Frame> framesbtLevel3 = new List<Frame>();
@@ -415,8 +439,8 @@ namespace Clockwork
                 framesbtLevel3.Add(new Frame(btLevel3, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtLevel3 = new Dictionary<string, Animation>();
                 animationsbtLevel3.Add("default", new Animation(0, 0, 1));
-                animationsbtLevel3.Add("hovered", new Animation(0, 0, 1));
-                animationsbtLevel3.Add("clicked", new Animation(0, 0, 1));
+                animationsbtLevel3.Add("hovered", new Animation(1, 1, 1));
+                animationsbtLevel3.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btLevel3, new AnimatedSprite(framesbtLevel3, animationsbtLevel3, animationsbtLevel3["default"], Point.Zero));
 
                 List<Frame> framesbtLevel4 = new List<Frame>();
@@ -435,8 +459,8 @@ namespace Clockwork
                 framesbtLevel5.Add(new Frame(btLevel5, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtLevel5 = new Dictionary<string, Animation>();
                 animationsbtLevel5.Add("default", new Animation(0, 0, 1));
-                animationsbtLevel5.Add("hovered", new Animation(0, 0, 1));
-                animationsbtLevel5.Add("clicked", new Animation(0, 0, 1));
+                animationsbtLevel5.Add("hovered", new Animation(1, 1, 1));
+                animationsbtLevel5.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btLevel5, new AnimatedSprite(framesbtLevel5, animationsbtLevel5, animationsbtLevel5["default"], Point.Zero));
 
                 List<Frame> framesbtLevel6 = new List<Frame>();
@@ -445,8 +469,8 @@ namespace Clockwork
                 framesbtLevel6.Add(new Frame(btLevel6, press, Vector2.Zero));
                 Dictionary<string, Animation> animationsbtLevel6 = new Dictionary<string, Animation>();
                 animationsbtLevel6.Add("default", new Animation(0, 0, 1));
-                animationsbtLevel6.Add("hovered", new Animation(0, 0, 1));
-                animationsbtLevel6.Add("clicked", new Animation(0, 0, 1));
+                animationsbtLevel6.Add("hovered", new Animation(1, 1, 1));
+                animationsbtLevel6.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btLevel6, new AnimatedSprite(framesbtLevel6, animationsbtLevel6, animationsbtLevel6["default"], Point.Zero));
 
             }
@@ -458,8 +482,9 @@ namespace Clockwork
                     (graphics.PreferredBackBufferWidth / 2) - ((int)Medodica72.MeasureString("Clockwork").X / 2), (graphics.PreferredBackBufferHeight / 8), 0, 0)));
                 mainMenuElements.Add("btStart", new Button(Sprites.btStart, new Point(graphics.PreferredBackBufferWidth / 2 - 48, (graphics.PreferredBackBufferHeight / 2))));
                 mainMenuElements.Add("btLevels", new Button(Sprites.btLevels, new Point(graphics.PreferredBackBufferWidth / 2 - 48, (graphics.PreferredBackBufferHeight / 2) + 34)));
-                mainMenuElements.Add("btCredits", new Button(Sprites.btCredits, new Point(graphics.PreferredBackBufferWidth / 2 - 48, (graphics.PreferredBackBufferHeight / 2) + 68)));
-                mainMenuElements.Add("btExit", new Button(Sprites.btExit, new Point(graphics.PreferredBackBufferWidth / 2 - 48, (graphics.PreferredBackBufferHeight / 2) + 102)));
+                mainMenuElements.Add("btControls", new Button(Sprites.btControls, new Point(graphics.PreferredBackBufferWidth / 2 - 48, (graphics.PreferredBackBufferHeight / 2) + 68)));
+                mainMenuElements.Add("btCredits", new Button(Sprites.btCredits, new Point(graphics.PreferredBackBufferWidth / 2 - 48, (graphics.PreferredBackBufferHeight / 2) + 102)));
+                mainMenuElements.Add("btExit", new Button(Sprites.btExit, new Point(graphics.PreferredBackBufferWidth / 2 - 48, (graphics.PreferredBackBufferHeight / 2) + 136)));
                 menuLibrary.Add(Menus.Main, new Menu(mainMenuElements));
             }
 
@@ -481,7 +506,8 @@ namespace Clockwork
             {
                 Dictionary<string, UIElement> pauseMenuElements = new Dictionary<string, UIElement>();
                 pauseMenuElements.Add("btResume", new Button(Sprites.btResume, new Point(graphics.PreferredBackBufferWidth / 2 - 48, graphics.PreferredBackBufferHeight * 2 / 5)));
-                pauseMenuElements.Add("btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth / 2 - 48, graphics.PreferredBackBufferHeight * 2 / 5 + 34)));
+                pauseMenuElements.Add("btReset", new Button(Sprites.btReset, new Point(graphics.PreferredBackBufferWidth / 2 - 48, graphics.PreferredBackBufferHeight * 2 / 5 + 34)));
+                pauseMenuElements.Add("btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth / 2 - 48, (graphics.PreferredBackBufferHeight * 2 / 5) + 68)));
                 menuLibrary.Add(Menus.Pause, new Menu(pauseMenuElements));
             }
 
@@ -509,6 +535,14 @@ namespace Clockwork
                     new Rectangle(graphics.PreferredBackBufferWidth / 32, graphics.PreferredBackBufferHeight * 13 / 16, 0, 0)));
                 creditsElements.Add("btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth * 7 / 8 - 48, graphics.PreferredBackBufferHeight * 15 / 16 - 16)));
                 menuLibrary.Add(Menus.Credits, new Menu(creditsElements));
+            }
+
+            // Controls Menu
+            {
+                Dictionary<string, UIElement> controlsElements = new Dictionary<string, UIElement>();
+                controlsElements.Add("lbControls", new TextElement("A,D: Move Player\nW: Jump\nSpace: Use Ability", Medodica48, new Rectangle(16, 0, 0, 0)));
+                controlsElements.Add("btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth * 7 / 8 - 48, graphics.PreferredBackBufferHeight * 15 / 16 - 16)));
+                menuLibrary.Add(Menus.Controls, new Menu(controlsElements));
             }
         }
 

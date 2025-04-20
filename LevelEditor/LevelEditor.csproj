@@ -9,6 +9,38 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Textures\Tiles\tileDestructible.png" />
+    <None Remove="Textures\Tiles\tileDirtBottom.png" />
+    <None Remove="Textures\Tiles\tileDirtToGrassBottom.png" />
+    <None Remove="Textures\Tiles\tileDirtToGrassTop.png" />
+    <None Remove="Textures\Tiles\tileDirtTop.png" />
+    <None Remove="Textures\Tiles\tileGrassBottom.png" />
+    <None Remove="Textures\Tiles\tileGrassEndLBottom.png" />
+    <None Remove="Textures\Tiles\tileGrassEndRBottom.png" />
+    <None Remove="Textures\Tiles\tileGrassToDirtBottom.png" />
+    <None Remove="Textures\Tiles\tileGrassToDirtTop.png" />
+    <None Remove="Textures\Tiles\tileGrassTop.png" />
+    <None Remove="Textures\Tiles\tileGrassTopEndL.png" />
+    <None Remove="Textures\Tiles\tileGrassTopEndR.png" />
+    <None Remove="Textures\Tiles\tileGrassToShadeBottom.png" />
+    <None Remove="Textures\Tiles\tileGrassToShadeTop.png" />
+    <None Remove="Textures\Tiles\tileGroundBottomEndL.png" />
+    <None Remove="Textures\Tiles\tileGroundBottomEndR.png" />
+    <None Remove="Textures\Tiles\tileGroundEmpty.png" />
+    <None Remove="Textures\Tiles\tileGroundEndL.png" />
+    <None Remove="Textures\Tiles\tileGroundEndR.png" />
+    <None Remove="Textures\Tiles\tileGroundRocks1.png" />
+    <None Remove="Textures\Tiles\tileGroundRocks2.png" />
+    <None Remove="Textures\Tiles\tileGroundRocks3.png" />
+    <None Remove="Textures\Tiles\tileGroundRocks4.png" />
+    <None Remove="Textures\Tiles\tileGroundRocksLeaves.png" />
+    <None Remove="Textures\Tiles\tileShadeBottom.png" />
+    <None Remove="Textures\Tiles\tileShadeToGrassBottom.png" />
+    <None Remove="Textures\Tiles\tileShadeToGrassTop.png" />
+    <None Remove="Textures\Tiles\tileShadeTop.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Textures\Collectibles\Chime.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -30,76 +62,91 @@
     <Content Include="Textures\Other\Exit.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\DirtL.png">
+    <Content Include="Textures\Tiles\tileDestructible.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\DirtToGrassR.png">
+    <Content Include="Textures\Tiles\tileDirtBottom.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\Grass.png">
+    <Content Include="Textures\Tiles\tileDirtToGrassBottom.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GrassDark.png">
+    <Content Include="Textures\Tiles\tileDirtToGrassTop.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GrassDarkToLight.png">
+    <Content Include="Textures\Tiles\tileDirtTop.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GrassEndL.png">
+    <Content Include="Textures\Tiles\tileGrassBottom.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GrassEndR.png">
+    <Content Include="Textures\Tiles\tileGrassEndLBottom.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GrassLightToDark.png">
+    <Content Include="Textures\Tiles\tileGrassEndRBottom.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GrassToDirtL.png">
+    <Content Include="Textures\Tiles\tileGrassToDirtBottom.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GroundBlank.png">
+    <Content Include="Textures\Tiles\tileGrassToDirtTop.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GroundEndL1.png">
+    <Content Include="Textures\Tiles\tileGrassTop.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GroundEndL2.png">
+    <Content Include="Textures\Tiles\tileGrassTopEndL.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GroundEndR1.png">
+    <Content Include="Textures\Tiles\tileGrassTopEndR.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GroundEndR2.png">
+    <Content Include="Textures\Tiles\tileGrassToShadeBottom.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GroundRocks.png">
+    <Content Include="Textures\Tiles\tileGrassToShadeTop.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GroundRocks2.png">
+    <Content Include="Textures\Tiles\tileGroundBottomEndL.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GroundRocksLeavesBottom.png">
+    <Content Include="Textures\Tiles\tileGroundBottomEndR.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GroundRocksLeavesTop.png">
+    <Content Include="Textures\Tiles\tileGroundEmpty.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GroundTop1.png">
+    <Content Include="Textures\Tiles\tileGroundEndL.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GroundTop2.png">
+    <Content Include="Textures\Tiles\tileGroundEndR.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GroundTop3.png">
+    <Content Include="Textures\Tiles\tileGroundRocks1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GroundTopRocks.png">
+    <Content Include="Textures\Tiles\tileGroundRocks2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GroundTopRocksVines.png">
+    <Content Include="Textures\Tiles\tileGroundRocks3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Textures\Tiles\GroundTopVines1.png">
+    <Content Include="Textures\Tiles\tileGroundRocks4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Textures\Tiles\tileGroundRocksLeaves.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Textures\Tiles\tileShadeBottom.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Textures\Tiles\tileShadeToGrassBottom.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Textures\Tiles\tileShadeToGrassTop.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Textures\Tiles\tileShadeTop.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
