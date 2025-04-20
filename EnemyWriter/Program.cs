@@ -23,7 +23,7 @@ namespace EnemyWriter
                 for (int j = 0; j < questions.Length; j++)
                 {
                     Console.Write(questions[j]);
-                    if (j<3)
+                    if (j<4)
                     {
                         try
                         {
