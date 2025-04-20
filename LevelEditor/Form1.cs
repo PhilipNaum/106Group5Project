@@ -190,6 +190,14 @@ namespace LevelEditor
 
                 pictureBoxMap![y, x].Image = level.GetCollectibleAt(x, y)!.Texture;
             }
+
+            // show start
+            if (level.IsPositionInMap(level.Start))
+            { pictureBoxMap![level.Start.X, level.Start.Y].Image = Objects.Start.Texture; }
+
+            // show exit
+            if (level.IsPositionInMap(level.Exit))
+            { pictureBoxMap![level.Exit.X, level.Exit.Y].Image = Objects.Exit.Texture; }
         }
 
         /// <summary>
@@ -233,12 +241,7 @@ namespace LevelEditor
             if (pictureBoxMap == null || level == null) { return; }
 
             // range check
-            if (
-                x < 0 ||
-                y < 0 ||
-                x >= level.Width ||
-                y >= level.Height
-                ) { return; }
+            if (!level.IsPositionInMap(x, y)) { return; }
 
             // resync tile
             pictureBoxMap[y, x].BackgroundImage = level.GetTileAt(x, y).Texture;
