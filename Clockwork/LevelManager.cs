@@ -4,6 +4,7 @@
  */
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Clockwork
@@ -71,9 +72,25 @@ namespace Clockwork
             "Levels/GearIntro.map",
             "Levels/ChimeIntro.map",
             "Levels/RewindIntro.map",
-            "Levels/HandIntro.map"
-            //"Levels/AOEDash.map",
-            //"Levels/AOETimer.map"
+            "Levels/HandIntro.map",
+            "Levels/AOEDash.map",
+            "Levels/AOERewind.map",
+            "Levels/BreakableTilesIntro.map"
+        };
+
+        private static string[] enemyFilenames =
+        {
+            "Enemies/TestMapEnemies.data",
+            "none",
+            "none",
+            "none",
+            "Enemies/GearIntroEnemies.data",
+            "none",
+            "none",
+            "Enemies/HandIntroEnemies.data",
+            "none",
+            "Enemies/AOERewindEnemies.data",
+            "none"
         };
 
         /// <summary>
@@ -135,9 +152,51 @@ namespace Clockwork
                     ));
             }
 
+            level.Enemies.AddRange(LoadEnemies(filename));
+
             input.Close();
 
             return level;
+        }
+        private static List<Enemy> LoadEnemies(string filename)
+        {
+
+            List<Enemy> enemies = new List<Enemy>();
+
+            //get the enemy file that corresponds to this level
+            int index = Array.IndexOf(levelFilenames, filename);
+            string currentEnemyFile = enemyFilenames[index];
+
+            if (currentEnemyFile == "none")
+            {
+                return enemies;
+            }
+
+            FileStream stream;
+            try { stream = File.OpenRead(currentEnemyFile); }
+            catch (Exception) { return enemies; }
+
+            BinaryReader input = new BinaryReader(stream);
+
+            int enemyCount = input.ReadInt32();
+            for (int i = 0; i < enemyCount; i++)
+            {
+                //get enemy position
+                Vector2 enemyPos = new Vector2(input.ReadInt32(), input.ReadInt32());
+
+                //get enemy range
+                int range = input.ReadInt32();
+
+                //get enemy size
+                int size = input.ReadInt32();
+
+                //get enemy health
+                int health = input.ReadInt32();
+
+                enemies.Add(new Enemy(enemyPos, new Vector2(size, size), new Vector2(-.5f, 0), range, health));
+            }
+
+            return enemies;
         }
 
         private int currentLevelIndex;

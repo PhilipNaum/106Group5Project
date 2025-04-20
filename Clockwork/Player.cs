@@ -192,12 +192,12 @@ namespace Clockwork
                         if (horDir >= 0)
                         {
                             currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + Size.Y / 2),
-                                new Vector2(50, 50), Type.Hand, 1, 5);
+                                new Vector2(50, 50), Type.Hand, 1, 10);
                         }
                         else if (horDir < 0)
                         {
                             currentItem = new Collectible(new Vector2(this.Position.X - Size.X, this.Position.Y + Size.Y / 2),
-                                new Vector2(50, 50), Type.Hand, 1, 5);
+                                new Vector2(50, 50), Type.Hand, 1, 10);
                         }
                         currentItem.Home = this.Position;
 
@@ -207,7 +207,7 @@ namespace Clockwork
                         {
                             currentItem = new Collectible(
                             new Vector2(this.Position.X - 20, this.Position.Y - Size.Y / 4),
-                            new Vector2(72,96), Type.Chime, 1, 3);
+                            new Vector2(72,96), Type.Chime, 1, 5);
                         }
                         break;
                     case Ability.Undo:

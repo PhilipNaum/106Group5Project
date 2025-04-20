@@ -172,14 +172,6 @@ namespace Clockwork
                     }
                     velocity.X *= -1;
                 }
-                if (other is Player)
-                {
-                    //decrease player health
-                    //move player back
-                    Player player = (Player)other;
-                    //something like player.health -= 10;
-                    //some set amount of damage for all enemies? or maybe each enemy does its own damage
-                }
                 if (other is Collectible)
                 {
                     //depending on the type of collectible, decrease health
@@ -296,7 +288,7 @@ namespace Clockwork
             }
         }
 
-       
+
 
         /// <summary>
         /// return false if the enemy is dead,
@@ -304,11 +296,15 @@ namespace Clockwork
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public override bool IsColliding(GameObject other)
+        public override Rectangle GetRectangle()
         {
-            if (isDead) return false;
-            else return base.IsColliding(other);
+            if (isDead)
+            {
+                return new Rectangle(0, 0, 0, 0);
+            }
+            return base.GetRectangle();
         }
+
 
         /// <summary>
         /// subcribes to collectibles keyTurn event
