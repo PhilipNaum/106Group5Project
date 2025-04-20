@@ -190,6 +190,14 @@ namespace LevelEditor
 
                 pictureBoxMap![y, x].Image = level.GetCollectibleAt(x, y)!.Texture;
             }
+
+            // show start
+            if (level.IsPositionInMap(level.Start))
+            { pictureBoxMap![level.Start.Y, level.Start.X].Image = Objects.Start.Texture; }
+
+            // show exit
+            if (level.IsPositionInMap(level.Exit))
+            { pictureBoxMap![level.Exit.Y, level.Exit.X].Image = Objects.Exit.Texture; }
         }
 
         /// <summary>
@@ -223,6 +231,36 @@ namespace LevelEditor
         }
 
         /// <summary>
+        /// resync the picture on tile to level
+        /// </summary>
+        /// <param name="x">x</param>
+        /// <param name="y">y</param>
+        private void ResyncTilePicture(int x, int y)
+        {
+            // return if not ready
+            if (pictureBoxMap == null || level == null) { return; }
+
+            // range check
+            if (!level.IsPositionInMap(x, y)) { return; }
+
+            // resync tile
+            pictureBoxMap[y, x].BackgroundImage = level.GetTileAt(x, y).Texture;
+
+            // resync collectibe
+            ObjectType? collectible = level.GetCollectibleAt(x, y);
+            if (collectible != null) { pictureBoxMap[y, x].Image = collectible.Texture; }
+            else { pictureBoxMap[y, x].Image = null; }
+
+            // resync start
+            if (level.Start == new Point(x, y))
+            { pictureBoxMap[y, x].Image = Objects.Start.Texture; }
+
+            // resync exit
+            if (level.Exit == new Point(x, y))
+            { pictureBoxMap[y, x].Image = Objects.Exit.Texture; }
+        }
+
+        /// <summary>
         /// paints the selected tile / collectible
         /// </summary>
         /// <param name="x">x</param>
@@ -237,26 +275,53 @@ namespace LevelEditor
                 ) { return; }
 
             // check object category
-            if (selected.Category == ObjectCategory.Tile)
+            switch (selected.Category)
             {
-                // paint tile
-                level.SetTileAt(x, y, selected);
-                pictureBoxMap[y, x].BackgroundImage = selected.Texture;
-            }
-            else if (selected.Category == ObjectCategory.Collectible)
-            {
-                // remove collectible if it's already placed
-                if (level.GetCollectibleAt(x, y) == selected)
-                {
-                    level.RemoveCollectibleAt(x, y);
-                    pictureBoxMap[y, x].Image = null;
-                }
-                else
-                {
-                    // place collectible
-                    level.SetCollectibleAt(x, y, selected);
+                case ObjectCategory.Tile:
+                    // paint tile
+                    level.SetTileAt(x, y, selected);
+                    pictureBoxMap[y, x].BackgroundImage = selected.Texture;
+
+                    break;
+                case ObjectCategory.Collectible:
+                    // remove collectible if it's already placed
+                    if (level.GetCollectibleAt(x, y) == selected)
+                    {
+                        level.RemoveCollectibleAt(x, y);
+                        pictureBoxMap[y, x].Image = null;
+                    }
+                    else
+                    {
+                        // place collectible
+                        level.SetCollectibleAt(x, y, selected);
+                        pictureBoxMap[y, x].Image = selected.Texture;
+                    }
+
+                    break;
+                case ObjectCategory.Start:
+                    // get previous start position
+                    Point previousStart = level.Start;
+
+                    // place new start
+                    level.Start = new Point(x, y);
                     pictureBoxMap[y, x].Image = selected.Texture;
-                }
+
+                    // reset old start
+                    ResyncTilePicture(previousStart.X, previousStart.Y);
+
+                    break;
+                case ObjectCategory.Exit:
+                    // get previous exit position
+                    Point previousExit = level.Exit;
+
+                    // place new exit
+                    level.Exit = new Point(x, y);
+                    pictureBoxMap[y, x].Image = selected.Texture;
+
+                    // reset old exit
+                    ResyncTilePicture(previousExit.X, previousExit.Y);
+
+                    break;
             }
         }
 
@@ -354,5 +419,17 @@ namespace LevelEditor
             // try to save level
             TrySaveLevel(saveFileDialogSaveMap.FileName);
         }
+
+        /// <summary>
+        /// when the start selection button is clicked
+        /// </summary>
+        private void buttonStart_Click(object sender, EventArgs e)
+        { SelectObject(Objects.Start); }
+
+        /// <summary>
+        /// when the start selection button is clicked
+        /// </summary>
+        private void buttonExit_Click(object sender, EventArgs e)
+        { SelectObject(Objects.Exit); }
     }
 }

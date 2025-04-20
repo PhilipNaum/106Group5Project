@@ -74,6 +74,8 @@ namespace Clockwork
             get { return home; }
             set { home = value; }
         }
+        public delegate void Reverse(GameTime gt);
+        public event Reverse KeyTurn;
 
         public Collectible(Vector2 position, Vector2 size, Type collectibletype, int mode) : base(position, size, collectibletype)
         {
@@ -85,8 +87,12 @@ namespace Clockwork
             switch (collectibleType)
             {
                 case (Type.Chime):
-                    timer = .1667;
+                    timer = .5;
                     break;
+            }
+            if (collectibletype == Type.Key && mode == 1)
+            {
+
             }
         }
         
@@ -103,8 +109,6 @@ namespace Clockwork
                 base.Draw(sb);
             }
         }
-            
-        
 
         /// <summary>
         /// Makes the item float up and down before being collected if mode is 0;
@@ -174,6 +178,9 @@ namespace Clockwork
                             mode = 2;
                         }
                         break;
+                    case Type.Key:
+                        KeyTurn(gt);
+                        break;
                 }
             }
             base.Update(gt);
@@ -200,22 +207,28 @@ namespace Clockwork
                 if (other is Enemy)
                 {
                     Enemy otherEnemy = (Enemy)other;
-                        switch (collectibleType)
-                        {
-                            case Type.Gear:
+                    switch (collectibleType)
+                    {
+                        case Type.Gear:
                                 
-                                //if (mode == 1)
-                                //{
-                                //    mode = 2;
-                                //}
-                                break;
-                        }
+                            //if (mode == 1)
+                            //{
+                            //    mode = 2;
+                            //}
+                            break;
+                    }
                 }
 
                 if (other is Tile && mode == 1)
                 {
-                    if(collectibleType==Type.Gear)
-                    mode = 2;
+                    if (collectibleType == Type.Gear)
+                    {
+                        mode = 2;
+                    }
+                    else if (collectibleType == Type.Chime)
+                    {
+                        ((Tile)other).TileWeaponCollision();
+                    }
                 }
             }
         }
@@ -232,7 +245,5 @@ namespace Clockwork
             }
             return base.GetRectangle();
         }
-
-
     }
 }
