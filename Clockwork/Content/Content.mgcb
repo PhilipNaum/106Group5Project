@@ -193,6 +193,18 @@
 /processorParam:TextureFormat=Color
 /build:empty.png
 
+#begin Enemies/AOERewindEnemies.data
+/copy:Enemies/AOERewindEnemies.data
+
+#begin Enemies/GearIntroEnemies.data
+/copy:Enemies/GearIntroEnemies.data
+
+#begin Enemies/HandIntroEnemies.data
+/copy:Enemies/HandIntroEnemies.data
+
+#begin Enemies/TestMapEnemies.data
+/copy:Enemies/TestMapEnemies.data
+
 #begin Enemy.png
 /importer:TextureImporter
 /processor:TextureProcessor

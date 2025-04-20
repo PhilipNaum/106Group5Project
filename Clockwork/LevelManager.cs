@@ -80,13 +80,13 @@ namespace Clockwork
         {
             "none",
             "none",
-            "Enemies/GearIntroEnemies.data",
+            "Content/Enemies/GearIntroEnemies.data",
             "none",
             "none",
-            "Enemies/HandIntroEnemies.data",
+            "Content/Enemies/HandIntroEnemies.data",
             "none",
             "none",
-            "Enemies/AOERewindEnemies.data"
+            "Content/Enemies/AOERewindEnemies.data"
         };
 
         /// <summary>
