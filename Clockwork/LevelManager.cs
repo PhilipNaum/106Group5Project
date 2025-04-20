@@ -152,8 +152,8 @@ namespace Clockwork
                     ));
             }
 
+            level.SetExit(new Exit(new Vector2(input.ReadInt32(), input.ReadInt32())));
             level.Enemies.AddRange(LoadEnemies(filename));
-
             input.Close();
 
             return level;

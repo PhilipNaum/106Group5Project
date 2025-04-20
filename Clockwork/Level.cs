@@ -16,6 +16,7 @@ namespace Clockwork
         private Tile[,] map;
         private List<Tile> collidableTiles;
         private List<Collectible> collectibles;
+        private Exit exit;
         private List<Enemy> enemies;
 
         /// <summary>
@@ -52,6 +53,12 @@ namespace Clockwork
         }
 
         /// <summary>
+        /// Set the exit of the level
+        /// </summary>
+        /// <param name="e">Exit to set to</param>
+        public void SetExit(Exit e) { exit = e; }
+
+        /// <summary>
         /// draws all objects in the level
         /// </summary>
         public void Draw(SpriteBatch spriteBatch)
@@ -71,6 +78,7 @@ namespace Clockwork
         /// </summary>
         public void Update(GameTime gameTime)
         { 
+            exit.ExitCheck(this);
             foreach (Collectible collectible in collectibles) 
             { 
                 collectible.Update(gameTime); 
