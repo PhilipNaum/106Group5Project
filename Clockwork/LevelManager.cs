@@ -70,10 +70,10 @@ namespace Clockwork
             "Levels/ChimeIntro.map",
             "Levels/RewindIntro.map",
             "Levels/HandIntro.map",
-            "Levels/BreakableTilesIntro.map",
+            //"Levels/BreakableTilesIntro.map",
             "Levels/DestructibleLevel.map",
-            "Levels/AOEDash.map",
-            "Levels/AOERewind.map"
+            //"Levels/AOEDash.map",
+            //"Levels/AOERewind.map"
         };
 
         private static string[] enemyFilenames =
@@ -148,7 +148,7 @@ namespace Clockwork
                     ));
             }
 
-            level.StartPosition = new Vector2(input.ReadInt32() * 32 + 32, input.ReadInt32() * 32);
+            level.StartPosition = new Vector2(input.ReadInt32() * 32, input.ReadInt32() * 32);
             level.SetExit(new Exit(new Vector2(input.ReadInt32() * 32, input.ReadInt32() * 32)));
             level.Enemies.AddRange(LoadEnemies(filename));
             input.Close();
