@@ -40,6 +40,9 @@ namespace Clockwork
         btLevel4,
         btLevel5,
         btLevel6,
+        btLevel7,
+        btLevel8,
+        btLevel9,
 
         tileGrassTopEndL,
         tileGrassToDirtTop,
@@ -316,6 +319,9 @@ namespace Clockwork
                 Texture2D btLevel4 = content.Load<Texture2D>("btLevel4");
                 Texture2D btLevel5 = content.Load<Texture2D>("btLevel5");
                 Texture2D btLevel6 = content.Load<Texture2D>("btLevel6");
+                Texture2D btLevel7 = content.Load<Texture2D>("btLevel7");
+                Texture2D btLevel8 = content.Load<Texture2D>("btLevel8");
+                Texture2D btLevel9 = content.Load<Texture2D>("btLevel9");
 
                 Rectangle basic = new Rectangle(0, 0, 96, 32);
                 Rectangle hover = new Rectangle(0, 32, 96, 32);
@@ -473,6 +479,36 @@ namespace Clockwork
                 animationsbtLevel6.Add("clicked", new Animation(2, 2, 1));
                 animationLibrary.Add(Sprites.btLevel6, new AnimatedSprite(framesbtLevel6, animationsbtLevel6, animationsbtLevel6["default"], Point.Zero));
 
+                List<Frame> framesbtLevel7 = new List<Frame>();
+                framesbtLevel7.Add(new Frame(btLevel7, basic, Vector2.Zero));
+                framesbtLevel7.Add(new Frame(btLevel7, hover, Vector2.Zero));
+                framesbtLevel7.Add(new Frame(btLevel7, press, Vector2.Zero));
+                Dictionary<string, Animation> animationsbtLevel7 = new Dictionary<string, Animation>();
+                animationsbtLevel7.Add("default", new Animation(0, 0, 1));
+                animationsbtLevel7.Add("hovered", new Animation(1, 1, 1));
+                animationsbtLevel7.Add("clicked", new Animation(2, 2, 1));
+                animationLibrary.Add(Sprites.btLevel7, new AnimatedSprite(framesbtLevel7, animationsbtLevel7, animationsbtLevel7["default"], Point.Zero));
+
+                List<Frame> framesbtLevel8 = new List<Frame>();
+                framesbtLevel8.Add(new Frame(btLevel8, basic, Vector2.Zero));
+                framesbtLevel8.Add(new Frame(btLevel8, hover, Vector2.Zero));
+                framesbtLevel8.Add(new Frame(btLevel8, press, Vector2.Zero));
+                Dictionary<string, Animation> animationsbtLevel8 = new Dictionary<string, Animation>();
+                animationsbtLevel8.Add("default", new Animation(0, 0, 1));
+                animationsbtLevel8.Add("hovered", new Animation(1, 1, 1));
+                animationsbtLevel8.Add("clicked", new Animation(2, 2, 1));
+                animationLibrary.Add(Sprites.btLevel8, new AnimatedSprite(framesbtLevel8, animationsbtLevel8, animationsbtLevel8["default"], Point.Zero));
+
+                List<Frame> framesbtLevel9 = new List<Frame>();
+                framesbtLevel9.Add(new Frame(btLevel9, basic, Vector2.Zero));
+                framesbtLevel9.Add(new Frame(btLevel9, hover, Vector2.Zero));
+                framesbtLevel9.Add(new Frame(btLevel9, press, Vector2.Zero));
+                Dictionary<string, Animation> animationsbtLevel9 = new Dictionary<string, Animation>();
+                animationsbtLevel9.Add("default", new Animation(0, 0, 1));
+                animationsbtLevel9.Add("hovered", new Animation(1, 1, 1));
+                animationsbtLevel9.Add("clicked", new Animation(2, 2, 1));
+                animationLibrary.Add(Sprites.btLevel9, new AnimatedSprite(framesbtLevel9, animationsbtLevel9, animationsbtLevel9["default"], Point.Zero));
+
             }
 
             // -- Main Menu --
@@ -492,12 +528,15 @@ namespace Clockwork
             {
                 Dictionary<string, UIElement> levelSelectElements = new Dictionary<string, UIElement>();
                 levelSelectElements.Add("lbTitle", new TextElement("Level Select:", Medodica48, new Rectangle(graphics.PreferredBackBufferWidth / 32, 0, 0, 0)));
-                levelSelectElements.Add("btLevel1", new Button(Sprites.btLevel1, new Point(graphics.PreferredBackBufferWidth / 4 - 48, graphics.PreferredBackBufferHeight / 3)));
-                levelSelectElements.Add("btLevel2", new Button(Sprites.btLevel2, new Point(graphics.PreferredBackBufferWidth / 2 - 48, graphics.PreferredBackBufferHeight / 3)));
-                levelSelectElements.Add("btLevel3", new Button(Sprites.btLevel3, new Point(graphics.PreferredBackBufferWidth * 3 / 4 - 48, graphics.PreferredBackBufferHeight / 3)));
-                levelSelectElements.Add("btLevel4", new Button(Sprites.btLevel4, new Point(graphics.PreferredBackBufferWidth / 4 - 48, graphics.PreferredBackBufferHeight * 2 / 3)));
-                levelSelectElements.Add("btLevel5", new Button(Sprites.btLevel5, new Point(graphics.PreferredBackBufferWidth / 2 - 48, graphics.PreferredBackBufferHeight * 2 / 3)));
-                levelSelectElements.Add("btLevel6", new Button(Sprites.btLevel6, new Point(graphics.PreferredBackBufferWidth * 3 / 4 - 48, graphics.PreferredBackBufferHeight * 2 / 3)));
+                levelSelectElements.Add("btLevel1", new Button(Sprites.btLevel1, new Point(graphics.PreferredBackBufferWidth / 4 - 48, graphics.PreferredBackBufferHeight / 4)));
+                levelSelectElements.Add("btLevel2", new Button(Sprites.btLevel2, new Point(graphics.PreferredBackBufferWidth / 2 - 48, graphics.PreferredBackBufferHeight / 4)));
+                levelSelectElements.Add("btLevel3", new Button(Sprites.btLevel3, new Point(graphics.PreferredBackBufferWidth * 3 / 4 - 48, graphics.PreferredBackBufferHeight / 4)));
+                levelSelectElements.Add("btLevel4", new Button(Sprites.btLevel4, new Point(graphics.PreferredBackBufferWidth / 4 - 48, graphics.PreferredBackBufferHeight / 2)));
+                levelSelectElements.Add("btLevel5", new Button(Sprites.btLevel5, new Point(graphics.PreferredBackBufferWidth / 2 - 48, graphics.PreferredBackBufferHeight / 2)));
+                levelSelectElements.Add("btLevel6", new Button(Sprites.btLevel6, new Point(graphics.PreferredBackBufferWidth * 3 / 4 - 48, graphics.PreferredBackBufferHeight / 2)));
+                levelSelectElements.Add("btLevel7", new Button(Sprites.btLevel7, new Point(graphics.PreferredBackBufferWidth / 4 - 48, graphics.PreferredBackBufferHeight * 3 / 4)));
+                levelSelectElements.Add("btLevel8", new Button(Sprites.btLevel8, new Point(graphics.PreferredBackBufferWidth / 2 - 48, graphics.PreferredBackBufferHeight * 3 / 4)));
+                levelSelectElements.Add("btLevel9", new Button(Sprites.btLevel9, new Point(graphics.PreferredBackBufferWidth * 3 / 4 - 48, graphics.PreferredBackBufferHeight * 3 / 4)));
                 levelSelectElements.Add("btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth * 7 / 8 - 48, graphics.PreferredBackBufferHeight * 15 / 16 - 16)));
                 menuLibrary.Add(Menus.Select, new Menu(levelSelectElements));
             }
