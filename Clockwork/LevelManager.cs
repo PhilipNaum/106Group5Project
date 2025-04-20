@@ -4,6 +4,7 @@
  */
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Clockwork
@@ -44,7 +45,7 @@ namespace Clockwork
             new(false, true, Sprites.tileGrassLightToDark),
             new(false, true, Sprites.tileGrassToDirtL),
             new(false, true, Sprites.tileGroundBlank),
-            new(false, true, Sprites.tileGroundEndL1),
+            new(true, true, Sprites.tileGroundEndL1),
             new(false, true, Sprites.tileGroundEndL2),
             new(false, true, Sprites.tileGroundEndR1),
             new(false, true, Sprites.tileGroundEndL2),
@@ -64,13 +65,32 @@ namespace Clockwork
         /// an array of all filenames of levels
         /// </summary>
         private static string[] levelFilenames = {
-            //"Levels/TestMap.map",
             "Levels/TestMapAbil.map",
-            "..\\..\\..\\Levels/DemoLevel2.map",
-            "..\\..\\..\\Levels/DemoLevel3.map",
-            "..\\..\\..\\Levels/DemoLevel4.map",
-            "..\\..\\..\\Levels/DemoLevel5.map",
-            "..\\..\\..\\Levels/DemoLevel6.map"
+            "Levels/DemoLevel2.map",
+            "Levels/DestructibleLevel.map",
+            "Levels/MovementIntro.map",
+            "Levels/GearIntro.map",
+            "Levels/ChimeIntro.map",
+            "Levels/RewindIntro.map",
+            "Levels/HandIntro.map",
+            "Levels/AOEDash.map",
+            "Levels/AOERewind.map",
+            "Levels/BreakableTilesIntro.map"
+        };
+
+        private static string[] enemyFilenames =
+        {
+            "Enemies/TestMapEnemies.data",
+            "none",
+            "none",
+            "none",
+            "Enemies/GearIntroEnemies.data",
+            "none",
+            "none",
+            "Enemies/HandIntroEnemies.data",
+            "none",
+            "Enemies/AOERewindEnemies.data",
+            "none"
         };
 
         /// <summary>
@@ -106,10 +126,7 @@ namespace Clockwork
 
                     // place tile on the map
                     level.Map[y, x] = new Tile(tileType, new Point(x, y));
-                    if (tileType.Collidable)
-                    {
-                        level.collidableTiles.Add(level.Map[y, x]);
-                    }
+                    if (tileType.Collidable) { level.CollidableTiles.Add(level.Map[y, x]); }
                 }
             }
 
@@ -136,10 +153,50 @@ namespace Clockwork
             }
 
             level.SetExit(new Exit(new Vector2(input.ReadInt32(), input.ReadInt32())));
-
+            level.Enemies.AddRange(LoadEnemies(filename));
             input.Close();
 
             return level;
+        }
+        private static List<Enemy> LoadEnemies(string filename)
+        {
+
+            List<Enemy> enemies = new List<Enemy>();
+
+            //get the enemy file that corresponds to this level
+            int index = Array.IndexOf(levelFilenames, filename);
+            string currentEnemyFile = enemyFilenames[index];
+
+            if (currentEnemyFile == "none")
+            {
+                return enemies;
+            }
+
+            FileStream stream;
+            try { stream = File.OpenRead(currentEnemyFile); }
+            catch (Exception) { return enemies; }
+
+            BinaryReader input = new BinaryReader(stream);
+
+            int enemyCount = input.ReadInt32();
+            for (int i = 0; i < enemyCount; i++)
+            {
+                //get enemy position
+                Vector2 enemyPos = new Vector2(input.ReadInt32(), input.ReadInt32());
+
+                //get enemy range
+                int range = input.ReadInt32();
+
+                //get enemy size
+                int size = input.ReadInt32();
+
+                //get enemy health
+                int health = input.ReadInt32();
+
+                enemies.Add(new Enemy(enemyPos, new Vector2(size, size), new Vector2(-.5f, 0), range, health));
+            }
+
+            return enemies;
         }
 
         private int currentLevelIndex;
@@ -161,11 +218,11 @@ namespace Clockwork
         /// <param name="index">level index</param>
         public void SetCurrentLevel(int index)
         {
-            if (index >= 0 && index < levelFilenames.Length)
-            {
-                currentLevel = LoadLevel(levelFilenames[index]);
-                currentLevelIndex = index;
-            }
+            // range check
+            if (index < 0 || index >= levelFilenames.Length) { return; }
+
+            currentLevel = LoadLevel(levelFilenames[index]);
+            currentLevelIndex = index;
         }
 
         /// <summary>
@@ -177,6 +234,15 @@ namespace Clockwork
         {
             currentLevel = LoadLevel(filename);
             currentLevelIndex = index;
+        }
+
+        /// <summary>
+        /// Reloads the current level.
+        /// Used for player deaths and restarting.
+        /// </summary>
+        public void ReloadLevel()
+        {
+            SetCurrentLevel(currentLevelIndex);
         }
     }
 }

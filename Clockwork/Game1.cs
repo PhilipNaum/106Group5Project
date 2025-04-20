@@ -218,38 +218,46 @@ namespace Clockwork
             // update sprite because player may have moved from collisions.
             player.SpriteUpdate(gameTime);
 
-            for (int i = 0; i < enemies.Count; i++)
+            for (int i = 0; i < LevelManager.Instance.CurrentLevel.Enemies.Count; i++)
             {
-                enemies[i].Update(gameTime);
-
-                for (int j = 0; j < enemies.Count; j++)
+                for (int j = 0; j < LevelManager.Instance.CurrentLevel.Enemies.Count; j++)
                 {
                     if (j != i)
                     {
-                        enemies[i].CollisionResponse(enemies[j]);
+                        LevelManager.Instance.CurrentLevel.Enemies[i].CollisionResponse(LevelManager.Instance.CurrentLevel.Enemies[j]);
                     }
                 }
 
                 if (player.CurrentItem != null && player.CurrentItem.Mode != 2)
                 {
-                    player.CurrentItem.CollisionResponse(enemies[i]);
-                    enemies[i].CollisionResponse(player.CurrentItem);
+                    player.CurrentItem.CollisionResponse(LevelManager.Instance.CurrentLevel.Enemies[i]);
+                    LevelManager.Instance.CurrentLevel.Enemies[i].CollisionResponse(player.CurrentItem);
+                    if(player.CurrentItem.CollectibleType == Type.Key)
+                    {
+                        player.CurrentItem.KeyTurn += LevelManager.Instance.CurrentLevel.Enemies[i].DeathCheck;
+                    }
                 }
 
 
                 for(int j = 0; j < LevelManager.Instance.CurrentLevel.CollidableTiles.Count; j++)
                 {
-                    enemies[i].CollisionResponse(LevelManager.Instance.CurrentLevel.CollidableTiles[j]);
+                    if (LevelManager.Instance.CurrentLevel.CollidableTiles[i].Active)
+                        LevelManager.Instance.CurrentLevel.Enemies[i].CollisionResponse(LevelManager.Instance.CurrentLevel.CollidableTiles[j]);
                 }
 
-                player.CollisionResponse(enemies[i]);
+                player.CollisionResponse(LevelManager.Instance.CurrentLevel.Enemies[i]);
             }
 
             if (player.CurrentItem != null)
             {
-                for(int i = 0; i < LevelManager.Instance.CurrentLevel.CollidableTiles.Count; i++)
+                for (int i = 0; i < LevelManager.Instance.CurrentLevel.CollidableTiles.Count; i++)
                 {
-                    player.CurrentItem.CollisionResponse(LevelManager.Instance.CurrentLevel.CollidableTiles[i]);
+                    if (LevelManager.Instance.CurrentLevel.CollidableTiles[i].Active)
+                        player.CurrentItem.CollisionResponse(LevelManager.Instance.CurrentLevel.CollidableTiles[i]);
+                    if (LevelManager.Instance.CurrentLevel.CollidableTiles[i].TileType.Breakable)
+                    {
+                        player.CurrentItem.KeyTurn += LevelManager.Instance.CurrentLevel.CollidableTiles[i].Fix;
+                    }
                 }
             }
 
@@ -261,14 +269,14 @@ namespace Clockwork
                     player.CollisionResponse(LevelManager.Instance.CurrentLevel.Collectibles[i]);
                     //collectibles[i].CollisionResponse(player);
                 }
-
-                
             }
 
+            // if the player exits the bounds of the screen reset them and the level.
             if (!player.GetRectangle().Intersects(new Rectangle(0, 0, 
                 _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight)))
             {
                 player.ResetPlayer();
+                LevelManager.Instance.ReloadLevel();
             }
         }
 
@@ -315,7 +323,7 @@ namespace Clockwork
             List<Tile> collisions = new List<Tile>();
             foreach (Tile t in LevelManager.Instance.CurrentLevel.CollidableTiles)
             {
-                if (player.IsCollidingPrecise(t))
+                if (t.Active && player.IsCollidingPrecise(t))
                 {
                     collisions.Add(t);
                 }
@@ -362,6 +370,8 @@ namespace Clockwork
 
                             playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
                             playerVel.X = 0;
+
+                            collider.TilePlayerCollision();
                         }
                         // moving left
                         else if (playerVel.X < 0 && player.Left <= collider.Right
@@ -371,6 +381,8 @@ namespace Clockwork
 
                             playerPos.X -= col.Z * Math.Sign(collider.Position.X - playerPos.X);
                             playerVel.X = 0;
+                            
+                            collider.TilePlayerCollision();
                         }
                     }
                 }
@@ -397,6 +409,8 @@ namespace Clockwork
                             playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
                             playerVel.Y = 0;
                             player.Grounded = true;
+
+                            collider.TilePlayerCollision();
                         }
                         // moving upwards (collision with head)
                         // player.Bottom > collider.Bottom stops velocity from being
@@ -407,6 +421,8 @@ namespace Clockwork
                         {
                             playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
                             playerVel.Y = 0;
+
+                            collider.TilePlayerCollision();
                         }
                     }
 
@@ -470,9 +486,9 @@ namespace Clockwork
 
             player.Draw(_spriteBatch);
 
-            for (int i = 0; i < enemies.Count; i++)
+            for (int i = 0; i < LevelManager.Instance.CurrentLevel.Enemies.Count; i++)
             {
-                enemies[i].Draw(_spriteBatch);
+                LevelManager.Instance.CurrentLevel.Enemies[i].Draw(_spriteBatch);
             }
 
             for (int i = 0; i < LevelManager.Instance.CurrentLevel.Collectibles.Count; i++)
@@ -481,12 +497,12 @@ namespace Clockwork
             }
 
             LevelManager.Instance.CurrentLevel.Draw(_spriteBatch);
+
         }
 
         private void DrawPause()
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            player.ResetPlayer();
             DrawGame();
             _spriteBatch.Draw(scrim, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
             pauseMenu.Draw(_spriteBatch);

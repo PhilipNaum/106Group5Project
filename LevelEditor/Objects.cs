@@ -43,14 +43,27 @@
             new ObjectType("Textures/Collectibles/Chime.png", ObjectCategory.Collectible),
         };
 
+        private static ObjectType start = new ObjectType("Textures/Other/Start.png", ObjectCategory.Start);
+        private static ObjectType exit = new ObjectType("Textures/Other/Exit.png", ObjectCategory.Exit);
+
         /// <summary>
         /// array of all tile types
         /// </summary>
-        internal static ObjectType[] TileTypes { get => tileTypes; }
+        public static ObjectType[] TileTypes { get => tileTypes; }
 
         /// <summary>
         /// array of all collectible types
         /// </summary>
-        internal static ObjectType[] CollectibleTypes { get => collectibleTypes; }
+        public static ObjectType[] CollectibleTypes { get => collectibleTypes; }
+
+        /// <summary>
+        /// the start object type
+        /// </summary>
+        public static ObjectType Start { get => start; }
+
+        /// <summary>
+        /// the exit object type
+        /// </summary>
+        public static ObjectType Exit { get => exit; }
     }
 }

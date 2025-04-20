@@ -14,24 +14,30 @@ namespace Clockwork
     internal class Level
     {
         private Tile[,] map;
-        internal List<Tile> collidableTiles;
+        private List<Tile> collidableTiles;
         private List<Collectible> collectibles;
         private Exit exit;
+        private List<Enemy> enemies;
 
         /// <summary>
         /// the tile map for the level
         /// </summary>
-        internal Tile[,] Map { get => map; }
+        public Tile[,] Map { get => map; }
 
         /// <summary>
         /// a list of the collidable tiles in the level, used for collision checks
         /// </summary>
-        internal List<Tile> CollidableTiles { get => collidableTiles; }
+        public List<Tile> CollidableTiles { get => collidableTiles; }
 
         /// <summary>
         /// a list of collectibles in the level
         /// </summary>
-        internal List<Collectible> Collectibles { get => collectibles; }
+        public List<Collectible> Collectibles { get => collectibles; }
+
+        /// <summary>
+        /// a list of enemies in the level
+        /// </summary>
+        public List<Enemy> Enemies { get => enemies; }
 
         /// <summary>
         /// creates an empty level
@@ -43,6 +49,7 @@ namespace Clockwork
 
             collectibles = new List<Collectible>();
             collidableTiles = new List<Tile>();
+            enemies = new List<Enemy>();
         }
 
         /// <summary>
@@ -61,15 +68,29 @@ namespace Clockwork
 
             // draw all collectibles
             foreach (Collectible collectible in collectibles) { collectible.Draw(spriteBatch); }
+
+            // draw all enemies
+            foreach (Enemy enemy in enemies) { enemy.Draw(spriteBatch); }
         }
 
         /// <summary>
-        /// updates the collectibles
+        /// updates all collectibles, tiles, and enemies in the level.
         /// </summary>
         public void Update(GameTime gameTime)
         { 
-            foreach (Collectible collectible in collectibles) { collectible.Update(gameTime); }
             exit.ExitCheck(this);
+            foreach (Collectible collectible in collectibles) 
+            { 
+                collectible.Update(gameTime); 
+            }
+            foreach (Tile tile in map) 
+            { 
+                tile.Update(gameTime); 
+            }
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Update(gameTime);
+            }
         }
     }
 }

@@ -4,6 +4,9 @@
  */
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D11;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Clockwork
 {
@@ -22,6 +25,13 @@ namespace Clockwork
         private bool active;
         private Point gridPosition;
 
+        private bool fixing;
+
+        // only used if the tile is destructible
+        private bool tileTouched;
+        private readonly float tileDestructTimer = 1;
+        private float tileDestructCountdown;
+
         /// <summary>
         /// the type of the tile
         /// </summary>
@@ -35,7 +45,9 @@ namespace Clockwork
         /// <summary>
         /// the position of the tile on the level grid
         /// </summary>
+        /// 
         public Point GridPosition { get => gridPosition; }
+
 
         /// <summary>
         /// creates a tile
@@ -56,6 +68,46 @@ namespace Clockwork
 
             // set grid position
             this.gridPosition = gridPosition;
+
+            tileDestructCountdown = tileDestructTimer;
+
+            fixing = false;
+
+        }
+
+        public override void Update(GameTime gt)
+        {
+            if (active && tileType.Breakable && tileTouched)
+            {
+                tileDestructCountdown -= (float)gt.ElapsedGameTime.TotalSeconds;
+
+                if (tileDestructCountdown <= 0)
+                {
+                    active = false;
+                    tileTouched = false;
+                    tileDestructCountdown = 0;
+                }
+            }
+            //do this whe th
+            else if (fixing)
+            {
+                //count down
+                tileDestructCountdown -= (float)gt.ElapsedGameTime.TotalSeconds;
+                if (tileDestructCountdown < 0)
+                {
+                    //reset
+                    active = true;
+                    tileDestructCountdown = tileDestructTimer;
+                    fixing = false;
+                }
+            }
+            //when brokn, start 
+            else if (!active)
+            {
+                tileDestructCountdown += (float)gt.ElapsedGameTime.TotalSeconds;
+            }
+
+            base.Update(gt);
         }
 
         /// <summary>
@@ -65,6 +117,43 @@ namespace Clockwork
         {
             // draw the tile if active
             if (active) { base.Draw(spriteBatch); }
+        }
+
+        /// <summary>
+        /// Starts a timer before the tile breaks.
+        /// </summary>
+        public void TilePlayerCollision()
+        {
+            tileTouched = true;
+        }
+
+        /// <summary>
+        /// Instantly breaks the tile.
+        /// </summary>
+        public void TileWeaponCollision()
+        {
+            tileTouched = true;
+            tileDestructCountdown = 0;
+        }
+
+        /// <summary>
+        /// Fixes the tile after its been broken
+        /// </summary>
+        /// <param name="gt"></param>
+        public void Fix(GameTime gt)
+        {
+            //only do this if it's inactive
+            if (!active)
+            {
+                //only fix the tile if it was broken less than 5 seconds ago
+                if (tileDestructCountdown < 5)
+                {
+                    //start the process for fixing the tile
+                    fixing = true;
+                    //5 minus the time the tile has been broken for
+                    //this is the time that it will take for the tile to be revived
+                }
+            }
         }
 
         /// <summary>

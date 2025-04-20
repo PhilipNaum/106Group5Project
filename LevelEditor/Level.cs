@@ -51,6 +51,25 @@
                 level.collectibles.Add(collectiblePosition, collectible);
             }
 
+            // end if at the end of file
+            if (input.BaseStream.Position >= input.BaseStream.Length)
+            {
+                input.Close();
+                return level;
+            }
+
+            // read the start position
+            level.start = new Point(
+                input.ReadInt32(),
+                input.ReadInt32()
+                );
+
+            // read the exit position
+            level.exit = new Point(
+                input.ReadInt32(),
+                input.ReadInt32()
+                );
+
             input.Close();
 
             return level;
@@ -59,6 +78,8 @@
         private Size dimensions;
         private int[,] map;
         private Dictionary<Point, int> collectibles;
+        private Point start;
+        private Point exit;
 
         /// <summary>
         /// the dimensions of the level
@@ -86,6 +107,16 @@
         public Dictionary<Point, int> Collectibles { get => collectibles; }
 
         /// <summary>
+        /// the start for the level
+        /// </summary>
+        public Point Start { get => start; set { start = value; } }
+
+        /// <summary>
+        /// the exit for the level
+        /// </summary>
+        public Point Exit { get => exit; set { exit = value; } }
+
+        /// <summary>
         /// creates a blank level
         /// </summary>
         /// <param name="dimensions">dimensions of the level</param>
@@ -96,6 +127,9 @@
             map = new int[dimensions.Height, dimensions.Width];
 
             collectibles = new Dictionary<Point, int>();
+
+            start = new Point(-1, -1);
+            exit = new Point(-1, -1);
         }
 
         /// <summary>
@@ -140,8 +174,32 @@
         public void SetCollectibleAt(int x, int y, ObjectType collectible)
         { collectibles[new Point(x, y)] = Array.IndexOf(Objects.CollectibleTypes, collectible); }
 
+        /// <summary>
+        /// removes the collectible at position
+        /// </summary>
+        /// <param name="x">x</param>
+        /// <param name="y">y</param>
         public void RemoveCollectibleAt(int x, int y)
         { collectibles.Remove(new Point(x, y)); }
+
+        /// <summary>
+        /// checks if a position is in range of the map
+        /// </summary>
+        /// <param name="x">x</param>
+        /// <param name="y">y</param>
+        /// <returns>whether the position is in the map</returns>
+        public bool IsPositionInMap(int x, int y) =>
+          x >= 0 &&
+          y >= 0 &&
+          x < Width &&
+          y < Height;
+
+        /// <summary>
+        /// checks if a position is in range of the map
+        /// </summary>
+        /// <param name="position">position to check</param>
+        /// <returns>whether the position is in the map</returns>
+        public bool IsPositionInMap(Point position) => IsPositionInMap(position.X, position.Y);
 
         /// <summary>
         /// saves the level
@@ -178,6 +236,14 @@
                 output.Write(collectiblePair.Key.X);
                 output.Write(collectiblePair.Key.Y);
             }
+
+            // write start position
+            output.Write(start.X);
+            output.Write(start.Y);
+
+            // write exit position
+            output.Write(exit.X);
+            output.Write(exit.Y);
 
             output.Close();
 
