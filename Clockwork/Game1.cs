@@ -212,14 +212,17 @@ namespace Clockwork
             {
                 gameState = GameState.Pause;
             }
-            if (SingleKeyPress(Keys.X))
-            {
-                gameState = GameState.LevelComplete;
-            }
+
 
             player.Update(gameTime);
 
             LevelManager.Instance.CurrentLevel.Update(gameTime);
+
+            // End Level check
+            if (LevelManager.Instance.CurrentLevel.Exit.CanExit && player.IsCollidingPrecise(LevelManager.Instance.CurrentLevel.Exit))
+            {
+                gameState = GameState.LevelComplete;
+            }
 
             // 2 lines since it's a bit easier to read than one.
             List<Tile> collisions = GetPlayerCollisions();
@@ -276,7 +279,7 @@ namespace Clockwork
                 {
                     LevelManager.Instance.CurrentLevel.Collectibles[i].Update(gameTime);
                     player.CollisionResponse(LevelManager.Instance.CurrentLevel.Collectibles[i]);
-                    //collectibles[i].CollisionResponse(player);
+                    LevelManager.Instance.CurrentLevel.Collectibles[i].CollisionResponse(player);
                 }
             }
 

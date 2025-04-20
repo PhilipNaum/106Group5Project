@@ -44,6 +44,8 @@ namespace Clockwork
         /// </summary>
         public Vector2 StartPosition { get; set; }
 
+        public Exit Exit { get => exit; }
+
         /// <summary>
         /// creates an empty level
         /// </summary>
@@ -85,7 +87,7 @@ namespace Clockwork
         /// </summary>
         public void Update(GameTime gameTime)
         {
-            exit.ExitCheck(this);
+            exit.Update(gameTime, this);
             foreach (Collectible collectible in collectibles)
             {
                 collectible.Update(gameTime);
