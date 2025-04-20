@@ -174,6 +174,11 @@
         public void SetCollectibleAt(int x, int y, ObjectType collectible)
         { collectibles[new Point(x, y)] = Array.IndexOf(Objects.CollectibleTypes, collectible); }
 
+        /// <summary>
+        /// removes the collectible at position
+        /// </summary>
+        /// <param name="x">x</param>
+        /// <param name="y">y</param>
         public void RemoveCollectibleAt(int x, int y)
         { collectibles.Remove(new Point(x, y)); }
 
