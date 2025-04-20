@@ -45,6 +45,7 @@ namespace Clockwork
         private Menu pauseMenu;
         private Menu levelComplete;
         private Menu creditsMenu;
+        private Menu controlsMenu;
 
         private Texture2D scrim;
 
@@ -56,7 +57,8 @@ namespace Clockwork
             Gameplay,
             Pause,
             LevelComplete,
-            Credits
+            Credits,
+            Controls
         }
 
         public Game1()
@@ -98,6 +100,7 @@ namespace Clockwork
             pauseMenu = UILoader.GetMenu(Menus.Pause);
             levelComplete = UILoader.GetMenu(Menus.Complete);
             creditsMenu = UILoader.GetMenu(Menus.Credits);
+            controlsMenu = UILoader.GetMenu(Menus.Controls);
 
             LevelManager.Instance.SetCurrentLevel(0);
 
@@ -140,6 +143,9 @@ namespace Clockwork
                     break;
                 case GameState.Credits:
                     UpdateCredits();
+                    break;
+                case GameState.Controls:
+                    UpdateControls();
                     break;
                 default:
                     break;
@@ -199,6 +205,24 @@ namespace Clockwork
             if (levelSelect.UIElements["btLevel6"].Clicked)
             {
                 LevelManager.Instance.SetCurrentLevel(5);
+                player.ResetPlayer();
+                gameState = GameState.Gameplay;
+            }
+            if (levelSelect.UIElements["btLevel7"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(6);
+                player.ResetPlayer();
+                gameState = GameState.Gameplay;
+            }
+            if (levelSelect.UIElements["btLevel8"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(7);
+                player.ResetPlayer();
+                gameState = GameState.Gameplay;
+            }
+            if (levelSelect.UIElements["btLevel9"].Clicked)
+            {
+                LevelManager.Instance.SetCurrentLevel(8);
                 player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
@@ -297,6 +321,12 @@ namespace Clockwork
             pauseMenu.Update();
             if (pauseMenu.UIElements["btResume"].Clicked || SingleKeyPress(Keys.Escape))
                 gameState = GameState.Gameplay;
+            if (pauseMenu.UIElements["btReset"].Clicked)
+            {
+                player.ResetPlayer();
+                LevelManager.Instance.ReloadLevel();
+                gameState = GameState.Gameplay;
+            }
             if (pauseMenu.UIElements["btMenu"].Clicked)
                 gameState = GameState.MainMenu;
         }
@@ -326,6 +356,13 @@ namespace Clockwork
         {
             creditsMenu.Update();
             if (creditsMenu.UIElements["btMenu"].Clicked || SingleKeyPress(Keys.Escape))
+                gameState = GameState.MainMenu;
+        }
+
+        private void UpdateControls()
+        {
+            controlsMenu.Update();
+            if (controlsMenu.UIElements["btMenu"].Clicked || SingleKeyPress(Keys.Escape))
                 gameState = GameState.MainMenu;
         }
 
@@ -476,6 +513,9 @@ namespace Clockwork
                 case GameState.Credits:
                     DrawCredits();
                     break;
+                case GameState.Controls:
+                    DrawControls();
+                    break;
                 default:
                     break;
             }
@@ -498,8 +538,6 @@ namespace Clockwork
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            player.Draw(_spriteBatch);
-
             for (int i = 0; i < LevelManager.Instance.CurrentLevel.Enemies.Count; i++)
             {
                 LevelManager.Instance.CurrentLevel.Enemies[i].Draw(_spriteBatch);
@@ -512,6 +550,7 @@ namespace Clockwork
 
             LevelManager.Instance.CurrentLevel.Draw(_spriteBatch);
 
+            player.Draw(_spriteBatch);
         }
 
         private void DrawPause()
@@ -536,6 +575,12 @@ namespace Clockwork
 
             GraphicsDevice.Clear(Color.Black);
             creditsMenu.Draw(_spriteBatch);
+        }
+
+        private void DrawControls()
+        {
+            GraphicsDevice.Clear(Color.Black);
+            controlsMenu.Draw(_spriteBatch);
         }
 
         /// <summary>
