@@ -538,8 +538,6 @@ namespace Clockwork
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            player.Draw(_spriteBatch);
-
             for (int i = 0; i < LevelManager.Instance.CurrentLevel.Enemies.Count; i++)
             {
                 LevelManager.Instance.CurrentLevel.Enemies[i].Draw(_spriteBatch);
@@ -552,6 +550,7 @@ namespace Clockwork
 
             LevelManager.Instance.CurrentLevel.Draw(_spriteBatch);
 
+            player.Draw(_spriteBatch);
         }
 
         private void DrawPause()
