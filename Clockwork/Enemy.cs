@@ -81,7 +81,7 @@ namespace Clockwork
             this.health = health;
             maxHealth = health;
             this.range = range;
-            home = this.Position;
+            home = new Vector2(this.Position.X + this.Size.X / 2, this.Position.Y);
             this.velocity = velocity;
             acceleration = new Vector2(0, .5f);
             isDead = false;
