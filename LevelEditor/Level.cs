@@ -51,6 +51,13 @@
                 level.collectibles.Add(collectiblePosition, collectible);
             }
 
+            // end if at the end of file
+            if (input.BaseStream.Position >= input.BaseStream.Length)
+            {
+                input.Close();
+                return level;
+            }
+
             // read the start position
             level.start = new Point(
                 input.ReadInt32(),
