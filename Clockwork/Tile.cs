@@ -98,6 +98,7 @@ namespace Clockwork
                     //reset
                     active = true;
                     tileDestructCountdown = tileDestructTimer;
+                    fixing = false;
                 }
             }
             //when brokn, start 
@@ -151,7 +152,6 @@ namespace Clockwork
                     fixing = true;
                     //5 minus the time the tile has been broken for
                     //this is the time that it will take for the tile to be revived
-                    tileDestructCountdown = 5 - tileDestructCountdown;
                 }
             }
         }
