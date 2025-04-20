@@ -148,10 +148,7 @@ namespace Clockwork
                 //only fix the tile if it was broken less than 5 seconds ago
                 if (tileDestructCountdown < 5)
                 {
-                    //start the process for fixing the tile
                     fixing = true;
-                    //5 minus the time the tile has been broken for
-                    //this is the time that it will take for the tile to be revived
                 }
             }
         }

@@ -86,7 +86,7 @@ namespace Clockwork
             acceleration = new Vector2(0, .5f);
             isDead = false;
             invincible = false;
-            deathTimer = .75;
+            deathTimer = .4;
             isColliding = new List<Tile>();
             damage = 2;
         }
@@ -131,7 +131,7 @@ namespace Clockwork
                     if (deathTimer <= 0)
                     {
                         invincible = false;
-                        deathTimer = .75;
+                        deathTimer = .4;
                     }
                 }
 
@@ -322,7 +322,7 @@ namespace Clockwork
                     //reset the enemy
                     isDead = false;
                     health = maxHealth;
-                    deathTimer = .75;
+                    deathTimer = .4;
                     velocity.Y = 0;
                 }
             }

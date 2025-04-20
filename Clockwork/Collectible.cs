@@ -87,7 +87,7 @@ namespace Clockwork
             switch (collectibleType)
             {
                 case (Type.Chime):
-                    timer = .5;
+                    timer = .3;
                     break;
             }
             if (collectibletype == Type.Key && mode == 1)
