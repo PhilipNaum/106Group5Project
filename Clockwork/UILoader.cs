@@ -125,15 +125,261 @@ namespace Clockwork
             // -- Player Setup --
             {
                 // Load Textures
-                Texture2D playerTexture = content.Load<Texture2D>("playerPlaceholder");
+                Texture2D playerTexture = content.Load<Texture2D>("PC_MasterSheet");
+
+                // General locations
+                Vector2 playerRun1 = new Vector2(0, 0);
+                Vector2 playerRun2 = new Vector2(64, 0);
+                Vector2 playerRun3 = new Vector2(128, 0);
+                Vector2 playerRun4 = new Vector2(192, 0);
+                Vector2 playerRun5 = new Vector2(256, 0);
+                Vector2 playerRun6 = new Vector2(320, 0);
+                Vector2 playerRun7 = new Vector2(384, 0);
+                Vector2 playerRun8 = new Vector2(448, 0);
+
+                Vector2 playerWalk1 = new Vector2(0, 64);
+                Vector2 playerWalk2 = new Vector2(64, 64);
+                Vector2 playerWalk3 = new Vector2(128, 64);
+                Vector2 playerWalk4 = new Vector2(192, 64);
+                Vector2 playerWalk5 = new Vector2(256, 64);
+                Vector2 playerWalk6 = new Vector2(320, 64);
+                Vector2 playerWalk7 = new Vector2(384, 64);
+                Vector2 playerWalk8 = new Vector2(448, 64);
+
+                Vector2 playerIdle1 = new Vector2(0, 128);
+                Vector2 playerIdle2 = new Vector2(64, 128);
+                Vector2 playerIdle3 = new Vector2(128, 128);
+                Vector2 playerIdle4 = new Vector2(192, 128);
+
+                Vector2 playerJump = new Vector2(320, 128);
+
+                Vector2 playerHand = new Vector2(0, 192);
+                Vector2 playerChime = new Vector2(0, 448);
+                Vector2 playerGear = new Vector2(0, 736);
+                Vector2 playerKey = new Vector2(0, 992);
+                Vector2 playerFace = new Vector2(0, 1248);
+
+                Point playerSize = new Point(64, 64);
+                Vector2 playerOrigin = new Vector2(32, 0);
 
                 // Set up Frames
                 List<Frame> playerFrames = new List<Frame>();
-                playerFrames.Add(new Frame(playerTexture, GetRect(playerTexture), Vector2.Zero));
+                // -- playerBase --
+                // playerRunBase
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerRun1.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerRun2.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerRun3.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerRun4.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerRun5.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerRun6.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerRun7.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerRun8.ToPoint(), playerSize), playerOrigin));
+                // playerWalkBase
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerWalk1.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerWalk2.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerWalk3.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerWalk4.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerWalk5.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerWalk6.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerWalk7.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerWalk8.ToPoint(), playerSize), playerOrigin));
+                // playerIdleBase
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerIdle1.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerIdle1.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerIdle1.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerIdle1.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerIdle1.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerIdle2.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerIdle3.ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerIdle4.ToPoint(), playerSize), playerOrigin));
+                // playerJumpBase
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(playerJump.ToPoint(), playerSize), playerOrigin));
+                // -- playerHand --
+                // playerRunHand
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerRun1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerRun2).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerRun3).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerRun4).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerRun5).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerRun6).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerRun7).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerRun8).ToPoint(), playerSize), playerOrigin));
+                // playerWalkHand                                                                                          
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerWalk1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerWalk2).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerWalk3).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerWalk4).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerWalk5).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerWalk6).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerWalk7).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerWalk8).ToPoint(), playerSize), playerOrigin));
+                // playerIdleHand                                                                                          
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerIdle2).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerIdle3).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerIdle4).ToPoint(), playerSize), playerOrigin));
+                // playerJumpHand                                                                                          
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerHand + playerJump).ToPoint(), playerSize), playerOrigin));
+                // playerUseHand
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(0, 384, 80, 64), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(80, 384, 80, 64), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(160, 384, 80, 64), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(240, 384, 80, 64), playerOrigin));
+                // -- playerChime --
+                // playerRunChime
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerRun1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerRun2).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerRun3).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerRun4).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerRun5).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerRun6).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerRun7).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerRun8).ToPoint(), playerSize), playerOrigin));
+                // playerWalkChime                                                                                           
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerWalk1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerWalk2).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerWalk3).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerWalk4).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerWalk5).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerWalk6).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerWalk7).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerWalk8).ToPoint(), playerSize), playerOrigin));
+                // playerIdleChime                                                                                          
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerIdle2).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerIdle3).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerIdle4).ToPoint(), playerSize), playerOrigin));
+                // playerJumpChime                                                                                          
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerChime + playerJump).ToPoint(), playerSize), playerOrigin));
+                // playerUseChime
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(0, 640, 72, 96), new Vector2(4, 16)));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(72, 640, 72, 96), new Vector2(4, 16)));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(144, 640, 72, 96), new Vector2(4, 16)));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(216, 640, 72, 96), new Vector2(4, 16)));
+                // -- playerGear --
+                // playerRunGear 
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerRun1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerRun2).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerRun3).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerRun4).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerRun5).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerRun6).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerRun7).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerRun8).ToPoint(), playerSize), playerOrigin));
+                // playerWalkGear                                                                                    
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerWalk1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerWalk2).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerWalk3).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerWalk4).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerWalk5).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerWalk6).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerWalk7).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerWalk8).ToPoint(), playerSize), playerOrigin));
+                // playerIdleGear                                                                                    
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerIdle2).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerIdle3).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerIdle4).ToPoint(), playerSize), playerOrigin));
+                // playerJumpGear                                                                                      
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerJump).ToPoint(), playerSize), playerOrigin));
+                // playerUseGear
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(0, 928, 64, 64), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(64, 928, 64, 64), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(128, 928, 64, 64), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(196, 928, 64, 64), playerOrigin));
+                // -- playerKey --
+                // playerRunKey 
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerRun1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerRun2).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerRun3).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerRun4).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerRun5).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerRun6).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerRun7).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerRun8).ToPoint(), playerSize), playerOrigin));
+                // playerWalkKey                                                                                 
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerWalk1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerWalk2).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerWalk3).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerWalk4).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerWalk5).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerWalk6).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerWalk7).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerWalk8).ToPoint(), playerSize), playerOrigin));
+                // playerIdleKey                                                                                  
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerIdle2).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerIdle3).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerIdle4).ToPoint(), playerSize), playerOrigin));
+                // playerJumpKey                                                                                  
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerJump).ToPoint(), playerSize), playerOrigin));
+                // playerUseKey
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(0, 1184, 64, 64), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(64, 1184, 64, 64), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(128, 1184, 64, 64), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(192, 1184, 64, 64), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(256, 1184, 64, 64), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(320, 1184, 64, 64), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(384, 1184, 64, 64), playerOrigin));
+                // -- playerFace --
+                // playerRunFace 
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerRun1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerRun2).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerRun3).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerRun4).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerRun5).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerRun6).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerRun7).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerRun8).ToPoint(), playerSize), playerOrigin));
+                // playerWalkFace                                                                                     
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerWalk1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerWalk2).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerWalk3).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerWalk4).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerWalk5).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerWalk6).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerWalk7).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerWalk8).ToPoint(), playerSize), playerOrigin));
+                // playerIdleFace                                                                                      
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerIdle1).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerIdle2).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerIdle3).ToPoint(), playerSize), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerIdle4).ToPoint(), playerSize), playerOrigin));
+                // playerJumpFace                                                                                      
+                playerFrames.Add(new Frame(playerTexture, new Rectangle((playerFace + playerJump).ToPoint(), playerSize), playerOrigin));
+                // playerUseFace
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(0, 1440, 64, 69), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(64, 1440, 64, 69), playerOrigin));
+
 
                 // Set up Animations
                 Dictionary<string, Animation> playerAnimations = new Dictionary<string, Animation>();
-                playerAnimations.Add("player", new Animation(0, 0, 1));
+                playerAnimations.Add("runBase", new Animation(0, 7, 12));
+                playerAnimations.Add("run", new Animation(,,12));
+                playerAnimations.Add("walk", new Animation(,,6));
+                playerAnimations.Add("idle", new Animation(,,6));
+                playerAnimations.Add("jump", new Animation(,,1));
+                playerAnimations.Add("use", new Animation(,,12));
 
                 // Create AnimatedSprites in Animation Library
                 animationLibrary.Add(Sprites.Player, new AnimatedSprite(playerFrames, playerAnimations, playerAnimations["player"], Point.Zero));
