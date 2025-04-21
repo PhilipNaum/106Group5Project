@@ -305,30 +305,34 @@ namespace Clockwork
             SetPlayerAnimation();
             if (direction == -1) base.Draw(sb, 1, Color.White, 0, SpriteEffects.FlipHorizontally, 1);
             else base.Draw(sb);
+
+            if (currentItem != null && currentItem.CollectibleType != Type.Key) currentItem.Draw(sb);
         }
 
         public void SetPlayerAnimation()
         {
             string animName = "";
-            if (CurrentItem != null) switch (CurrentItem.CollectibleType)
-                {
-                    case Type.Chime:
-                        animName += "Chime";
-                        break;
-                    case Type.Face:
-                        animName += "Face";
-                        break;
-                    case Type.Hand:
-                        animName += "Hand";
-                        break;
-                    case Type.Key:
-                        animName += "Key";
-                        break;
-                    case Type.Gear:
-                        animName += "Gear";
-                        break;
-                }
-            else animName += "Base";
+            switch (currentAbility)
+            {
+                case Ability.AOE:
+                    animName = "Chime";
+                    break;
+                case Ability.Dash:
+                    animName = "Face";
+                    break;
+                case Ability.Sword:
+                    animName = "Hand";
+                    break;
+                case Ability.Undo:
+                    animName = "Key";
+                    break;
+                case Ability.Throw:
+                    animName = "Gear";
+                    break;
+                case Ability.None:
+                    animName = "Base";
+                    break;
+            }
             SetAnimation($"air{animName}");
         }
 
