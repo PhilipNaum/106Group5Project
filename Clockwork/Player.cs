@@ -32,6 +32,8 @@ namespace Clockwork
 
         private int direction;
 
+        private string currentAnim;
+
         public Collectible CurrentItem
         {
             get { return currentItem; }
@@ -302,38 +304,20 @@ namespace Clockwork
 
         public override void Draw(SpriteBatch sb)
         {
-            SetPlayerAnimation();
+            // Control animations
+            AnimationController();
+
             if (direction == -1) base.Draw(sb, 1, Color.White, 0, SpriteEffects.FlipHorizontally, 1);
             else base.Draw(sb);
 
             if (currentItem != null && currentItem.CollectibleType != Type.Key) currentItem.Draw(sb);
         }
 
-        public void SetPlayerAnimation()
+        public void AnimationController()
         {
-            string animName = "";
-            switch (currentAbility)
-            {
-                case Ability.AOE:
-                    animName = "Chime";
-                    break;
-                case Ability.Dash:
-                    animName = "Face";
-                    break;
-                case Ability.Sword:
-                    animName = "Hand";
-                    break;
-                case Ability.Undo:
-                    animName = "Key";
-                    break;
-                case Ability.Throw:
-                    animName = "Gear";
-                    break;
-                case Ability.None:
-                    animName = "Base";
-                    break;
-            }
-            SetAnimation($"air{animName}");
+            string thisAnim = "";
+
+            if (thisAnim != currentAnim) SetAnimation(thisAnim);
         }
 
         public void CollisionResponse(GameObject other)
