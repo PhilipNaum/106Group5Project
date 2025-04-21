@@ -296,9 +296,9 @@ namespace Clockwork
                 playerFrames.Add(new Frame(playerTexture, new Rectangle((playerGear + playerJump).ToPoint(), playerSize), playerOrigin));
                 // playerUseGear
                 playerFrames.Add(new Frame(playerTexture, new Rectangle(0, 928, 64, 64), playerOrigin));
-                playerFrames.Add(new Frame(playerTexture, new Rectangle(64, 928, 64, 64), playerOrigin));
-                playerFrames.Add(new Frame(playerTexture, new Rectangle(128, 928, 64, 64), playerOrigin));
-                playerFrames.Add(new Frame(playerTexture, new Rectangle(196, 928, 64, 64), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(80, 928, 64, 64), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(160, 928, 64, 64), playerOrigin));
+                playerFrames.Add(new Frame(playerTexture, new Rectangle(240, 928, 64, 64), playerOrigin));
                 // -- playerKey --
                 // playerRunKey 
                 playerFrames.Add(new Frame(playerTexture, new Rectangle((playerKey + playerRun1).ToPoint(), playerSize), playerOrigin));
@@ -375,14 +375,42 @@ namespace Clockwork
                 // Set up Animations
                 Dictionary<string, Animation> playerAnimations = new Dictionary<string, Animation>();
                 playerAnimations.Add("runBase", new Animation(0, 7, 12));
-                playerAnimations.Add("run", new Animation(,,12));
-                playerAnimations.Add("walk", new Animation(,,6));
-                playerAnimations.Add("idle", new Animation(,,6));
-                playerAnimations.Add("jump", new Animation(,,1));
-                playerAnimations.Add("use", new Animation(,,12));
+                playerAnimations.Add("walkBase", new Animation(8, 15, 6));
+                playerAnimations.Add("idleBase", new Animation(16, 23, 6));
+                playerAnimations.Add("jumpBase", new Animation(24, 24, 1));
+
+                playerAnimations.Add("runHand", new Animation(25, 33, 12));
+                playerAnimations.Add("walkHand", new Animation(33, 40, 6));
+                playerAnimations.Add("idleHand", new Animation(41, 48, 6));
+                playerAnimations.Add("jumpHand", new Animation(49, 49, 1));
+                playerAnimations.Add("useHand", new Animation(50, 53, 12));
+
+                playerAnimations.Add("runChime", new Animation(54, 61, 12));
+                playerAnimations.Add("walkChime", new Animation(62, 69, 6));
+                playerAnimations.Add("idleChime", new Animation(70, 77, 6));
+                playerAnimations.Add("jumpChime", new Animation(78, 78, 1));
+                playerAnimations.Add("useChime", new Animation(79, 82, 12));
+
+                playerAnimations.Add("runGear", new Animation(83, 90, 12));
+                playerAnimations.Add("walkGear", new Animation(91, 98, 6));
+                playerAnimations.Add("idleGear", new Animation(99, 106, 6));
+                playerAnimations.Add("jumpGear", new Animation(107, 107, 1));
+                playerAnimations.Add("useGear", new Animation(108, 111, 12));
+
+                playerAnimations.Add("runKey", new Animation(112, 119, 12));
+                playerAnimations.Add("walkKey", new Animation(120, 127, 6));
+                playerAnimations.Add("idleKey", new Animation(128, 135, 6));
+                playerAnimations.Add("jumpKey", new Animation(136, 136, 1));
+                playerAnimations.Add("useKey", new Animation(137, 143, 12));
+
+                playerAnimations.Add("runFace", new Animation(144, 151, 12));
+                playerAnimations.Add("walkFace", new Animation(152, 159, 6));
+                playerAnimations.Add("idleFace", new Animation(160, 167, 6));
+                playerAnimations.Add("jumpFace", new Animation(168, 168, 1));
+                playerAnimations.Add("useFace", new Animation(169, 170, 12));
 
                 // Create AnimatedSprites in Animation Library
-                animationLibrary.Add(Sprites.Player, new AnimatedSprite(playerFrames, playerAnimations, playerAnimations["player"], Point.Zero));
+                animationLibrary.Add(Sprites.Player, new AnimatedSprite(playerFrames, playerAnimations, playerAnimations["idleBase"], Point.Zero));
             }
 
             // -- Enemy Setup --
