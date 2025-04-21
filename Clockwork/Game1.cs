@@ -163,6 +163,8 @@ namespace Clockwork
             }
             if (mainMenu.UIElements["btLevels"].Clicked)
                 gameState = GameState.LevelSelect;
+            if (mainMenu.UIElements["btControls"].Clicked)
+                gameState = GameState.Controls;
             if (mainMenu.UIElements["btCredits"].Clicked)
                 gameState = GameState.Credits;
             if (mainMenu.UIElements["btExit"].Clicked || SingleKeyPress(Keys.Escape))
@@ -220,12 +222,12 @@ namespace Clockwork
                 player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
-            if (levelSelect.UIElements["btLevel9"].Clicked)
+            /*if (levelSelect.UIElements["btLevel9"].Clicked)
             {
                 LevelManager.Instance.SetCurrentLevel(8);
                 player.ResetPlayer();
                 gameState = GameState.Gameplay;
-            }
+            }*/
             if (levelSelect.UIElements["btMenu"].Clicked || SingleKeyPress(Keys.Escape))
                 gameState = GameState.MainMenu;
         }

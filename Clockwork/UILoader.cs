@@ -919,7 +919,7 @@ namespace Clockwork
                     { "btLevel6", new Button(Sprites.btLevel6, new Point(graphics.PreferredBackBufferWidth * 3 / 4 - 48, graphics.PreferredBackBufferHeight / 2)) },
                     { "btLevel7", new Button(Sprites.btLevel7, new Point(graphics.PreferredBackBufferWidth / 4 - 48, graphics.PreferredBackBufferHeight * 3 / 4)) },
                     { "btLevel8", new Button(Sprites.btLevel8, new Point(graphics.PreferredBackBufferWidth / 2 - 48, graphics.PreferredBackBufferHeight * 3 / 4)) },
-                    { "btLevel9", new Button(Sprites.btLevel9, new Point(graphics.PreferredBackBufferWidth * 3 / 4 - 48, graphics.PreferredBackBufferHeight * 3 / 4)) },
+                    //{ "btLevel9", new Button(Sprites.btLevel9, new Point(graphics.PreferredBackBufferWidth * 3 / 4 - 48, graphics.PreferredBackBufferHeight * 3 / 4)) },
                     { "btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth * 7 / 8 - 48, graphics.PreferredBackBufferHeight * 15 / 16 - 16)) }
                 };
                 menuLibrary.Add(Menus.Select, new Menu(levelSelectElements));

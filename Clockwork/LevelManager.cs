@@ -76,7 +76,6 @@ namespace Clockwork
             "Levels/ChimeIntro.map",
             "Levels/RewindIntro.map",
             "Levels/HandIntro.map",
-            "Levels/DestructibleLevel.map",
             "Levels/AOEDash.map",
             "Levels/AOERewind.map"
         };
@@ -89,7 +88,6 @@ namespace Clockwork
             "none",
             "none",
             "Content/Enemies/HandIntroEnemies.data",
-            "none",
             "none",
             "Content/Enemies/AOERewindEnemies.data"
         };
