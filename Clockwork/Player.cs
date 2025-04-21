@@ -30,6 +30,8 @@ namespace Clockwork
         private readonly int maxHealth = 10;
         private int health;
 
+        private int direction;
+
         public Collectible CurrentItem
         {
             get { return currentItem; }
@@ -137,9 +139,15 @@ namespace Clockwork
 
             float horDir = 0;
             if (ks.IsKeyDown(Keys.A))
+            {
                 horDir--;
+                direction = -1;
+            }
             if (ks.IsKeyDown(Keys.D))
+            {
                 horDir++;
+                direction = 1;
+            }
 
             // only accelerate if under max speed
             if (horDir != 0 && MathF.Abs(velocity.X) < maxHorizontalSpeed)
@@ -294,12 +302,34 @@ namespace Clockwork
 
         public override void Draw(SpriteBatch sb)
         {
-            base.Draw(sb);
+            SetPlayerAnimation();
+            if (direction == -1) base.Draw(sb, 1, Color.White, 0, SpriteEffects.FlipHorizontally, 1);
+            else base.Draw(sb);
+        }
 
-            if (currentItem != null && currentItem.CollectibleType != Type.Key)
-            {
-                currentItem.Draw(sb);
-            }
+        public void SetPlayerAnimation()
+        {
+            string animName = "";
+            if (CurrentItem != null) switch (CurrentItem.CollectibleType)
+                {
+                    case Type.Chime:
+                        animName += "Chime";
+                        break;
+                    case Type.Face:
+                        animName += "Face";
+                        break;
+                    case Type.Hand:
+                        animName += "Hand";
+                        break;
+                    case Type.Key:
+                        animName += "Key";
+                        break;
+                    case Type.Gear:
+                        animName += "Gear";
+                        break;
+                }
+            else animName += "Base";
+            SetAnimation($"air{animName}");
         }
 
         public void CollisionResponse(GameObject other)
