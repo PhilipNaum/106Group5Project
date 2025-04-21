@@ -30,6 +30,8 @@ namespace Clockwork
         private readonly int maxHealth = 10;
         private int health;
 
+        private int direction;
+
         public Collectible CurrentItem
         {
             get { return currentItem; }
@@ -137,9 +139,15 @@ namespace Clockwork
 
             float horDir = 0;
             if (ks.IsKeyDown(Keys.A))
+            {
                 horDir--;
+                direction = -1;
+            }
             if (ks.IsKeyDown(Keys.D))
+            {
                 horDir++;
+                direction = 1;
+            }
 
             // only accelerate if under max speed
             if (horDir != 0 && MathF.Abs(velocity.X) < maxHorizontalSpeed)
@@ -294,12 +302,38 @@ namespace Clockwork
 
         public override void Draw(SpriteBatch sb)
         {
-            base.Draw(sb, .5f, Color.White, 0, SpriteEffects.None, 1);
+            SetPlayerAnimation();
+            if (direction == -1) base.Draw(sb, 1, Color.White, 0, SpriteEffects.FlipHorizontally, 1);
+            else base.Draw(sb);
 
-            if (currentItem != null && currentItem.CollectibleType != Type.Key)
+            if (currentItem != null && currentItem.CollectibleType != Type.Key) currentItem.Draw(sb);
+        }
+
+        public void SetPlayerAnimation()
+        {
+            string animName = "";
+            switch (currentAbility)
             {
-                currentItem.Draw(sb);
+                case Ability.AOE:
+                    animName = "Chime";
+                    break;
+                case Ability.Dash:
+                    animName = "Face";
+                    break;
+                case Ability.Sword:
+                    animName = "Hand";
+                    break;
+                case Ability.Undo:
+                    animName = "Key";
+                    break;
+                case Ability.Throw:
+                    animName = "Gear";
+                    break;
+                case Ability.None:
+                    animName = "Base";
+                    break;
             }
+            SetAnimation($"air{animName}");
         }
 
         public void CollisionResponse(GameObject other)
