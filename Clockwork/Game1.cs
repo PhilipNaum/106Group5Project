@@ -159,6 +159,7 @@ namespace Clockwork
             if (mainMenu.UIElements["btStart"].Clicked)
             {
                 player.ResetPlayer();
+                LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex);
                 gameState = GameState.Gameplay;
             }
             if (mainMenu.UIElements["btLevels"].Clicked)
