@@ -374,7 +374,14 @@ namespace Clockwork
                     new Frame(playerTexture, new Rectangle((playerFace + playerJump).ToPoint(), playerSize), playerOrigin),
                     // playerUseFace
                     new Frame(playerTexture, new Rectangle(0, 1440, 64, 69), playerOrigin),
-                    new Frame(playerTexture, new Rectangle(64, 1440, 64, 69), playerOrigin)
+                    new Frame(playerTexture, new Rectangle(64, 1440, 64, 69), playerOrigin),
+                    // -- playerAir --
+                    new Frame(playerTexture, new Rectangle(playerIdle1.ToPoint(), playerSize), playerOrigin),
+                    new Frame(playerTexture, new Rectangle((playerHand + playerIdle1).ToPoint(), playerSize), playerOrigin),
+                    new Frame(playerTexture, new Rectangle((playerGear + playerIdle1).ToPoint(), playerSize), playerOrigin),
+                    new Frame(playerTexture, new Rectangle((playerChime + playerIdle1).ToPoint(), playerSize), playerOrigin),
+                    new Frame(playerTexture, new Rectangle((playerKey + playerIdle1).ToPoint(), playerSize), playerOrigin),
+                    new Frame(playerTexture, new Rectangle((playerFace + playerIdle1).ToPoint(), playerSize), playerOrigin)
                 };
 
 
@@ -409,7 +416,13 @@ namespace Clockwork
                     { "walkFace", new Animation(152, 159, 6) },
                     { "idleFace", new Animation(160, 167, 6) },
                     { "jumpFace", new Animation(168, 168, 1) },
-                    { "useFace", new Animation(169, 170, 12) }
+                    { "useFace", new Animation(169, 170, 12) },
+                    { "airBase", new Animation(171,171,1) },
+                    { "airHand", new Animation(172,172,1) },
+                    { "airGear", new Animation(173,173,1) },
+                    { "airChime", new Animation(174,174,1) },
+                    { "airKey", new Animation(175,175,1) },
+                    { "airFace", new Animation(176,176,1) },
                 };
 
                 // Create AnimatedSprites in Animation Library
