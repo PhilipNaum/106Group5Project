@@ -6,7 +6,7 @@ namespace Clockwork
     {
         public bool CanExit { get; private set; }
 
-        public Exit(Vector2 position) : base(position, new Vector2(0, 0), Sprites.Exit)
+        public Exit(Vector2 position) : base(position, new Vector2(32, 32), Sprites.Exit)
         { CanExit = false; }
 
         public bool ExitCheck(Level l)
