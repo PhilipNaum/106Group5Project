@@ -95,7 +95,7 @@ namespace Clockwork
         /// </summary>
         public void ResetPlayer()
         {
-            Position = LevelManager.Instance.CurrentLevel.StartPosition;
+            Position = LevelManager.Instance.CurrentLevel.StartPosition - new Vector2(0, 32);
 
             velocity = Vector2.Zero;
             currentAbility = Ability.None;
