@@ -160,7 +160,7 @@ namespace Clockwork
                 Vector2 playerFace = new Vector2(0, 1248);
 
                 Point playerSize = new Point(64, 64);
-                Vector2 playerOrigin = new Vector2(32, 0);
+                Vector2 playerOrigin = new Vector2(16, 0);
 
                 // Set up Frames
                 List<Frame> playerFrames = new List<Frame>();

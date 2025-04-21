@@ -294,7 +294,7 @@ namespace Clockwork
 
         public override void Draw(SpriteBatch sb)
         {
-            base.Draw(sb, .5f, Color.White, 0, SpriteEffects.None, 1);
+            base.Draw(sb);
 
             if (currentItem != null && currentItem.CollectibleType != Type.Key)
             {
