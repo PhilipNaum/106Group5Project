@@ -462,6 +462,7 @@ namespace Clockwork
                             playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
                             playerVel.Y = 0;
                             player.Grounded = true;
+                            player.HasDash = true;
 
                             collider.TilePlayerCollision();
                         }

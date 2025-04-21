@@ -69,6 +69,13 @@ namespace Clockwork
             set { grounded = value; }
         }
 
+        private bool hasDash;
+        public bool HasDash
+        {
+            get { return hasDash; }
+            set { hasDash = value; }
+        }
+
         // enum so there can only be one ability active at a time
         private Ability currentAbility;
         private enum Ability
@@ -85,6 +92,7 @@ namespace Clockwork
         {
             currentAbility = Ability.None;
             grounded = false;
+            hasDash = false;
             health = maxHealth;
             invincible = false;
         }
@@ -114,6 +122,7 @@ namespace Clockwork
             Vector2 direction = Vector2.Normalize(mouseState.Position.ToVector2()
                 - (this.Position + this.Size / 2));
 
+            hasDash = false;
             //return direction * dashSpeed;
             return new Vector2(direction.X * dashSpeedX, direction.Y * dashSpeedY);
         }
@@ -181,7 +190,8 @@ namespace Clockwork
                     case Ability.Dash:
                         // need to decide whether dash
                         // overwrites or adds to velocity
-                        velocity = Dash(ms);
+                        if (hasDash)
+                            velocity = Dash(ms);
                         break;
                     case Ability.Throw:
                         //if statement makes sure that a gear can only be thrown once the one before is gone
