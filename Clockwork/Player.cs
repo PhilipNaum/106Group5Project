@@ -46,8 +46,9 @@ namespace Clockwork
 
         // Probably want to put gravity somewhere else, but here now for testing
         private readonly Vector2 gravity = new Vector2(0, 20f);
-        // probably also move this to somewhere else later
+
         private KeyboardState prevKS;
+        private MouseState prevMS;
 
         private float jumpSpeed = 9;
 
@@ -141,9 +142,10 @@ namespace Clockwork
             velocity.Y += gravity.Y * dTime;
 
             // jump
-            if (grounded && ks.IsKeyDown(Keys.W) && prevKS.IsKeyUp(Keys.W))
+            if (grounded && ks.IsKeyDown(Keys.Space) && prevKS.IsKeyUp(Keys.Space))
             {
                 velocity.Y -= jumpSpeed;
+                grounded = false;
             }
 
             float horDir = 0;
@@ -181,7 +183,7 @@ namespace Clockwork
             }
 
             // use ability
-            if (ks.IsKeyDown(Keys.Space) && prevKS.IsKeyUp(Keys.Space))
+            if (ms.LeftButton == ButtonState.Pressed && prevMS.LeftButton == ButtonState.Released)
             {
                 switch (currentAbility)
                 {
@@ -306,6 +308,7 @@ namespace Clockwork
             this.Position += velocity;
 
             prevKS = ks;
+            prevMS = ms;
 
             base.Update(gameTime);
         }

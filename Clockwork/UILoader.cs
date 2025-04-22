@@ -979,7 +979,7 @@ namespace Clockwork
             {
                 Dictionary<string, UIElement> controlsElements = new Dictionary<string, UIElement>
                 {
-                    { "lbControls", new TextElement("A,D: Move Player\nW: Jump\nSpace: Use Ability", Medodica48, new Rectangle(16, 0, 0, 0)) },
+                    { "lbControls", new TextElement("A,D: Move Player\nSpace: Jump\nLeft Mouse Button: Use Ability", Medodica48, new Rectangle(16, 0, 0, 0)) },
                     { "btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth * 7 / 8 - 48, graphics.PreferredBackBufferHeight * 15 / 16 - 16)) }
                 };
                 menuLibrary.Add(Menus.Controls, new Menu(controlsElements));
