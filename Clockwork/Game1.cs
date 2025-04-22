@@ -254,6 +254,27 @@ namespace Clockwork
             // 2 lines since it's a bit easier to read than one.
             List<Tile> collisions = GetPlayerCollisions();
             HandlePlayerCollisions(collisions);
+
+            // make left and right side of screen act as walls
+            if (player.Left < 0)
+            {
+                player.Position = new Vector2(0, player.Position.Y);
+                if (player.Velocity.X < 0)
+                    player.Velocity = new Vector2(0, player.Velocity.Y);
+            }
+            else if (player.Right > _graphics.PreferredBackBufferWidth)
+            {
+                player.Position = new Vector2(_graphics.PreferredBackBufferWidth - player.Size.X, player.Position.Y);
+                if (player.Velocity.X > 0)
+                    player.Velocity = new Vector2(0, player.Velocity.Y);
+            }
+            // reset player and level when falling below the screen
+            if (player.Top > _graphics.PreferredBackBufferHeight)
+            {
+                LevelManager.Instance.ReloadLevel();
+                player.ResetPlayer();
+            }
+
             // update sprite because player may have moved from collisions.
             player.SpriteUpdate(gameTime);
 
@@ -308,14 +329,6 @@ namespace Clockwork
                     player.CollisionResponse(LevelManager.Instance.CurrentLevel.Collectibles[i]);
                     LevelManager.Instance.CurrentLevel.Collectibles[i].CollisionResponse(player);
                 }
-            }
-
-            // if the player exits the bounds of the screen reset them and the level.
-            if (!player.GetRectangle().Intersects(new Rectangle(0, 0,
-                _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight)))
-            {
-                player.ResetPlayer();
-                LevelManager.Instance.ReloadLevel();
             }
         }
 
