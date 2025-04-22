@@ -1,4 +1,5 @@
-﻿/*
+﻿
+/*
  * Who has worked on this file:
  * Philip
  */
@@ -55,18 +56,16 @@ namespace Clockwork
         //the amount of damage the enemy does to the player
         private int damage = 4;
 
-
         public int Damage
         {
             get { return damage; }
         }
 
-        public bool Invincible
+        public bool IsDead
         {
-            get { return invincible; }
-            set { invincible = value; }
+            get { return isDead; }
+            set { isDead = value; }
         }
-
 
         /// <summary>
         /// creates a new enemy
@@ -285,6 +284,7 @@ namespace Clockwork
                 isDead = true;
                 invincible = false;
                 deathTimer = 0;
+                deadObjects.Push(this);
             }
         }
 
@@ -303,29 +303,6 @@ namespace Clockwork
                 return new Rectangle(0, 0, 0, 0);
             }
             return base.GetRectangle();
-        }
-
-
-        /// <summary>
-        /// subcribes to collectibles keyTurn event
-        /// If the enemy died more than 5 seconds ago (the time the key is reversing),
-        /// then it is dead for good
-        /// </summary>
-        public void DeathCheck(GameTime gt)
-        {
-            //only do this if the enemy is dead
-            if (isDead)
-            {
-                //only revive if the enemy is killed in less time than the timer revereses
-                if (deathTimer < 5)
-                {
-                    //reset the enemy
-                    isDead = false;
-                    health = maxHealth;
-                    deathTimer = .4;
-                    velocity.Y = 0;
-                }
-            }
         }
     }
 }

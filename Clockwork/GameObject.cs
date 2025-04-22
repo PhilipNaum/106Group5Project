@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using AnimationHelper;
 using System;
+using Microsoft.VisualBasic.ApplicationServices;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace Clockwork
 {
@@ -32,6 +35,9 @@ namespace Clockwork
         public float Right => Position.X + Size.X;
         public float Top => Position.Y;
         public float Bottom => Position.Y + Size.Y;
+
+        public static Stack<GameObject> deadObjects = new Stack<GameObject>();
+
 
         // === Constructors ===
 
@@ -194,6 +200,37 @@ namespace Clockwork
         /// <returns>the rectangle</returns>
         public virtual Rectangle GetRectangle() => new Rectangle(this.Position.ToPoint(), this.Size.ToPoint());
 
+        public static void ReverseTime(GameTime gt)
+        {
+            System.Diagnostics.Debug.WriteLine("method called");
+            //only do this if that stack has objects in it
+            if (deadObjects.Count == 0)
+            {
+                return;
+            }
+            //double reverseTimer = .25;
+                //reverseTimer -= 1 / 60;
+                //if (reverseTimer <= 0)
+                //{
+                    if (deadObjects.Peek() is Enemy)
+                    {
+                        //revive the enemy if it's an enemy
+                        Enemy currentEnemy = (Enemy)deadObjects.Peek();
+                        currentEnemy.IsDead = false;
+                        deadObjects.Pop();
+                    }
+                    if (deadObjects.Peek() is Tile)
+                    {
+                        //set the tile to active if it's a tile
+                        Tile currentTile = (Tile)deadObjects.Peek();
+                        System.Diagnostics.Debug.WriteLine("tile made active");
+                        currentTile.Active = true;
 
+                        deadObjects.Pop();
+                    }
+                    //reverseTimer = .25f;
+                //}
+            
+        }
     }
 }

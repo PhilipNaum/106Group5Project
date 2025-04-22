@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
 using System.Data;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Transactions;
 
 namespace Clockwork
@@ -26,16 +27,6 @@ namespace Clockwork
         private static KeyboardState kbPrev;
         private static MouseState ms;
         private static MouseState msPrev;
-
-        private Enemy _testenemy;
-        private Enemy _testenemy2;
-        private List<Enemy> enemies;
-
-        private Collectible _testitem;
-        private Collectible _testitem2;
-        private Collectible _testitem3;
-        private Collectible _testitem4;
-        //private List<Collectible> collectibles;
 
         private Player player;
         private Vector2 playerLastFrame;
@@ -66,7 +57,6 @@ namespace Clockwork
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            enemies = new List<Enemy>();
             //collectibles = new List<Collectible>();
         }
 
@@ -81,19 +71,6 @@ namespace Clockwork
             player = new Player(new Vector2(100, 200), new Vector2(32, 64));
             playerLastFrame = player.Position;
 
-            _testenemy = new Enemy(new Vector2(416, 32), new Vector2(32, 32), new Vector2(-.5f, 0), 192, 10);
-            _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
-            enemies.Add(_testenemy);
-            //enemies.Add(_testenemy2);
-
-            _testitem = new Collectible(new Vector2(400, 240), new Vector2(16, 16), Type.Gear, 0);
-            _testitem2 = new Collectible(new Vector2(200, 240), new Vector2(16, 16), Type.Face, 0);
-            _testitem3 = new Collectible(new Vector2(400, 240), new Vector2(16, 16), Type.Chime, 0);
-            _testitem4 = new Collectible(new Vector2(192, 128), new Vector2(16, 16), Type.Hand, 0);
-            //collectibles.Add(_testitem);
-            //collectibles.Add(_testitem2);
-            //collectibles.Add(_testitem3);
-            //collectibles.Add(_testitem4);
 
             mainMenu = UILoader.GetMenu(Menus.Main);
             levelSelect = UILoader.GetMenu(Menus.Select);
@@ -231,15 +208,18 @@ namespace Clockwork
             }*/
             if (levelSelect.UIElements["btMenu"].Clicked || SingleKeyPress(Keys.Escape))
                 gameState = GameState.MainMenu;
+
         }
+
 
         private void UpdateGame(GameTime gameTime)
         {
+            
+
             if (SingleKeyPress(Keys.Escape))
             {
                 gameState = GameState.Pause;
             }
-
 
             player.Update(gameTime);
 
@@ -292,12 +272,8 @@ namespace Clockwork
                 {
                     player.CurrentItem.CollisionResponse(LevelManager.Instance.CurrentLevel.Enemies[i]);
                     LevelManager.Instance.CurrentLevel.Enemies[i].CollisionResponse(player.CurrentItem);
-                    if (player.CurrentItem.CollectibleType == Type.Key)
-                    {
-                        player.CurrentItem.KeyTurn += LevelManager.Instance.CurrentLevel.Enemies[i].DeathCheck;
-                    }
+                   
                 }
-
 
                 for (int j = 0; j < LevelManager.Instance.CurrentLevel.CollidableTiles.Count; j++)
                 {
@@ -314,10 +290,6 @@ namespace Clockwork
                 {
                     if (LevelManager.Instance.CurrentLevel.CollidableTiles[i].Active)
                         player.CurrentItem.CollisionResponse(LevelManager.Instance.CurrentLevel.CollidableTiles[i]);
-                    if (LevelManager.Instance.CurrentLevel.CollidableTiles[i].TileType.Breakable)
-                    {
-                        player.CurrentItem.KeyTurn += LevelManager.Instance.CurrentLevel.CollidableTiles[i].Fix;
-                    }
                 }
             }
 
@@ -617,6 +589,10 @@ namespace Clockwork
         public static bool SingleLeftClick()
         {
             return ms.LeftButton == ButtonState.Pressed && msPrev.LeftButton == ButtonState.Released;
+
+            
         }
+
+       
     }
 }

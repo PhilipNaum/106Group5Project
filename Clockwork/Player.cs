@@ -239,7 +239,6 @@ namespace Clockwork
             //same reason why the object itself is a field
             if (currentItem != null && currentItem.CollectibleType != Type.Key)
             {
-
                 currentItem.Update(gameTime);
 
                 if (currentAbility == Ability.AOE)
@@ -375,6 +374,7 @@ namespace Clockwork
                         case (Type.Key):
                             currentAbility = Ability.Undo;
                             currentItem = new Collectible(this.Position, this.Size, Type.Key, 1);
+                            currentItem.KeyTurn += GameObject.ReverseTime;
                             break;
                     }
                 }
@@ -390,7 +390,6 @@ namespace Clockwork
                         //vertical interactions
                         if (displacement.Height <= displacement.Width)
                         {
-                            System.Diagnostics.Debug.WriteLine("test");
                             //enemy hits you from the bottom
                             if (this.Position.Y < otherEnemy.Position.Y)
                             {
