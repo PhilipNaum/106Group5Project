@@ -12,6 +12,7 @@ using SharpDX.XAudio2;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
+using System.DirectoryServices.ActiveDirectory;
 using System.Globalization;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
@@ -207,15 +208,15 @@ namespace Clockwork
                         break;
                     case Ability.Sword:
                         //create a new sword
-                        if (horDir >= 0)
+                        if (direction == 1)
                         {
-                            currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + Size.Y / 2),
-                                new Vector2(50, 50), Type.Hand, 1, 10);
+                            currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y - Size.Y / 4),
+                                new Vector2(80, 80), Type.Hand, 1, 10);
                         }
-                        else if (horDir < 0)
+                        else if (direction == -1)
                         {
-                            currentItem = new Collectible(new Vector2(this.Position.X - Size.X, this.Position.Y + Size.Y / 2),
-                                new Vector2(50, 50), Type.Hand, 1, 10);
+                            currentItem = new Collectible(new Vector2(this.Position.X - Size.X * 2, this.Position.Y - Size.Y / 4),
+                                new Vector2(80, 80), Type.Hand, 1, 10);
                         }
                         currentItem.Home = this.Position;
 
@@ -249,48 +250,11 @@ namespace Clockwork
                 //keep the sword with the player
                 if (currentAbility == Ability.Sword)
                 {
-                    //check if the sword actually needs to be moved
-                    //home is used to calculate the rotation and final position of the sword
-                    //it needs to be updated so the sword can be in the right position
-                    if (currentItem.Home != this.Position)
-                    {
-                        if (currentItem.Home.X < this.Position.X)
-                        {
-                            float xDiff = this.Position.X - currentItem.Home.X;
-                            currentItem.Position = new Vector2(
-                                currentItem.Position.X + xDiff,
-                                currentItem.Position.Y);
-                        }
+                    if(direction == 1)
+                    currentItem.Position = new Vector2(this.Position.X + Size.X, this.Position.Y - Size.Y/4);
 
-                        if (currentItem.Home.X > this.Position.X)
-                        {
-                            float xDiff = currentItem.Home.X - this.Position.X;
-                            currentItem.Position = new Vector2(
-                                currentItem.Position.X - xDiff,
-                                currentItem.Position.Y);
-                        }
-
-                        //if the sword is above where it should be, subtract the y difference between home and position
-                        if (currentItem.Home.Y > this.Position.Y)
-                        {
-                            float YDiff = currentItem.Home.Y - this.Position.Y;
-                            currentItem.Position = new Vector2(
-                                currentItem.Position.X,
-                                currentItem.Position.Y - YDiff);
-                        }
-
-                        //if the sword is below where it should be, add the y difference between home and position
-                        if (currentItem.Home.Y < this.Position.Y)
-                        {
-                            float YDiff = currentItem.Home.Y - this.Position.Y;
-                            currentItem.Position = new Vector2(
-                                currentItem.Position.X,
-                                currentItem.Position.Y + YDiff);
-                        }
-
-                        //set the sword's home to the player's current position
-                        currentItem.Home = this.Position;
-                    }
+                    if (direction == -1)
+                        currentItem.Position = new Vector2(this.Position.X - Size.X * 2, this.Position.Y - Size.Y/4);
                 }
             }
 
