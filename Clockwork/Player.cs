@@ -327,15 +327,15 @@ namespace Clockwork
             if (currentAbility != Ability.None && Game1.SingleLeftClick())
                 thisAnim = "use";
             else if (!currentAnim.Substring(0, 3).Equals("use") ||
-                (currentAnim.Equals("useHand") && frameTimer >= (8.0 * (20.0 / (6.0 * 60.0)))) ||
-                (currentAnim.Equals("useGear") && frameTimer >= (8.0 * (20.0 / (6.0 * 60.0)))) ||
-                (currentAnim.Equals("useChime") && frameTimer >= (8.0 * (20.0 / (6.0 * 60.0)))) ||
-                (currentAnim.Equals("useKey") && frameTimer >= (14.0 * (20.0 / (6.0 * 60.0)))) ||
-                (currentAnim.Equals("useFace") && frameTimer >= (4.0 * (20.0 / (6.0 * 60.0)))))
+                (currentAnim.Equals("useHand") && frameTimer >= (4000.0 * (20.0 / (6.0 * 60.0)))) ||
+                (currentAnim.Equals("useGear") && frameTimer >= (4000.0 * (20.0 / (6.0 * 60.0)))) ||
+                (currentAnim.Equals("useChime") && frameTimer >= (4000.0 * (20.0 / (6.0 * 60.0)))) ||
+                (currentAnim.Equals("useKey") && frameTimer >= (7000.0 * (20.0 / (6.0 * 60.0)))) ||
+                (currentAnim.Equals("useFace") && frameTimer >= (2000.0 * (20.0 / (6.0 * 60.0)))))
             {
                 if (grounded && Game1.SingleKeyPress(Keys.Space))
                     thisAnim = "jump";
-                else if (!grounded && frameTimer - (2.0 * (20.0 / (12.0 * 60.0))) >= 0)
+                else if (!grounded && frameTimer - (4000.0 * (20.0 / (12.0 * 60.0))) >= 0)
                     thisAnim = "air";
                 else if (grounded && (Game1.KeyboardState.IsKeyDown(Keys.A) || Game1.KeyboardState.IsKeyDown(Keys.D)))
                     thisAnim = "run";
