@@ -210,18 +210,17 @@ namespace Clockwork
             }
             else
             {
-                while (deadObjects.Count >= 0)
-                {
-                    reverseTimer -= 1 / 60f;
-                    if (reverseTimer <= 0)
-                    {
+                //while (reverseTimer >= 0)
+                //{
+                //    reverseTimer -= 1 / 60f;
+                //    if (reverseTimer <= 0)
+                //    {
                         if (deadObjects.Peek() is Enemy)
                         {
                             //revive the enemy if it's an enemy
                             Enemy currentEnemy = (Enemy)deadObjects.Peek();
                             System.Diagnostics.Debug.WriteLine("enemy revived");
                             currentEnemy.IsDead = false;
-                            deadObjects.Pop();
                         }
                         else if (deadObjects.Peek() is Tile)
                         {
@@ -229,17 +228,13 @@ namespace Clockwork
                             Tile currentTile = (Tile)deadObjects.Peek();
                             System.Diagnostics.Debug.WriteLine("tile made active");
                             currentTile.Active = true;
-                            deadObjects.Pop();
                         }
-                        reverseTimer = .25f;
-                    }
-                }
+                        deadObjects.Pop();
+                //    }
+                //}
             }
-
-            
             //reverseTimer = .25f;
             //}
-
         }
     }
 }
