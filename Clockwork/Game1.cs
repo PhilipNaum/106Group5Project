@@ -200,6 +200,12 @@ namespace Clockwork
                 player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
+            if (levelSelect.UIElements["btLevel9"].Activated)
+            {
+                LevelManager.Instance.SetCurrentLevel(8);
+                player.ResetPlayer();
+                gameState = GameState.Gameplay;
+            }
             if (levelSelect.UIElements["btMenu"].Activated || SingleKeyPress(Keys.Escape))
                 gameState = GameState.MainMenu;
 
