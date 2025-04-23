@@ -23,10 +23,10 @@ namespace Clockwork
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private static KeyboardState kb;
-        private static KeyboardState kbPrev;
-        private static MouseState ms;
-        private static MouseState msPrev;
+        public static KeyboardState KeyboardState { get; set; }
+        public static KeyboardState PrevKeyboardState { get; set; }
+        public static MouseState MouseState { get; set; }
+        public static MouseState PrevMouseState { get; set; }
 
         private Player player;
         private Vector2 playerLastFrame;
@@ -81,8 +81,8 @@ namespace Clockwork
 
             LevelManager.Instance.SetCurrentLevel(0);
 
-            kb = Keyboard.GetState();
-            ms = Mouse.GetState();
+            KeyboardState = Keyboard.GetState();
+            MouseState = Mouse.GetState();
         }
 
         protected override void LoadContent()
@@ -96,10 +96,10 @@ namespace Clockwork
 
         protected override void Update(GameTime gameTime)
         {
-            kbPrev = kb;
-            kb = Keyboard.GetState();
-            msPrev = ms;
-            ms = Mouse.GetState();
+            PrevKeyboardState = KeyboardState;
+            KeyboardState = Keyboard.GetState();
+            PrevMouseState = MouseState;
+            MouseState = Mouse.GetState();
 
             switch (gameState)
             {
@@ -579,7 +579,7 @@ namespace Clockwork
         /// <returns>Whether the key has been pressed starting in this frame</returns>
         public static bool SingleKeyPress(Keys key)
         {
-            return kb.IsKeyDown(key) && kbPrev.IsKeyUp(key);
+            return KeyboardState.IsKeyDown(key) && PrevKeyboardState.IsKeyUp(key);
         }
 
         /// <summary>
@@ -588,9 +588,7 @@ namespace Clockwork
         /// <returns>Whether the left mouse button has been pressed starting in this frame</returns>
         public static bool SingleLeftClick()
         {
-            return ms.LeftButton == ButtonState.Pressed && msPrev.LeftButton == ButtonState.Released;
-
-            
+            return MouseState.LeftButton == ButtonState.Pressed && PrevMouseState.LeftButton == ButtonState.Released;
         }
 
        
