@@ -294,6 +294,11 @@ namespace Clockwork
 
         public override void Draw(SpriteBatch sb)
         {
+            if (debugMode)
+            {
+                float stringWidth = UILoader.Medodica18.MeasureString("Debug mode").X;
+                sb.DrawString(UILoader.Medodica18, "Debug mode", Position + new Vector2((-stringWidth + Size.X) / 2, -24), Color.White);
+            }
 
             if (direction == -1) base.Draw(sb, 1, Color.White, 0, SpriteEffects.FlipHorizontally, 1);
             else base.Draw(sb);
