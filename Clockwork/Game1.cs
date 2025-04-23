@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
 using System.Data;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Transactions;
 
 namespace Clockwork
@@ -26,16 +27,6 @@ namespace Clockwork
         public static KeyboardState PrevKeyboardState { get; set; }
         public static MouseState MouseState { get; set; }
         public static MouseState PrevMouseState { get; set; }
-
-        private Enemy _testenemy;
-        private Enemy _testenemy2;
-        private List<Enemy> enemies;
-
-        private Collectible _testitem;
-        private Collectible _testitem2;
-        private Collectible _testitem3;
-        private Collectible _testitem4;
-        //private List<Collectible> collectibles;
 
         private Player player;
         private Vector2 playerLastFrame;
@@ -66,7 +57,6 @@ namespace Clockwork
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            enemies = new List<Enemy>();
             //collectibles = new List<Collectible>();
         }
 
@@ -81,19 +71,6 @@ namespace Clockwork
             player = new Player(new Vector2(100, 200), new Vector2(32, 64));
             playerLastFrame = player.Position;
 
-            _testenemy = new Enemy(new Vector2(416, 32), new Vector2(32, 32), new Vector2(-.5f, 0), 192, 10);
-            _testenemy2 = new Enemy(new Vector2(200, 50), new Vector2(100, 100), new Vector2(.75f, 0), 400, 10);
-            enemies.Add(_testenemy);
-            //enemies.Add(_testenemy2);
-
-            _testitem = new Collectible(new Vector2(400, 240), new Vector2(16, 16), Type.Gear, 0);
-            _testitem2 = new Collectible(new Vector2(200, 240), new Vector2(16, 16), Type.Face, 0);
-            _testitem3 = new Collectible(new Vector2(400, 240), new Vector2(16, 16), Type.Chime, 0);
-            _testitem4 = new Collectible(new Vector2(192, 128), new Vector2(16, 16), Type.Hand, 0);
-            //collectibles.Add(_testitem);
-            //collectibles.Add(_testitem2);
-            //collectibles.Add(_testitem3);
-            //collectibles.Add(_testitem4);
 
             mainMenu = UILoader.GetMenu(Menus.Main);
             levelSelect = UILoader.GetMenu(Menus.Select);
@@ -231,15 +208,18 @@ namespace Clockwork
             }*/
             if (levelSelect.UIElements["btMenu"].Clicked || SingleKeyPress(Keys.Escape))
                 gameState = GameState.MainMenu;
+
         }
+
 
         private void UpdateGame(GameTime gameTime)
         {
+            
+
             if (SingleKeyPress(Keys.Escape))
             {
                 gameState = GameState.Pause;
             }
-
 
             player.Update(gameTime);
 
@@ -254,6 +234,27 @@ namespace Clockwork
             // 2 lines since it's a bit easier to read than one.
             List<Tile> collisions = GetPlayerCollisions();
             HandlePlayerCollisions(collisions);
+
+            // make left and right side of screen act as walls
+            if (player.Left < 0)
+            {
+                player.Position = new Vector2(0, player.Position.Y);
+                if (player.Velocity.X < 0)
+                    player.Velocity = new Vector2(0, player.Velocity.Y);
+            }
+            else if (player.Right > _graphics.PreferredBackBufferWidth)
+            {
+                player.Position = new Vector2(_graphics.PreferredBackBufferWidth - player.Size.X, player.Position.Y);
+                if (player.Velocity.X > 0)
+                    player.Velocity = new Vector2(0, player.Velocity.Y);
+            }
+            // reset player and level when falling below the screen
+            if (player.Top > _graphics.PreferredBackBufferHeight)
+            {
+                LevelManager.Instance.ReloadLevel();
+                player.ResetPlayer();
+            }
+
             // update sprite because player may have moved from collisions.
             player.SpriteUpdate(gameTime);
 
@@ -271,12 +272,8 @@ namespace Clockwork
                 {
                     player.CurrentItem.CollisionResponse(LevelManager.Instance.CurrentLevel.Enemies[i]);
                     LevelManager.Instance.CurrentLevel.Enemies[i].CollisionResponse(player.CurrentItem);
-                    if (player.CurrentItem.CollectibleType == Type.Key)
-                    {
-                        player.CurrentItem.KeyTurn += LevelManager.Instance.CurrentLevel.Enemies[i].DeathCheck;
-                    }
+                   
                 }
-
 
                 for (int j = 0; j < LevelManager.Instance.CurrentLevel.CollidableTiles.Count; j++)
                 {
@@ -293,10 +290,6 @@ namespace Clockwork
                 {
                     if (LevelManager.Instance.CurrentLevel.CollidableTiles[i].Active)
                         player.CurrentItem.CollisionResponse(LevelManager.Instance.CurrentLevel.CollidableTiles[i]);
-                    if (LevelManager.Instance.CurrentLevel.CollidableTiles[i].TileType.Breakable)
-                    {
-                        player.CurrentItem.KeyTurn += LevelManager.Instance.CurrentLevel.CollidableTiles[i].Fix;
-                    }
                 }
             }
 
@@ -308,14 +301,6 @@ namespace Clockwork
                     player.CollisionResponse(LevelManager.Instance.CurrentLevel.Collectibles[i]);
                     LevelManager.Instance.CurrentLevel.Collectibles[i].CollisionResponse(player);
                 }
-            }
-
-            // if the player exits the bounds of the screen reset them and the level.
-            if (!player.GetRectangle().Intersects(new Rectangle(0, 0,
-                _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight)))
-            {
-                player.ResetPlayer();
-                LevelManager.Instance.ReloadLevel();
             }
         }
 
@@ -463,6 +448,7 @@ namespace Clockwork
                             playerPos.Y -= col.W * Math.Sign(collider.Position.Y - playerPos.Y);
                             playerVel.Y = 0;
                             player.Grounded = true;
+                            player.HasDash = true;
 
                             collider.TilePlayerCollision();
                         }
@@ -604,5 +590,7 @@ namespace Clockwork
         {
             return MouseState.LeftButton == ButtonState.Pressed && PrevMouseState.LeftButton == ButtonState.Released;
         }
+
+       
     }
 }

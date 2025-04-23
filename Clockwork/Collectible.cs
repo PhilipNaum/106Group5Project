@@ -6,9 +6,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.Direct3D9;
 using SharpDX.DirectWrite;
+using System.Runtime.InteropServices;
 using System;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using System.Collections.Generic;
 
 
 namespace Clockwork
@@ -74,6 +76,7 @@ namespace Clockwork
             get { return home; }
             set { home = value; }
         }
+
         public delegate void Reverse(GameTime gt);
         public event Reverse KeyTurn;
 
@@ -84,16 +87,7 @@ namespace Clockwork
             home = this.Position;
             range = 7;
             velocity = new Vector2(0, .05f);
-            switch (collectibleType)
-            {
-                case (Type.Chime):
-                    timer = .3;
-                    break;
-            }
-            if (collectibletype == Type.Key && mode == 1)
-            {
-
-            }
+            timer = .3;
         }
         
         public Collectible(Vector2 position, Vector2 size,Type collectibletype, int mode, int damage)
@@ -139,34 +133,39 @@ namespace Clockwork
                         }
                         break;
                     case Type.Hand:
-                        Vector2 finalPos = new Vector2();
-                        if (this.Position.X > this.Home.X)
-                        {
-                            finalPos = new Vector2(this.Home.X + 32, this.Home.Y - 16);
-                        
-                            float xDiff = this.Position.X - this.Home.X;
-                            float yDiff = this.Position.Y - this.Home.Y;
+                        //Vector2 finalPos = new Vector2();
+                        //if (this.Position.X > this.Home.X)
+                        //{
+                        //    finalPos = new Vector2(this.Home.X + 32, this.Home.Y - 16);
+
+                        //    float xDiff = this.Position.X - this.Home.X;
+                        //    float yDiff = this.Position.Y - this.Home.Y;
 
 
-                            Vector2 rotate = new Vector2(
-                            (float)((Math.Cos(5 * -0.0174533) * xDiff) - (Math.Sin(5 * -0.0174533) * yDiff) + this.Home.X),
-                            (float)((Math.Sin(5 * -0.0174533) * xDiff) + (Math.Cos(5 * -0.0174533) * yDiff) + this.Home.Y));
-                            Position = rotate;
-                        }
-                        else if (this.Position.X < this.Home.X)
-                        {
-                            finalPos = new Vector2(this.Home.X - 32, this.Home.Y - 16);
+                        //    Vector2 rotate = new Vector2(
+                        //    (float)((Math.Cos(5 * -0.0174533) * xDiff) - (Math.Sin(5 * -0.0174533) * yDiff) + this.Home.X),
+                        //    (float)((Math.Sin(5 * -0.0174533) * xDiff) + (Math.Cos(5 * -0.0174533) * yDiff) + this.Home.Y));
+                        //    Position = rotate;
+                        //}
+                        //else if (this.Position.X < this.Home.X)
+                        //{
+                        //    finalPos = new Vector2(this.Home.X - 32, this.Home.Y - 16);
 
-                            float xDiff = this.Position.X - this.Home.X;
-                            float yDiff = this.Position.Y - this.Home.Y;
+                        //    float xDiff = this.Position.X - this.Home.X;
+                        //    float yDiff = this.Position.Y - this.Home.Y;
 
 
-                            Vector2 rotate = new Vector2(
-                            (float)((Math.Cos(5 * 0.0174533) * xDiff) - (Math.Sin(5 * 0.0174533) * yDiff) + this.Home.X),
-                            (float)((Math.Sin(5 * 0.0174533) * xDiff) + (Math.Cos(5 * 0.0174533) * yDiff) + this.Home.Y));
-                            Position = rotate;
-                        }
-                        if (Position.X >= finalPos.X && Position.Y <= finalPos.Y)
+                        //    Vector2 rotate = new Vector2(
+                        //    (float)((Math.Cos(5 * 0.0174533) * xDiff) - (Math.Sin(5 * 0.0174533) * yDiff) + this.Home.X),
+                        //    (float)((Math.Sin(5 * 0.0174533) * xDiff) + (Math.Cos(5 * 0.0174533) * yDiff) + this.Home.Y));
+                        //    Position = rotate;
+                        //}
+                        //if (Position.X >= finalPos.X && Position.Y <= finalPos.Y)
+                        //{
+                        //    mode = 2;
+                        //}
+                        timer -= gt.ElapsedGameTime.TotalSeconds;
+                        if (timer <= 0)
                         {
                             mode = 2;
                         }
@@ -201,22 +200,6 @@ namespace Clockwork
                 if (other is Player && mode == 0)
                 {
                     mode = 2;
-                }
-
-                //if it hits an enemy, then do appropriate damage
-                if (other is Enemy)
-                {
-                    Enemy otherEnemy = (Enemy)other;
-                    switch (collectibleType)
-                    {
-                        case Type.Gear:
-                                
-                            //if (mode == 1)
-                            //{
-                            //    mode = 2;
-                            //}
-                            break;
-                    }
                 }
 
                 if (other is Tile && mode == 1)

@@ -25,8 +25,6 @@ namespace Clockwork
         private bool active;
         private Point gridPosition;
 
-        private bool fixing;
-
         // only used if the tile is destructible
         private bool tileTouched;
         private readonly float tileDestructTimer = 1;
@@ -71,8 +69,6 @@ namespace Clockwork
 
             tileDestructCountdown = tileDestructTimer;
 
-            fixing = false;
-
         }
 
         public override void Update(GameTime gt)
@@ -85,26 +81,10 @@ namespace Clockwork
                 {
                     active = false;
                     tileTouched = false;
-                    tileDestructCountdown = 0;
-                }
-            }
-            //do this whe th
-            else if (fixing)
-            {
-                //count down
-                tileDestructCountdown -= (float)gt.ElapsedGameTime.TotalSeconds;
-                if (tileDestructCountdown < 0)
-                {
-                    //reset
-                    active = true;
+                    deadObjects.Push(this);
+                    System.Diagnostics.Debug.WriteLine("tile added");
                     tileDestructCountdown = tileDestructTimer;
-                    fixing = false;
                 }
-            }
-            //when brokn, start 
-            else if (!active)
-            {
-                tileDestructCountdown += (float)gt.ElapsedGameTime.TotalSeconds;
             }
 
             base.Update(gt);
@@ -134,23 +114,6 @@ namespace Clockwork
         {
             tileTouched = true;
             tileDestructCountdown = 0;
-        }
-
-        /// <summary>
-        /// Fixes the tile after its been broken
-        /// </summary>
-        /// <param name="gt"></param>
-        public void Fix(GameTime gt)
-        {
-            //only do this if it's inactive
-            if (!active)
-            {
-                //only fix the tile if it was broken less than 5 seconds ago
-                if (tileDestructCountdown < 5)
-                {
-                    fixing = true;
-                }
-            }
         }
 
         /// <summary>

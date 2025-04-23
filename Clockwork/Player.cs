@@ -12,6 +12,7 @@ using SharpDX.XAudio2;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices;
+using System.DirectoryServices.ActiveDirectory;
 using System.Globalization;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
@@ -49,8 +50,9 @@ namespace Clockwork
 
         // Probably want to put gravity somewhere else, but here now for testing
         private readonly Vector2 gravity = new Vector2(0, 20f);
-        // probably also move this to somewhere else later
+
         private KeyboardState prevKS;
+        private MouseState prevMS;
 
         private float jumpSpeed = 9;
 
@@ -72,6 +74,13 @@ namespace Clockwork
             set { grounded = value; }
         }
 
+        private bool hasDash;
+        public bool HasDash
+        {
+            get { return hasDash; }
+            set { hasDash = value; }
+        }
+
         // enum so there can only be one ability active at a time
         private Ability currentAbility;
         private enum Ability
@@ -88,6 +97,7 @@ namespace Clockwork
         {
             currentAbility = Ability.None;
             grounded = false;
+            hasDash = false;
             health = maxHealth;
             invincible = false;
             currentAnim = "idleBase";
@@ -118,6 +128,7 @@ namespace Clockwork
             Vector2 direction = Vector2.Normalize(mouseState.Position.ToVector2()
                 - (this.Position + this.Size / 2));
 
+            hasDash = false;
             //return direction * dashSpeed;
             return new Vector2(direction.X * dashSpeedX, direction.Y * dashSpeedY);
         }
@@ -136,9 +147,10 @@ namespace Clockwork
             velocity.Y += gravity.Y * dTime;
 
             // jump
-            if (grounded && Game1.SingleKeyPress(Keys.Space))
+            if (grounded && ks.IsKeyDown(Keys.Space) && prevKS.IsKeyUp(Keys.Space))
             {
                 velocity.Y -= jumpSpeed;
+                grounded = false;
             }
 
             float horDir = 0;
@@ -176,7 +188,7 @@ namespace Clockwork
             }
 
             // use ability
-            if (Game1.SingleLeftClick())
+            if (ms.LeftButton == ButtonState.Pressed && prevMS.LeftButton == ButtonState.Released)
             {
                 switch (currentAbility)
                 {
@@ -185,7 +197,8 @@ namespace Clockwork
                     case Ability.Dash:
                         // need to decide whether dash
                         // overwrites or adds to velocity
-                        velocity = Dash(ms);
+                        if (hasDash)
+                            velocity = Dash(ms);
                         break;
                     case Ability.Throw:
                         //if statement makes sure that a gear can only be thrown once the one before is gone
@@ -199,15 +212,15 @@ namespace Clockwork
                         break;
                     case Ability.Sword:
                         //create a new sword
-                        if (horDir >= 0)
+                        if (direction == 1)
                         {
-                            currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y + Size.Y / 2),
-                                new Vector2(50, 50), Type.Hand, 1, 10);
+                            currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y - Size.Y / 4),
+                                new Vector2(80, 80), Type.Hand, 1, 10);
                         }
-                        else if (horDir < 0)
+                        else if (direction == -1)
                         {
-                            currentItem = new Collectible(new Vector2(this.Position.X - Size.X, this.Position.Y + Size.Y / 2),
-                                new Vector2(50, 50), Type.Hand, 1, 10);
+                            currentItem = new Collectible(new Vector2(this.Position.X - Size.X * 2, this.Position.Y - Size.Y / 4),
+                                new Vector2(80, 80), Type.Hand, 1, 10);
                         }
                         currentItem.Home = this.Position;
 
@@ -231,7 +244,6 @@ namespace Clockwork
             //same reason why the object itself is a field
             if (currentItem != null && currentItem.CollectibleType != Type.Key)
             {
-
                 currentItem.Update(gameTime);
 
                 if (currentAbility == Ability.AOE)
@@ -242,48 +254,11 @@ namespace Clockwork
                 //keep the sword with the player
                 if (currentAbility == Ability.Sword)
                 {
-                    //check if the sword actually needs to be moved
-                    //home is used to calculate the rotation and final position of the sword
-                    //it needs to be updated so the sword can be in the right position
-                    if (currentItem.Home != this.Position)
-                    {
-                        if (currentItem.Home.X < this.Position.X)
-                        {
-                            float xDiff = this.Position.X - currentItem.Home.X;
-                            currentItem.Position = new Vector2(
-                                currentItem.Position.X + xDiff,
-                                currentItem.Position.Y);
-                        }
+                    if(direction == 1)
+                    currentItem.Position = new Vector2(this.Position.X + Size.X, this.Position.Y - Size.Y/4);
 
-                        if (currentItem.Home.X > this.Position.X)
-                        {
-                            float xDiff = currentItem.Home.X - this.Position.X;
-                            currentItem.Position = new Vector2(
-                                currentItem.Position.X - xDiff,
-                                currentItem.Position.Y);
-                        }
-
-                        //if the sword is above where it should be, subtract the y difference between home and position
-                        if (currentItem.Home.Y > this.Position.Y)
-                        {
-                            float YDiff = currentItem.Home.Y - this.Position.Y;
-                            currentItem.Position = new Vector2(
-                                currentItem.Position.X,
-                                currentItem.Position.Y - YDiff);
-                        }
-
-                        //if the sword is below where it should be, add the y difference between home and position
-                        if (currentItem.Home.Y < this.Position.Y)
-                        {
-                            float YDiff = currentItem.Home.Y - this.Position.Y;
-                            currentItem.Position = new Vector2(
-                                currentItem.Position.X,
-                                currentItem.Position.Y + YDiff);
-                        }
-
-                        //set the sword's home to the player's current position
-                        currentItem.Home = this.Position;
-                    }
+                    if (direction == -1)
+                        currentItem.Position = new Vector2(this.Position.X - Size.X * 2, this.Position.Y - Size.Y/4);
                 }
             }
 
@@ -300,6 +275,7 @@ namespace Clockwork
             this.Position += velocity;
 
             prevKS = ks;
+            prevMS = ms;
 
 
             // Control animations
@@ -403,6 +379,7 @@ namespace Clockwork
                         case (Type.Key):
                             currentAbility = Ability.Undo;
                             currentItem = new Collectible(this.Position, this.Size, Type.Key, 1);
+                            currentItem.KeyTurn += GameObject.ReverseTime;
                             break;
                     }
                 }
@@ -418,7 +395,6 @@ namespace Clockwork
                         //vertical interactions
                         if (displacement.Height <= displacement.Width)
                         {
-                            System.Diagnostics.Debug.WriteLine("test");
                             //enemy hits you from the bottom
                             if (this.Position.Y < otherEnemy.Position.Y)
                             {
