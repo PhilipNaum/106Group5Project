@@ -36,8 +36,7 @@ namespace Clockwork
         public float Top => Position.Y;
         public float Bottom => Position.Y + Size.Y;
 
-        protected static Stack<GameObject> deadObjects = new Stack<GameObject>();
-
+        protected static Queue<GameObject> deadObjects = new Queue<GameObject>();
 
         // === Constructors ===
 
