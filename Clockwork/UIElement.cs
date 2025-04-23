@@ -44,6 +44,8 @@ namespace Clockwork
         /// </summary>
         public bool Clicked { get; private set; }
 
+        public bool Activated { get; private set; }
+
 
         // === Constructors ===
 
@@ -92,7 +94,8 @@ namespace Clockwork
             // Check if mouse is hovering the UIElement
             Hovered = Rectangle.Contains(Mouse.GetState().Position);
             // Check if the mouse clicked on the UIELement
-            if (Hovered) Clicked = Game1.SingleLeftClick();
+            if (Hovered) Clicked = Game1.MouseState.LeftButton == ButtonState.Pressed;
+            if (Hovered) Activated = Game1.LeftClickRelease();
         }
 
         /// <summary>
@@ -124,6 +127,7 @@ namespace Clockwork
         {
             Hovered = false;
             Clicked = false;
+            Activated = false;
         }
     }
 }
