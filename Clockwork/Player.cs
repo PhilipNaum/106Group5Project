@@ -254,11 +254,11 @@ namespace Clockwork
                 //keep the sword with the player
                 if (currentAbility == Ability.Sword)
                 {
-                    if(direction == 1)
-                    currentItem.Position = new Vector2(this.Position.X + Size.X, this.Position.Y - Size.Y/4);
+                    if (direction == 1)
+                        currentItem.Position = new Vector2(this.Position.X + Size.X, this.Position.Y - Size.Y / 4);
 
                     if (direction == -1)
-                        currentItem.Position = new Vector2(this.Position.X - Size.X * 2, this.Position.Y - Size.Y/4);
+                        currentItem.Position = new Vector2(this.Position.X - Size.X * 2, this.Position.Y - Size.Y / 4);
                 }
             }
 
@@ -345,7 +345,8 @@ namespace Clockwork
             // Update current animation
             if (thisAnim != currentAnim)
             {
-                SetAnimation(thisAnim);
+                try { SetAnimation(thisAnim); }
+                catch { }
                 frameTimer = 0;
             }
             currentAnim = thisAnim;
