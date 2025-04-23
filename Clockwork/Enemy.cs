@@ -284,8 +284,7 @@ namespace Clockwork
                 isDead = true;
                 invincible = false;
                 deathTimer = 0;
-                deadObjects.Push(this);
-                System.Diagnostics.Debug.WriteLine("Enemy added");
+                deadObjects.Enqueue(this);
             }
         }
 

@@ -72,6 +72,7 @@ namespace Clockwork
         private static string[] levelFilenames = {
             "Levels/MovementIntro.map",
             "Levels/BreakableTilesIntro.map",
+            "Levels/DashIntro.map",
             "Levels/GearIntro.map",
             "Levels/ChimeIntro.map",
             "Levels/RewindIntro.map",
@@ -82,6 +83,7 @@ namespace Clockwork
 
         private static string[] enemyFilenames =
         {
+            "none",
             "none",
             "none",
             "Content/Enemies/GearIntroEnemies.data",

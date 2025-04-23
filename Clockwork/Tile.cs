@@ -81,8 +81,7 @@ namespace Clockwork
                 {
                     active = false;
                     tileTouched = false;
-                    deadObjects.Push(this);
-                    System.Diagnostics.Debug.WriteLine("tile added");
+                    deadObjects.Enqueue(this);
                     tileDestructCountdown = tileDestructTimer;
                 }
             }

@@ -31,6 +31,11 @@ namespace Clockwork
         private readonly int maxHealth = 10;
         private int health;
 
+        /// <summary>
+        /// Debug mode makes the player invincible.
+        /// </summary>
+        private bool debugMode;
+
         private int direction;
 
         private string currentAnim;
@@ -51,15 +56,12 @@ namespace Clockwork
         // Probably want to put gravity somewhere else, but here now for testing
         private readonly Vector2 gravity = new Vector2(0, 20f);
 
-        private KeyboardState prevKS;
-        private MouseState prevMS;
-
         private float jumpSpeed = 9;
 
-        private float maxHorizontalSpeed = 9;
+        private float maxHorizontalSpeed = 8;
         // it may be better to represent accelerations as time to max speed
-        private float horizontalAcceleration = 45;
-        private float horizontalDeceleration = 45;
+        private float horizontalAcceleration = 35;
+        private float horizontalDeceleration = 35;
 
         // probably want to dash farther horizontally than vertically
         private float dashSpeedX = 14;
@@ -100,6 +102,7 @@ namespace Clockwork
             hasDash = false;
             health = maxHealth;
             invincible = false;
+            debugMode = false;
             currentAnim = "idleBase";
         }
 
@@ -139,27 +142,32 @@ namespace Clockwork
         /// </summary>
         public override void Update(GameTime gameTime)
         {
-            KeyboardState ks = Keyboard.GetState();
-            MouseState ms = Mouse.GetState();
+            // debug mode toggle
+            if (Game1.SingleKeyPress(Keys.Tab))
+            {
+                debugMode = !debugMode;
+            }
+
+
             // time between frames
             float dTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             velocity.Y += gravity.Y * dTime;
 
             // jump
-            if (grounded && ks.IsKeyDown(Keys.Space) && prevKS.IsKeyUp(Keys.Space))
+            if (grounded && Game1.SingleKeyPress(Keys.Space))
             {
                 velocity.Y -= jumpSpeed;
                 grounded = false;
             }
 
             float horDir = 0;
-            if (ks.IsKeyDown(Keys.A))
+            if (Game1.KeyboardState.IsKeyDown(Keys.A))
             {
                 horDir--;
                 direction = -1;
             }
-            if (ks.IsKeyDown(Keys.D))
+            if (Game1.KeyboardState.IsKeyDown(Keys.D))
             {
                 horDir++;
                 direction = 1;
@@ -188,7 +196,7 @@ namespace Clockwork
             }
 
             // use ability
-            if (ms.LeftButton == ButtonState.Pressed && prevMS.LeftButton == ButtonState.Released)
+            if (Game1.MouseState.LeftButton == ButtonState.Pressed && Game1.PrevMouseState.LeftButton == ButtonState.Released)
             {
                 switch (currentAbility)
                 {
@@ -198,7 +206,7 @@ namespace Clockwork
                         // need to decide whether dash
                         // overwrites or adds to velocity
                         if (hasDash)
-                            velocity = Dash(ms);
+                            velocity = Dash(Game1.MouseState);
                         break;
                     case Ability.Throw:
                         //if statement makes sure that a gear can only be thrown once the one before is gone
@@ -206,12 +214,13 @@ namespace Clockwork
                         {
                             currentItem = new Collectible(new Vector2(this.Position.X + Size.X / 4, this.Position.Y + Size.Y / 4), new Vector2(32, 32), Type.Gear, 1, 2);
                             currentItem.Sprite.SetAnimation("gearSpin");
-                            currentItem.Velocity = Vector2.Normalize(ms.Position.ToVector2()
+                            currentItem.Velocity = Vector2.Normalize(Game1.MouseState.Position.ToVector2()
                             - (this.Position + this.Size / 2));
                         }
                         break;
                     case Ability.Sword:
-                        //create a new sword
+                        //create a new sword if one doesn't already exist
+                        //Position of sword is based on your direction
                         if (direction == 1)
                         {
                             currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y - Size.Y / 4),
@@ -226,6 +235,7 @@ namespace Clockwork
 
                         break;
                     case Ability.AOE:
+                        //create a new AOE item if one doesn't already exist
                         if (currentItem == null || currentItem.Mode == 2)
                         {
                             currentItem = new Collectible(
@@ -234,7 +244,8 @@ namespace Clockwork
                         }
                         break;
                     case Ability.Undo:
-                        currentItem.Update(gameTime);
+                        //create a new timer object
+                        currentItem = new Collectible(this.Position, this.Size, Type.Key, 1);
                         break;
                     default:
                         break;
@@ -242,7 +253,7 @@ namespace Clockwork
             }
             //putting this here makes sure it updates every frame
             //same reason why the object itself is a field
-            if (currentItem != null && currentItem.CollectibleType != Type.Key)
+            if (currentItem != null)
             {
                 currentItem.Update(gameTime);
 
@@ -252,13 +263,14 @@ namespace Clockwork
                     currentItem.Position = new Vector2(this.Position.X - 20, this.Position.Y - Size.Y / 4);
                 }
                 //keep the sword with the player
+                //position is based on your direction
                 if (currentAbility == Ability.Sword)
                 {
-                    if(direction == 1)
-                    currentItem.Position = new Vector2(this.Position.X + Size.X, this.Position.Y - Size.Y/4);
+                    if (direction == 1)
+                        currentItem.Position = new Vector2(this.Position.X + Size.X, this.Position.Y - Size.Y / 4);
 
                     if (direction == -1)
-                        currentItem.Position = new Vector2(this.Position.X - Size.X * 2, this.Position.Y - Size.Y/4);
+                        currentItem.Position = new Vector2(this.Position.X - Size.X * 2, this.Position.Y - Size.Y / 4);
                 }
             }
 
@@ -274,10 +286,6 @@ namespace Clockwork
 
             this.Position += velocity;
 
-            prevKS = ks;
-            prevMS = ms;
-
-
             // Control animations
             AnimationController(gameTime);
 
@@ -286,6 +294,11 @@ namespace Clockwork
 
         public override void Draw(SpriteBatch sb)
         {
+            if (debugMode)
+            {
+                float stringWidth = UILoader.Medodica18.MeasureString("Debug mode").X;
+                sb.DrawString(UILoader.Medodica18, "Debug mode", Position + new Vector2((-stringWidth + Size.X) / 2, -24), Color.White);
+            }
 
             if (direction == -1) base.Draw(sb, 1, Color.White, 0, SpriteEffects.FlipHorizontally, 1);
             else base.Draw(sb);
@@ -345,7 +358,8 @@ namespace Clockwork
             // Update current animation
             if (thisAnim != currentAnim)
             {
-                SetAnimation(thisAnim);
+                try { SetAnimation(thisAnim); }
+                catch { }
                 frameTimer = 0;
             }
             currentAnim = thisAnim;
@@ -376,15 +390,14 @@ namespace Clockwork
                             break;
                         case (Type.Key):
                             currentAbility = Ability.Undo;
-                            currentItem = new Collectible(this.Position, this.Size, Type.Key, 1);
-                            currentItem.KeyTurn += GameObject.ReverseTime;
+                            
                             break;
                     }
                 }
                 if (other is Enemy)
                 {
                     Enemy otherEnemy = (Enemy)other;
-                    if (!invincible)
+                    if (!invincible && !debugMode)
                     {
                         //get the intersection rectangle of the enemy and the player
                         //get the intersection rectangle of the enemy and the player
@@ -448,7 +461,7 @@ namespace Clockwork
 
         private void TakeDamage(int damage)
         {
-            if (!invincible)
+            if (!invincible && !debugMode)
             {
                 health -= damage;
                 invincible = true;

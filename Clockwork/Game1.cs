@@ -133,80 +133,80 @@ namespace Clockwork
         private void UpdateMainMenu()
         {
             mainMenu.Update();
-            if (mainMenu.UIElements["btStart"].Clicked)
+            if (mainMenu.UIElements["btStart"].Activated)
             {
                 player.ResetPlayer();
                 LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex);
                 gameState = GameState.Gameplay;
             }
-            if (mainMenu.UIElements["btLevels"].Clicked)
+            if (mainMenu.UIElements["btLevels"].Activated)
                 gameState = GameState.LevelSelect;
-            if (mainMenu.UIElements["btControls"].Clicked)
+            if (mainMenu.UIElements["btControls"].Activated)
                 gameState = GameState.Controls;
-            if (mainMenu.UIElements["btCredits"].Clicked)
+            if (mainMenu.UIElements["btCredits"].Activated)
                 gameState = GameState.Credits;
-            if (mainMenu.UIElements["btExit"].Clicked || SingleKeyPress(Keys.Escape))
+            if (mainMenu.UIElements["btExit"].Activated || SingleKeyPress(Keys.Escape))
                 Exit();
         }
 
         private void UpdateLevelSelect()
         {
             levelSelect.Update();
-            if (levelSelect.UIElements["btLevel1"].Clicked)
+            if (levelSelect.UIElements["btLevel1"].Activated)
             {
                 LevelManager.Instance.SetCurrentLevel(0);
                 player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
-            if (levelSelect.UIElements["btLevel2"].Clicked)
+            if (levelSelect.UIElements["btLevel2"].Activated)
             {
                 LevelManager.Instance.SetCurrentLevel(1);
                 player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
-            if (levelSelect.UIElements["btLevel3"].Clicked)
+            if (levelSelect.UIElements["btLevel3"].Activated)
             {
                 LevelManager.Instance.SetCurrentLevel(2);
                 player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
-            if (levelSelect.UIElements["btLevel4"].Clicked)
+            if (levelSelect.UIElements["btLevel4"].Activated)
             {
                 LevelManager.Instance.SetCurrentLevel(3);
                 player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
-            if (levelSelect.UIElements["btLevel5"].Clicked)
+            if (levelSelect.UIElements["btLevel5"].Activated)
             {
                 LevelManager.Instance.SetCurrentLevel(4);
                 player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
-            if (levelSelect.UIElements["btLevel6"].Clicked)
+            if (levelSelect.UIElements["btLevel6"].Activated)
             {
                 LevelManager.Instance.SetCurrentLevel(5);
                 player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
-            if (levelSelect.UIElements["btLevel7"].Clicked)
+            if (levelSelect.UIElements["btLevel7"].Activated)
             {
                 LevelManager.Instance.SetCurrentLevel(6);
                 player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
-            if (levelSelect.UIElements["btLevel8"].Clicked)
+            if (levelSelect.UIElements["btLevel8"].Activated)
             {
                 LevelManager.Instance.SetCurrentLevel(7);
                 player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
-            /*if (levelSelect.UIElements["btLevel9"].Clicked)
+            if (levelSelect.UIElements["btLevel9"].Activated)
             {
                 LevelManager.Instance.SetCurrentLevel(8);
                 player.ResetPlayer();
                 gameState = GameState.Gameplay;
-            }*/
-            if (levelSelect.UIElements["btMenu"].Clicked || SingleKeyPress(Keys.Escape))
+            }
+            if (levelSelect.UIElements["btMenu"].Activated || SingleKeyPress(Keys.Escape))
                 gameState = GameState.MainMenu;
 
         }
@@ -307,32 +307,32 @@ namespace Clockwork
         private void UpdatePause()
         {
             pauseMenu.Update();
-            if (pauseMenu.UIElements["btResume"].Clicked || SingleKeyPress(Keys.Escape))
+            if (pauseMenu.UIElements["btResume"].Activated || SingleKeyPress(Keys.Escape))
                 gameState = GameState.Gameplay;
-            if (pauseMenu.UIElements["btReset"].Clicked)
+            if (pauseMenu.UIElements["btReset"].Activated)
             {
                 player.ResetPlayer();
                 LevelManager.Instance.ReloadLevel();
                 gameState = GameState.Gameplay;
             }
-            if (pauseMenu.UIElements["btMenu"].Clicked)
+            if (pauseMenu.UIElements["btMenu"].Activated)
                 gameState = GameState.MainMenu;
         }
 
         private void UpdateLevelComplete()
         {
             levelComplete.Update();
-            if (levelComplete.UIElements["btNext"].Clicked)
+            if (levelComplete.UIElements["btNext"].Activated)
             {
                 LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex + 1);
                 player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
-            if (levelComplete.UIElements["btLevels"].Clicked)
+            if (levelComplete.UIElements["btLevels"].Activated)
             {
                 gameState = GameState.LevelSelect;
             }
-            if (levelComplete.UIElements["btMenu"].Clicked)
+            if (levelComplete.UIElements["btMenu"].Activated)
             {
                 LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex + 1);
                 player.ResetPlayer();
@@ -343,14 +343,14 @@ namespace Clockwork
         private void UpdateCredits()
         {
             creditsMenu.Update();
-            if (creditsMenu.UIElements["btMenu"].Clicked || SingleKeyPress(Keys.Escape))
+            if (creditsMenu.UIElements["btMenu"].Activated || SingleKeyPress(Keys.Escape))
                 gameState = GameState.MainMenu;
         }
 
         private void UpdateControls()
         {
             controlsMenu.Update();
-            if (controlsMenu.UIElements["btMenu"].Clicked || SingleKeyPress(Keys.Escape))
+            if (controlsMenu.UIElements["btMenu"].Activated || SingleKeyPress(Keys.Escape))
                 gameState = GameState.MainMenu;
         }
 
@@ -395,6 +395,8 @@ namespace Clockwork
                 // ignore a collision if the width or height is 0
                 if (col.W == 0 || col.Z == 0)
                     continue;
+                else
+                    collider.TilePlayerCollision();
 
                 // (x: x, y: y, z: width, w: height)
                 if (col.W >= col.Z)
@@ -591,6 +593,9 @@ namespace Clockwork
             return MouseState.LeftButton == ButtonState.Pressed && PrevMouseState.LeftButton == ButtonState.Released;
         }
 
-       
+        public static bool LeftClickRelease()
+        {
+            return MouseState.LeftButton == ButtonState.Released && PrevMouseState.LeftButton == ButtonState.Pressed;
+        }
     }
 }

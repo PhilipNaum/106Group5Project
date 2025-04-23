@@ -36,8 +36,7 @@ namespace Clockwork
         public float Top => Position.Y;
         public float Bottom => Position.Y + Size.Y;
 
-        public static Stack<GameObject> deadObjects = new Stack<GameObject>();
-
+        protected static Queue<GameObject> deadObjects = new Queue<GameObject>();
 
         // === Constructors ===
 
@@ -200,46 +199,6 @@ namespace Clockwork
         /// <returns>the rectangle</returns>
         public virtual Rectangle GetRectangle() => new Rectangle(this.Position.ToPoint(), this.Size.ToPoint());
 
-        public static void ReverseTime(GameTime gt)
-        {
-            System.Diagnostics.Debug.WriteLine("method called");
-            float reverseTimer = .25f;
-            if (deadObjects.Count <= 0)
-            {
-                return;
-            }
-            else
-            {
-                while (deadObjects.Count >= 0)
-                {
-                    reverseTimer -= 1 / 60f;
-                    if (reverseTimer <= 0)
-                    {
-                        if (deadObjects.Peek() is Enemy)
-                        {
-                            //revive the enemy if it's an enemy
-                            Enemy currentEnemy = (Enemy)deadObjects.Peek();
-                            System.Diagnostics.Debug.WriteLine("enemy revived");
-                            currentEnemy.IsDead = false;
-                            deadObjects.Pop();
-                        }
-                        else if (deadObjects.Peek() is Tile)
-                        {
-                            //set the tile to active if it's a tile
-                            Tile currentTile = (Tile)deadObjects.Peek();
-                            System.Diagnostics.Debug.WriteLine("tile made active");
-                            currentTile.Active = true;
-                            deadObjects.Pop();
-                        }
-                        reverseTimer = .25f;
-                    }
-                }
-            }
-
-            
-            //reverseTimer = .25f;
-            //}
-
-        }
+        
     }
 }
