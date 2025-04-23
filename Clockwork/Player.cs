@@ -33,6 +33,7 @@ namespace Clockwork
         private int direction;
 
         private string currentAnim;
+        private double frameTimer;
 
         public Collectible CurrentItem
         {
@@ -89,6 +90,7 @@ namespace Clockwork
             grounded = false;
             health = maxHealth;
             invincible = false;
+            currentAnim = "idleBase";
         }
 
         /// <summary>
@@ -299,13 +301,15 @@ namespace Clockwork
 
             prevKS = ks;
 
+
+            // Control animations
+            AnimationController(gameTime);
+
             base.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            // Control animations
-            AnimationController();
 
             if (direction == -1) base.Draw(sb, 1, Color.White, 0, SpriteEffects.FlipHorizontally, 1);
             else base.Draw(sb);
@@ -313,11 +317,62 @@ namespace Clockwork
             if (currentItem != null && currentItem.CollectibleType != Type.Key) currentItem.Draw(sb);
         }
 
-        public void AnimationController()
+        public void AnimationController(GameTime gt)
         {
             string thisAnim = "";
 
-            if (thisAnim != currentAnim) SetAnimation(thisAnim);
+            frameTimer += gt.ElapsedGameTime.TotalMilliseconds;
+
+            // Select animation type
+            if (Game1.SingleLeftClick())
+                thisAnim = "use";
+            else if (!currentAnim.Substring(0, 3).Equals("use") ||
+                (currentAnim.Equals("useHand") && frameTimer - (4.0 / 12.0) >= 0) ||
+                (currentAnim.Equals("useGear") && frameTimer - (4.0 / 12.0) >= 0) ||
+                (currentAnim.Equals("useChime") && frameTimer - (4.0 / 12.0) >= 0) ||
+                (currentAnim.Equals("useKey") && frameTimer - (7.0 / 12.0) >= 0) ||
+                (currentAnim.Equals("useFace") && frameTimer - (2.0 / 12.0) >= 0))
+            {
+                if (grounded && Game1.SingleKeyPress(Keys.Space))
+                    thisAnim = "jump";
+                else if (currentAnim.Substring(0, 4).Equals("jump") && frameTimer - (1.0 / 12.0) >= 0)
+                    thisAnim = "air";
+                else if (grounded && (Game1.KeyboardState.IsKeyDown(Keys.A) || Game1.KeyboardState.IsKeyDown(Keys.D)))
+                    thisAnim = "run";
+                else thisAnim = "idle";
+            }
+
+            // Set ability mode
+            switch (currentAbility)
+            {
+                default:
+                case Ability.None:
+                    thisAnim += "Base";
+                    break;
+                case Ability.AOE:
+                    thisAnim += "Chime";
+                    break;
+                case Ability.Dash:
+                    thisAnim += "Face";
+                    break;
+                case Ability.Sword:
+                    thisAnim += "Hand";
+                    break;
+                case Ability.Throw:
+                    thisAnim += "Gear";
+                    break;
+                case Ability.Undo:
+                    thisAnim += "Key";
+                    break;
+            }
+
+            // Update current animation
+            if (thisAnim != currentAnim)
+            {
+                SetAnimation(thisAnim);
+                frameTimer = 0;
+            }
+            currentAnim = thisAnim;
         }
 
         public void CollisionResponse(GameObject other)
