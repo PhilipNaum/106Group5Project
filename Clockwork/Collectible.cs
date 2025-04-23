@@ -77,6 +77,8 @@ namespace Clockwork
             set { home = value; }
         }
 
+        private Stack<GameObject> currentDeadObjects;
+        
         public Collectible(Vector2 position, Vector2 size, Type collectibletype, int mode) : base(position, size, collectibletype)
         {
             this.collectibleType = collectibletype;
@@ -88,6 +90,12 @@ namespace Clockwork
             if (this.collectibleType == Type.Key)
             {
                 timer = .25;
+                currentDeadObjects = new Stack<GameObject>();
+                foreach (GameObject thing in deadObjects)
+                {
+                    currentDeadObjects.Push(thing);
+                }
+                deadObjects.Clear();
             }
         }
         
@@ -156,7 +164,7 @@ namespace Clockwork
                         if (timer <= 0)
                         {
                             //if the stack is empty, stop updating, break out;
-                            if (deadObjects.Count <= 0)
+                            if (currentDeadObjects.Count <= 0)
                             {
                                 mode = 2;
                                 return;
@@ -164,20 +172,20 @@ namespace Clockwork
                             else
                             {
                                 //check to the type of gameObject in the stack
-                                if (deadObjects.Peek() is Enemy)
+                                if (currentDeadObjects.Peek() is Enemy)
                                 {
                                     //revive the enemy if it's an enemy
-                                    Enemy currentEnemy = (Enemy)deadObjects.Peek();
+                                    Enemy currentEnemy = (Enemy)currentDeadObjects.Peek();
                                     currentEnemy.IsDead = false;
                                 }
-                                else if (deadObjects.Peek() is Tile)
+                                else if (currentDeadObjects.Peek() is Tile)
                                 {
                                     //set the tile to active if it's a tile
-                                    Tile currentTile = (Tile)deadObjects.Peek();
+                                    Tile currentTile = (Tile)currentDeadObjects.Peek();
                                     currentTile.Active = true;
                                 }
                                 //remove the object from the stack
-                                deadObjects.Pop();
+                                currentDeadObjects.Pop();
                             }
                             //reset the timer
                             timer = .25f;
@@ -189,7 +197,7 @@ namespace Clockwork
         }
 
         /// <summary>
-        /// Performs collision test and responds approriatley
+        /// Performs collision test and responds appropriately
         /// </summary>
         /// <param name="other">the other game object to be checked</param>
         public void CollisionResponse(GameObject other)
