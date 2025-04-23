@@ -77,10 +77,10 @@ namespace AnimationHelper
         public void Update(GameTime gt)
         {
             time += (float)gt.ElapsedGameTime.TotalMilliseconds;
-            if (time >= 10f / currentAnimation.FPS * 60)
+            if (time >= 20f / currentAnimation.FPS * 60)
             {
                 currentAnimation.NextFrame();
-                time -= 10f / currentAnimation.FPS * 60;
+                time -= 20f / currentAnimation.FPS * 60;
             }
         }
 
