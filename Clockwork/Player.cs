@@ -31,6 +31,11 @@ namespace Clockwork
         private readonly int maxHealth = 10;
         private int health;
 
+        /// <summary>
+        /// Debug mode makes the player invincible.
+        /// </summary>
+        private bool debugMode;
+
         private int direction;
 
         private string currentAnim;
@@ -50,9 +55,6 @@ namespace Clockwork
 
         // Probably want to put gravity somewhere else, but here now for testing
         private readonly Vector2 gravity = new Vector2(0, 20f);
-
-        private KeyboardState prevKS;
-        private MouseState prevMS;
 
         private float jumpSpeed = 9;
 
@@ -100,6 +102,7 @@ namespace Clockwork
             hasDash = false;
             health = maxHealth;
             invincible = false;
+            debugMode = false;
             currentAnim = "idleBase";
         }
 
@@ -139,27 +142,32 @@ namespace Clockwork
         /// </summary>
         public override void Update(GameTime gameTime)
         {
-            KeyboardState ks = Keyboard.GetState();
-            MouseState ms = Mouse.GetState();
+            // debug mode toggle
+            if (Game1.SingleKeyPress(Keys.Tab))
+            {
+                debugMode = !debugMode;
+            }
+
+
             // time between frames
             float dTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             velocity.Y += gravity.Y * dTime;
 
             // jump
-            if (grounded && ks.IsKeyDown(Keys.Space) && prevKS.IsKeyUp(Keys.Space))
+            if (grounded && Game1.SingleKeyPress(Keys.Space))
             {
                 velocity.Y -= jumpSpeed;
                 grounded = false;
             }
 
             float horDir = 0;
-            if (ks.IsKeyDown(Keys.A))
+            if (Game1.KeyboardState.IsKeyDown(Keys.A))
             {
                 horDir--;
                 direction = -1;
             }
-            if (ks.IsKeyDown(Keys.D))
+            if (Game1.KeyboardState.IsKeyDown(Keys.D))
             {
                 horDir++;
                 direction = 1;
@@ -188,7 +196,7 @@ namespace Clockwork
             }
 
             // use ability
-            if (ms.LeftButton == ButtonState.Pressed && prevMS.LeftButton == ButtonState.Released)
+            if (Game1.MouseState.LeftButton == ButtonState.Pressed && Game1.PrevMouseState.LeftButton == ButtonState.Released)
             {
                 switch (currentAbility)
                 {
@@ -198,7 +206,7 @@ namespace Clockwork
                         // need to decide whether dash
                         // overwrites or adds to velocity
                         if (hasDash)
-                            velocity = Dash(ms);
+                            velocity = Dash(Game1.MouseState);
                         break;
                     case Ability.Throw:
                         //if statement makes sure that a gear can only be thrown once the one before is gone
@@ -206,7 +214,7 @@ namespace Clockwork
                         {
                             currentItem = new Collectible(new Vector2(this.Position.X + Size.X / 4, this.Position.Y + Size.Y / 4), new Vector2(32, 32), Type.Gear, 1, 2);
                             currentItem.Sprite.SetAnimation("gearSpin");
-                            currentItem.Velocity = Vector2.Normalize(ms.Position.ToVector2()
+                            currentItem.Velocity = Vector2.Normalize(Game1.MouseState.Position.ToVector2()
                             - (this.Position + this.Size / 2));
                         }
                         break;
@@ -273,10 +281,6 @@ namespace Clockwork
             }
 
             this.Position += velocity;
-
-            prevKS = ks;
-            prevMS = ms;
-
 
             // Control animations
             AnimationController(gameTime);
@@ -386,7 +390,7 @@ namespace Clockwork
                 if (other is Enemy)
                 {
                     Enemy otherEnemy = (Enemy)other;
-                    if (!invincible)
+                    if (!invincible && !debugMode)
                     {
                         //get the intersection rectangle of the enemy and the player
                         //get the intersection rectangle of the enemy and the player
@@ -450,7 +454,7 @@ namespace Clockwork
 
         private void TakeDamage(int damage)
         {
-            if (!invincible)
+            if (!invincible && !debugMode)
             {
                 health -= damage;
                 invincible = true;
