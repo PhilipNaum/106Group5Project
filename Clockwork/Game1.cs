@@ -200,6 +200,12 @@ namespace Clockwork
                 player.ResetPlayer();
                 gameState = GameState.Gameplay;
             }
+            if (levelSelect.UIElements["btLevel9"].Activated)
+            {
+                LevelManager.Instance.SetCurrentLevel(8);
+                player.ResetPlayer();
+                gameState = GameState.Gameplay;
+            }
             if (levelSelect.UIElements["btMenu"].Activated || SingleKeyPress(Keys.Escape))
                 gameState = GameState.MainMenu;
 
@@ -208,7 +214,7 @@ namespace Clockwork
 
         private void UpdateGame(GameTime gameTime)
         {
-            
+
 
             if (SingleKeyPress(Keys.Escape))
             {
@@ -266,7 +272,7 @@ namespace Clockwork
                 {
                     player.CurrentItem.CollisionResponse(LevelManager.Instance.CurrentLevel.Enemies[i]);
                     LevelManager.Instance.CurrentLevel.Enemies[i].CollisionResponse(player.CurrentItem);
-                   
+
                 }
 
                 for (int j = 0; j < LevelManager.Instance.CurrentLevel.CollidableTiles.Count; j++)
