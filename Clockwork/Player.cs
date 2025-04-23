@@ -298,7 +298,6 @@ namespace Clockwork
             string thisAnim = "";
 
             frameTimer += gt.ElapsedGameTime.TotalMilliseconds;
-            System.Diagnostics.Debug.WriteLine(currentAnim + $"\n{frameTimer}");
             // Select animation type
             if (currentAbility != Ability.None && Game1.SingleLeftClick())
                 thisAnim = "use";
@@ -350,7 +349,6 @@ namespace Clockwork
                 frameTimer = 0;
             }
             currentAnim = thisAnim;
-            System.Diagnostics.Debug.WriteLine(currentAnim + "\n");
         }
 
         public void CollisionResponse(GameObject other)
