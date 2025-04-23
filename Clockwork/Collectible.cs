@@ -31,7 +31,7 @@ namespace Clockwork
 
         private Vector2 velocity;
 
-        //the type of collectible this collectible is
+        //the type of collectible this collectible isa
         private Type collectibleType;
 
         //the damage the collectible does. Only used for weapons(gear, hand, and chime)
@@ -77,9 +77,6 @@ namespace Clockwork
             set { home = value; }
         }
 
-        public delegate void Reverse(GameTime gt);
-        public event Reverse KeyTurn;
-
         public Collectible(Vector2 position, Vector2 size, Type collectibletype, int mode) : base(position, size, collectibletype)
         {
             this.collectibleType = collectibletype;
@@ -88,6 +85,10 @@ namespace Clockwork
             range = 7;
             velocity = new Vector2(0, .05f);
             timer = .3;
+            if (this.collectibleType == Type.Key)
+            {
+                timer = .25;
+            }
         }
         
         public Collectible(Vector2 position, Vector2 size,Type collectibletype, int mode, int damage)
@@ -133,37 +134,7 @@ namespace Clockwork
                         }
                         break;
                     case Type.Hand:
-                        //Vector2 finalPos = new Vector2();
-                        //if (this.Position.X > this.Home.X)
-                        //{
-                        //    finalPos = new Vector2(this.Home.X + 32, this.Home.Y - 16);
-
-                        //    float xDiff = this.Position.X - this.Home.X;
-                        //    float yDiff = this.Position.Y - this.Home.Y;
-
-
-                        //    Vector2 rotate = new Vector2(
-                        //    (float)((Math.Cos(5 * -0.0174533) * xDiff) - (Math.Sin(5 * -0.0174533) * yDiff) + this.Home.X),
-                        //    (float)((Math.Sin(5 * -0.0174533) * xDiff) + (Math.Cos(5 * -0.0174533) * yDiff) + this.Home.Y));
-                        //    Position = rotate;
-                        //}
-                        //else if (this.Position.X < this.Home.X)
-                        //{
-                        //    finalPos = new Vector2(this.Home.X - 32, this.Home.Y - 16);
-
-                        //    float xDiff = this.Position.X - this.Home.X;
-                        //    float yDiff = this.Position.Y - this.Home.Y;
-
-
-                        //    Vector2 rotate = new Vector2(
-                        //    (float)((Math.Cos(5 * 0.0174533) * xDiff) - (Math.Sin(5 * 0.0174533) * yDiff) + this.Home.X),
-                        //    (float)((Math.Sin(5 * 0.0174533) * xDiff) + (Math.Cos(5 * 0.0174533) * yDiff) + this.Home.Y));
-                        //    Position = rotate;
-                        //}
-                        //if (Position.X >= finalPos.X && Position.Y <= finalPos.Y)
-                        //{
-                        //    mode = 2;
-                        //}
+                        
                         timer -= gt.ElapsedGameTime.TotalSeconds;
                         if (timer <= 0)
                         {
@@ -178,7 +149,39 @@ namespace Clockwork
                         }
                         break;
                     case Type.Key:
-                        KeyTurn(gt);
+                        //count the timer down
+                        timer -= gt.ElapsedGameTime.TotalSeconds;
+
+                        //once the timer counts down
+                        if (timer <= 0)
+                        {
+                            //if the stack is empty, stop updating, break out;
+                            if (deadObjects.Count <= 0)
+                            {
+                                mode = 2;
+                                return;
+                            }
+                            else
+                            {
+                                //check to the type of gameObject in the stack
+                                if (deadObjects.Peek() is Enemy)
+                                {
+                                    //revive the enemy if it's an enemy
+                                    Enemy currentEnemy = (Enemy)deadObjects.Peek();
+                                    currentEnemy.IsDead = false;
+                                }
+                                else if (deadObjects.Peek() is Tile)
+                                {
+                                    //set the tile to active if it's a tile
+                                    Tile currentTile = (Tile)deadObjects.Peek();
+                                    currentTile.Active = true;
+                                }
+                                //remove the object from the stack
+                                deadObjects.Pop();
+                            }
+                            //reset the timer
+                            timer = .25f;
+                        }
                         break;
                 }
             }

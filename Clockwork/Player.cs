@@ -211,7 +211,8 @@ namespace Clockwork
                         }
                         break;
                     case Ability.Sword:
-                        //create a new sword
+                        //create a new sword if one doesn't already exist
+                        //Position of sword is based on your direction
                         if (direction == 1)
                         {
                             currentItem = new Collectible(new Vector2(this.Position.X + Size.X, this.Position.Y - Size.Y / 4),
@@ -226,6 +227,7 @@ namespace Clockwork
 
                         break;
                     case Ability.AOE:
+                        //create a new AOE item if one doesn't already exist
                         if (currentItem == null || currentItem.Mode == 2)
                         {
                             currentItem = new Collectible(
@@ -234,7 +236,8 @@ namespace Clockwork
                         }
                         break;
                     case Ability.Undo:
-                        currentItem.Update(gameTime);
+                        //create a new timer object
+                        currentItem = new Collectible(this.Position, this.Size, Type.Key, 1);
                         break;
                     default:
                         break;
@@ -242,7 +245,7 @@ namespace Clockwork
             }
             //putting this here makes sure it updates every frame
             //same reason why the object itself is a field
-            if (currentItem != null && currentItem.CollectibleType != Type.Key)
+            if (currentItem != null)
             {
                 currentItem.Update(gameTime);
 
@@ -252,6 +255,7 @@ namespace Clockwork
                     currentItem.Position = new Vector2(this.Position.X - 20, this.Position.Y - Size.Y / 4);
                 }
                 //keep the sword with the player
+                //position is based on your direction
                 if (currentAbility == Ability.Sword)
                 {
                     if (direction == 1)
@@ -377,8 +381,7 @@ namespace Clockwork
                             break;
                         case (Type.Key):
                             currentAbility = Ability.Undo;
-                            currentItem = new Collectible(this.Position, this.Size, Type.Key, 1);
-                            currentItem.KeyTurn += GameObject.ReverseTime;
+                            
                             break;
                     }
                 }
