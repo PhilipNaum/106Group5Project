@@ -33,6 +33,9 @@ namespace Clockwork
 
         private int direction;
 
+        private string currentAnim;
+        private double frameTimer;
+
         public Collectible CurrentItem
         {
             get { return currentItem; }
@@ -97,6 +100,7 @@ namespace Clockwork
             hasDash = false;
             health = maxHealth;
             invincible = false;
+            currentAnim = "idleBase";
         }
 
         /// <summary>
@@ -273,43 +277,80 @@ namespace Clockwork
             prevKS = ks;
             prevMS = ms;
 
+
+            // Control animations
+            AnimationController(gameTime);
+
             base.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            SetPlayerAnimation();
+
             if (direction == -1) base.Draw(sb, 1, Color.White, 0, SpriteEffects.FlipHorizontally, 1);
             else base.Draw(sb);
 
-            if (currentItem != null && currentItem.CollectibleType != Type.Key) currentItem.Draw(sb);
+            if (currentItem != null && currentItem.CollectibleType == Type.Gear) currentItem.Draw(sb);
         }
 
-        public void SetPlayerAnimation()
+        public void AnimationController(GameTime gt)
         {
-            string animName = "";
+            string thisAnim = "";
+
+            frameTimer += gt.ElapsedGameTime.TotalMilliseconds;
+            System.Diagnostics.Debug.WriteLine(currentAnim + $"\n{frameTimer}");
+            // Select animation type
+            if (currentAbility != Ability.None && Game1.SingleLeftClick())
+                thisAnim = "use";
+            else if (!currentAnim.Substring(0, 3).Equals("use") ||
+                (currentAnim.Equals("useHand") && frameTimer >= (4000.0 * (20.0 / (6.0 * 60.0)))) ||
+                (currentAnim.Equals("useGear") && frameTimer >= (4000.0 * (20.0 / (6.0 * 60.0)))) ||
+                (currentAnim.Equals("useChime") && frameTimer >= (4000.0 * (20.0 / (6.0 * 60.0)))) ||
+                (currentAnim.Equals("useKey") && frameTimer >= (7000.0 * (20.0 / (6.0 * 60.0)))) ||
+                (currentAnim.Equals("useFace") && frameTimer >= (2000.0 * (20.0 / (6.0 * 60.0)))))
+            {
+                if (grounded && Game1.SingleKeyPress(Keys.Space))
+                    thisAnim = "jump";
+                else if (!grounded && frameTimer - (4000.0 * (20.0 / (12.0 * 60.0))) >= 0)
+                    thisAnim = "air";
+                else if (grounded && (Game1.KeyboardState.IsKeyDown(Keys.A) || Game1.KeyboardState.IsKeyDown(Keys.D)))
+                    thisAnim = "run";
+                else thisAnim = "idle";
+            }
+            else thisAnim = "use";
+
+            // Set ability mode
             switch (currentAbility)
             {
+                default:
+                case Ability.None:
+                    thisAnim += "Base";
+                    break;
                 case Ability.AOE:
-                    animName = "Chime";
+                    thisAnim += "Chime";
                     break;
                 case Ability.Dash:
-                    animName = "Face";
+                    thisAnim += "Face";
                     break;
                 case Ability.Sword:
-                    animName = "Hand";
-                    break;
-                case Ability.Undo:
-                    animName = "Key";
+                    thisAnim += "Hand";
                     break;
                 case Ability.Throw:
-                    animName = "Gear";
+                    thisAnim += "Gear";
                     break;
-                case Ability.None:
-                    animName = "Base";
+                case Ability.Undo:
+                    thisAnim += "Key";
                     break;
             }
-            SetAnimation($"air{animName}");
+
+            // Update current animation
+            if (thisAnim != currentAnim)
+            {
+                SetAnimation(thisAnim);
+                frameTimer = 0;
+            }
+            currentAnim = thisAnim;
+            System.Diagnostics.Debug.WriteLine(currentAnim + "\n");
         }
 
         public void CollisionResponse(GameObject other)

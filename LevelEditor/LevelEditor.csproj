@@ -9,38 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Textures\Tiles\tileDestructible.png" />
-    <None Remove="Textures\Tiles\tileDirtBottom.png" />
-    <None Remove="Textures\Tiles\tileDirtToGrassBottom.png" />
-    <None Remove="Textures\Tiles\tileDirtToGrassTop.png" />
-    <None Remove="Textures\Tiles\tileDirtTop.png" />
-    <None Remove="Textures\Tiles\tileGrassBottom.png" />
-    <None Remove="Textures\Tiles\tileGrassEndLBottom.png" />
-    <None Remove="Textures\Tiles\tileGrassEndRBottom.png" />
-    <None Remove="Textures\Tiles\tileGrassToDirtBottom.png" />
-    <None Remove="Textures\Tiles\tileGrassToDirtTop.png" />
-    <None Remove="Textures\Tiles\tileGrassTop.png" />
-    <None Remove="Textures\Tiles\tileGrassTopEndL.png" />
-    <None Remove="Textures\Tiles\tileGrassTopEndR.png" />
-    <None Remove="Textures\Tiles\tileGrassToShadeBottom.png" />
-    <None Remove="Textures\Tiles\tileGrassToShadeTop.png" />
-    <None Remove="Textures\Tiles\tileGroundBottomEndL.png" />
-    <None Remove="Textures\Tiles\tileGroundBottomEndR.png" />
-    <None Remove="Textures\Tiles\tileGroundEmpty.png" />
-    <None Remove="Textures\Tiles\tileGroundEndL.png" />
-    <None Remove="Textures\Tiles\tileGroundEndR.png" />
-    <None Remove="Textures\Tiles\tileGroundRocks1.png" />
-    <None Remove="Textures\Tiles\tileGroundRocks2.png" />
-    <None Remove="Textures\Tiles\tileGroundRocks3.png" />
-    <None Remove="Textures\Tiles\tileGroundRocks4.png" />
-    <None Remove="Textures\Tiles\tileGroundRocksLeaves.png" />
-    <None Remove="Textures\Tiles\tileShadeBottom.png" />
-    <None Remove="Textures\Tiles\tileShadeToGrassBottom.png" />
-    <None Remove="Textures\Tiles\tileShadeToGrassTop.png" />
-    <None Remove="Textures\Tiles\tileShadeTop.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Textures\Collectibles\Chime.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
