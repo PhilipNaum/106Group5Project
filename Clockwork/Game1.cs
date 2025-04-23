@@ -389,6 +389,8 @@ namespace Clockwork
                 // ignore a collision if the width or height is 0
                 if (col.W == 0 || col.Z == 0)
                     continue;
+                else
+                    collider.TilePlayerCollision();
 
                 // (x: x, y: y, z: width, w: height)
                 if (col.W >= col.Z)
