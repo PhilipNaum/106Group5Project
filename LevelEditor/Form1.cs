@@ -63,8 +63,9 @@ namespace LevelEditor
                     tile.SizeMode = PictureBoxSizeMode.StretchImage;
                     tile.BackgroundImageLayout = ImageLayout.Stretch;
 
-                    // add click response
-                    tile.Click += pictureBoxMapTile_Click;
+                    // add click and drag response
+                    tile.MouseDown += pictureBoxMapTile_MouseDown;
+                    tile.MouseEnter += pictureBoxMapTile_MouseEnter;
 
                     // add tile to group box
                     groupBoxMap.Controls.Add(tile);
@@ -369,13 +370,42 @@ namespace LevelEditor
         /// <summary>
         /// when a tile is clicked
         /// </summary>
-        private void pictureBoxMapTile_Click(object? sender, EventArgs e)
+        private void pictureBoxMapTile_MouseDown(object? sender, EventArgs e)
         {
+            // return if unready
             if (
                 sender == null ||
                 level == null ||
                 pictureBoxMap == null
                 ) { return; }
+
+            // find the tile's location and paint the tile
+            for (int y = 0; y < level.Height; y++)
+            {
+                for (int x = 0; x < level.Width; x++)
+                {
+                    if (pictureBoxMap[y, x] == sender) { PaintObject(x, y); }
+                }
+            }
+
+            // uncapture mouse
+            ((PictureBox)sender).Capture = false;
+        }
+
+        /// <summary>
+        /// when a tile is dragged
+        /// </summary>
+        private void pictureBoxMapTile_MouseEnter(object? sender, EventArgs e)
+        {
+            // return if unready
+            if (
+                sender == null ||
+                level == null ||
+                pictureBoxMap == null
+                ) { return; }
+
+            // return if not dragging
+            if (MouseButtons != MouseButtons.Left) { return; }
 
             // find the tile's location and paint the tile
             for (int y = 0; y < level.Height; y++)
