@@ -203,34 +203,38 @@ namespace Clockwork
         public static void ReverseTime(GameTime gt)
         {
             System.Diagnostics.Debug.WriteLine("method called");
-            //only do this if that stack has objects in it
-            if (deadObjects.Count == 0)
+            float reverseTimer = .25f;
+            if (deadObjects.Count <= 0)
             {
                 return;
             }
-            //double reverseTimer = .25;
-                //reverseTimer -= 1 / 60;
-                //if (reverseTimer <= 0)
+            else
+            {
+                //while (reverseTimer >= 0)
                 //{
-                    if (deadObjects.Peek() is Enemy)
-                    {
-                        //revive the enemy if it's an enemy
-                        Enemy currentEnemy = (Enemy)deadObjects.Peek();
-                        currentEnemy.IsDead = false;
+                //    reverseTimer -= 1 / 60f;
+                //    if (reverseTimer <= 0)
+                //    {
+                        if (deadObjects.Peek() is Enemy)
+                        {
+                            //revive the enemy if it's an enemy
+                            Enemy currentEnemy = (Enemy)deadObjects.Peek();
+                            System.Diagnostics.Debug.WriteLine("enemy revived");
+                            currentEnemy.IsDead = false;
+                        }
+                        else if (deadObjects.Peek() is Tile)
+                        {
+                            //set the tile to active if it's a tile
+                            Tile currentTile = (Tile)deadObjects.Peek();
+                            System.Diagnostics.Debug.WriteLine("tile made active");
+                            currentTile.Active = true;
+                        }
                         deadObjects.Pop();
-                    }
-                    if (deadObjects.Peek() is Tile)
-                    {
-                        //set the tile to active if it's a tile
-                        Tile currentTile = (Tile)deadObjects.Peek();
-                        System.Diagnostics.Debug.WriteLine("tile made active");
-                        currentTile.Active = true;
-
-                        deadObjects.Pop();
-                    }
-                    //reverseTimer = .25f;
+                //    }
                 //}
-            
+            }
+            //reverseTimer = .25f;
+            //}
         }
     }
 }
