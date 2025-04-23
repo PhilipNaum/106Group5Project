@@ -265,10 +265,10 @@ namespace Clockwork
                     // playerJumpChime                                                                                          
                     new Frame(playerTexture, new Rectangle((playerChime + playerJump).ToPoint(), playerSize), playerOrigin),
                     // playerUseChime
-                    new Frame(playerTexture, new Rectangle(0, 640, 72, 96), new Vector2(4, 16)),
-                    new Frame(playerTexture, new Rectangle(72, 640, 72, 96), new Vector2(4, 16)),
-                    new Frame(playerTexture, new Rectangle(144, 640, 72, 96), new Vector2(4, 16)),
-                    new Frame(playerTexture, new Rectangle(216, 640, 72, 96), new Vector2(4, 16)),
+                    new Frame(playerTexture, new Rectangle(0, 640, 72, 96), playerOrigin + new Vector2(4, 16)),
+                    new Frame(playerTexture, new Rectangle(72, 640, 72, 96), playerOrigin + new Vector2(4, 16)),
+                    new Frame(playerTexture, new Rectangle(144, 640, 72, 96), playerOrigin + new Vector2(4, 16)),
+                    new Frame(playerTexture, new Rectangle(216, 640, 72, 96), playerOrigin + new Vector2(4, 16)),
                     // -- playerGear --
                     // playerRunGear 
                     new Frame(playerTexture, new Rectangle((playerGear + playerRun1).ToPoint(), playerSize), playerOrigin),
