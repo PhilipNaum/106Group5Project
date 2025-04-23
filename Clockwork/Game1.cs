@@ -542,6 +542,20 @@ namespace Clockwork
             LevelManager.Instance.CurrentLevel.Draw(_spriteBatch);
 
             player.Draw(_spriteBatch);
+
+            // Draw tutorials
+            if (LevelManager.Instance.CurrentLevelIndex == 0)
+            {
+                _spriteBatch.DrawString(UILoader.Medodica18, "A,D: Move\nSpace: Jump",
+                    new Vector2(_graphics.PreferredBackBufferWidth / 32, _graphics.PreferredBackBufferHeight * 5 / 8), Color.White);
+                _spriteBatch.DrawString(UILoader.Medodica18, "Collect all of the clock parts\nto repair the clock",
+                    new Vector2(_graphics.PreferredBackBufferWidth * 5 / 8, _graphics.PreferredBackBufferHeight * 7 / 16), Color.White);
+            }
+            if (LevelManager.Instance.CurrentLevelIndex == 2)
+            {
+                _spriteBatch.DrawString(UILoader.Medodica18, "Left Click: Use Clock Part ability",
+                    new Vector2(_graphics.PreferredBackBufferWidth / 32, _graphics.PreferredBackBufferHeight * 7 / 16), Color.White);
+            }
         }
 
         private void DrawPause()
