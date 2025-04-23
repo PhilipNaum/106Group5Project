@@ -58,10 +58,10 @@ namespace Clockwork
 
         private float jumpSpeed = 9;
 
-        private float maxHorizontalSpeed = 9;
+        private float maxHorizontalSpeed = 8;
         // it may be better to represent accelerations as time to max speed
-        private float horizontalAcceleration = 45;
-        private float horizontalDeceleration = 45;
+        private float horizontalAcceleration = 35;
+        private float horizontalDeceleration = 35;
 
         // probably want to dash farther horizontally than vertically
         private float dashSpeedX = 14;
