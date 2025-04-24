@@ -432,18 +432,22 @@ namespace Clockwork
             // -- Enemy Setup --
             {
                 // Load Textures
-                Texture2D enemyTexture = content.Load<Texture2D>("Enemy");
+                Texture2D enemyTexture = content.Load<Texture2D>("enemy");
 
                 // Set up Frames
                 List<Frame> enemyFrames = new List<Frame>
                 {
-                    new Frame(enemyTexture, GetRect(enemyTexture), Vector2.Zero)
+                    new Frame(enemyTexture, new Rectangle(0,0,32,32), Vector2.Zero),
+                    new Frame(enemyTexture, new Rectangle(32,0,32,32), Vector2.Zero),
+                    new Frame(enemyTexture, new Rectangle(64,0,32,32), Vector2.Zero),
+                    new Frame(enemyTexture, new Rectangle(96,0,32,32), Vector2.Zero)
                 };
 
                 // Set up Animations
                 Dictionary<string, Animation> enemyAnimations = new Dictionary<string, Animation>
                 {
-                    { "enemy", new Animation(0, 0, 1) }
+                    { "enemy", new Animation(0, 3, 3) },
+                    { "enemyStill", new Animation(0,0,1) }
                 };
 
                 // Create AnimatedSprites in Animation Library
@@ -491,10 +495,10 @@ namespace Clockwork
 
             // -- Exit Setup --
             {
-                Texture2D exitTexture = content.Load<Texture2D>("exitPlaceholder");
+                Texture2D exitTexture = content.Load<Texture2D>("Clock");
                 List<Frame> exitFrames = new List<Frame>
                 {
-                    new Frame(exitTexture, GetRect(exitTexture), Vector2.Zero)
+                    new Frame(exitTexture, GetRect(exitTexture), new Vector2(0, 32))
                 };
                 Dictionary<string, Animation> exitAnimations = new Dictionary<string, Animation>
                 {
