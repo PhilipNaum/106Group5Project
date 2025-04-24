@@ -295,7 +295,7 @@ namespace LevelEditor
                     if (level.GetCollectibleAt(x, y) == selected)
                     {
                         level.RemoveCollectibleAt(x, y);
-                        pictureBoxMap[y, x].Image = null;
+                        ResyncTilePicture(x, y);
                     }
                     else
                     {
