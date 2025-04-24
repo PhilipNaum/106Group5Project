@@ -82,7 +82,8 @@ namespace Clockwork
         Pause,
         Complete,
         Credits,
-        Controls
+        Controls,
+        Win
     }
 
     internal class UILoader
@@ -987,6 +988,16 @@ namespace Clockwork
                     { "btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth * 7 / 8 - 48, graphics.PreferredBackBufferHeight * 15 / 16 - 16)) }
                 };
                 menuLibrary.Add(Menus.Controls, new Menu(controlsElements));
+            }
+
+            // Win Menu
+            {
+                Dictionary<string, UIElement> winElements = new Dictionary<string, UIElement>
+                {
+                    { "lbWin", new TextElement("Congratulations!\nYou have completed\nCLOCKWORK", Medodica48, new Rectangle(16, 0, 0, 0)) },
+                    { "btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight * 3 / 4)) }
+                };
+                menuLibrary.Add(Menus.Win, new Menu(winElements));
             }
         }
 

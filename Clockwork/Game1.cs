@@ -37,6 +37,7 @@ namespace Clockwork
         private Menu levelComplete;
         private Menu creditsMenu;
         private Menu controlsMenu;
+        private Menu winMenu;
 
         private Texture2D scrim;
 
@@ -49,7 +50,8 @@ namespace Clockwork
             Pause,
             LevelComplete,
             Credits,
-            Controls
+            Controls,
+            Win
         }
 
         public Game1()
@@ -78,6 +80,7 @@ namespace Clockwork
             levelComplete = UILoader.GetMenu(Menus.Complete);
             creditsMenu = UILoader.GetMenu(Menus.Credits);
             controlsMenu = UILoader.GetMenu(Menus.Controls);
+            winMenu = UILoader.GetMenu(Menus.Win);
 
             LevelManager.Instance.SetCurrentLevel(0);
 
@@ -123,6 +126,9 @@ namespace Clockwork
                     break;
                 case GameState.Controls:
                     UpdateControls();
+                    break;
+                case GameState.Win:
+                    UpdateWin();
                     break;
                 default:
                     break;
@@ -324,12 +330,15 @@ namespace Clockwork
             levelComplete.Update();
             if (levelComplete.UIElements["btNext"].Activated)
             {
-                LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex + 1);
+                if (!LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex + 1))
+                    gameState = GameState.Win;
+                else gameState = GameState.Gameplay;
                 player.ResetPlayer();
-                gameState = GameState.Gameplay;
             }
             if (levelComplete.UIElements["btLevels"].Activated)
             {
+                LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex + 1);
+                player.ResetPlayer();
                 gameState = GameState.LevelSelect;
             }
             if (levelComplete.UIElements["btMenu"].Activated)
@@ -351,6 +360,13 @@ namespace Clockwork
         {
             controlsMenu.Update();
             if (controlsMenu.UIElements["btMenu"].Activated || SingleKeyPress(Keys.Escape))
+                gameState = GameState.MainMenu;
+        }
+
+        private void UpdateWin()
+        {
+            winMenu.Update();
+            if (controlsMenu.UIElements["btMenu"].Activated || SingleKeyPress(Keys.Enter))
                 gameState = GameState.MainMenu;
         }
 
@@ -507,6 +523,9 @@ namespace Clockwork
                 case GameState.Controls:
                     DrawControls();
                     break;
+                case GameState.Win:
+                    DrawWin();
+                    break;
                 default:
                     break;
             }
@@ -586,6 +605,12 @@ namespace Clockwork
         {
             GraphicsDevice.Clear(Color.Black);
             controlsMenu.Draw(_spriteBatch);
+        }
+
+        private void DrawWin()
+        {
+            GraphicsDevice.Clear(Color.Black);
+            winMenu.Draw(_spriteBatch);
         }
 
         /// <summary>

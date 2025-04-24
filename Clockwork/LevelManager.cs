@@ -216,13 +216,14 @@ namespace Clockwork
         /// set the current level based on level index
         /// </summary>
         /// <param name="index">level index</param>
-        public void SetCurrentLevel(int index)
+        public bool SetCurrentLevel(int index)
         {
             // range check
-            if (index < 0 || index >= levelFilenames.Length) { return; }
+            if (index < 0 || index >= levelFilenames.Length) { return false; }
 
             currentLevel = LoadLevel(levelFilenames[index]);
             currentLevelIndex = index;
+            return true;
         }
 
         /// <summary>
