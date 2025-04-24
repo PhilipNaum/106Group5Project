@@ -192,10 +192,14 @@ namespace Clockwork
                 //get enemy size
                 int size = input.ReadInt32();
 
+                //get enemy velocity
+                float velocity = input.ReadInt32() * -.5f;
+
                 //get enemy health
                 int health = input.ReadInt32();
 
-                enemies.Add(new Enemy(enemyPos, new Vector2(size, size), new Vector2(-.5f, 0), range, health));
+
+                enemies.Add(new Enemy(enemyPos, new Vector2(size, size), new Vector2(velocity, 0), range, health));
             }
 
             return enemies;

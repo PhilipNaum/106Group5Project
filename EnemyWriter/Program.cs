@@ -9,7 +9,7 @@ namespace EnemyWriter
             Console.Write("Filename?: ");
             string fileName = CleanResponse()+".data";
             int enemyCount = 0;
-            string[] questions = { "Starting X pos (in tiles)?: ", "Starting Y pos (in tiles)?: ", "Range (in tiles)?: ", "Velocity (in tiles)?: " , "Size?: ", "Health?: " };
+            string[] questions = { "Starting X pos (in tiles)?: ", "Starting Y pos (in tiles)?: ", "Range (in tiles)?: ", "Size?: ", "Velocity?: ", "Health?: " };
             FileStream outStream = File.OpenWrite(fileName);
             BinaryWriter output = new BinaryWriter(outStream);
 
@@ -23,11 +23,11 @@ namespace EnemyWriter
                 for (int j = 0; j < questions.Length; j++)
                 {
                     Console.Write(questions[j]);
-                    if (j<5)
+                    if (j<4)
                     {
                         try
                         {
-                            output.Write(32 * float.Parse(CleanResponse()));
+                            output.Write(32 * int.Parse(CleanResponse()));
                         }
                         catch (Exception e)
                         {
@@ -38,7 +38,7 @@ namespace EnemyWriter
                     {
                         try
                         {
-                            output.Write(float.Parse(CleanResponse()));
+                            output.Write(int.Parse(CleanResponse()));
                         }
                         catch (Exception e)
                         {
