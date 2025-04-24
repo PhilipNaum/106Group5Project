@@ -74,6 +74,9 @@ namespace LevelEditor
                     pictureBoxMap[y, x] = tile;
                 }
             }
+
+            // reset unsaved
+            UpdateUnsaved(false);
         }
 
         /// <summary>
@@ -219,6 +222,9 @@ namespace LevelEditor
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information
                     );
+
+                // mark as saved
+                UpdateUnsaved(false);
             }
             else
             {
@@ -324,6 +330,9 @@ namespace LevelEditor
 
                     break;
             }
+
+            // mark as unsaved
+            UpdateUnsaved(true);
         }
 
         /// <summary>
@@ -335,6 +344,35 @@ namespace LevelEditor
             // update selected and picture box
             selected = selection;
             pictureBoxSelected.Image = selection.Texture;
+        }
+
+        /// <summary>
+        /// gives an unsaved warning
+        /// </summary>
+        /// <returns>response, true for continue</returns>
+        public bool UnsavedWarning()
+        {
+            DialogResult result = MessageBox.Show(
+                "there are unsaved changes, continue?",
+                "unsaved changes",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+                );
+
+            if (result == DialogResult.Yes) { return true; }
+            else { return false; }
+        }
+
+        /// <summary>
+        /// update the unsaved marker and window title
+        /// </summary>
+        /// <param name="unsaved">new marker value</param>
+        public void UpdateUnsaved(bool unsaved)
+        {
+            this.unsaved = unsaved;
+
+            if (unsaved) { Text = "level editor*"; }
+            else { Text = "level editor"; }
         }
 
         /// <summary>
@@ -421,13 +459,22 @@ namespace LevelEditor
         /// when the new map is clicked
         /// </summary>
         private void buttonNewMap_Click(object sender, EventArgs e)
-        { new FormNewMap(InitializeMap).ShowDialog(); }
+        {
+            // return if unsaved and responded no to warning
+            if (unsaved && !UnsavedWarning()) { return; }
+
+            // open new map window
+            new FormNewMap(InitializeMap).ShowDialog();
+        }
 
         /// <summary>
         /// when the load button is clicked
         /// </summary>
         private void buttonLoad_Click(object sender, EventArgs e)
         {
+            // return if unsaved and responded no to warning
+            if (unsaved && !UnsavedWarning()) { return; }
+
             // show file dialog, return if closed
             if (openFileDialogLoadMap.ShowDialog() != DialogResult.OK) { return; }
 
