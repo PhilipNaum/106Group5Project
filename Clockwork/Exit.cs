@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿/*
+ * Who has worked on this file:
+ * Emma
+ */
+
+using Microsoft.Xna.Framework;
 
 namespace Clockwork
 {

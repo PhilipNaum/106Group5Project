@@ -37,8 +37,10 @@ namespace Clockwork
         private Menu levelComplete;
         private Menu creditsMenu;
         private Menu controlsMenu;
+        private Menu winMenu;
 
         private Texture2D scrim;
+        private Texture2D mainMenuBG;
 
         private GameState gameState;
         private enum GameState
@@ -49,7 +51,8 @@ namespace Clockwork
             Pause,
             LevelComplete,
             Credits,
-            Controls
+            Controls,
+            Win
         }
 
         public Game1()
@@ -78,6 +81,7 @@ namespace Clockwork
             levelComplete = UILoader.GetMenu(Menus.Complete);
             creditsMenu = UILoader.GetMenu(Menus.Credits);
             controlsMenu = UILoader.GetMenu(Menus.Controls);
+            winMenu = UILoader.GetMenu(Menus.Win);
 
             LevelManager.Instance.SetCurrentLevel(0);
 
@@ -92,6 +96,7 @@ namespace Clockwork
             // Load content
             UILoader.LoadContent(Content, _graphics);
             scrim = this.Content.Load<Texture2D>("Scrim");
+            mainMenuBG = this.Content.Load<Texture2D>("titleScreenBackground");
         }
 
         protected override void Update(GameTime gameTime)
@@ -123,6 +128,9 @@ namespace Clockwork
                     break;
                 case GameState.Controls:
                     UpdateControls();
+                    break;
+                case GameState.Win:
+                    UpdateWin();
                     break;
                 default:
                     break;
@@ -214,7 +222,7 @@ namespace Clockwork
 
         private void UpdateGame(GameTime gameTime)
         {
-            
+
 
             if (SingleKeyPress(Keys.Escape))
             {
@@ -272,7 +280,7 @@ namespace Clockwork
                 {
                     player.CurrentItem.CollisionResponse(LevelManager.Instance.CurrentLevel.Enemies[i]);
                     LevelManager.Instance.CurrentLevel.Enemies[i].CollisionResponse(player.CurrentItem);
-                   
+
                 }
 
                 for (int j = 0; j < LevelManager.Instance.CurrentLevel.CollidableTiles.Count; j++)
@@ -324,12 +332,15 @@ namespace Clockwork
             levelComplete.Update();
             if (levelComplete.UIElements["btNext"].Activated)
             {
-                LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex + 1);
+                if (!LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex + 1))
+                    gameState = GameState.Win;
+                else gameState = GameState.Gameplay;
                 player.ResetPlayer();
-                gameState = GameState.Gameplay;
             }
             if (levelComplete.UIElements["btLevels"].Activated)
             {
+                LevelManager.Instance.SetCurrentLevel(LevelManager.Instance.CurrentLevelIndex + 1);
+                player.ResetPlayer();
                 gameState = GameState.LevelSelect;
             }
             if (levelComplete.UIElements["btMenu"].Activated)
@@ -351,6 +362,13 @@ namespace Clockwork
         {
             controlsMenu.Update();
             if (controlsMenu.UIElements["btMenu"].Activated || SingleKeyPress(Keys.Escape))
+                gameState = GameState.MainMenu;
+        }
+
+        private void UpdateWin()
+        {
+            winMenu.Update();
+            if (controlsMenu.UIElements["btMenu"].Activated || SingleKeyPress(Keys.Enter))
                 gameState = GameState.MainMenu;
         }
 
@@ -507,6 +525,9 @@ namespace Clockwork
                 case GameState.Controls:
                     DrawControls();
                     break;
+                case GameState.Win:
+                    DrawWin();
+                    break;
                 default:
                     break;
             }
@@ -516,12 +537,15 @@ namespace Clockwork
         private void DrawMainMenu()
         {
             GraphicsDevice.Clear(Color.Black);
+            _spriteBatch.Draw(mainMenuBG, new Rectangle(0, 0, mainMenuBG.Width, mainMenuBG.Height), Color.White);
             mainMenu.Draw(_spriteBatch);
         }
 
         private void DrawLevelSelect()
         {
             GraphicsDevice.Clear(Color.Black);
+            _spriteBatch.Draw(mainMenuBG, new Rectangle(0, 0, mainMenuBG.Width, mainMenuBG.Height), Color.White);
+            _spriteBatch.Draw(scrim, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
             levelSelect.Draw(_spriteBatch);
         }
 
@@ -542,6 +566,20 @@ namespace Clockwork
             LevelManager.Instance.CurrentLevel.Draw(_spriteBatch);
 
             player.Draw(_spriteBatch);
+
+            // Draw tutorials
+            if (LevelManager.Instance.CurrentLevelIndex == 0)
+            {
+                _spriteBatch.DrawString(UILoader.Medodica18, "A,D: Move\nSpace: Jump",
+                    new Vector2(_graphics.PreferredBackBufferWidth / 32, _graphics.PreferredBackBufferHeight * 5 / 8), Color.White);
+                _spriteBatch.DrawString(UILoader.Medodica18, "Collect all of the clock parts\nto repair the clock",
+                    new Vector2(_graphics.PreferredBackBufferWidth * 5 / 8, _graphics.PreferredBackBufferHeight * 7 / 16), Color.White);
+            }
+            if (LevelManager.Instance.CurrentLevelIndex == 2)
+            {
+                _spriteBatch.DrawString(UILoader.Medodica18, "Left Click: Use Clock Part ability",
+                    new Vector2(_graphics.PreferredBackBufferWidth / 32, _graphics.PreferredBackBufferHeight * 7 / 16), Color.White);
+            }
         }
 
         private void DrawPause()
@@ -565,13 +603,25 @@ namespace Clockwork
         {
 
             GraphicsDevice.Clear(Color.Black);
+            _spriteBatch.Draw(mainMenuBG, new Rectangle(0, 0, mainMenuBG.Width, mainMenuBG.Height), Color.White);
+            _spriteBatch.Draw(scrim, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
             creditsMenu.Draw(_spriteBatch);
         }
 
         private void DrawControls()
         {
             GraphicsDevice.Clear(Color.Black);
+            _spriteBatch.Draw(mainMenuBG, new Rectangle(0, 0, mainMenuBG.Width, mainMenuBG.Height), Color.White);
+            _spriteBatch.Draw(scrim, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
             controlsMenu.Draw(_spriteBatch);
+        }
+
+        private void DrawWin()
+        {
+            GraphicsDevice.Clear(Color.Black);
+            _spriteBatch.Draw(mainMenuBG, new Rectangle(0, 0, mainMenuBG.Width, mainMenuBG.Height), Color.White);
+            _spriteBatch.Draw(scrim, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
+            winMenu.Draw(_spriteBatch);
         }
 
         /// <summary>

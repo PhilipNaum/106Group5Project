@@ -82,7 +82,8 @@ namespace Clockwork
         Pause,
         Complete,
         Credits,
-        Controls
+        Controls,
+        Win
     }
 
     internal class UILoader
@@ -432,18 +433,22 @@ namespace Clockwork
             // -- Enemy Setup --
             {
                 // Load Textures
-                Texture2D enemyTexture = content.Load<Texture2D>("Enemy");
+                Texture2D enemyTexture = content.Load<Texture2D>("enemy");
 
                 // Set up Frames
                 List<Frame> enemyFrames = new List<Frame>
                 {
-                    new Frame(enemyTexture, GetRect(enemyTexture), Vector2.Zero)
+                    new Frame(enemyTexture, new Rectangle(0,0,32,32), Vector2.Zero),
+                    new Frame(enemyTexture, new Rectangle(32,0,32,32), Vector2.Zero),
+                    new Frame(enemyTexture, new Rectangle(64,0,32,32), Vector2.Zero),
+                    new Frame(enemyTexture, new Rectangle(96,0,32,32), Vector2.Zero)
                 };
 
                 // Set up Animations
                 Dictionary<string, Animation> enemyAnimations = new Dictionary<string, Animation>
                 {
-                    { "enemy", new Animation(0, 0, 1) }
+                    { "enemy", new Animation(0, 3, 3) },
+                    { "enemyStill", new Animation(0,0,1) }
                 };
 
                 // Create AnimatedSprites in Animation Library
@@ -491,10 +496,10 @@ namespace Clockwork
 
             // -- Exit Setup --
             {
-                Texture2D exitTexture = content.Load<Texture2D>("exitPlaceholder");
+                Texture2D exitTexture = content.Load<Texture2D>("Clock");
                 List<Frame> exitFrames = new List<Frame>
                 {
-                    new Frame(exitTexture, GetRect(exitTexture), Vector2.Zero)
+                    new Frame(exitTexture, GetRect(exitTexture), new Vector2(0, 32))
                 };
                 Dictionary<string, Animation> exitAnimations = new Dictionary<string, Animation>
                 {
@@ -983,6 +988,16 @@ namespace Clockwork
                     { "btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth * 7 / 8 - 48, graphics.PreferredBackBufferHeight * 15 / 16 - 16)) }
                 };
                 menuLibrary.Add(Menus.Controls, new Menu(controlsElements));
+            }
+
+            // Win Menu
+            {
+                Dictionary<string, UIElement> winElements = new Dictionary<string, UIElement>
+                {
+                    { "lbWin", new TextElement("Congratulations!\nYou have completed\nCLOCKWORK", Medodica48, new Rectangle(16, 0, 0, 0)) },
+                    { "btMenu", new Button(Sprites.btMenu, new Point(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight * 3 / 4)) }
+                };
+                menuLibrary.Add(Menus.Win, new Menu(winElements));
             }
         }
 
