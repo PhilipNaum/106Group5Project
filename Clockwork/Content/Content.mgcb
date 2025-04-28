@@ -241,18 +241,6 @@
 /processorParam:TextureFormat=Color
 /build:btStart.png
 
-#begin C:/Users/drago/Downloads/drive-download-20250428T020931Z-001/enemy.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:C:/Users/drago/Downloads/drive-download-20250428T020931Z-001/enemy.png;enemy.png
-
 #begin Clock.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -285,21 +273,6 @@
 
 #begin Enemies/HandIntroEnemies.data
 /copy:Enemies/HandIntroEnemies.data
-
-#begin Enemies/TestMapEnemies.data
-/copy:Enemies/TestMapEnemies.data
-
-#begin enemy.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:enemy.png
 
 #begin Enemy.png
 /importer:TextureImporter
