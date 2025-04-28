@@ -368,7 +368,7 @@ namespace Clockwork
         private void UpdateWin()
         {
             winMenu.Update();
-            if (controlsMenu.UIElements["btMenu"].Activated || SingleKeyPress(Keys.Enter))
+            if (winMenu.UIElements["btMenu"].Activated || SingleKeyPress(Keys.Enter))
                 gameState = GameState.MainMenu;
         }
 
